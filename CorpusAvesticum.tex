@@ -76,8 +76,10 @@
 \newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad
 \newcommand*{\Ygah}[1]{Y-gah~#1}% Yazisn-gah
 
-\newcommand{\newtranslation}[2]{\csgdef{translation#1}{#2}}
-
+\newcommand{\newtranslation}[2]{\csgdef{translation-#1}{#2}}
+\newcommand{\gettranslation}[1]{\csuse{translation-#1}}
+\newif\if@usechapterref
+\newcommand*{\chapterref}{\if@usechapterref\textsuperscript{\ref{#1}}\fi}
 \newcommand*{\@abbreviationsfile}{../muya.common/abbreviations.tex}
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
