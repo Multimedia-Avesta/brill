@@ -1,0 +1,289 @@
+\ProvidesFile{muya.bbx}[2018/09/19 v0.5 biblatex bibliography style]
+\RequireBibliographyStyle{biblatex-sp-unified}
+\ExecuteBibliographyOptions{%
+   datecirca=true,
+}
+\DeclareSourcemap{%
+   \maps[datatype=bibtex]{%
+      \map[foreach={title,booktitle,note}]{%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{”|“},%
+               replace=\regexp{\x22}%
+         ]%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match={´},
+               replace={'}%
+         ]%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{\.\.\.},%
+               replace=\regexp{\\ldots\{\}}]%$%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{\s+/\s+},%
+               replace=\regexp{\\,\\slash\\hskip0.16667em}%
+         ]%
+      }%
+%      
+      \map{%
+         \step[fieldsource=langid,%
+               match=\regexp{\Agerman\Z},%
+               replace=\regexp{ngerman}]%
+         \step[fieldsource=langid,%
+               match=\regexp{\Aenglish\Z},%
+               replace=\regexp{british}]%               
+      }%
+%      
+      \map{%
+         \step[fieldsource=langid,%
+               notmatch=\regexp{\A(british|french|italian|ngerman|spanish)\Z},final]%
+         \step[fieldset=langid,null]%
+      }%
+%        
+      \map[overwrite,foreach={title,booktitle,note}]{%
+         \step[fieldsource=langid,final]%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{\x22.*?\x22},final]
+         \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
+         \step[fieldsource=langid]%
+         \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*)\x22(.*?)\x22(.*)§§§(.+)},%
+               replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%
+      }%
+%      
+      \map[overwrite,foreach={title,booktitle,note}]{%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*)\x22(.*?)\x22(.*)},%
+               replace=\regexp{$1\\enquote\{$2\}$3}]%$
+      }%                        
+%            
+%     
+      \map{%
+         \pertype{movie}%
+         \step[fieldsource=director,fieldtarget=author]%
+      }
+% 
+      %%\step[fieldsource=note,match=\regexp{(ISBN)|(978-?\d-?\d{5}-?\d{3}-?\d)},final]
+      %%%\step[entry... manuscript]
+      \map{%
+         \step[fieldsource=note,match=\regexp{(97[8|9]-[-\d]{13})},final]%
+         \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=note,null]%
+      }%
+%      
+      \map{%
+         \step[fieldsource=note,match=\regexp{(\d[-\d]{13})},final]
+         \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=note,null]%
+      }%
+%
+      \map{%
+         \pernottype{unpublished}%
+         \step[fieldset=isbn,null]%
+         \step[fieldset=pagetotal,null]%
+      }%
+%      
+      \map{%
+         \step[fieldsource=year,fieldtarget=date]%
+      }%
+%
+      \map{%
+         \step[fieldsource=address,fieldtarget=location,final]%
+      }%
+%
+      \map{%
+         \step[fieldsource=date,match=\regexp{\Aforthcoming\Z},final]%
+         \step[fieldset=pubstate,origfieldval]%
+         \step[fieldset=date,null]%
+         \step[fieldset=sortyear,fieldvalue=9999]%
+      }%
+%
+      \map{%
+          \step[fieldsource=date,%
+                match=\regexp{^c\.a\.\s+(\d{4})},%
+                replace=\regexp{$1~}]%$
+      }%
+%
+      \map{%
+         \step[fieldsource=date,%
+               match=\regexp{(\d{4})-(\d{4})},%
+               replace=\regexp{$1/$2}]%
+      }%
+%
+      \map[overwrite]{%
+         \step[fieldsource=date,%
+               match=\regexp{(\d{4}/\d{4})\s+\[(\d{4}/\d{4})\]},final]%
+         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=origdate,
+               fieldvalue=\regexp{$2}]%$
+      }%
+%
+      \map[overwrite]{%
+         \step[fieldsource=date,%
+               match=\regexp{(\d{4})\s+\[(\d{4})\]},final]%
+         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=origdate,
+               fieldvalue=\regexp{$2}]%$
+      }%
+%
+      \map[overwrite]{%
+         \step[fieldsource=title,match=\regexp{(.*)\s+:\s+(.*)},final]%
+         \step[fieldset=title,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=subtitle,fieldvalue=\regexp{$2}]%$
+      }%  
+%
+      \map[overwrite]{%
+         \step[fieldsource=edition,
+               match=\regexp{(\d+)[a-z]{2}\s+.*},
+               replace=\regexp{$1}]%$
+      }%
+      \map{%
+         \pertype{misc}%
+         \step[fieldsource=publisher,fieldtarget=organization]%
+      }%
+      %%\map[foreach={title,booktitle,note}]{%
+      %%   
+      %%\step[fieldsource=langid,match=\regexp{(ngerman|french|italian)},final]%
+      %%   \step[fieldsource=\regexp{$MAPLOOP},%$
+      %%        match=\regexp{\x22(.*?)\x22},%
+%      
+   }%
+}%
+\renewcommand{\bibfont}{\normalfont\small}%
+
+%%% Automatic Sentence case for _no_ language at all
+\DeclareCaseLangs{}
+
+%\DeclareFieldFormat{extradate}{%
+%  \mknumalph{#1}}
+%  \iffieldnums{labelyear}
+%    {\mknumalph{#1}}
+%    {\mkbibparens{\mknumalph{#1}}}}
+
+\DeclareBibliographyDriver{unpublished}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{byauthor}%
+  \newunit\newblock
+  \printfield{howpublished}%
+  \newunit\newblock
+  % Inserted
+  \printfield{type}%
+  \newunit\newblock
+  \usebibmacro{event+venue+date}%
+  \newunit\newblock
+  % end
+  \printfield{note}%
+  \newunit\newblock
+  \usebibmacro{location+date}%
+  \newunit\newblock
+  \printfield{pagetotal}%
+  \newunit\newblock
+  % Inserted to print the ISBN number
+  \printfield{isbn}%
+  \newunit\newblock
+  % end  
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+\DeclareNameAlias{director}{sortname}
+  
+\DeclareBibliographyDriver{movie}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author}%
+  \setunit{\labelnamepunct}\newblock
+  \usebibmacro{title}%
+  \newunit
+  \printlist{language}%
+  \newunit\newblock
+  \usebibmacro{location+date}%
+  \newunit\newblock
+  \iftoggle{bbx:url}
+    {\usebibmacro{url+urldate}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{finentry}}  
+
+\renewbibmacro*{date+extradate}{%
+    \iffieldundef{pubstate}
+      {%
+         \iffieldundef{labelyear}
+            {}%
+            {\printtext{%
+               \iflabeldateisdate
+                  {\printdateextra}
+                  {\printlabeldateextra}%
+               \iffieldundef{origdate}%
+                  {}%
+                  {\addnbspace\printorigdate}%
+            }%
+            }%
+      }%
+      {\printlabeldateextra}%
+}%
+
+\renewbibmacro*{addendum+pubstate}{%
+  \printfield{addendum}}%
+  
+\renewbibmacro*{series+number}{%
+  \iffieldundef{series}
+    {}
+    {\printtext[parens]{%
+      \printfield{series}%
+      \setunit*{\addnbspace}%
+      \printfield{number}}%
+    }}  
+
+\DeclareLabeldate{%
+\field{date}
+\field{year}
+\field{eventdate}
+\field{origdate}
+\field{urldate}
+\field{pubstate}
+\literal{nodate}
+}
+%%\defbibenvironment{bibliography}
+%%  {\list{}{%
+%%     \setlength{\topsep}{0pt}
+%%     \setlength{\partopsep}{0pt}
+%%     \leftmargin\bibhang
+%%     \itemindent-\leftmargin
+%%     \itemsep\bibitemsep
+%%     \parsep\bibparsep}}
+%%  {\endlist}
+%%  {\item}
+%%\setlength{\bibitemsep}%
+%%   {.5\baselineskip plus .25\baselineskip minus .1\baselineskip}
+%%\setlength{\bibhang}{4mm}
+%%%\renewcommand{\bibfont}{\normalfont\small}
+%%\defbibheading{bibliography}[\bibname]{%
+%%    \addchap{#1}}%
+%%%    \end{macrocode}
+%%% Alle Einträge zusammenhalten
+%%%    \begin{macrocode}
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
+%%%    \end{macrocode}
+%%% Überschrift für das Literaturverzeichnis ändern
+%%%    \begin{macrocode}
+%%\renewcaptionname{ngerman}{\bibname}{Quelleneditionen und Literatur}
+\endinput

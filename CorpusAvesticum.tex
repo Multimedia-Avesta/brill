@@ -1,0 +1,103 @@
+\ProvidesFile{CorpusAvesticum.tex}[2018/05/08 v0.1 Configuration file for brill]
+\makeindex[name=words,title={Index of Words},intoc]
+\makeindex[name=passages,title={Index of Passages},intoc]
+\makeindex[name=namesandsubjects,title={Index of Names and Subjects},intoc]
+\def\word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
+\newcommand{\@indexwords}[1]{\index[words]{#1}}
+\newcommand{\@@indexwords}[2][]{\index[words]{#1}#2}
+%
+\def\passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
+\newcommand{\@indexpassages}[1]{\index[passages]{#1}}
+\newcommand{\@@indexpassages}[2][]{\index[passages]{#1}#2}
+%
+\def\name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\def\subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\newcommand{\@indexnamesandsubjects}[1]{\index[namesandsubjects]{#1}}
+\newcommand{\@@indexnamesandsubjects}[2][]{\index[namesandsubjects]{#1}#2}
+
+%%% Define macros for languages
+\newcommand{\Avst}[1]{\textit{#1}}
+\newcommand{\Gujr}[1]{\textit{#1}}
+\newcommand{\Phlv}[1]{\textit{#1}}
+\newcommand{\Sa}[1]{\textit{#1}}
+\newcommand{\Fa}[1]{\textit{#1}}
+
+\newenvironment{AvstBlock}{\itshape}{}
+\newenvironment{GujrBlock}{\itshape}{}
+\newenvironment{PhlvBlock}{\itshape}{}
+\newenvironment{SaBlock}{\itshape}{}
+\newenvironment{FaBlock}{\itshape}{}
+
+\newcommand*{\aee}{ə\char"0304\relax}
+\newcommand*{\A}[1]{A~#1}% Afrinagan
+\newcommand*{\ABu}[1]{ABu~#1}% Afrin i Buzorgan
+\newcommand*{\AD}[1]{AD~#1}% Afrin i Dahman
+\newcommand*{\AG}[1]{AG~#1}% Afrin i Gahambar
+\newcommand*{\As}[1]{As~#1}% Asirvad
+\newcommand*{\AvAlph}[1]{AvAlph~#1}% Avestan alphabet
+\newcommand*{\Col}[1]{Col~#1}% Colophon
+\newcommand*{\DrYt}[1]{DrYt~#1}% Drōn Yašt
+\newcommand*{\DuP}[1]{DuP~#1}% Du&#702;a Paymani
+\newcommand*{\FiO}[1]{FiO~#1}% Frahang i Oim
+\newcommand*{\FrW}[1]{FrW~#1}% Fragment Westergard
+\newcommand*{\G}[1]{G~#1}% Gah
+\newcommand*{\Herbedestan}[1]{H~#1}% Herbedestan
+\newcommand*{\HB}[1]{HB~#1}% Hosbam
+\newcommand*{\HN}[1]{HN~#1}% Hadoxt Nask
+\newcommand*{\N}[1]{N~#1}% Nerangestan
+\newcommand*{\NiAs}[1]{NiAs~#1}% Nirang Asoan
+\newcommand*{\Nirang}[1]{Nirang~#1}% Nirang
+\newcommand*{\NiSY}[1]{NiSY~#1}% Nirang Sangriza Yastan
+\newcommand*{\NkB}[1]{NkB~#1}% Nerang i kustig bastan
+\newcommand*{\NS}[1]{NS~#1}% Nam Stayisn
+\newcommand*{\Ny}[1]{Ny~#1}% Nyayisn
+\newcommand*{\Par}[1]{Par~#1}% Paragna
+\newcommand*{\PaIr}[1]{PaIr~#1}% Patet Irani
+\newcommand*{\PaPas}[1]{PaPas~#1}% Patet Pasemanih
+\newcommand*{\PaXw}[1]{PaXw~#1}% Patet Xwad
+\newcommand*{\PazT}[1]{PazT~#1}% Pazand texts
+\newcommand*{\PPhl}[1]{PPhl~#1}% Payman i Pahlawi
+\newcommand*{\PS}[1]{PS~#1}% Payman i Sanskrit
+\newcommand*{\Siroza}[1]{S~#1}% Siroza
+\newcommand*{\SrB}[1]{SrB~#1}% Sros Baj
+\newcommand*{\V}[1]{V~#1}% Videvdad
+\newcommand*{\VN}[1]{VN~#1}% Vae&#977;a Nask
+\newcommand*{\Vr}[1]{Vr~#1}% Visparad
+\newcommand*{\VrS}[1]{VrS~#1}% Visperad Sade
+\newcommand*{\VS}[1]{VS~#1}% Videvdad Sade
+%%%\newcommand*{\VrS}[1]{VrS~#1}% Additions in Visperad Sade ceremony
+%%%\newcommand*{\VS}[1]{VS~#1}% Additions in Videvdad Sade ceremony
+\newcommand*{\Vyt}[1]{Vyt~#1}% Vistasp Yast
+\newcommand*{\VytS}[1]{VytS~#1}% Vishtasp Yasht Sade
+\newcommand*{\Y}[1]{Y~#1}% Yasna
+\newcommand*{\Yt}[1]{Yt~#1}% Yast
+%%%\newcommand*{\YVr}[1]{YVr~#1}% Variants of the Yasna in the Visperad ceremony
+\newcommand*{\YiR}[1]{YiR~#1}% Yasna ī Rapihwin
+\newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad
+\newcommand*{\Ygah}[1]{Y-gah~#1}% Yazisn-gah
+
+\newcommand{\newtranslation}[2]{\csgdef{translation#1}{#2}}
+
+\newcommand*{\@abbreviationsfile}{../muya.common/abbreviations.tex}
+\newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
+\newcommand*{\@translationsfile}{../muya.common/translations.tex}
+\newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
+\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
+\newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
+
+\AtEndPreamble{%
+   \InputIfFileExists{\@abbreviationsfile}%
+         {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
+         {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
+         Please use \string\SetAbbreviationsFile\space}}%
+   \InputIfFileExists{\@translationsfile}%
+      {\ClassInfo{brill}{Translations successfully loaded!}}%
+      {\ClassWarning{brill}{No translation file found!\MessageBreak
+       Please use \string\SetTranslationsFile\space}}%
+   %\IfFileExists{\@bibliographyfile}%
+   %   {\addbibresource{\@bibliographyfile}}%
+   %      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
+   %       Please use \string\SetBibliographyFile\space}}%
+}%
+
+\endinput
