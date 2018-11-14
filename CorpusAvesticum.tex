@@ -79,7 +79,7 @@
 \newcommand{\newtranslation}[2]{\csgdef{translation-#1}{#2}}
 \newcommand{\gettranslation}[1]{\csuse{translation-#1}}
 \newif\if@usechapterref
-\newcommand*{\chapterref}{\if@usechapterref\textsuperscript{\ref{#1}}\fi}
+\newcommand*{\chapterref}[1]{\if@usechapterref\textsuperscript{\ref{#1}}\fi}
 \newcommand*{\@abbreviationsfile}{../muya.common/abbreviations.tex}
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
