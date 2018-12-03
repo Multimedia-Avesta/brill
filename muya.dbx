@@ -1,5 +1,7 @@
 \ProvidesFile{muya.dbx}[2018/11/13 v0.6 biblatex datamodel style]
-\DeclareDatamodelFields[type=field,datatype=date]{iraniandate}
-\DeclareDatamodelEntryfields{iraniandate}
+%%\DeclareDatamodelFields[type=field,datatype=date]{iraniandate}
+%%\DeclareDatamodelEntryfields{iraniandate}
+\DeclareDatamodelFields[type=field,datatype=literal]{origdatetext}
+\DeclareDatamodelEntryfields{origdatetext}
 \DeclareDatamodelFields[type=list,datatype=name]{director}
 \DeclareDatamodelEntryfields[movie]{director}

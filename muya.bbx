@@ -2,6 +2,8 @@
 \RequireBibliographyStyle{biblatex-sp-unified}
 \ExecuteBibliographyOptions{%
    datecirca=true,
+   dateuncertain=true,
+   autolang=hyphen
 }
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
@@ -37,6 +39,16 @@
                notmatch=\regexp{\A(british|french|italian|ngerman|spanish)\Z},final]%
          \step[fieldset=langid,null]%
       }%
+      %%\map{%
+      %%   \step[fieldsource=location,%
+      %%         match={ - },%
+      %%         replace={ and }]
+      %%}%
+      %%\map{%
+      %%   \step[fieldsource=publisher,%
+      %%         match={ - },%
+      %%         replace={ and }]
+      %%}%
 %        
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=langid,final]%
@@ -96,33 +108,59 @@
          \step[fieldset=date,null]%
          \step[fieldset=sortyear,fieldvalue=9999]%
       }%
-%
+% Split up date field
+      \map[overwrite]{%
+         \step[fieldsource=date,%
+               match=\regexp{(.*)\s+\[(.*)\s*(\d{4}-\d{4}.*)\]},final]%
+         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
+         \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
+      }      
+      \map[overwrite]{%
+         \step[fieldsource=date,%
+               match=\regexp{(.*)\s+\[(.*)\s*(\d{4}.*)\]},final]%
+         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
+         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
+         \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
+      }
+%%      \map[overwrite]{%
+%%         \step[fieldsource=date,%
+%%               match=\regexp{(.*)\s+\[(.*)\]},final]%
+%%         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
+%%         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
+%%         \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$         
+%circa dates
       \map{%
           \step[fieldsource=date,%
                 match=\regexp{^c\.a\.\s+(\d{4})},%
                 replace=\regexp{$1~}]%$
       }%
-%
+      \map{%
+          \step[fieldsource=origdate,%
+                match=\regexp{^c\.a\.\s+(\d{4})},%
+                replace=\regexp{$1~}]%$
+      }%
+% Uncertain dates      
+      \map{%
+          \step[fieldsource=date,%
+                match=\regexp{(.*)\s+\?+},%
+                replace=\regexp{$1?}]%$
+      }%
+      \map{%
+          \step[fieldsource=origdate,%
+                match=\regexp{(.*)\s+\?+},%
+                replace=\regexp{$1?}]%$
+      }%      
+%date ranges
       \map{%
          \step[fieldsource=date,%
                match=\regexp{(\d{4})-(\d{4})},%
                replace=\regexp{$1/$2}]%
       }%
-%
-      \map[overwrite]{%
-         \step[fieldsource=date,%
-               match=\regexp{(\d{4}/\d{4})\s+\[(\d{4}/\d{4})\]},final]%
-         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=origdate,
-               fieldvalue=\regexp{$2}]%$
-      }%
-%
-      \map[overwrite]{%
-         \step[fieldsource=date,%
-               match=\regexp{(\d{4})\s+\[(\d{4})\]},final]%
-         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=origdate,
-               fieldvalue=\regexp{$2}]%$
+      \map{%
+         \step[fieldsource=origdate,%
+               match=\regexp{(\d{4})-(\d{4})},%
+               replace=\regexp{$1/$2}]%
       }%
 %
       \map[overwrite]{%
@@ -152,12 +190,6 @@
 
 %%% Automatic Sentence case for _no_ language at all
 \DeclareCaseLangs{}
-
-%\DeclareFieldFormat{extradate}{%
-%  \mknumalph{#1}}
-%  \iffieldnums{labelyear}
-%    {\mknumalph{#1}}
-%    {\mkbibparens{\mknumalph{#1}}}}
 
 \DeclareBibliographyDriver{unpublished}{%
   \usebibmacro{bibindex}%
@@ -223,6 +255,34 @@
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{finentry}}  
 
+\renewbibmacro*{author}{%
+  \ifboolexpr{
+    test \ifuseauthor
+    and
+    not test {\ifnameundef{author}}
+  }
+    {\usebibmacro{bbx:dashcheck}
+       {\bibnamedash}
+       {\usebibmacro{bbx:savehash}%
+        \printnames{author}%
+  \iffieldundef{authortype}
+    {\newunit}%                               period instead of space
+    {\setunit{\addcomma\space}}}%
+     \iffieldundef{authortype}
+       {}
+       {\usebibmacro{authorstrg}%
+  \newunit}}%                                 period instead of space
+    {\global\undef\bbx@lasthash
+     \usebibmacro{labeltitle}%
+     \newunit}%                               period instead of space
+  \usebibmacro{date+extradate}%
+  \iffieldundef{origyear}%
+   {}%
+   {\addspace%
+    \printtext[brackets]{\printfield{origdatetext}\setunit*{\addspace}\printorigdate}%
+   }%
+}%
+
 \renewbibmacro*{date+extradate}{%
     \iffieldundef{pubstate}
       {%
@@ -232,9 +292,9 @@
                \iflabeldateisdate
                   {\printdateextra}
                   {\printlabeldateextra}%
-               \iffieldundef{origdate}%
-                  {}%
-                  {\addnbspace\printorigdate}%
+               %\iffieldundef{origdate}%
+               %   {}%
+               %   {\addnbspace\printorigdate}%
             }%
             }%
       }%
