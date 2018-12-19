@@ -23,7 +23,7 @@
    toc=numberline,%
 ]{scrbook}[2018/03/30]
 \def\normalsize{%
-  \@setfontsize\normalsize{11bp}{13.2bp}
+  \@setfontsize\normalsize{11bp}{13.2bp}%
   \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
   \abovedisplayshortskip \z@ \@plus3\p@
   \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@

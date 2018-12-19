@@ -39,16 +39,23 @@
                notmatch=\regexp{\A(british|french|italian|ngerman|spanish)\Z},final]%
          \step[fieldset=langid,null]%
       }%
-      %%\map{%
-      %%   \step[fieldsource=location,%
-      %%         match={ - },%
-      %%         replace={ and }]
-      %%}%
-      %%\map{%
-      %%   \step[fieldsource=publisher,%
-      %%         match={ - },%
-      %%         replace={ and }]
-      %%}%
+%      
+      \map[overwrite]{
+         \step[fieldsource=location,
+               match=\regexp{\A\{(.+)\}\Z},
+               replace=$1]%
+         \step[fieldsource=location,%
+               match=\regexp{\s+-\s+},%
+               replace=\regexp{\x20and\x20}]
+      }%
+      \map[overwrite]{
+         \step[fieldsource=publisher,
+               match=\regexp{\A\{(.+)\}\Z},
+               replace=$1]%
+         \step[fieldsource=publisher,%
+               match=\regexp{\s+-\s+},%
+               replace=\regexp{\x20and\x20}]
+      }%
 %        
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=langid,final]%
