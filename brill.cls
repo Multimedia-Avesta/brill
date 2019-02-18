@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2018/11/13 v0.6 A template for Brill publications]
+\ProvidesClass{brill}[2019/02/18 v0.6.1 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -116,63 +116,42 @@
 %%%\RequirePackage{fnpct}
 \RequirePackage{refcount}
 \newlength{\fnlabelsep}
-\newcounter{changeToTenI}
-\newcounter{changeToTenII}
-\newcounter{changeToTenIII}
-\newcounter{changeToTenIV}
-\newcounter{changeToTenV}
-\newcounter{changeToTenVI}
-\newcounter{changeToTenVII}
-\newcounter{changeToTenVIII}
-\newcounter{changeToTenIX}
-\newcounter{changeToHundredI}
-\newcounter{changeToHundredII}
-\newcounter{changeToHundredIII}
-\newcounter{changeToHundredIV}
-\newcounter{changeToHundredV}
-\newcounter{changeToHundredVI}
-\newcounter{changeToHundredVII}
-\newcounter{changeToHundredVIII}
-\newcounter{changeToHundredIX}
 \newcommand\actcounterT{}
 \newcommand\actcounterH{}
 \newcounter{chaptercount}
+\renewcommand{\thechaptercount}{\Roman{chaptercount}}
 \newcounter{testcounter}
 %%%\RequirePackage{bigfoot}
 \let\ORIG@footnote\footnote
 \renewcommand{\footnote}[2][]{%
      \ifnum\value{footnote}=0%
         \global\stepcounter{chaptercount}%
-        \ifcase\thechaptercount
-         \or %
-             \renewcommand\actcounterT{changeToTenI}%
-             \renewcommand\actcounterH{changeToHundredI}%
-         \or %
-             \renewcommand\actcounterT{changeToTenII}%
-             \renewcommand\actcounterH{changeToHundredII}%
-         \or %
-             \renewcommand\actcounterT{changeToTenIII}%
-             \renewcommand\actcounterH{changeToHundredIII}%
-         \or%
-             \renewcommand\actcounterT{changeToTenIV}%
-             \renewcommand\actcounterH{changeToHundredIV}%
-         \or%
-             \renewcommand\actcounterT{changeToTenV}%
-             \renewcommand\actcounterH{changeToHundredV}%
-         \or%
-             \renewcommand\actcounterT{changeToTenVI}%
-             \renewcommand\actcounterH{changeToHundredVI}%
-         \or%
-             \renewcommand\actcounterT{changeToTenVII}%
-             \renewcommand\actcounterH{changeToHundredVII}%
-         \or%
-             \renewcommand\actcounterT{changeToTenVIII}%
-             \renewcommand\actcounterH{changeToHundredVIII}
-         \or%    
-            \renewcommand\actcounterT{changeToTenIX}%
-             \renewcommand\actcounterH{changeToHundredIX}%
-         \else%
-        \fi%
+        \@ifundefined{c@changeToTen\thechaptercount}%
+           {\expandafter\newcounter{changeToTen%
+            \csname thechaptercount\endcsname}}%
+           {}%
+        \protected@write\@auxout{}%
+           {%
+              \string\@ifundefined{c@changeToTen\thechaptercount}%
+                 {\string\newcounter{\expandafter changeToTen%
+                  \csname thechaptercount\endcsname}%
+                 }%
+                 {}%
+           }%  
+        \@ifundefined{c@changeToHundred\thechaptercount}%
+           {\expandafter\newcounter{changeToHundred%
+            \csname thechaptercount\endcsname}}%
+           {}%
+        \protected@write\@auxout{}%
+           {%
+              \string\@ifundefined{c@changeToHundred\thechaptercount}%
+                 {\string\newcounter{\expandafter changeToHundred%
+                  \csname thechaptercount\endcsname}%
+                 }%
+                 {}%
+           }%
+        \gdef\actcounterT{changeToTen\thechaptercount}%
+        \gdef\actcounterH{changeToHundred\thechaptercount}%
      \fi%
      \ifnum\value{footnote}=99%
         \protected@write\@auxout{}%
