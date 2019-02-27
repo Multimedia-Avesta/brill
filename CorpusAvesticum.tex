@@ -17,17 +17,53 @@ brill]
 \newcommand{\@@indexnamesandsubjects}[2][]{\index[namesandsubjects]{#1}#2}
 
 %%% Define macros for languages
-\newcommand{\Avst}[1]{\textit{#1}}
-\newcommand{\Gujr}[1]{\textit{#1}}
-\newcommand{\Phlv}[1]{\textit{#1}}
-\newcommand{\Sa}[1]{\textit{#1}}
-\newcommand{\Fa}[1]{\textit{#1}}
-
+\newcommand*{\Arm}[1]{\textit{#1}}
+\newcommand*{\Avst}[1]{\textit{#1}}
+\newcommand*{\Bactr}[1]{#1}
+\newcommand*{\Chor}[1]{#1}
+\newcommand*{\El}[1]{\textit{#1}}
+\newcommand*{\Fa}[1]{\textit{#1}}
+\newcommand*{\Gujr}[1]{\textit{#1}}
+\newcommand*{\Goth}[1]{\textit{#1}}
+\newcommand*{\Grk}[1]{#1}
+\newcommand*{\IE}[1]{\textit{#1}}
+\newcommand*{\Iir}[1]{\textit{#1}}
+\newcommand*{\Khot}[1]{\textit{#1}}
+\newcommand*{\Lat}[1]{\textit{#1}}
+\newcommand*{\Parth}[1]{#1}
+\newcommand*{\PIr}[1]{\textit{#1}}
+\newcommand*{\Pli}[1]{\textit{#1}}
+\newcommand*{\Pra}[1]{\textit{#1}}
+\newcommand*{\OP}[1]{\textit{#1}}
+\newcommand*{\Oss}[1]{\textit{#1}}
+\newcommand*{\Phlv}[1]{\textit{#1}}
+\newcommand*{\Phlvtlt}[1]{#1}
+\newcommand*{\Pz}[1]{\textit{#1}}
+\newcommand*{\Sa}[1]{\textit{#1}}
+\newcommand*{\Sogd}[1]{#1}
+\newenvironment{ArmBlock}{\itshape}{}%	Armenian
 \newenvironment{AvstBlock}{\itshape}{}
-\newenvironment{GujrBlock}{\itshape}{}
-\newenvironment{PhlvBlock}{\itshape}{}
-\newenvironment{SaBlock}{\itshape}{}
+\newenvironment{BactrBlock}{}{}% Bactrian
+\newenvironment{ChorBlock}{}{}% Choresmian
+\newenvironment{ElBlock}{\itshape}{}%	Elamite
 \newenvironment{FaBlock}{\itshape}{}
+\newenvironment{GothBlock}{\itshape}{}% Gothic
+\newenvironment{GrkBlock}{}{}% Greek
+\newenvironment{GujrBlock}{\itshape}{}
+\newenvironment{IEBlock}{\itshape}{}% Indo-European
+\newenvironment{IirBlock}{\itshape}{}%	Indo-Iranian
+\newenvironment{KhotBlock}{\itshape}{}% Khotanese
+\newenvironment{LatBlock}{\itshape}{}%	Latin
+\newenvironment{OPBlock}{\itshape}{}%	Old Persian
+\newenvironment{OssBlock}{\itshape}{}%	Ossetic
+\newenvironment{ParthBlock}{}{}% Parthian
+\newenvironment{PhlvBlock}{\itshape}{}
+\newenvironment{PIrBlock}{\itshape}{}%	Proto Iranian
+\newenvironment{PliBlock}{\itshape}{}%	PāỊi
+\newenvironment{PraBlock}{\itshape}{}%	Prakrit
+\newenvironment{PzBlock}{\itshape}{}% Pāzand
+\newenvironment{SaBlock}{\itshape}{}
+\newenvironment{SogdBlock}{}{}% Sogdian
 
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\A}[1]{A~#1}% Afrinagan
@@ -87,6 +123,25 @@ brill]
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
 \newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
 \newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
+
+% For the dictionary
+\newlist{meanings}{enumerate}{1}
+\newlist{sublemmata}{description}{1}
+\newcommand{\Meaning}[2][]{\item \enquote{#2}\ifstrempty{#1}{}{\ (#1)}}
+\newcommand{\sublemma}[1]{\item[#1]}
+\newlist{MUYAdictionary}{description}{1}
+\newcommand{\lemma}[1]{\item[#1]}
+
+\newcommand{\AirWb}[1]{#1}
+\newcommand{\EWAia}[1]{#1}
+\newcommand{\translation}[2][]{#1: #2}%TODO: #1 abfragen
+\newcommand{\stage}[1]{#1}
+\newcommand{\Ved}[2][]{#1#2}%TODO: #1 abfragen
+\def\attestant{\@ifstar\@attestant\@@attestant}
+\newcommand{\@attestant}[2]{#1\ #2}
+\newcommand{\@@attestant}[2]{#1\ #2}
+\newcommand{\pos}[1]{#1}
+
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%
