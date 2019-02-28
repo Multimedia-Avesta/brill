@@ -1,5 +1,6 @@
 \ProvidesFile{CorpusAvesticum.tex}[2019/02/18 v0.6.1 Configuration file for 
 brill]
+\RequirePackage{xstring}
 \makeindex[name=words,title={Index of Words},intoc]
 \makeindex[name=passages,title={Index of Passages},intoc]
 \makeindex[name=namesandsubjects,title={Index of Names and Subjects},intoc]
@@ -125,22 +126,64 @@ brill]
 \newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
 
 % For the dictionary
-\newlist{meanings}{enumerate}{1}
-\newlist{sublemmata}{description}{1}
-\newcommand{\Meaning}[2][]{\item \enquote{#2}\ifstrempty{#1}{}{\ (#1)}}
-\newcommand{\sublemma}[1]{\item[#1]}
-\newlist{MUYAdictionary}{description}{1}
-\newcommand{\lemma}[1]{\item[#1]}
+\newlist{Dictionary}{description}{1}
+\setlist[Dictionary]{%
+   leftmargin=*,
+   font=\normalfont\bfseries\itshape%
+}
+\newlist{Meanings}{enumerate*}{1}
+\setlist[Meanings]{label=\arabic*.}
+\newlist{Sublemmata}{description}{1}
+\setlist[Sublemmata]{%
+   leftmargin=*,
+   font=\normalfont\bfseries\itshape%
+}
+\newcommand{\Meaning}[2][]{\item #2\ifstrempty{#1}{}{\ (#1)}}
+\newcommand{\Sublemma}[1]{\item[#1]\@firstattestanttrue}
 
-\newcommand{\AirWb}[1]{#1}
-\newcommand{\EWAia}[1]{#1}
-\newcommand{\translation}[2][]{#1: #2}%TODO: #1 abfragen
-\newcommand{\stage}[1]{#1}
+\newcommand{\Lemma}[1]{\item[#1]\@addtosequenceofletters{#1}}
+
+\newcommand{\AirWb}[1]{\textit{AirWb}~#1}
+\newcommand{\Etym}[1]{#1}
+\newcommand{\EWAia}[1]{\textit{EWAia}~#1}
+\newcommand{\Reference}[1]{#1}
+\newcommand{\Translation}[2][]{%
+   \IfStrEqCase{#1}{%
+      {Phlv}{Pahl.\,tr.}%
+      {Sa}{}%
+   }[]%
+:~\textit{#2}}%
+\newcommand{\Stage}[1]{#1}
 \newcommand{\Ved}[2][]{#1#2}%TODO: #1 abfragen
-\def\attestant{\@ifstar\@attestant\@@attestant}
-\newcommand{\@attestant}[2]{#1\ #2}
-\newcommand{\@@attestant}[2]{#1\ #2}
-\newcommand{\pos}[1]{#1}
+\newcounter{attestant}
+\def\Attestant{%
+   \@ifstar{\stepcounter{attestant}\@attestant}%
+      {\setcounter{attestant}{1}\@attestant}}
+\newif\if@firstattestant
+\newcommand{\@attestant}[2]{%
+   \def~{\textasciitilde}%
+   \if@firstattestant\@firstattestantfalse\else\unskip\ |\ \fi%
+   \theattestant.\nobreakspace\textit{#1}\ #2}
+\newcommand{\Pos}[1]{#1}
+
+\gdef\@lastinitialletter{}
+\gdef\@sequenceofletters{}
+\gdef\@@sequenceofletters{}
+\AfterEndEnvironment{Dictionary}{%
+   \immediate\write\@auxout{\string\gdef\string\@sequenceofletters{\@@sequenceofletters}}}
+\newcommand{\@addtosequenceofletters}[1]{%
+   \StrLeft{#1}{1}[\@initialletter]
+   \ifdefstrequal{\@initialletter}{\@lastinitialletter}
+      {}
+      {%
+         \ifstr{\@@sequenceofletters}{}
+            {\xappto\@@sequenceofletters{\@initialletter}}%
+            {\xappto\@@sequenceofletters{, \@initialletter}}%
+         \let\@lastinitialletter\@initialletter
+      }%
+}
+\newcommand{\Sequenceofletters}{Sequence of 
+letters:\\\@sequenceofletters\par\vspace{\baselineskip}\noindent}
 
 
 \AtEndPreamble{%
