@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/02/18 v0.6.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/03/01 v0.7.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -64,12 +64,13 @@
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \RequirePackage[driver=none]{geometry}
 \geometry{%
-   paperwidth=155truemm,paperheight=235truemm,
-   top=19.75truemm,headsep=4.75truemm,
-   inner=20truemm,outer=20truemm,
-   lines=40
+   paperwidth=155truemm,paperheight=235truemm,%
+   top=19.75truemm,headsep=4.75truemm,%
+   inner=20truemm,outer=20truemm,%
+   lines=40%
 }
 \RequirePackage[a4,center,frame]{crop}
+\RequirePackage{luatexbase}
 \RequirePackage[%
    final,%
    tracking=smallcaps,%
@@ -114,7 +115,7 @@
    }%
 \fi%   
 %%%\RequirePackage{fnpct}
-\RequirePackage{refcount}
+\RequirePackage[savepos,abspage,user]{zref}
 \newlength{\fnlabelsep}
 \newcommand\actcounterT{}
 \newcommand\actcounterH{}
@@ -155,9 +156,7 @@
      \fi%
      \ifnum\value{footnote}=99%
         \protected@write\@auxout{}%
-           {\string\global%
-                \string\setcounter{\actcounterH}{\thepage}%
-           }%
+           {\string\global\string\setcounter{\actcounterH}{\thepage}}%
      \fi% 
      \ifnum\value{footnote}=9%
         \protected@write\@auxout{}%
@@ -167,25 +166,23 @@
      \stepcounter{testcounter}%
      \ifnum\value{footnote}<99%
         \ifnum\value{footnote}<9%
-           \ifnum 
-           \getpagerefnumber{footnote\thechaptercount\thetestcounter}=\value{\actcounterT}%
-              \setlength{\fnlabelsep}{2\normalparindent}%
-           \else%
-              \setlength{\fnlabelsep}{\normalparindent}%
-           \fi%
+           \ifnumequal%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{page}}%
+            {\value{\actcounterT}}%
+               {\setlength{\fnlabelsep}{2\normalparindent}}%
+               {\setlength{\fnlabelsep}{\normalparindent}}%
         \else%11-99
-           \ifnum 
-           \getpagerefnumber{footnote\thechaptercount\thetestcounter}=\value{\actcounterH}%
-              \setlength{\fnlabelsep}{3\normalparindent}%
-           \else%
-              \setlength{\fnlabelsep}{2\normalparindent}%
-           \fi%
+           \ifnumequal%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{page}}%
+            {\value{\actcounterH}}%
+               {\setlength{\fnlabelsep}{3\normalparindent}}%
+               {\setlength{\fnlabelsep}{2\normalparindent}}%
        \fi%
   \else%
       \setlength{\fnlabelsep}{3\normalparindent}%
   \fi%
   %%\deffootnote{\fnlabelsep}{\fnlabelsep}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
-  \protect\ORIG@footnote{\label{footnote\thechaptercount\thefootnote}#2}%
+  \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
 }%
 
 
@@ -464,7 +461,7 @@
 \setlist[enumerate,1]{leftmargin=2\parindent}
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
 %%\setlist[itemize,2]{leftmargin=\parindent,label=\textendash}
-
+\RequirePackage[marginpar]{todo}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
 \RequirePackage{array}
