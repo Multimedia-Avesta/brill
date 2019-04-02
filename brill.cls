@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/03/01 v0.7.0 A template for Brill publications]
+\ProvidesClass{brill}[2019/04/02 v0.8.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -557,10 +557,13 @@
 \indexsetup{%
    %headers={\textls*[50]{\MakeMarkcase{\indexname}}}{\textls*[50]{\MakeMarkcase{\indexname}}},
    othercode={\RaggedRight\footnotesize}}%
-\renewcommand{\@idxitem}{\par\hangindent 2\normalparindent}%
-\renewcommand{\subitem}{\par\hangindent 2\normalparindent\hspace*{\parindent}}%
+\renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
+\renewcommand*{\subitem}{%
+   \par\hangindent 2\normalparindent}%\hspace*{\normalparindent}}%
+\renewcommand*{\subsubitem}{%
+   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \renewcommand*\indexspace{%
-  \par \vskip \baselineskip\relax
+   \par\vskip\baselineskip\relax
 }%
 
 \if@showgrid

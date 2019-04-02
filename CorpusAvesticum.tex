@@ -1,12 +1,19 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/03/01 v0.7.0 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/04/02 v0.8.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
-\makeindex[name=words,title={Index of Words},intoc]
-\makeindex[name=passages,title={Index of Passages},intoc]
-\makeindex[name=namesandsubjects,title={Index of Names and Subjects},intoc]
+%%%\indexsetup{level=\section*,toclevel=section,noclearpage}
+\makeindex[name=words,title={Index of Words},intoc,options={-s muya.ist}]
+\makeindex[name=passages,title={Index of Passages},intoc,options={-s muya.ist}]
+\makeindex[%
+   name=namesandsubjects,%
+   title={Index of Names and Subjects},%
+   intoc,%
+   options={-s muya.ist}]
 \def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
-\newcommand{\@indexwords}[1]{\index[words]{#1}}
-\newcommand{\@@indexwords}[2][]{\index[words]{#1}#2}
+\newcommand{\@indexwords}[1]{\index[words]{\indexlanguage!#1}}%
+\newcommand{\@@indexwords}[2][]{%
+   \index[words]{\indexlanguage!#1}#2\index[words]{\indexlanguage!#1}%
+}%
 %
 \def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{#1}}
@@ -22,55 +29,59 @@ brill]
 \let\name\Name
 \let\word\Word
 
+\newcommand*{\indexlanguage}{AA@General}
+\newcommand*{\resetlanguage}{\gdef\indexlanguage{AA@General}}
 %%% Define macros for languages
-\newcommand*{\Arm}[1]{\textit{#1}}
-\newcommand*{\Avst}[1]{\textit{#1}}
-\newcommand*{\Bactr}[1]{#1}
-\newcommand*{\Chor}[1]{#1}
-\newcommand*{\El}[1]{\textit{#1}}
-\newcommand*{\Fa}[1]{\textit{#1}}
-\newcommand*{\Gujr}[1]{\textit{#1}}
-\newcommand*{\Goth}[1]{\textit{#1}}
-\newcommand*{\Grk}[1]{#1}
-\newcommand*{\IE}[1]{\textit{#1}}
-\newcommand*{\Iir}[1]{\textit{#1}}
-\newcommand*{\Khot}[1]{\textit{#1}}
-\newcommand*{\Lat}[1]{\textit{#1}}
-\newcommand*{\OP}[1]{\textit{#1}}
-\newcommand*{\Oss}[1]{\textit{#1}}
-\newcommand*{\Parth}[1]{#1}
-\newcommand*{\PIr}[1]{\textit{#1}}
-\newcommand*{\Pli}[1]{\textit{#1}}
-\newcommand*{\Pra}[1]{\textit{#1}}
-\newcommand*{\Phlv}[1]{\textit{#1}}
+\newcommand*{\Arm}[1]{\def\indexlanguage{Armenian}\textit{#1}\resetlanguage}
+\newcommand*{\Avst}[1]{\def\indexlanguage{Avestan}\textit{#1}\resetlanguage}
+\newcommand*{\Bactr}[1]{\def\indexlanguage{Bactrian}#1\resetlanguage}
+\newcommand*{\Chor}[1]{\def\indexlanguage{Choresmian}#1\resetlanguage}
+\newcommand*{\El}[1]{\def\indexlanguage{Elamite}\textit{#1}\resetlanguage}
+\newcommand*{\Fa}[1]{\def\indexlanguage{Persian}\textit{#1}\resetlanguage}
+\newcommand*{\Gujr}[1]{\def\indexlanguage{Gujarati}\textit{#1}\resetlanguage}
+\newcommand*{\Goth}[1]{\def\indexlanguage{Gothic}\textit{#1}\resetlanguage}
+\newcommand*{\Grk}[1]{\def\indexlanguage{Greek}#1\resetlanguage}
+\newcommand*{\IE}[1]{\def\indexlanguage{Indo-European}\textit{#1}\resetlanguage}
+\newcommand*{\Iir}[1]{\def\indexlanguage{Indo-Iranian}\textit{#1}\resetlanguage}
+\newcommand*{\Khot}[1]{\def\indexlanguage{Khotanese}\textit{#1}\resetlanguage}
+\newcommand*{\Lat}[1]{\def\indexlanguage{Latin}\textit{#1}\resetlanguage}
+\newcommand*{\OP}[1]{\def\indexlanguage{Old Persian}\textit{#1}\resetlanguage}
+\newcommand*{\Oss}[1]{\def\indexlanguage{Ossetic}\textit{#1}\resetlanguage}
+\newcommand*{\Parth}[1]{\def\indexlanguage{Parthian}#1\resetlanguage}
+\newcommand*{\PIr}[1]{\def\indexlanguage{Proto 
+Iranian}\textit{#1}\resetlanguage}
+\newcommand*{\Pli}[1]{\def\indexlanguage{PāỊi}\textit{#1}\resetlanguage}
+\newcommand*{\Pra}[1]{\def\indexlanguage{Prakrit}\textit{#1}\resetlanguage}
+\newcommand*{\Phlv}[1]{\def\indexlanguage{Pahlavi}\textit{#1}\resetlanguage}
 \newcommand*{\Phlvtlt}[1]{#1}
-\newcommand*{\Pz}[1]{\textit{#1}}
-\newcommand*{\Sa}[1]{\textit{#1}}
-\newcommand*{\Sogd}[1]{#1}
-\newenvironment{ArmBlock}{\itshape}{}%	Armenian
-\newenvironment{AvstBlock}{\itshape}{}
-\newenvironment{BactrBlock}{}{}% Bactrian
-\newenvironment{ChorBlock}{}{}% Choresmian
-\newenvironment{ElBlock}{\itshape}{}%	Elamite
-\newenvironment{FaBlock}{\itshape}{}
-\newenvironment{GothBlock}{\itshape}{}% Gothic
-\newenvironment{GrkBlock}{}{}% Greek
-\newenvironment{GujrBlock}{\itshape}{}
-\newenvironment{IEBlock}{\itshape}{}% Indo-European
-\newenvironment{IirBlock}{\itshape}{}%	Indo-Iranian
-\newenvironment{KhotBlock}{\itshape}{}% Khotanese
-\newenvironment{LatBlock}{\itshape}{}%	Latin
-\newenvironment{OPBlock}{\itshape}{}%	Old Persian
-\newenvironment{OssBlock}{\itshape}{}%	Ossetic
-\newenvironment{ParthBlock}{}{}% Parthian
-\newenvironment{PhlvBlock}{\itshape}{}
-\newenvironment{PIrBlock}{\itshape}{}%	Proto Iranian
-\newenvironment{PliBlock}{\itshape}{}%	PāỊi
-\newenvironment{PraBlock}{\itshape}{}%	Prakrit
-\newenvironment{PzBlock}{\itshape}{}% Pāzand
-\newenvironment{SaBlock}{\itshape}{}
-\newenvironment{SogdBlock}{}{}% Sogdian
-
+\newcommand*{\Pz}[1]{\def\indexlanguage{Pāzand}\textit{#1}\resetlanguage}
+\newcommand*{\Sa}[1]{\def\indexlanguage{Sanskrit}\textit{#1}\resetlanguage}
+\newcommand*{\Sogd}[1]{\def\indexlanguage{Sogdian}#1\resetlanguage}
+\newenvironment{ArmBlock}{\def\indexlanguage{Armenian}\itshape}{\resetlanguage}%
+\newenvironment{AvstBlock}{\def\indexlanguage{Avestan}\itshape}{\resetlanguage}%
+\newenvironment{BactrBlock}{\def\indexlanguage{Bactrian}}{\resetlanguage}% 
+\newenvironment{ChorBlock}{Choresmian}{\resetlanguage}% 
+\newenvironment{ElBlock}{\def\indexlanguage{Elamite}\itshape}{\resetlanguage}%
+\newenvironment{FaBlock}{\def\indexlanguage{Persian}\itshape}{\resetlanguage}
+\newenvironment{GothBlock}{\def\indexlanguage{Gothic}\itshape}{\resetlanguage}% 
+\newenvironment{GrkBlock}{\def\indexlanguage{Greek}}{\resetlanguage}% 
+\newenvironment{GujrBlock}{\def\indexlanguage{Gujarati}\itshape}{\resetlanguage}
+\newenvironment{IEBlock}{\def\indexlanguage{Indo-European}\itshape}{\resetlanguage}%
+\newenvironment{IirBlock}{\def\indexlanguage{Indo-Iranian}\itshape}{\resetlanguage}%
+\newenvironment{KhotBlock}{\def\indexlanguage{Khotanese}\itshape}{\resetlanguage}%
+\newenvironment{LatBlock}{\def\indexlanguage{Latin}\itshape}{\resetlanguage}%	
+\newenvironment{OPBlock}{\def\indexlanguage{Old 
+Persian}\itshape}{\resetlanguage}%
+\newenvironment{OssBlock}{\def\indexlanguage{Ossetic}\itshape}{\resetlanguage}%
+\newenvironment{ParthBlock}{\def\indexlanguage{Parthian}}{\resetlanguage}% 
+\newenvironment{PhlvBlock}{\def\indexlanguage{Pahlavi}\itshape}{\resetlanguage}
+\newenvironment{PIrBlock}{\def\indexlanguage{Proto Iranian}\itshape}{}%	
+\newenvironment{PliBlock}{\def\indexlanguage{PāỊi}\itshape}{\resetlanguage}%	
+\newenvironment{PraBlock}{\def\indexlanguage{Prakrit}\itshape}{\resetlanguage}%
+\newenvironment{PzBlock}{\def\indexlanguage{Pāzand}\itshape}{\resetlanguage}% 
+\newenvironment{SaBlock}{\def\indexlanguage{Sanskrit}\itshape}{\resetlanguage}
+\newenvironment{SogdBlock}{\def\indexlanguage{Sogdian}}{\resetlanguage}% 
+%%%
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\A}[1]{A~#1}% Afrinagan
 \newcommand*{\ABu}[1]{ABu~#1}% Afrin i Buzorgan
@@ -136,14 +147,14 @@ brill]
 % For the dictionary
 \newlist{Dictionary}{description}{1}
 \setlist[Dictionary]{%
-   leftmargin=*,
+   leftmargin=*,%
    font=\normalfont\bfseries\itshape%
 }
 \newlist{Meanings}{enumerate*}{1}
-\setlist[Meanings]{label=\arabic*.}
+\setlist[Meanings]{label=\arabic*.,mode=unboxed}
 \newlist{Sublemmata}{description}{1}
 \setlist[Sublemmata]{%
-   leftmargin=*,
+   leftmargin=*,%
    font=\normalfont\bfseries\itshape%
 }
 \newcommand{\Meaning}[2][]{\item #2\ifstrempty{#1}{}{\ (#1)}}
@@ -196,17 +207,17 @@ letters:\\\@sequenceofletters\par\vspace{\baselineskip}\noindent}
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%
-         {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
-         {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
-         Please use \string\SetAbbreviationsFile\space}}%
+      {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
+      {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
+       Please use \string\SetAbbreviationsFile\space}}%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
        Please use \string\SetTranslationsFile\space}}%
-   %\IfFileExists{\@bibliographyfile}%
-   %   {\addbibresource{\@bibliographyfile}}%
-   %      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
-   %       Please use \string\SetBibliographyFile\space}}%
+   \IfFileExists{\@bibliographyfile}%
+      {\addbibresource{\@bibliographyfile}}%
+      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
+       Please use \string\SetBibliographyFile\space}}%
 }%
 
 \endinput
