@@ -55,7 +55,7 @@ brill]
 \let\word\Word
 
 \newcommand*{\indexlanguage}{A@General}
-\newcommand*{\resetlanguage}{\gdef\indexlanguage{AA@General}}
+\newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}}
 %%% Define macros for languages
 \newcommand*{\Arm}[1]{\def\indexlanguage{U@Armenian}\textit{#1}\resetlanguage}
 \newcommand*{\Avst}[1]{\def\indexlanguage{B@Avestan}\textit{#1}\resetlanguage}
@@ -73,15 +73,16 @@ brill]
 \newcommand*{\OP}[1]{\def\indexlanguage{C@Old Persian}\textit{#1}\resetlanguage}
 \newcommand*{\Oss}[1]{\def\indexlanguage{I@Ossetic}\textit{#1}\resetlanguage}
 \newcommand*{\Parth}[1]{\def\indexlanguage{O@Parthian}#1\resetlanguage}
-\newcommand*{\Phlv}[1]{\def\indexlanguage{D@Pahlavi}\textit{#1}\resetlanguage}
-\newcommand*{\Phlvtlt}[1]{#1}
+\newcommand*{\Phlv}[1]{\def\indexlanguage{DB@Pahlavi}\textit{#1}\resetlanguage}
+\newcommand*{\Phlvtlt}[1]{\def\indexlanguage{DA@Pahlavi}\textit{#1}\resetlanguage}
 \newcommand*{\PIr}[1]{\def\indexlanguage{P@Proto 
 Iranian}\textit{#1}\resetlanguage}
 \newcommand*{\Pli}[1]{\def\indexlanguage{Q@PāỊi}\textit{#1}\resetlanguage}
 \newcommand*{\Pra}[1]{\def\indexlanguage{R@Prakrit}\textit{#1}\resetlanguage}
 \newcommand*{\Pz}[1]{\def\indexlanguage{S@Pāzand}\textit{#1}\resetlanguage}
-\newcommand*{\Sa}[1]{\def\indexlanguage{T@Sanskrit}\textit{#1}\resetlanguage}
+\newcommand*{\Sa}[1]{\def\indexlanguage{TA@Sanskrit}\textit{#1}\resetlanguage}
 \newcommand*{\Sogd}[1]{\def\indexlanguage{J@Sogdian}#1\resetlanguage}
+\newcommand*{\VedSa}[1]{\def\indexlanguage{TB@Vedic}\textit{#1}\resetlanguage}
 \newenvironment{ArmBlock}{\def\indexlanguage{U@Armenian}\itshape}{\resetlanguage}
 \newenvironment{AvstBlock}{\def\indexlanguage{B@Avestan}\itshape}{\resetlanguage}
 \newenvironment{BactrBlock}{\def\indexlanguage{F@Bactrian}}{\resetlanguage} 
@@ -100,14 +101,15 @@ Persian}\itshape}{\resetlanguage}
 Persian}\itshape}{\resetlanguage}
 \newenvironment{OssBlock}{\def\indexlanguage{I@Ossetic}\itshape}{\resetlanguage}
 \newenvironment{ParthBlock}{\def\indexlanguage{O@Parthian}}{\resetlanguage} 
-\newenvironment{PhlvBlock}{\def\indexlanguage{D@Pahlavi}\itshape}{\resetlanguage}
-\newenvironment{PhlvtltBlock}{}{}
+\newenvironment{PhlvBlock}{\def\indexlanguage{DB@Pahlavi}\itshape}{\resetlanguage}
+\newenvironment{PhlvtltBlock}{\def\indexlanguage{DA@Pahlavi}\itshape}{\resetlanguage}
 \newenvironment{PIrBlock}{\def\indexlanguage{P@Proto Iranian}\itshape}{}	
 \newenvironment{PliBlock}{\def\indexlanguage{Q@PāỊi}\itshape}{\resetlanguage}
 \newenvironment{PraBlock}{\def\indexlanguage{R@Prakrit}\itshape}{\resetlanguage}
 \newenvironment{PzBlock}{\def\indexlanguage{S@Pāzand}\itshape}{\resetlanguage}
-\newenvironment{SaBlock}{\def\indexlanguage{T@Sanskrit}\itshape}{\resetlanguage}
+\newenvironment{SaBlock}{\def\indexlanguage{TA@Sanskrit}\itshape}{\resetlanguage}
 \newenvironment{SogdBlock}{\def\indexlanguage{J@Sogdian}}{\resetlanguage} 
+\newenvironment{VedSaBlock}{\def\indexlanguage{TB@Vedic}\itshape}{\resetlanguage}
 %%%
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\A}[1]{A~#1}% Afrinagan
