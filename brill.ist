@@ -1,8 +1,4 @@
 %%% 2018/04/03 v0.8.0
-%%% First level items
-item_0  "\n \\indexspace\\indexspace\\item "
-%%% Second level items after first level items with no page number
-item_x1 "\n \\indexspace\\penalty10000\\relax \n \\subitem "
 %%% Horizonal spacing for all three levels
 delim_0 "\\quad "
 delim_1 "\\quad "
@@ -10,4 +6,4 @@ delim_2 "\\quad "
 %%% Delimiter for consecutive page numbers
 delim_r "\\textendash\\penalty10000\\relax "
 %%% Vertical spacing between different letter groups
-group_skip "\\relax \n" %%%\n \\indexspace \n"
+group_skip "\n \\indexspace \n"

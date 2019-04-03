@@ -1,14 +1,39 @@
 \ProvidesFile{CorpusAvesticum.tex}[2019/04/02 v0.8.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
-%%%\indexsetup{level=\section*,toclevel=section,noclearpage}
-\makeindex[name=words,title={Index of Words},intoc,options={-s muya.ist}]
-\makeindex[name=passages,title={Index of Passages},intoc,options={-s muya.ist}]
+\newcommand{\printindexes}{%
+   \chapter{Indices}
+   \begingroup
+      \renewcommand*{\subitem}{\par\hangindent 2\normalparindent}%
+      \printindex[words]
+   \endgroup
+   \printindex[passages]
+   \printindex[namesandsubjects]
+}
+\makeindex[%
+   name=words,%
+   title={Index of Words},%
+   intoc,%
+   columns=2,%
+   columnsep=4mm,%
+   options={-s muya.ist}%
+   ]%
+\makeindex[%
+   name=passages,%
+   title={Index of Passages},%
+   intoc,%
+   columns=2,%
+   columnsep=4mm,%
+   options={-s brill.ist}%
+   ]%
 \makeindex[%
    name=namesandsubjects,%
    title={Index of Names and Subjects},%
    intoc,%
-   options={-s muya.ist}]
+   columns=2,%
+   columnsep=4mm,%
+   options={-s brill.ist}%
+   ]%
 \def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{\index[words]{\indexlanguage!#1}}%
 \newcommand{\@@indexwords}[2][]{%

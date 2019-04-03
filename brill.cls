@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/04/02 v0.8.0 A template for Brill publications]
+\ProvidesClass{brill}[2019/04/03 v0.8.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -13,6 +13,7 @@
 \RequirePackage{iftex}
 \RequireLuaTeX
 \LoadClass[%
+   parskip=never,%
    captions=nooneline,%
    captions=tableabove,
    chapterprefix,%
@@ -54,6 +55,7 @@
 }%
 \def\large{\@setfontsize\large{13bp}{13bp}}%
 \def\LARGE{\@setfontsize\LARGE{16bp}{20bp}}%
+\KOMAoptions{parskip=never}
 \normalsize%
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
@@ -559,12 +561,10 @@
    othercode={\RaggedRight\footnotesize}}%
 \renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
 \renewcommand*{\subitem}{%
-   \par\hangindent 2\normalparindent}%\hspace*{\normalparindent}}%
+   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \renewcommand*{\subsubitem}{%
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
-\renewcommand*\indexspace{%
-   \par\vskip\baselineskip\relax
-}%
+\renewcommand*\indexspace{\par\vskip\baselineskip\relax}%
 
 \if@showgrid
 \RequirePackage{atbegshi,picture,xcolor}
