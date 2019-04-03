@@ -166,8 +166,8 @@ Persian}\itshape}{\resetlanguage}%
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
-\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
-\newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
+%%\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
+%%\newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
 
 % For the dictionary
 \newlist{Dictionary}{description}{1}
@@ -239,10 +239,10 @@ letters:\\\@sequenceofletters\par\vspace{\baselineskip}\noindent}
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
        Please use \string\SetTranslationsFile\space}}%
-   \IfFileExists{\@bibliographyfile}%
-      {\addbibresource{\@bibliographyfile}}%
-      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
-       Please use \string\SetBibliographyFile\space}}%
+%   \IfFileExists{\@bibliographyfile}%
+%      {\addbibresource{\@bibliographyfile}}%
+%      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
+%       Please use \string\SetBibliographyFile\space}}%
 }%
 
 \endinput
