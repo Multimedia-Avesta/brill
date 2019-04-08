@@ -58,34 +58,143 @@ brill]
 \newcommand*{\idxentryfont}[1]{#1}
 \newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}\renewcommand*{\idxentryfont}[1]{##1}}
 %%% Define macros for languages
-\newcommand*{\Arm}[1]{\def\indexlanguage{U@Armenian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Avst}[1]{\def\indexlanguage{B@Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Bactr}[1]{\def\indexlanguage{F@Bactrian}\renewcommand*{\idxentryfont}[1]{##1}#1\resetlanguage}
-\newcommand*{\Chor}[1]{\def\indexlanguage{G@Choresmian}\renewcommand*{\idxentryfont}[1]{##1}#1\resetlanguage}
-\newcommand*{\El}[1]{\def\indexlanguage{V@Elamite}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Fa}[1]{\def\indexlanguage{E@New 
-Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Goth}[1]{\def\indexlanguage{W@Gothic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Grk}[1]{\def\indexlanguage{M@Greek}\renewcommand*{\idxentryfont}[1]{##1}#1\resetlanguage}
-\newcommand*{\Gujr}[1]{\def\indexlanguage{X@Gujarati}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\IE}[1]{\def\indexlanguage{O@Indo-European}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Iir}[1]{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Khot}[1]{\def\indexlanguage{H@Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Lat}[1]{\def\indexlanguage{N@Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\OP}[1]{\def\indexlanguage{C@Old 
-Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Oss}[1]{\def\indexlanguage{I@Ossetic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Parth}[1]{\def\indexlanguage{O@Parthian}\renewcommand*{\idxentryfont}[1]{##1}#1\resetlanguage}
-\newcommand*{\Phlv}[1]{\def\indexlanguage{DB@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Phlvtlt}[1]{\def\indexlanguage{DA@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\PIr}[1]{\def\indexlanguage{P@Proto 
-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Pli}[1]{\def\indexlanguage{Q@PāỊi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Pra}[1]{\def\indexlanguage{R@Prakrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Pz}[1]{\def\indexlanguage{S@Pāzand}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Sa}[1]{\def\indexlanguage{TA@Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
-\newcommand*{\Sogd}[1]{\def\indexlanguage{J@Sogdian}\renewcommand*{\idxentryfont}[1]{##1}#1\resetlanguage}
-\newcommand*{\VedSa}[1]{\def\indexlanguage{TB@Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\textit{#1}\resetlanguage}
+\newcommand*{\Arm}[2][]{%
+   \def\indexlanguage{U@Armenian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\def\Avst{\@ifstar\@Avst\@@Avst}
+\newcommand*{\@Avst}[2][]{%
+   \def\indexlanguage{B@Avestan}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \Word[#2]{\textit{#2}}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\@@Avst}[2][]{%
+   \def\indexlanguage{B@Avestan}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Bactr}[2]{%
+   \def\indexlanguage{F@Bactrian}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Chor}[2][]{%
+   \def\indexlanguage{G@Choresmian}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\El}[2][]{%
+   \def\indexlanguage{V@Elamite}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Fa}[2][]{%
+   \def\indexlanguage{E@New Persian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Goth}[2][]{%
+   \def\indexlanguage{W@Gothic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Grk}[2][]{%
+   \def\indexlanguage{M@Greek}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Gujr}[2][]{%
+   \def\indexlanguage{X@Gujarati}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\IE}[2][]{%
+   \def\indexlanguage{O@Indo-European}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Iir}[2][]{%
+   \def\indexlanguage{L@Indo-Iranian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Khot}[2][]{%
+   \def\indexlanguage{H@Khotanese}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Lat}[2][]{%
+   \def\indexlanguage{N@Latin}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\OP}[2][]{%
+   \def\indexlanguage{C@Old Persian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Oss}[2][]{%
+   \def\indexlanguage{I@Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Parth}[2][]{%
+   \def\indexlanguage{O@Parthian}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Phlv}[2][]{%
+   \def\indexlanguage{DB@Pahlavi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}%
+   \@ifnextchar\bgroup%
+      {\@Phlv[#1]}%
+      {\@Phlv[#1]{}}}%
+%      {\ifstrempty{#1}{}{\ \enquote{#1}}\resetlanguage}}
+\newcommand*{\@Phlv}[2][]{%
+   \ifstrempty{#2}{{}}{\ [#2]}%
+   \ifstrempty{#1}{{}}{\ \enquote{#1}}\resetlanguage}
+\newcommand*{\Phlvtlt}[2][]{%
+   \def\indexlanguage{DA@Pahlavi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\PIr}[2][]{%
+   \def\indexlanguage{P@Proto Iranian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Pli}[2][]{%
+   \def\indexlanguage{Q@PāỊi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Pra}[2][]{%
+   \def\indexlanguage{R@Prakrit}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Pz}[2][]{%
+   \def\indexlanguage{S@Pāzand}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Sa}[2][]{%
+   \def\indexlanguage{TA@Sanskrit}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Sogd}[2][]{%
+   \def\indexlanguage{J@Sogdian}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\VedSa}[2][]{%
+   \def\indexlanguage{TB@Vedic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newenvironment{ArmBlock}{\def\indexlanguage{U@Armenian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{AvstBlock}{\def\indexlanguage{B@Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{BactrBlock}{\def\indexlanguage{F@Bactrian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
