@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/04/02 v0.8.0 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/04/09 v0.8.1 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \newcommand{\printindexes}{%
@@ -145,16 +145,21 @@ brill]
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\Phlv}[2][]{%
+   \@ifnextchar\bgroup{\@Phlv[#1]{#2}}{\@Phlv[#1]{#2}{}}}
+%   \def\indexlanguage{DB@Pahlavi}%
+%   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+%   \textit{#2}%
+%   \@ifnextchar\bgroup%
+%      {\@Phlv[#1]}%
+%      {\@Phlv[#1]{}}}%
+\newcommand*{\@Phlv}[3][]{%
    \def\indexlanguage{DB@Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}%
-   \@ifnextchar\bgroup%
-      {\@Phlv[#1]}%
-      {\@Phlv[#1]{}}}%
-%      {\ifstrempty{#1}{}{\ \enquote{#1}}\resetlanguage}}
-\newcommand*{\@Phlv}[2][]{%
-   \ifstrempty{#2}{{}}{\ [#2]}%
-   \ifstrempty{#1}{{}}{\ \enquote{#1}}\resetlanguage}
+   \ifstrempty{#3}{}{\ [#3]}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage
+   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
 \newcommand*{\Phlvtlt}[2][]{%
    \def\indexlanguage{DA@Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
