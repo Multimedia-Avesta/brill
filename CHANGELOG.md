@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.8.1] - 2019-04-09
+
+### Added
+- Optional argument for translations to all language macros (#7755)
+- Macro `\Phlv` to support two or three arguments (#7755)
+- Macro `Avst*` to mark a word as Avestan and write it directly to the index (#7935)
+
 ## {0.8.0] - 2019-04-03
 
 ### Added
