@@ -114,7 +114,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Iir}[2][]{%
+\newcommand*{\IIr}[2][]{%
    \def\indexlanguage{L@Indo-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -146,12 +146,6 @@ brill]
    \resetlanguage}
 \newcommand*{\Phlv}[2][]{%
    \@ifnextchar\bgroup{\@Phlv[#1]{#2}}{\@Phlv[#1]{#2}{}}}
-%   \def\indexlanguage{DB@Pahlavi}%
-%   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-%   \textit{#2}%
-%   \@ifnextchar\bgroup%
-%      {\@Phlv[#1]}%
-%      {\@Phlv[#1]{}}}%
 \newcommand*{\@Phlv}[3][]{%
    \def\indexlanguage{DB@Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -162,8 +156,8 @@ brill]
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
 \newcommand*{\Phlvtlt}[2][]{%
    \def\indexlanguage{DA@Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\PIr}[2][]{%
    \def\indexlanguage{P@Proto Iranian}%
