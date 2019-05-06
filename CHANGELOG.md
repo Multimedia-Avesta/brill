@@ -10,7 +10,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-- New macro `\translation{LANGUAGE}{ORIGINALTEXT}{TRANSLATION}`
+- Add new macro `\translation{LANGUAGE}{ORIGINALTEXT}{TRANSLATION}`
+- Add font `GNU FreeFont` for later usage
 
 ### Changed
 - Map names of language macros and environments to abbreviations (old macro names kept for compatibility)
