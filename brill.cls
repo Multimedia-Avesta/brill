@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/04/09 v0.8.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/05/06 v0.9 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -83,6 +83,8 @@
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
 \RequirePackage[autostyle,english=british]{csquotes}
+%%\SetBlockThreshold{3}
+\renewcommand*{\mkcitation}[1]{\par\nopagebreak\hspace*{2\parindent}#1}
 \RequirePackage[%
    backend=biber,%
    style=muya,%
@@ -625,21 +627,29 @@
     {}%
 }
 
-\let\quote\@undefined
-\let\endquote\@undefined
-\newenvironment{quote}[1][]%
+%\let\quote\@undefined
+%\let\endquote\@undefined
+\renewenvironment{quote}%
    {%
     \par\vspace{\baselineskip}%
-    \addmargin[\parindent]{0pt}%
+    \addmargin[2\parindent]{0pt}%
     \ignorespaces%
     \aftergroup\useignorespacesandallpars%
-    \ifstrempty{#1}{}{\def\@source{#1}}
+%    \ifstrempty{#1}{}{\def\@source{#1}}
    }%
    {%
-    \ifdef{\@source}{\\*\hspace*{2\parindent}\@source}{}%
+%    \ifdef{\@source}{\\*\hspace*{2\parindent}\@source}{}%
     \endaddmargin%
     \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
+
+\newcommand{\blocktranslation}[3]{%
+   \begin{displayquote}%
+   #2%
+   \par\vspace{\baselineskip}\noindent%
+   #3%
+   \end{displayquote}%
+}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
 \patchcmd{\frontmatter}{roman}{Roman}%

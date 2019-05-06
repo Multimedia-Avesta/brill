@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/04/09 v0.8.1 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/05/06 v0.9 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \newcommand{\printindexes}{%
@@ -63,17 +63,18 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\def\Avst{\@ifstar\@Avst\@@Avst}
-\newcommand*{\@Avst}[2][]{%
+\def\Av{\@ifstar\@Av\@@Av}
+\newcommand*{\@Av}[2][]{%
    \def\indexlanguage{B@Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \Word[#2]{\textit{#2}}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\@@Avst}[2][]{%
+\newcommand*{\@@Av}[2][]{%
    \def\indexlanguage{B@Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\Avst\Av   
 \newcommand*{\Bactr}[2]{%
    \def\indexlanguage{F@Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
@@ -89,11 +90,12 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Fa}[2][]{%
+\newcommand*{\NP}[2][]{%
    \def\indexlanguage{E@New Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\Fa\NP   
 \newcommand*{\Goth}[2][]{%
    \def\indexlanguage{W@Gothic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -104,11 +106,12 @@ brill]
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Gujr}[2][]{%
+\newcommand*{\Guj}[2][]{%
    \def\indexlanguage{X@Gujarati}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\Gujr\Guj   
 \newcommand*{\IE}[2][]{%
    \def\indexlanguage{O@Indo-European}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -130,10 +133,20 @@ brill]
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\OP}[2][]{%
+   \@ifnextchar\bgroup{\@OP[#1]{#2}}{\@OP[#1]{#2}{}}}
+\newcommand*{\@OP}[3][]{%
    \def\indexlanguage{C@Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+   \textit{#2}%
+   \ifstrempty{#3}{}{\ [#3]}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage
+   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}  
+\newcommand*{\OPtlt}[2][]{%
+   \def\indexlanguage{DA@Old Persian}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}   
 \newcommand*{\Oss}[2][]{%
    \def\indexlanguage{I@Ossetic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -144,9 +157,9 @@ brill]
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Phlv}[2][]{%
-   \@ifnextchar\bgroup{\@Phlv[#1]{#2}}{\@Phlv[#1]{#2}{}}}
-\newcommand*{\@Phlv}[3][]{%
+\newcommand*{\Phl}[2][]{%
+   \@ifnextchar\bgroup{\@Phl[#1]{#2}}{\@Phl[#1]{#2}{}}}
+\newcommand*{\@Phl}[3][]{%
    \def\indexlanguage{DB@Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}%
@@ -154,16 +167,19 @@ brill]
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
-\newcommand*{\Phlvtlt}[2][]{%
+\let\Phlv\Phl   
+\newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{DA@Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\PIr}[2][]{%
+\let\Phlvtlt\Phltlt
+\newcommand*{\PrIr}[2][]{%
    \def\indexlanguage{P@Proto Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\PIr\PrIr
 \newcommand*{\Pli}[2][]{%
    \def\indexlanguage{Q@PāỊi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -179,56 +195,74 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Sa}[2][]{%
+\newcommand*{\Skt}[2][]{%
    \def\indexlanguage{TA@Sanskrit}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\Sa\Skt   
 \newcommand*{\Sogd}[2][]{%
    \def\indexlanguage{J@Sogdian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\VedSa}[2][]{%
+\newcommand*{\Ved}[2][]{%
    \def\indexlanguage{TB@Vedic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\VedSa\Ved
 \newenvironment{ArmBlock}{\def\indexlanguage{U@Armenian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{AvstBlock}{\def\indexlanguage{B@Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{AvBlock}{\def\indexlanguage{B@Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\AvstBlock\AvBlock
+\let\endAvstBlock\endAvBlock
 \newenvironment{BactrBlock}{\def\indexlanguage{F@Bactrian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
 \newenvironment{ChorBlock}{\def\indexlanguage{G@Choresmian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
 \newenvironment{ElBlock}{\def\indexlanguage{V@Elamite}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{FaBlock}{\def\indexlanguage{E@New 
+\newenvironment{NPBlock}{\def\indexlanguage{E@New 
 Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\FaBlock\NPBlock
+\let\endFaBlock\endNPBlock
 \newenvironment{GothBlock}{\def\indexlanguage{W@Gothic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{GrkBlock}{\def\indexlanguage{M@Greek}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{GujrBlock}{\def\indexlanguage{X@Gujarati}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{GujBlock}{\def\indexlanguage{X@Gujarati}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\GujrBlock\GujBlock
+\let\endGujrBlock\endGujBlock
 \newenvironment{IEBlock}{\def\indexlanguage{O@Indo-European}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{IirBlock}{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{IIrBlock}{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{KhotBlock}{\def\indexlanguage{H@Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LatBlock}{\def\indexlanguage{N@Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OPBlock}{\def\indexlanguage{C@Old 
 Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OssBlock}{\def\indexlanguage{I@Ossetic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{ParthBlock}{\def\indexlanguage{O@Parthian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{PhlvBlock}{\def\indexlanguage{DB@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{PhlvtltBlock}{\def\indexlanguage{DA@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{PIrBlock}{\def\indexlanguage{P@Proto 
+\newenvironment{PhlBlock}{\def\indexlanguage{DB@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PhltltBlock}{\def\indexlanguage{DA@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\PhlvBlock\PhlBlock
+\let\endPhlvBlock\endPhlBlock
+\let\PhlvtltBlock\PhltltBlock
+\let\endPhlvtltBlock\endPhltltBlock
+\newenvironment{PrIrBlock}{\def\indexlanguage{P@Proto 
 Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
+\let\PIrBlock\PrIrBlock
+\let\endPIrBlock\endPrIrBlock
 \newenvironment{PliBlock}{\def\indexlanguage{Q@PāỊi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PraBlock}{\def\indexlanguage{R@Prakrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PzBlock}{\def\indexlanguage{S@Pāzand}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{SaBlock}{\def\indexlanguage{TA@Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{SkrBlock}{\def\indexlanguage{TA@Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\SaBlock\SkrBlock
+\let\endSaBlock\endSkrBlock
 \newenvironment{SogdBlock}{\def\indexlanguage{J@Sogdian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{VedSaBlock}{\def\indexlanguage{TB@Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{VedBlock}{\def\indexlanguage{TB@Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\VedSaBlock\VedBlock
+\let\endVedSaBlock\endVedBlock
 %%%
 \newcommand*{\aee}{ə\char"0304\relax}
-\newcommand*{\A}[1]{A~#1}% Afrinagan
-\newcommand*{\ABu}[1]{ABu~#1}% Afrin i Buzorgan
-\newcommand*{\AD}[1]{AD~#1}% Afrin i Dahman
-\newcommand*{\AG}[1]{AG~#1}% Afrin i Gahambar
-\newcommand*{\As}[1]{As~#1}% Asirvad
+\newcommand*{\A}[1]{Ā~#1}% Afrinagan
+\newcommand*{\ABu}[1]{ĀBu~#1}% Afrin i Buzorgan
+\newcommand*{\AD}[1]{ĀD~#1}% Afrin i Dahman
+\newcommand*{\AG}[1]{ĀG~#1}% Afrin i Gahambar
+\newcommand*{\As}[1]{Aś~#1}% Asirvad
 \newcommand*{\AvAlph}[1]{AvAlph~#1}% Avestan alphabet
 \newcommand*{\Col}[1]{Col~#1}% Colophon
 \newcommand*{\DrYt}[1]{DrYt~#1}% Drōn Yašt
@@ -236,37 +270,41 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\FiO}[1]{FiO~#1}% Frahang i Oim
 \newcommand*{\FrW}[1]{FrW~#1}% Fragment Westergard
 \newcommand*{\G}[1]{G~#1}% Gah
-\newcommand*{\Herbedestan}[1]{H~#1}% Herbedestan
-\newcommand*{\HB}[1]{HB~#1}% Hosbam
+\let\H\@undefined
+\newcommand*{\H}[1]{H~#1}% Herbedestan
+\let\Herbedestan\H
+\newcommand*{\Hb}[1]{Hb~#1}% Hosbam
+\let\HB\Hb
 \newcommand*{\HN}[1]{HN~#1}% Hadoxt Nask
 \newcommand*{\N}[1]{N~#1}% Nerangestan
-\newcommand*{\NiAs}[1]{NiAs~#1}% Nirang Asoan
-\newcommand*{\Nirang}[1]{Nirang~#1}% Nirang
-\newcommand*{\NiSY}[1]{NiSY~#1}% Nirang Sangriza Yastan
+\newcommand*{\NiAb}[1]{NīĀb~#1}% Nērang-ī āb ud padyāb
+\newcommand*{\NiAs}[1]{NīAš~#1}% Nirang Asoan
+\newcommand*{\Nirang}[1]{Nīrang~#1}% Nirang
+\newcommand*{\NiSY}[1]{NīSY~#1}% Nirang Sangriza Yastan
 \newcommand*{\NkB}[1]{NkB~#1}% Nerang i kustig bastan
 \newcommand*{\NS}[1]{NS~#1}% Nam Stayisn
 \newcommand*{\Ny}[1]{Ny~#1}% Nyayisn
 \newcommand*{\Par}[1]{Par~#1}% Paragna
 \newcommand*{\PaIr}[1]{PaIr~#1}% Patet Irani
-\newcommand*{\PaPas}[1]{PaPas~#1}% Patet Pasemanih
+\newcommand*{\PaPas}[1]{PaPaš~#1}% Patet Pasemanih
 \newcommand*{\PaXw}[1]{PaXw~#1}% Patet Xwad
 \newcommand*{\PazT}[1]{PazT~#1}% Pazand texts
 \newcommand*{\PPhl}[1]{PPhl~#1}% Payman i Pahlawi
 \newcommand*{\PS}[1]{PS~#1}% Payman i Sanskrit
-\newcommand*{\Siroza}[1]{S~#1}% Siroza
+\let\S\@undefined
+\newcommand*{\S}[1]{S~#1}% Siroza
+\let\Siroza\S
 \newcommand*{\SrB}[1]{SrB~#1}% Sros Baj
-\newcommand*{\V}[1]{V~#1}% Videvdad
+\newcommand*{\Vd}[1]{Vd~#1}% Videvdad
+\let\V\Vd
 \newcommand*{\VN}[1]{VN~#1}% Vae&#977;a Nask
 \newcommand*{\Vr}[1]{Vr~#1}% Visparad
 \newcommand*{\VrS}[1]{VrS~#1}% Visperad Sade
 \newcommand*{\VS}[1]{VS~#1}% Videvdad Sade
-%%%\newcommand*{\VrS}[1]{VrS~#1}% Additions in Visperad Sade ceremony
-%%%\newcommand*{\VS}[1]{VS~#1}% Additions in Videvdad Sade ceremony
 \newcommand*{\Vyt}[1]{Vyt~#1}% Vistasp Yast
 \newcommand*{\VytS}[1]{VytS~#1}% Vishtasp Yasht Sade
 \newcommand*{\Y}[1]{Y~#1}% Yasna
 \newcommand*{\Yt}[1]{Yt~#1}% Yast
-%%%\newcommand*{\YVr}[1]{YVr~#1}% Variants of the Yasna in the Visperad ceremony
 \newcommand*{\YiR}[1]{YiR~#1}% Yasna ī Rapihwin
 \newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad
 \newcommand*{\Ygah}[1]{Y-gah~#1}% Yazisn-gah
@@ -314,7 +352,7 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
    }[]%
 \textit{#2}}%
 \newcommand{\Stage}[1]{#1}
-\newcommand{\Ved}[1]{#1}
+%%\newcommand{\Ved}[1]{#1}
 \newcounter{attestation}
 \def\Attestation{%
    \@ifstar{\stepcounter{attestation}\@attestation}%

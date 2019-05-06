@@ -6,8 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [0.9.0] - 2019-05-06
+
+### Added
+
+- New macro `\translation{LANGUAGE}{ORIGINALTEXT}{TRANSLATION}`
+
 ### Changed
-- `\Iir` -> `\IIr`
+- Map names of language macros and environments to abbreviations (old macro names kept for compatibility)
+- Map names of macros for book names to abbreviations (old macro names kept for compatibility)
+- `\OP` can now handle two or three arguments (as `\Phlv` already could) (#7980)
+- Internal modification of the `blockquote` macro to match Brill's guidelines (#7977,#7981)
+
+### Removed
+
+- Remove `\Ved` as macro within the glossary/dictionary -> new name needed?
 
 ## [0.8.1] - 2019-04-09
 
@@ -89,6 +102,12 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]: 
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.9.0]: 
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.9.0
+[0.8.1]: 
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.7.1
+[0.8.0]: 
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.8.0
 [0.7.0]: 
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.7.0
 [0.6.1]: 
