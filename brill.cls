@@ -560,6 +560,8 @@
 \RequirePackage{imakeidx}
 \indexsetup{%
    %headers={\textls*[50]{\MakeMarkcase{\indexname}}}{\textls*[50]{\MakeMarkcase{\indexname}}},
+   level=\addchap,
+   %toclevel=chapter,
    othercode={\RaggedRight\footnotesize}}%
 \renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
 \renewcommand*{\subitem}{%
@@ -645,7 +647,7 @@
 
 \newcommand{\blocktranslation}[3]{%
    \begin{displayquote}%
-   #2%
+   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1} #2}}%
    \par\vspace{\baselineskip}\noindent%
    #3%
    \end{displayquote}%
@@ -660,7 +662,11 @@
    \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
    \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
 }   
-\appto{\backmatter}{\cleardoubleoddemptypage}
+\appto{\backmatter}{%
+   \cleardoubleoddemptypage
+   \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
+   \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}
+}
 \setlength{\parindent}{4mm}
 
 \AtEndDocument{%

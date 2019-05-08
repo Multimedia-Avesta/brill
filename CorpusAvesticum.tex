@@ -2,18 +2,17 @@
 brill]
 \RequirePackage{xstring}
 \newcommand{\printindexes}{%
-   \chapter{Indices}
    \begingroup
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent}%
       \printindex[words]
+      \printindex[passages]
    \endgroup
-   \printindex[passages]
    \printindex[namesandsubjects]
 }
 \makeindex[%
    name=words,%
    title={Index of Words},%
-   intoc,%
+   %intoc,%
    columns=2,%
    columnsep=4mm,%
    options={-s muya.ist}%
@@ -21,15 +20,15 @@ brill]
 \makeindex[%
    name=passages,%
    title={Index of Passages},%
-   intoc,%
+   %intoc,%
    columns=2,%
    columnsep=4mm,%
-   options={-s brill.ist}%
+   options={-s muya.ist}%
    ]%
 \makeindex[%
    name=namesandsubjects,%
    title={Index of Names and Subjects},%
-   intoc,%
+   %intoc,%
    columns=2,%
    columnsep=4mm,%
    options={-s brill.ist}%
@@ -41,9 +40,11 @@ brill]
 }%
 %
 \def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
-\newcommand{\@indexpassages}[1]{\index[passages]{#1}}
-\newcommand{\@@indexpassages}[2][]{\index[passages]{#1}#2}
-%
+\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
+\newcommand{\@@indexpassages}[2][]{%
+   \index[passages]{\indexlanguage!#1@#1}\textup{#2}\index[passages]{\indexlanguage!#1@#1}%
+}%
+
 \def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
 \def\Subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
 \newcommand{\@indexnamesandsubjects}[1]{\index[namesandsubjects]{#1}}
@@ -57,6 +58,37 @@ brill]
 \newcommand*{\indexlanguage}{A@General}
 \newcommand*{\idxentryfont}[1]{#1}
 \newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}\renewcommand*{\idxentryfont}[1]{##1}}
+\newcommand{\ItalicsOrNot}[1]{%
+   \IfStrEqCase{#1}{%
+      {Arm}{\def\indexlanguage{U@Armenian}\itshape}%
+      {Av}{\def\indexlanguage{B@Avestan}\itshape}%
+      {Bactr}{\def\indexlanguage{F@Bactrian}\upshape}%
+      {Chor}{\def\indexlanguage{G@Choresmian}\upshape}%
+      {El}{\def\indexlanguage{V@Elamite}\itshape}%
+      {NP}{\def\indexlanguage{E@New Persian}\itshape}%
+      {Goth}{\def\indexlanguage{W@Gothic}\itshape}%
+      {Grk}{\def\indexlanguage{M@Greek}\upshape}%
+      {Guj}{\def\indexlanguage{X@Gujarati}\itshape}%
+      {IE}{\def\indexlanguage{O@Indo-European}\itshape}%
+      {IIr}{\def\indexlanguage{L@Indo-Iranian}\itshape}%
+      {Khot}{\def\indexlanguage{H@Khotanese}\itshape}%
+      {Lat}{\def\indexlanguage{N@Latin}\itshape}%
+      {OHG}{\def\indexlanguage{ZA@Old High German}\itshape}%
+      {OP}{\def\indexlanguage{C@Old Persian}\itshape}%
+      {Oss}{\def\indexlanguage{I@Ossetic}\itshape}%
+      {Parth}{\def\indexlanguage{O@Parthian}\upshape}%
+      {PGmc}{\def\indexlanguage{ZB@Proto-Germanic}\itshape}%
+      {Phl}{\def\indexlanguage{DB@Pahlavi}\itshape}%
+      {PrIr}{\def\indexlanguage{P@Proto Iranian}\itshape}%
+      {Pli}{\def\indexlanguage{Q@PāỊi}\itshape}%
+      {Pra}{\def\indexlanguage{R@Prakrit}\itshape}%
+      {Pz}{\def\indexlanguage{S@Pāzand}\itshape}%
+      {Skt}{\def\indexlanguage{TA@Sanskrit}\itshape}%
+      {Sogd}{\def\indexlanguage{J@Sogdian}\itshape}%
+      {Ved}{\def\indexlanguage{TB@Vedic}\itshape}%
+      {ZD}{\def\indexlanguage{ZC@Zoroastrian Dari}\itshape}%
+   }[\def\indexlanguage{A@General}\upshape]
+}
 %%% Define macros for languages
 \newcommand*{\Arm}[2][]{%
    \def\indexlanguage{U@Armenian}%
