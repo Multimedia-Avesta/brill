@@ -132,6 +132,11 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newcommand*{\OHG}[2][]{%
+   \def\indexlanguage{ZA@Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\OP}[2][]{%
    \@ifnextchar\bgroup{\@OP[#1]{#2}}{\@OP[#1]{#2}{}}}
 \newcommand*{\@OP}[3][]{%
@@ -156,6 +161,11 @@ brill]
    \def\indexlanguage{O@Parthian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\PGmc}[2][]{%
+   \def\indexlanguage{ZB@Proto-Germanic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\Phl}[2][]{%
    \@ifnextchar\bgroup{\@Phl[#1]{#2}}{\@Phl[#1]{#2}{}}}
@@ -212,6 +222,11 @@ brill]
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\VedSa\Ved
+\newcommand*{\ZD}[2][]{%
+   \def\indexlanguage{ZC@Zoroastrian Dari}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newenvironment{ArmBlock}{\def\indexlanguage{U@Armenian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{AvBlock}{\def\indexlanguage{B@Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\AvstBlock\AvBlock
@@ -232,10 +247,14 @@ Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{IIrBlock}{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{KhotBlock}{\def\indexlanguage{H@Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LatBlock}{\def\indexlanguage{N@Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OHGBlock}{%
+   \def\indexlanguage{ZA@Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OPBlock}{\def\indexlanguage{C@Old 
 Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OssBlock}{\def\indexlanguage{I@Ossetic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{ParthBlock}{\def\indexlanguage{O@Parthian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
+\newenvironment{PGmcBlock}{\def\indexlanguage{ZB@Proto-Germanic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PhlBlock}{\def\indexlanguage{DB@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PhltltBlock}{\def\indexlanguage{DA@Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\PhlvBlock\PhlBlock
@@ -256,6 +275,9 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newenvironment{VedBlock}{\def\indexlanguage{TB@Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
+\newenvironment{ZDBlock}{%
+   \def\indexlanguage{ZC@Zoroastrian Dari}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 %%%
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\A}[1]{Ā~#1}% Afrinagan
