@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/05/06 v0.9 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/05/09 v0.9.1 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \newcommand{\printindexes}{%
@@ -73,6 +73,7 @@ brill]
       {IIr}{\def\indexlanguage{L@Indo-Iranian}\itshape}%
       {Khot}{\def\indexlanguage{H@Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{N@Latin}\itshape}%
+      {OE}{\def\indexlanguage{ZZ@Old English}\itshape}%
       {OHG}{\def\indexlanguage{ZA@Old High German}\itshape}%
       {OP}{\def\indexlanguage{C@Old Persian}\itshape}%
       {Oss}{\def\indexlanguage{I@Ossetic}\itshape}%
@@ -161,6 +162,11 @@ brill]
    \resetlanguage}
 \newcommand*{\Lat}[2][]{%
    \def\indexlanguage{N@Latin}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\OE}[2][]{%
+   \def\indexlanguage{ZZ@Old English}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
@@ -279,6 +285,9 @@ Persian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{IIrBlock}{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{KhotBlock}{\def\indexlanguage{H@Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LatBlock}{\def\indexlanguage{N@Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OEBlock}{%
+   \def\indexlanguage{ZZ@Old English}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OHGBlock}{%
    \def\indexlanguage{ZA@Old High German}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}

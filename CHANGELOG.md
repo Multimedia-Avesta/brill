@@ -4,7 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [Unreleased]
+
+### Added
+- Add new language and abbeviations for `OE`
+
+### Changed
+- Switch to `tabu`package with `long` option for Brilltable
+
+## [0.9.1] - 2019-05-09
+
+### Added
+- Add new langauge macros `\OHG`, `\PGmc` and `\ZD` and the corresponding blocks
+
+### Changed
+- Passages are not language-dependent
+- Use Muya index style for Index of Passages
+
+### Fixed
+- Fixed layout of Table of Contents (spacing before backmatter, indexes)
 
 ## [0.9.0] - 2019-05-06
 
@@ -103,10 +121,12 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]: 
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.9.1]: 
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.9.1
 [0.9.0]: 
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.9.0
 [0.8.1]: 
-https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.7.1
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.8.1
 [0.8.0]: 
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.8.0
 [0.7.0]: 

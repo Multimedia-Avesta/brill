@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/05/06 v0.9 A template for Brill publications]
+\ProvidesClass{brill}[2019/05/09 v0.9.1 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -160,24 +160,24 @@
      \fi%
      \ifnum\value{footnote}=99%
         \protected@write\@auxout{}%
-           {\string\global\string\setcounter{\actcounterH}{\thepage}}%
+           {\string\global\string\setcounter{\actcounterH}{\theabspage}}%
      \fi% 
      \ifnum\value{footnote}=9%
         \protected@write\@auxout{}%
-           {\string\global\string\setcounter{\actcounterT}{\thepage}}%
+           {\string\global\string\setcounter{\actcounterT}{\theabspage}}%
      \fi%
      \setcounter{testcounter}{\value{footnote}}%
      \stepcounter{testcounter}%
      \ifnum\value{footnote}<99%
         \ifnum\value{footnote}<9%
            \ifnumequal%
-            {\zref@extract{footnote\thechaptercount\thetestcounter}{page}}%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
             {\value{\actcounterT}}%
                {\setlength{\fnlabelsep}{2\normalparindent}}%
                {\setlength{\fnlabelsep}{\normalparindent}}%
         \else%11-99
            \ifnumequal%
-            {\zref@extract{footnote\thechaptercount\thetestcounter}{page}}%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
             {\value{\actcounterH}}%
                {\setlength{\fnlabelsep}{3\normalparindent}}%
                {\setlength{\fnlabelsep}{2\normalparindent}}%
@@ -474,10 +474,11 @@
 \newcolumntype{R}{>{\raggedleft}X}
 %%%\newcolumntype{d}{S}
 \RequirePackage{multirow}
-\RequirePackage{tabularx}
-\RequirePackage{ltablex}
+%\RequirePackage{tabularx}
+%\RequirePackage{ltablex}
 \RequirePackage{booktabs}
-\RequirePackage[flushleft]{threeparttable}
+\RequirePackage{tabu}
+%%\RequirePackage[flushleft]{threeparttable}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -493,8 +494,9 @@
 
 \RequirePackage{keyval}
 \RequirePackage{environ}
-\newif\if@tablebgscreen
-\define@key{brill}{bgscreen}[true]{\@tablebgscreentrue}%
+\newtoggle{@tablebgscreen}
+\newtoggle{@tablelong}
+\define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{\def\@tablecaption{#1}}%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
@@ -503,36 +505,87 @@
 \define@key{brill}{placement}{\def\@tableplacement{#1}}%
 \define@key{brill}{shortcaption}{\def\@tableshortcaption{#1}}%
 \define@key{brill}{width}{\def\@tablewidth{#1}}%
+\define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
+
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
       orientation=portrait,%
-      placement={},
+      placement={htb},%
+      width=full,%
       #1}% Set default and updated keys
-   \begin{table}[\@tableplacement]
-   \addfontfeatures{Numbers=Tabular}
-   \@tablefontsize
-   \ifdefvoid{\@tablecaption}{}{%
-      \caption{\@tablecaption}%
-      \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-   }%
-   \if@tablebgscreen
-      \rowcolors{1}{white}{black!10}%
-   \fi%
-   \begin{tabularx}{\textwidth}{#2}
-      \toprule
-      \hiderowcolors
-      \ifdefvoid{\@tableheaders}{}{%
-         \@tableheaders%
-         \midrule
-      }%
-      \showrowcolors
-      \BODY%
-      \bottomrule
-   \end{tabularx}
-   \end{table}
-}
+   \renewcommand{\thefootnote}{\alph{footnote}}
+   \iftoggle{@tablelong}{%
+      \begingroup
+      \addfontfeatures{Numbers=Tabular}
+      \@tablefontsize
+      \iftoggle{@tablebgscreen}
+         {\rowcolors{1}{white}{black!10}}%
+         {}%
+      \IfStrEqCase{\@tablewidth}{%
+         {dynamic}{\begin{longtabu}{#2}}
+         {full}{\begin{longtabu} to \textwidth{#2}}
+         {wide}{\begin{longtabu} to 130mm{#2}}
+         {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
+      }[]
+         \ifdefvoid{\@tablecaption}{}{%
+            \caption{\@tablecaption}\\%
+            \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+         }%
+         \hiderowcolors
+         \ifdefvoid{\@tableheaders}%
+            {}%
+            {%
+               \toprule
+               \@tableheaders%
+               \midrule
+               \endfirsthead
+               \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
+                (\textit{cont.})}\\
+               \toprule
+               \@tableheaders%
+               \midrule
+               \endhead
+               \bottomrule
+               \endlastfoot
+            }%
+         \showrowcolors
+         \BODY%
+      \end{longtabu}
+      \endgroup
+   }{%
+      \begin{table}[\@tableplacement]
+         \addfontfeatures{Numbers=Tabular}
+         \@tablefontsize
+         \ifdefvoid{\@tablecaption}{}{%
+            \caption{\@tablecaption}%
+            \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+         }%
+         \iftoggle{@tablebgscreen}
+            {\rowcolors{1}{white}{black!10}}%
+            {}%
+         \IfStrEqCase{\@tablewidth}{%
+            {dynamic}{\begin{tabu}{#2}}
+            {full}{\begin{tabu} to \textwidth{#2}}
+            {wide}{\begin{tabu} to 130mm{#2}}
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
+         }[]         
+            \toprule
+            \hiderowcolors
+            \ifdefvoid{\@tableheaders}%
+               {}%
+               {%
+                  \@tableheaders%
+                  \midrule
+               }%
+            \showrowcolors
+            \BODY%
+            \bottomrule
+         \end{tabu}
+      \end{table}
+   }
+}%
 
 \newcommand*{\tabhead}[2][\@tablefontsize]{\bfseries #1}
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
@@ -590,11 +643,65 @@
 \RequirePackage{url}
 \urlstyle{same}
 \RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
-\RequirePackage[nomain,abbreviations,toc,numberline,nonumberlist]{glossaries-extra}
+\RequirePackage[nomain,abbreviations,toc,numberline,nonumberlist,nosuper]{glossaries-extra}
+%%\RequirePackage{glossary-longbooktabs}
+\newdimen\widestabbreviation
+\setlength{\widestabbreviation}{0pt}
 
+\newlength{\currentwidth}
+\newcommand*{\@checkforwidestabbreviation}[1]{%
+   \settowidth{\currentwidth}{#1}
+   \ifdimgreater{\currentwidth}{\widestabbreviation}%
+      {\global\setlength{\widestabbreviation}{\the\currentwidth}}%
+      {}%
+  }
+  \AtEndDocument{%
+      \ifdimless{\widestabbreviation}{\normalparindent}%
+         {\immediate\write\@auxout%
+            {\noexpand\setlength{\widestabbreviation}{\normalparindent}}
+         }{\ifdimless{\widestabbreviation}{2\normalparindent}%
+            {\immediate\write\@auxout%
+               {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}
+            }{\ifdimless{\widestabbreviation}{3\normalparindent}%
+               {\immediate\write\@auxout%
+                  {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}
+               }{\immediate\write\@auxout%
+                  {\noexpand\setlength{\widestabbreviation}{4\normalparindent}}
+               }%
+            }%
+         }%
+  }%
+\newglossarystyle{brill}{%
+   \renewenvironment{theglossary}%
+      {\begin{longtabu} to%
+       \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
+      {\end{longtabu}}%
+   \renewcommand*{\glossaryheader}{}%
+   \renewcommand*{\glsgroupheading}[1]{}%
+   \renewcommand{\glossentry}[2]{%
+      \@checkforwidestabbreviation{##1}%
+      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
+      \glossentrydesc{##1}\glspostdescription\space ##2%
+      \tabularnewline
+  }%
+  \renewcommand{\subglossentry}[3]{%
+     &
+     \glssubentryitem{##2}%
+     \glstarget{##2}{\strut}\glossentrydesc{##2}%
+     \glspostdescription\space ##3%
+     \tabularnewline
+  }%
+  \ifglsnogroupskip
+    \renewcommand*{\glsgroupskip}{}%
+  \else
+    \renewcommand*{\glsgroupskip}{ & \tabularnewline}%
+  \fi%
+}
+\setglossarystyle{brill}
+\renewcommand{\glossarypreamble}{\small}
 \makeglossaries
 
-\setabbreviationstyle{short}
+\setabbreviationstyle{short-nolong}
 \renewcommand{\glsnamefont}[1]{\normalfont\mdseries #1}
 
 \RequirePackage{cleveref}
@@ -659,13 +766,21 @@
    {\ClassInfo{Macro \string\frontmatter\space NOT patched!}}%
 \appto{\frontmatter}{\setcounter{page}{5}} 
 \appto{\mainmatter}{%
-   \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
-   \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
+   \begingroup%
+      \let\origwrite\write
+      \def\write{\immediate\origwrite}%
+      \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
+      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
+   \endgroup%
 }   
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
-   \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
-   \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}
+   \begingroup%
+      \let\origwrite\write
+      \def\write{\immediate\origwrite}%
+      \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
+      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}%
+   \endgroup%
 }
 \setlength{\parindent}{4mm}
 
