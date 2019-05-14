@@ -515,7 +515,7 @@
       placement={htb},%
       width=full,%
       #1}% Set default and updated keys
-   \renewcommand{\thefootnote}{\alph{footnote}}
+   %%\renewcommand{\thefootnote}{\alph{footnote}}
    \iftoggle{@tablelong}{%
       \begingroup
       \addfontfeatures{Numbers=Tabular}
@@ -530,7 +530,9 @@
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
-            \caption{\@tablecaption}\\%
+            \ifdefvoid{\@tableshortcaption}%
+               {\caption{\@tablecaption}\\}%
+               {\caption[\@tableshortcaption]{\@tablecaption}\\}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
          }%
          \hiderowcolors
