@@ -684,22 +684,34 @@
       {\global\setlength{\widestabbreviation}{\the\currentwidth}}%
       {}%
   }
-  \AtEndDocument{%
-      \ifdimless{\widestabbreviation}{\normalparindent}%
+\AtEndDocument{%
+   \ifdimless{\widestabbreviation}{\normalparindent}%
+      {\immediate\write\@auxout%
+         {\noexpand\setlength{\widestabbreviation}{\normalparindent}}
+      }{\ifdimless{\widestabbreviation}{2\normalparindent}%
          {\immediate\write\@auxout%
-            {\noexpand\setlength{\widestabbreviation}{\normalparindent}}
-         }{\ifdimless{\widestabbreviation}{2\normalparindent}%
+            {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}
+         }{\ifdimless{\widestabbreviation}{3\normalparindent}%
             {\immediate\write\@auxout%
-               {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}
-            }{\ifdimless{\widestabbreviation}{3\normalparindent}%
+               {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}
+            }{\ifdimless{\widestabbreviation}{4\normalparindent}%
                {\immediate\write\@auxout%
-                  {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}
-               }{\immediate\write\@auxout%
                   {\noexpand\setlength{\widestabbreviation}{4\normalparindent}}
+               }{\ifdimless{\widestabbreviation}{5\normalparindent}%
+                  {\immediate\write\@auxout%
+                     {\noexpand\setlength{\widestabbreviation}{5\normalparindent}}
+                  }{\ifdimless{\widestabbreviation}{6\normalparindent}%
+                     {\immediate\write\@auxout%
+                        {\noexpand\setlength{\widestabbreviation}{6\normalparindent}}
+                     }{\immediate\write\@auxout%
+                           {\noexpand\setlength{\widestabbreviation}{7\normalparindent}}
+                     }%
+                  }%
                }%
             }%
          }%
-  }%
+      }%
+}%
 \newglossarystyle{brill}{%
    \renewenvironment{theglossary}%
       {\begin{longtabu} to%

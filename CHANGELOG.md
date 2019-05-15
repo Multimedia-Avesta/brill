@@ -9,11 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.10.0] - 2019-05-15
 
 ### Added
-- Add new language and abbeviations for `OE`
+- Add new language and abbeviations for `OE` (#7999)
+- Add options `long` and `booktabsstyle` to `brilltable` (#7998)
 
 ### Changed
-- Switch to `tabu`package with `long` option for `brilltable`
-- Add options `long` and `booktabsstyle` to `brilltable`
+- Switch to `tabu`package with `long` option for `brilltable` (#7998)
+- Change expanded form of the abbreviation `ntr.` from 'neutre' to 'neuter' (#7999)
+
+### Fixed
+- Varaible layout of `List of Abbreviations` based on the Brill guidelines (#8000)
 
 ## [0.9.1] - 2019-05-09
 
