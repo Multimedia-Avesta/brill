@@ -6,11 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.0] - 2019-05-15
+
 ### Added
 - Add new language and abbeviations for `OE`
 
 ### Changed
-- Switch to `tabu`package with `long` option for Brilltable
+- Switch to `tabu`package with `long` option for `brilltable`
+- Add options `long` and `booktabsstyle` to `brilltable`
 
 ## [0.9.1] - 2019-05-09
 

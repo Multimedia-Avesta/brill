@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/05/09 v0.9.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/05/15 v0.10.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -496,6 +496,7 @@
 \RequirePackage{environ}
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
+\newtoggle{@tablebooktabs}
 \define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{\def\@tablecaption{#1}}%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
@@ -506,6 +507,7 @@
 \define@key{brill}{shortcaption}{\def\@tableshortcaption{#1}}%
 \define@key{brill}{width}{\def\@tablewidth{#1}}%
 \define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
+\define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
 
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -539,18 +541,35 @@
          \ifdefvoid{\@tableheaders}%
             {}%
             {%
-               \toprule
-               \@tableheaders%
-               \midrule
-               \endfirsthead
-               \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
-                (\textit{cont.})}\\
-               \toprule
-               \@tableheaders%
-               \midrule
-               \endhead
-               \bottomrule
-               \endlastfoot
+               \iftoggle{@tablebooktabs}%
+                  {%
+                     \toprule
+                     \@tableheaders%
+                     \midrule
+                     \endfirsthead
+                     \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
+                      (\textit{cont.})}\\
+                     \toprule
+                     \@tableheaders%
+                     \midrule
+                     \endhead
+                     \bottomrule
+                     \endlastfoot
+                  }{%
+                     \firsthline
+                     \@tableheaders%
+                     \hline
+                     \endfirsthead
+                     \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
+                      (\textit{cont.})}\\
+                     \firsthline
+                     \@tableheaders%
+                     \hline
+                     \endhead
+                     \lasthline
+                     \endlastfoot
+                  }%
+                                    
             }%
          \showrowcolors
          \BODY%
@@ -573,17 +592,25 @@
             {wide}{\begin{tabu} to 130mm{#2}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
-            \toprule
             \hiderowcolors
             \ifdefvoid{\@tableheaders}%
                {}%
                {%
-                  \@tableheaders%
-                  \midrule
+                  \iftoggle{@tablebooktabs}%
+                     {%
+                        \toprule
+                        \@tableheaders%
+                        \midrule%
+                     }{%
+                        \firsthline
+                        \@tableheaders%
+                        \hline%
+                     }%
                }%
             \showrowcolors
             \BODY%
-            \bottomrule
+            \iftoggle{@tablebooktabs}%
+               {\bottomrule}{\lasthline}%
          \end{tabu}
       \end{table}
    }
