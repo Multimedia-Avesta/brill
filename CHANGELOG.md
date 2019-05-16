@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.10.1] - 2019-05-16
+
+### Added
+- Add option `landscape` to `brilltable` environment
+
 ## [0.10.0] - 2019-05-15
 
 ### Added

@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/05/15 v0.10.0 A template for Brill publications]
+\ProvidesClass{brill}[2019/05/16 v0.10.1 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -472,13 +472,10 @@
 \newcolumntype{L}{>{\raggedright}X}
 \newcolumntype{C}{>{\centering}X}
 \newcolumntype{R}{>{\raggedleft}X}
-%%%\newcolumntype{d}{S}
 \RequirePackage{multirow}
-%\RequirePackage{tabularx}
-%\RequirePackage{ltablex}
 \RequirePackage{booktabs}
 \RequirePackage{tabu}
-%%\RequirePackage[flushleft]{threeparttable}
+\RequirePackage[flushleft]{threeparttable}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -491,12 +488,23 @@
 }{%
    \endorigtable
 }
-
+\chardef\TPT@@@asteriskcatcode=\catcode`*
+\catcode`*=11
+\expandafter\patchcmd\csname\string\threeparttable\endcsname
+  {\TPT@hookin{tabular}}
+  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+  {}{}
+\catcode`*=\TPT@@@asteriskcatcode
+\RequirePackage{graphicx}
+\RequirePackage{grffile}
+\RequirePackage{rotating}
+\RequirePackage{pdflscape}
 \RequirePackage{keyval}
 \RequirePackage{environ}
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
 \newtoggle{@tablebooktabs}
+\newtoggle{@tablelandscape}
 \define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{\def\@tablecaption{#1}}%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
@@ -508,17 +516,19 @@
 \define@key{brill}{width}{\def\@tablewidth{#1}}%
 \define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
 \define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
+\define@key{brill}{landscape}{\settoggle{@tablelandscape}{#1}}%
 
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
       orientation=portrait,%
-      placement={htb},%
+      placement={tbp},%
       width=full,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \iftoggle{@tablelong}{%
+      \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
       \addfontfeatures{Numbers=Tabular}
       \@tablefontsize
@@ -527,7 +537,7 @@
          {}%
       \IfStrEqCase{\@tablewidth}{%
          {dynamic}{\begin{longtabu}{#2}}
-         {full}{\begin{longtabu} to \textwidth{#2}}
+         {full}{\begin{longtabu} to \linewidth{#2}}
          {wide}{\begin{longtabu} to 130mm{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
@@ -575,8 +585,11 @@
          \BODY%
       \end{longtabu}
       \endgroup
+      \iftoggle{@tablelandscape}{\endlandscape}{}
    }{%
-      \begin{table}[\@tableplacement]
+      \iftoggle{@tablelandscape}
+         {\begin{sidewaystable}[\@tableplacement]}%
+         {\begin{table}[\@tableplacement]}
          \addfontfeatures{Numbers=Tabular}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
@@ -612,8 +625,10 @@
             \iftoggle{@tablebooktabs}%
                {\bottomrule}{\lasthline}%
          \end{tabu}
-      \end{table}
-   }
+      \iftoggle{@tablelandscape}
+        {\end{sidewaystable}}%
+        {\end{table}}%
+   }%
 }%
 
 \newcommand*{\tabhead}[2][\@tablefontsize]{\bfseries #1}

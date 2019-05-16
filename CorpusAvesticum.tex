@@ -34,9 +34,17 @@ brill]
    options={-s brill.ist}%
    ]%
 \def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
-\newcommand{\@indexwords}[1]{\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
+\newcommand{\@indexwords}[1]{%
+   \StrCut*{#1}{!}{\@leftword}{\@rightword}%
+   \ifstrempty{\@rightword}%
+      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
+      {\index[words]{\indexlanguage!#1@\idxentryfont{\@rightword}}}%
+}%
 \newcommand{\@@indexwords}[2][]{%
-   \index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}%
+   \StrCut*{#1}{!}{\@leftword}{\@rightword}%
+   \ifstrempty{\@rightword}%
+      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
+      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
 }%
 %
 \def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
@@ -165,6 +173,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\OE\@undefined
 \newcommand*{\OE}[2][]{%
    \def\indexlanguage{ZZ@Old English}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
