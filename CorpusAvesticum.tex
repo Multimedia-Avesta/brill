@@ -329,6 +329,11 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
    \def\indexlanguage{ZC@Zoroastrian Dari}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 %%%
+
+\newcommand{\Fr}[1]{\foreignlanguage{french}{#1}}
+\newcommand{\Ger}[1]{\foreignlanguage{ngerman}{#1}}
+\newenvironment{FrBlock}{\begin{otherlanguage*}{french}}{\end{otherlanguage*}}
+\newenvironment{GerBlock}{\begin{otherlanguage*}{ngerman}}{\end{otherlanguage*}}
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\A}[1]{Ā~#1}% Afrinagan
 \newcommand*{\ABu}[1]{ĀBu~#1}% Afrin i Buzorgan
