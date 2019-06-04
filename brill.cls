@@ -654,7 +654,8 @@
    \listoffigures
    \listoftables
 }
-\RequirePackage{imakeidx}
+%\RequirePackage{imakeidx}
+\usepackage[imakeidx]{xindex}
 \indexsetup{%
    %headers={\textls*[50]{\MakeMarkcase{\indexname}}}{\textls*[50]{\MakeMarkcase{\indexname}}},
    level=\addchap,
@@ -687,7 +688,14 @@
 \RequirePackage{url}
 \urlstyle{same}
 \RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
-\RequirePackage[nomain,abbreviations,toc,numberline,nonumberlist,nosuper]{glossaries-extra}
+\RequirePackage[%
+   nomain,%
+   abbreviations,%
+   toc,%
+   numberline,%
+   nonumberlist,%
+   nosuper,%
+   automake]{glossaries-extra}
 %%\RequirePackage{glossary-longbooktabs}
 \newdimen\widestabbreviation
 \setlength{\widestabbreviation}{0pt}

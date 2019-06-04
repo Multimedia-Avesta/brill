@@ -1,6 +1,8 @@
 \ProvidesFile{CorpusAvesticum.tex}[2019/05/15 v0.10.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
+
+%%\def\imki@progdefault{xindex}
 \newcommand{\printindexes}{%
    \begingroup
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent}%
@@ -15,7 +17,7 @@ brill]
    %intoc,%
    columns=2,%
    columnsep=4mm,%
-   options={-s muya.ist}%
+   %options={-s muya.ist}%
    ]%
 \makeindex[%
    name=passages,%
@@ -23,7 +25,8 @@ brill]
    %intoc,%
    columns=2,%
    columnsep=4mm,%
-   options={-s muya.ist}%
+   %options={-s muya.ist}%
+   options={--config brill}
    ]%
 \makeindex[%
    name=namesandsubjects,%
@@ -31,7 +34,7 @@ brill]
    %intoc,%
    columns=2,%
    columnsep=4mm,%
-   options={-s brill.ist}%
+   options={--config brill}
    ]%
 \def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
