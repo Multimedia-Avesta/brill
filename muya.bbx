@@ -192,6 +192,14 @@
       %%   \step[fieldsource=\regexp{$MAPLOOP},%$
       %%        match=\regexp{\x22(.*?)\x22},%
 %      
+      \map{%
+         \step[fieldsource=pages,%
+               match=\regexp{ff\.},%
+               replace=\regexp{\\psqq}]
+         \step[fieldsource=pages,%
+               match=\regexp{f\.},%
+               replace=\regexp{\\psq}]                  
+      }
    }%
 }%
 \renewcommand{\bibfont}{\normalfont\small}%
