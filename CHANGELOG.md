@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.0] - 2019-07-17
+
+### Added
+- Alternative macro `\blocktranslation*` with no indention
+- New macros `\XVE` and `\NGVE`
+
+### Changed
+- Change language macros to use `\emph` instead of `\textit`
+- Indexes are now set using `xindex`. Not yet finished.
+
+### Fixed
+- Minor fixes for the bibliography
+
 ## [0.10.1] - 2019-05-16
 
 ### Added
@@ -131,27 +144,33 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 ## [0.3.0] - 2018-07-17
 
 
-[Unreleased]: 
+[Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
-[0.9.1]: 
+[0.11.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.11.0
+[0.10.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.10.1
+[0.10.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.10.0
+[0.9.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.9.1
-[0.9.0]: 
+[0.9.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.9.0
-[0.8.1]: 
+[0.8.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.8.1
-[0.8.0]: 
+[0.8.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.8.0
-[0.7.0]: 
+[0.7.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.7.0
-[0.6.1]: 
+[0.6.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.6.1
-[0.6.0]: 
+[0.6.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.6
-[0.5.0]: 
+[0.5.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.5
-[0.4.0]: 
+[0.4.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.4
-[0.3.0]: 
+[0.3.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.3
 
 
