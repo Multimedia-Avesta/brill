@@ -1,4 +1,4 @@
-""-----------------------------------------------------------------------
+-----------------------------------------------------------------------
 --         FILE:  xindex-brill.lua
 --  DESCRIPTION:  configuration file for xindex.lua
 -- REQUIREMENTS:  
@@ -14,19 +14,19 @@ if not modules then modules = { } end modules ['xindex-brill'] = {
       license = "LPPL 1.3"
 }
 
-itemPageDelimiter = ","
+itemPageDelimiter = "\\quad "
 compressPages = true
 fCompress = true
 minCompress = 3 
 numericPage = true
-sublabels = {"", "\quad", "\quad", "\quad"}
+sublabels = {"", "", "", ""}
 pageNoPrefixDel   = ""
 indexOpening      = ""
 
 --[[
     Each character's position in this array-like table determines its 'priority'.
     Several characters in the same slot have the same 'priority'.
-]]
+--]]
 alphabet_lower = { --   for sorting
     { ' ' },  -- only for internal tests
     { 'a', 'á', 'à', 'ä', 'å', 'æ', },

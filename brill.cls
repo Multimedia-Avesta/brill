@@ -449,6 +449,7 @@
 \addtokomafont{chapterentry}{\bfseries}
 \addtokomafont{chapterentrypagenumber}{\mdseries\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers=Tabular}}%
+\addtokomafont{minisec}{\bfseries}%
 %\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25pt]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
@@ -465,6 +466,8 @@
 \setlist[enumerate,1]{leftmargin=2\parindent}
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
 %%\setlist[itemize,2]{leftmargin=\parindent,label=\textendash}
+\newlist{enuminline}{enumerate*}{1}
+\setlist[enuminline]{label=(\alph*),font=\bfseries,mode=unboxed}
 \RequirePackage[marginpar]{todo}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
@@ -695,7 +698,7 @@
    numberline,%
    nonumberlist,%
    nosuper,%
-   automake]{glossaries-extra}
+   automake=immediate]{glossaries-extra}
 %%\RequirePackage{glossary-longbooktabs}
 \newdimen\widestabbreviation
 \setlength{\widestabbreviation}{0pt}
@@ -816,13 +819,25 @@
     \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
 
-\newcommand{\blocktranslation}[3]{%
+\newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
+
+\newcommand{\@blocktranslation}[3]{%
+   \par\noindent%
+   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1}#2}}%
+   \par\vspace{\baselineskip}\noindent%
+   #3\par\vspace{\baselineskip}%
+}%
+
+\newcommand{\@@blocktranslation}[3]{%
    \begin{displayquote}%
-   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1} #2}}%
+   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1}#2}}%
    \par\vspace{\baselineskip}\noindent%
    #3%
    \end{displayquote}%
-}
+}%
+
+\let\@RIGminisec\minisec
+\renewcommand{\minisec}[1]{\vspace{\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
 \patchcmd{\frontmatter}{roman}{Roman}%
