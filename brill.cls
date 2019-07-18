@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/07/17 v0.11.0 A template for Brill publications]
+\ProvidesClass{brill}[2019/07/18 v0.11.1 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -467,7 +467,11 @@
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
 %%\setlist[itemize,2]{leftmargin=\parindent,label=\textendash}
 \newlist{enuminline}{enumerate*}{1}
-\setlist[enuminline]{label=(\alph*),font=\bfseries,mode=unboxed}
+\setlist[enuminline]{label=(\alph*),font=\upshape\bfseries,mode=unboxed}
+\newlist{enuminlinesplitA}{enumerate*}{1}
+\setlist[enuminlinesplitA]{label=(\alph*),font=\upshape\bfseries,mode=unboxed,resume}
+\newlist{enuminlinesplitB}{enumerate*}{1}
+\setlist[enuminlinesplitB]{label=(\alph*),font=\upshape\bfseries,mode=unboxed,resume}
 \RequirePackage[marginpar]{todo}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
@@ -821,11 +825,34 @@
 
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
 
-\newcommand{\@blocktranslation}[3]{%
+\newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
-   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1}#2}}%
-   \par\vspace{\baselineskip}\noindent%
-   #3\par\vspace{\baselineskip}%
+   \if@splitsplittranslation%
+      \ifstrempty{#2}%
+         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}}%
+         {\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}}%
+      \if@splittranslation%
+         \par\vspace{\baselineskip}\noindent%
+      \else%
+         \par\noindent%
+      \fi%
+      \begin{enuminlinesplitB}
+      #4%
+      \end{enuminlinesplitB}
+      \ifstrempty{#1}%
+         {}%
+         {%
+            \par\noindent%
+            \begin{addmargin}[2\parindent]{0pt}%
+               #1%
+            \end{addmargin}%
+         }%
+   \else%
+      {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
+      \par\vspace{\baselineskip}\noindent%
+      #4%
+   \fi%
+   \par\vspace{\baselineskip}%
 }%
 
 \newcommand{\@@blocktranslation}[3]{%
@@ -835,6 +862,22 @@
    #3%
    \end{displayquote}%
 }%
+
+\newif\if@splittranslation
+\newif\if@splitsplittranslation
+\newenvironment{splittranslation}%
+   {\global\@splitsplittranslationtrue%
+    \restartlist{enuminlinesplitA}%
+    \restartlist{enuminlinesplitB}}%
+   {\global\@splitsplittranslationfalse}%
+
+\newenvironment{splittranslation*}%
+   {\global\@splittranslationtrue%
+    \global\@splitsplittranslationtrue%
+    \restartlist{enuminlinesplitA}%
+    \restartlist{enuminlinesplitB}}%
+   {\global\@splittranslationfalse%
+    \global\@splitsplittranslationfalse}%   
 
 \let\@RIGminisec\minisec
 \renewcommand{\minisec}[1]{\vspace{\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
