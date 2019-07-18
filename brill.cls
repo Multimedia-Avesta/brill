@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/07/18 v0.11.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/07/18 v0.11.2 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -851,6 +851,14 @@
       {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
       \par\vspace{\baselineskip}\noindent%
       #4%
+      \ifstrempty{#1}%
+         {}%
+         {%
+            \par\noindent%
+            \begin{addmargin}[2\parindent]{0pt}%
+               #1%
+            \end{addmargin}%
+         }%
    \fi%
    \par\vspace{\baselineskip}%
 }%

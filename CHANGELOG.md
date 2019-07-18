@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.11.2] - 2019-07-18
+
+### Changed
+- `\blocktranslation*` now _always_ evaluates optional argument
+
+## [0.11.1] - 2019-07-18
+
+### Added
+- Environment `splittranslation*` as variant of `splittranslation` with a
+spacing of one line between original text and translation
+
+### Changed
+- Macro `\blocktranslation*` now checks for surrounding `splittranslation`
+environment in order to use inline enumerated list
+
 ## [0.11.0] - 2019-07-17
 
 ### Added
@@ -146,6 +161,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.11.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.11.1
 [0.11.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.11.0
 [0.10.1]:
