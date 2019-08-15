@@ -444,10 +444,11 @@
 
 \setcounter{secnumdepth}{8}
 \setcounter{tocdepth}{3}
+\addtokomafont{title}{\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \addtokomafont{pagenumber}{\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
-\addtokomafont{chapterentrypagenumber}{\mdseries\addfontfeatures{Numbers=Lining}\scshape}
+\addtokomafont{chapterentrypagenumber}{\mdseries}%%\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers=Tabular}}%
 \addtokomafont{minisec}{\bfseries}%
 %\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
@@ -512,15 +513,32 @@
 \newtoggle{@tablelong}
 \newtoggle{@tablebooktabs}
 \newtoggle{@tablelandscape}
+\newtoggle{@figurelandscape}
 \define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
-\define@key{brill}{caption}{\def\@tablecaption{#1}}%
+\define@key{brill}{caption}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figurecaption{#1}}%
+      {\def\@tablecaption{#1}}%
+}%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
 \define@key{brill}{label}{\def\@tablelabel{#1}}%
 \define@key{brill}{orientation}{\def\@tableorientation{#1}}%
-\define@key{brill}{placement}{\def\@tableplacement{#1}}%
-\define@key{brill}{shortcaption}{\def\@tableshortcaption{#1}}%
-\define@key{brill}{width}{\def\@tablewidth{#1}}%
+\define@key{brill}{placement}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figureplacement{#1}}%
+      {\def\@tableplacement{#1}}%
+}%
+\define@key{brill}{shortcaption}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figureshortcaption{#1}}%
+      {\def\@tableshortcaption{#1}}%
+}%
+\define@key{brill}{width}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figurewidth{#1}}%
+      {\def\@tablewidth{#1}}%
+}%
 \define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
 \define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
 \define@key{brill}{landscape}{\settoggle{@tablelandscape}{#1}}%
@@ -586,7 +604,6 @@
                      \lasthline
                      \endlastfoot
                   }%
-                                    
             }%
          \showrowcolors
          \BODY%
@@ -637,19 +654,55 @@
         {\end{table}}%
    }%
 }%
-
 \newcommand*{\tabhead}[2][\@tablefontsize]{\bfseries #1}
+
+\newenvironment{brillfigure}[1][]{%
+   \setkeys{brill}{%
+      orientation=portrait,%
+      placement={htbp},%
+      width=full,%
+      #1}% Set default and updated keys
+   \IfStrEqCase{\@figurewidth}{%
+      {dynamic}{%
+         \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
+         \efigure%
+         \setkeys{Gin}{width=\Gin@nat@width}%
+      }%
+      {full}{%
+         \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
+         \efigure%
+         \setkeys{Gin}{width=\textwidth}%
+      }%
+      {wide}{%
+         \begin{figure}[tbp]%
+         \begin{addmargin}[-4mm]{11mm}%
+         \setkeys{Gin}{width=130mm}%
+      }%
+   }[]
+   }{%
+      \ifdefvoid{\@figurecaption}{}{%
+         \ifdefvoid{\@figureshortcaption}%
+            {\caption{\@figurecaption}\\}%
+            {\caption[\@figureshortcaption]{\@figurecaption}\\}%
+          \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+      }%
+      \ifstr{\@figurewidth}{wide}%
+         {\end{addmargin}\end{figure}}%
+         {\end{figure}}%
+   }%
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcapindent{16mm}
 \newlength{\@currentcaplabelwidth}
-\renewcommand*{\captionformat}{%
-   \ifstr{\@captype}{figure}
-      {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
-      {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
-   \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
-\renewcommand*{\figureformat}{\MakeLowercase{\figurename}~\thefigure\autodot}
-\renewcommand*{\tableformat}{\MakeLowercase{\tablename}~\thetable\autodot}
+\AtBeginDocument{
+   \renewcommand*{\captionformat}{%
+      \ifstr{\@captype}{figure}
+         {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
+         {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
+      \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
+}%
+\renewcommand*{\figureformat}{\MakeLowercase{\figurename}~\thefigure}
+\renewcommand*{\tableformat}{\MakeLowercase{\tablename}~\thetable}
 \renewcaptionname{british}{\listtablename}{Tables}
 \renewcaptionname{british}{\listfigurename}{Figures}
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
@@ -662,9 +715,9 @@
    \listoftables
 }
 %\RequirePackage{imakeidx}
-\usepackage[imakeidx]{xindex}
+\RequirePackage[imakeidx]{xindex}
 \indexsetup{%
-   %headers={\textls*[50]{\MakeMarkcase{\indexname}}}{\textls*[50]{\MakeMarkcase{\indexname}}},
+   headers={\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}},
    level=\addchap,
    %toclevel=chapter,
    othercode={\RaggedRight\footnotesize}}%
@@ -823,18 +876,32 @@
     \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
 
+\newcommand{\@opttextatend}[1]{%
+   \par\noindent%
+   \begin{addmargin}[2\parindent]{0pt}%
+      #1%
+   \end{addmargin}%
+}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
 
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
    \if@splitsplittranslation%
+%      \ifstrempty{#1}%
+%         {}%
+%         {%
+%           \par\noindent%
+%           \begin{addmargin}[2\parindent]{0pt}%
+%              #1%
+%           \end{addmargin}%
+%         }%
       \ifstrempty{#2}%
-         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}}%
-         {\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}}%
+         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par}%
+         {\begingroup\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\endgroup}%
       \if@splittranslation%
-         \par\vspace{\baselineskip}\noindent%
+         \vspace{\baselineskip}\noindent%
       \else%
-         \par\noindent%
+         \noindent%
       \fi%
       \begin{enuminlinesplitB}
       #4%
@@ -847,6 +914,7 @@
                #1%
             \end{addmargin}%
          }%
+      %\@ifnextchar[{\@opttextatend}{\relax}%
    \else%
       {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
       \par\vspace{\baselineskip}\noindent%

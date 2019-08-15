@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- New environment `brillfigure` with various option (similar to brilltable)
+- New macro `\Ank` for Anklesaria
+
+### Fixed
+- Avoid hyphenation within title
+- Avoid hyphenation within "old" languages
+- Correct font for chapter page numbers in TOC
+- Correct caption layout (`\captionformat` was not evaluated due to `french`)
+- Correct output of running headers for indexes
+
 ## [0.11.2] - 2019-07-18
 
 ### Changed

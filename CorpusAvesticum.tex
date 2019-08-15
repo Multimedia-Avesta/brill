@@ -49,10 +49,38 @@ brill]
       {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
 }%
 %
+\newcommand{\@makesortentry}[1]{
+   \StrCut{A}{.}{\@leftsort}{\@rightsort}
+%   \edef\@sortentry{%
+%      \IfInteger{\@leftsort}
+%         {\three@digits{\@leftsort}}
+%         {\@leftsort}%
+%      .%
+%      \IfInteger{\@rightsort}
+%         {\three@digits{\@rightsort}}%
+%         {\@rightsort}%
+%      }%
+}
+\newcommand{\three@digits}[1]{%
+   \ifnum#1<10
+      00\number#1%
+   \else
+      \ifnum#1<100
+         0\number#1%
+      \else
+         #1%
+      \fi%
+   \fi%
+}
 \def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
-   \index[passages]{\indexlanguage!#1@#1}\textup{#2}\index[passages]{\indexlanguage!#1@#1}%
+   \ifdef{\@sortentry}{
+      \index[passages]{\@sortentry@\indexlanguage!#1@#1}\textup{#2}\index[passages]{\@sortentry@\indexlanguage!#1@#1}%
+      \undef{\@sortentry}
+   }{%
+      \index[passages]{\indexlanguage!#1@#1}\textup{#2}\index[passages]{\indexlanguage!#1@#1}%
+   }%
 }%
 
 \def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
@@ -99,6 +127,7 @@ brill]
       {Ved}{\def\indexlanguage{TB@Vedic}\itshape}%
       {ZD}{\def\indexlanguage{ZC@Zoroastrian Dari}\itshape}%
    }[\def\indexlanguage{A@General}\upshape]%
+   \hyphenpenalty=10000%
 }
 %%% Define macros for languages
 \newcommand*{\Arm}[2][]{%
@@ -341,6 +370,7 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\ABu}[1]{ĀBu~#1}% Afrin i Buzorgan
 \newcommand*{\AD}[1]{ĀD~#1}% Afrin i Dahman
 \newcommand*{\AG}[1]{ĀG~#1}% Afrin i Gahambar
+\newcommand*{\Ank}[1]{Ank~#1}% Afrin i Gahambar
 \newcommand*{\As}[1]{Aś~#1}% Asirvad
 \newcommand*{\AvAlph}[1]{AvAlph~#1}% Avestan alphabet
 \newcommand*{\Col}[1]{Col~#1}% Colophon
@@ -382,7 +412,7 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\VS}[1]{VS~#1}% Videvdad Sade
 \newcommand*{\Vyt}[1]{Vyt~#1}% Vistasp Yast
 \newcommand*{\VytS}[1]{VytS~#1}% Vishtasp Yasht Sade
-\newcommand*{\Y}[1]{Y~#1}% Yasna
+\newcommand*{\Y}[1]{Y~#1\@makesortentry{#1}}% Yasna
 \newcommand*{\Yt}[1]{Yt~#1}% Yast
 \newcommand*{\YiR}[1]{YiR~#1}% Yasna ī Rapihwin
 \newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad
