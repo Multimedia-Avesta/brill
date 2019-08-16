@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/07/18 v0.11.2 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/08/16 v0.12.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
 
@@ -49,8 +49,17 @@ brill]
       {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
 }%
 %
-\newcommand{\@makesortentry}[1]{
-   \StrCut{A}{.}{\@leftsort}{\@rightsort}
+%\ExplSyntaxOn
+%
+%\NewDocumentCommand{\makesortentry}{m}{%
+%   \tl_set:Nn \sortentry { #1 }
+%   \regex_replace_all:nnN { (\d+)\.(\d+) } { 
+%   \\three@digits{\0}-\\three@digits{\1} } \sortentry
+%}
+%
+%\ExplSyntaxOff
+%\newcommand{\@makesortentry}[1]{
+%   \splitatdot{#1}\@leftsort\@rightsort
 %   \edef\@sortentry{%
 %      \IfInteger{\@leftsort}
 %         {\three@digits{\@leftsort}}
@@ -60,27 +69,44 @@ brill]
 %         {\three@digits{\@rightsort}}%
 %         {\@rightsort}%
 %      }%
-}
-\newcommand{\three@digits}[1]{%
-   \ifnum#1<10
-      00\number#1%
-   \else
-      \ifnum#1<100
-         0\number#1%
-      \else
-         #1%
-      \fi%
-   \fi%
-}
+%}  
+%\newcommand{\splitatdot}[3]{%
+%  \protected@edef\split@temp{#1}%
+%  \expandafter\split@dot\split@temp.\@nil{#2}{#3}%
+%}
+%\def\split@dot#1.#2\@nil#3#4{%
+%  \def#3{#1}%
+%  \if\relax\detokenize{#2}\relax
+%    % no dot
+%    \let#4\@empty
+%  \else
+%    \split@eatdot#2\@nil{#4}%
+%  \fi
+%}
+%\def\split@eatdot#1.\@nil#2{\def#2{#1}}
+
+%\newcommand{\three@digits}[1]{%
+%   \ifnum#1<10
+%      00\number#1%
+%   \else
+%      \ifnum#1<100
+%         0\number#1%
+%      \else
+%         #1%
+%      \fi%
+%   \fi%
+%}
 \def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
+%\newcommand*{\Index}[2][]{\index[#1]{#2}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
-   \ifdef{\@sortentry}{
-      \index[passages]{\@sortentry@\indexlanguage!#1@#1}\textup{#2}\index[passages]{\@sortentry@\indexlanguage!#1@#1}%
-      \undef{\@sortentry}
-   }{%
+   %\ifdef{\sortentry}{
+   %   
+   %\Index[passages]{\indexlanguage!\sortentry@#1}\textup{#2}\Index[passages]{\indexlanguage!\sortentry@#1}%
+   %   \undef{\sortentry}
+   %}{%
       \index[passages]{\indexlanguage!#1@#1}\textup{#2}\index[passages]{\indexlanguage!#1@#1}%
-   }%
+   %}%
 }%
 
 \def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
@@ -412,7 +438,7 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\VS}[1]{VS~#1}% Videvdad Sade
 \newcommand*{\Vyt}[1]{Vyt~#1}% Vistasp Yast
 \newcommand*{\VytS}[1]{VytS~#1}% Vishtasp Yasht Sade
-\newcommand*{\Y}[1]{Y~#1\@makesortentry{#1}}% Yasna
+\newcommand*{\Y}[1]{Y~#1}% Yasna
 \newcommand*{\Yt}[1]{Yt~#1}% Yast
 \newcommand*{\YiR}[1]{YiR~#1}% Yasna ī Rapihwin
 \newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad

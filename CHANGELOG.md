@@ -6,13 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.0] - 2019-08-16
+
 ### Added
 - New environment `brillfigure` with various option (similar to brilltable)
-- New macro `\Ank` for Anklesaria
+- New macro `\Ank` for Anklesaria links
 
 ### Fixed
 - Avoid hyphenation within title
-- Avoid hyphenation within "old" languages
+- Avoid hyphenation within ancient languages
 - Correct font for chapter page numbers in TOC
 - Correct caption layout (`\captionformat` was not evaluated due to `french`)
 - Correct output of running headers for indexes
@@ -172,6 +174,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.0
 [0.11.2]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.11.2
 [0.11.1]:

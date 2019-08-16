@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/07/18 v0.11.2 A template for Brill publications]
+\ProvidesClass{brill}[2019/08/16 v0.12.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -16,6 +16,8 @@
    parskip=never,%
    captions=nooneline,%
    captions=tableabove,
+   captions=bottombeside,%
+   captions=rightbeside,%
    chapterprefix,%
    headings=optiontohead,
    listof=leveldown,%
@@ -522,8 +524,16 @@
 }%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
-\define@key{brill}{label}{\def\@tablelabel{#1}}%
-\define@key{brill}{orientation}{\def\@tableorientation{#1}}%
+\define@key{brill}{label}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figurelabel{#1}}%
+      {\def\@tablelabel{#1}}%
+}%
+\define@key{brill}{orientation}{%
+   \ifstr{\@currenvir}{brillfigure}
+   	  {\def\@figureorientation{#1}}%
+   	  {\def\@tableorientation{#1}}%
+}%
 \define@key{brill}{placement}{%
    \ifstr{\@currenvir}{brillfigure}
       {\def\@figureplacement{#1}}%
@@ -541,8 +551,11 @@
 }%
 \define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
 \define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
-\define@key{brill}{landscape}{\settoggle{@tablelandscape}{#1}}%
-
+\define@key{brill}{landscape}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\settoggle{@figurelandscape}{#1}}%
+      {\settoggle{@tablelandscape}{#1}}%
+}%
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
@@ -552,6 +565,9 @@
       width=full,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
+   \ifstr{\@tableorientation}{landscape}
+      {\settoggle{@tablelandscape}{true}}
+      {}
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
@@ -659,9 +675,10 @@
 \newenvironment{brillfigure}[1][]{%
    \setkeys{brill}{%
       orientation=portrait,%
-      placement={htbp},%
-      width=full,%
+      placement={tp},%
+      width=dynamic,%
       #1}% Set default and updated keys
+   \ifdefvoid{\@figurecaption}{\par\vspace{\baselineskip}\noindent\ignorespaces}{%
    \IfStrEqCase{\@figurewidth}{%
       {dynamic}{%
          \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
@@ -669,27 +686,50 @@
          \setkeys{Gin}{width=\Gin@nat@width}%
       }%
       {full}{%
-         \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
-         \efigure%
+         \begin{figure}[tp]%
          \setkeys{Gin}{width=\textwidth}%
       }%
       {wide}{%
-         \begin{figure}[tbp]%
+         \begin{figure}[tp]%
          \begin{addmargin}[-4mm]{11mm}%
          \setkeys{Gin}{width=130mm}%
       }%
-   }[]
-   }{%
-      \ifdefvoid{\@figurecaption}{}{%
-         \ifdefvoid{\@figureshortcaption}%
-            {\caption{\@figurecaption}\\}%
-            {\caption[\@figureshortcaption]{\@figurecaption}\\}%
-          \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+      {narrow}{%
+         \begin{figure}[tp]%
+         \setcapindent*{0pt}%
+         \setkeys{Gin}{width=\Gin@nat@width}%
+         \ifdefvoid{\@figurecaption}
+            {}%
+            {%
+               \ifdefvoid{\@figureshortcaption}%
+                  {\begin{captionbeside}{\@figurecaption}}%
+                  {\begin{captionbeside}[\@figureshortcaption]{\@figurecaption}}%
+            }%
       }%
+   }[\setkeys{Gin}{width=\@figurewidth}]%
+   }}{%\end{brillfigure}
+      \ifdefvoid{\@figurecaption}{\par\vspace{\baselineskip}}{%
+      \ifstr{\@figurewidth}{narrow}
+         {%
+            \ifdefvoid{\@figurecaption}
+               {}%
+               {%
+                  \end{captionbeside}
+                  \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+               }%
+         }%   
+         {
+            \ifdefvoid{\@figurecaption}{}{%
+               \ifdefvoid{\@figureshortcaption}%
+                  {\caption{\@figurecaption}}%
+                  {\caption[\@figureshortcaption]{\@figurecaption}}%
+               \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+            }%
+         }%
       \ifstr{\@figurewidth}{wide}%
          {\end{addmargin}\end{figure}}%
          {\end{figure}}%
-   }%
+   }}%
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcapindent{16mm}
