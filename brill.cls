@@ -754,7 +754,6 @@
    \listoffigures
    \listoftables
 }
-%\RequirePackage{imakeidx}
 \RequirePackage[imakeidx]{xindex}
 \indexsetup{%
    headers={\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}},
