@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.1] - 2019-08-21
+
+### Added
+- New sorting order for "Index of Words" and "Index of Passages"
+
 ## [0.12.0] - 2019-08-16
 
 ### Added
@@ -174,6 +179,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.1
 [0.12.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.0
 [0.11.2]:
