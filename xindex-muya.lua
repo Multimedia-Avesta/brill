@@ -7,7 +7,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-muya'] = {
-      version = 0.1,
+      version = 0.12.1,
       comment = "",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
