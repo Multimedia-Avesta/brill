@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/08/21 v0.12.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/08/27 v0.12.2 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -444,13 +444,22 @@
 %%   toconstartlowerlevel=\vspace{\baselineskip}]{chapter}
 \RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
 
+\newcommand*{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
+\newcommand*{\@addsubsec}{}
+\def\@addsubsec[#1]#2{\subsection*{#2}\addsubsectiontocentry{}{#1}
+  \if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
+}
+\newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
+
+\newcommand*{\pagenumbertocfont}[1]{%
+   \ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}
 \setcounter{tocdepth}{3}
 \addtokomafont{title}{\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \addtokomafont{pagenumber}{\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
-\addtokomafont{chapterentrypagenumber}{\mdseries}%%\addfontfeatures{Numbers=Lining}\scshape}
+\addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers=Tabular}}%
 \addtokomafont{minisec}{\bfseries}%
 %\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
@@ -556,6 +565,17 @@
       {\settoggle{@figurelandscape}{#1}}%
       {\settoggle{@tablelandscape}{#1}}%
 }%
+\define@key{brill}{source}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figuresource{#1}}%
+      {\def\@tablesource{#1}}%
+}
+\define@key{brill}{longsource}{%
+   \ifstr{\@currenvir}{brillfigure}
+      {\def\@figurelongsource{#1}}%
+      {\def\@tablelongsource{#1}}%
+}
+
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
@@ -678,58 +698,105 @@
       placement={tp},%
       width=dynamic,%
       #1}% Set default and updated keys
-   \ifdefvoid{\@figurecaption}{\par\vspace{\baselineskip}\noindent\ignorespaces}{%
-   \IfStrEqCase{\@figurewidth}{%
-      {dynamic}{%
-         \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
-         \efigure%
-         \setkeys{Gin}{width=\Gin@nat@width}%
-      }%
-      {full}{%
-         \begin{figure}[tp]%
-         \setkeys{Gin}{width=\textwidth}%
-      }%
-      {wide}{%
-         \begin{figure}[tp]%
-         \begin{addmargin}[-4mm]{11mm}%
-         \setkeys{Gin}{width=130mm}%
-      }%
-      {narrow}{%
-         \begin{figure}[tp]%
-         \setcapindent*{0pt}%
-         \setkeys{Gin}{width=\Gin@nat@width}%
-         \ifdefvoid{\@figurecaption}
-            {}%
-            {%
-               \ifdefvoid{\@figureshortcaption}%
-                  {\begin{captionbeside}{\@figurecaption}}%
-                  {\begin{captionbeside}[\@figureshortcaption]{\@figurecaption}}%
+   \ifdefvoid{\@figurecaption}%
+      {\par\vspace{\baselineskip}\noindent\ignorespaces}%
+      {%
+         \IfStrEqCase{\@figurewidth}{%
+            {dynamic}{%
+               \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
+               \efigure%
+               \setkeys{Gin}{width=\Gin@nat@width}%
             }%
+            {full}{%
+               \begin{figure}[tp]%
+               \setkeys{Gin}{width=\textwidth}%
+            }%
+            {wide}{%
+               \begin{figure}[tp]%
+               \begin{addmargin}[-4mm]{11mm}%
+               \setkeys{Gin}{width=130mm}%
+            }%
+            {narrow}{%
+               \begin{figure}[tp]%
+               \setcapindent*{0pt}%
+               \setkeys{Gin}{width=\Gin@nat@width}%
+               \ifdefvoid{\@figurecaption}
+                  {}%
+                  {%
+                     \ifdefvoid{\@figureshortcaption}%
+                        {%
+                           \ifdefvoid{\@figuresource}%
+                              {\begin{captionbeside}{\@figurecaption}}%
+                              {\begin{captionbeside}{\@figurecaption\\*\textsc{\@figuresource}}}%
+                        }%
+                        {%
+                           \ifdefvoid{\@figuresource}%
+                              {\begin{captionbeside}[\@figureshortcaption]{\@figurecaption}}%
+                              {\ifdefvoid{\@figurelongsource}%
+                                 {%
+                                    \begin{captionbeside}%
+                                    [\@figureshortcaption\\*\textsc{\@figuresource}]%
+                                    {\@figurecaption\\*\textsc{\@figuresource}}%
+                                 }%
+                                 {%
+                                    \begin{captionbeside}%
+                                    [\@figureshortcaption\\*\textsc{\@figurelongsource}]%
+                                    {\@figurecaption\\*\textsc{\@figuresource}}%
+                                 }%
+                              }%                  
+                        }%
+                  }%
+            }%
+         }[\setkeys{Gin}{width=\@figurewidth}]%
       }%
-   }[\setkeys{Gin}{width=\@figurewidth}]%
-   }}{%\end{brillfigure}
-      \ifdefvoid{\@figurecaption}{\par\vspace{\baselineskip}}{%
-      \ifstr{\@figurewidth}{narrow}
+   }{%\end{brillfigure}
+      \ifdefvoid{\@figurecaption}%
+         {\par\vspace{\baselineskip}}%
          {%
-            \ifdefvoid{\@figurecaption}
-               {}%
+            \ifstr{\@figurewidth}{narrow}
                {%
-                  \end{captionbeside}
-                  \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+                  \ifdefvoid{\@figurecaption}
+                     {}%
+                     {%
+                        \end{captionbeside}
+                        \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
+                     }%
+               }%   
+               {%
+                  \ifdefvoid{\@figurecaption}%
+                     {}%
+                     {%
+                        \ifdefvoid{\@figureshortcaption}%
+                           {%
+                              \ifdefvoid{\@figuresource}%
+                                 {\caption{\@figurecaption}}%
+                                 {\caption{\@figurecaption\\*\textsc{\@figuresource}}}%
+                           }%
+                           {%
+                              \ifdefvoid{\@figuresource}%
+                                 {\caption[\@figureshortcaption]{\@figurecaption}}%
+                                 {%
+                                    \ifdefvoid{\@figurelongsource}%
+                                       {%
+                                          \caption%
+                                          [\@figureshortcaption\\*\textsc{\@figuresource}]%
+                                          {\@figurecaption\\*\textsc{\@figuresource}}%
+                                       }%
+                                       {%
+                                          \caption%
+                                          [\@figureshortcaption\\*\textsc{\@figurelongsource}]%
+                                          {\@figurecaption\\*\textsc{\@figuresource}}%
+                                       }%
+                                 }%
+                           }%
+                     }%
+                     \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
                }%
-         }%   
-         {
-            \ifdefvoid{\@figurecaption}{}{%
-               \ifdefvoid{\@figureshortcaption}%
-                  {\caption{\@figurecaption}}%
-                  {\caption[\@figureshortcaption]{\@figurecaption}}%
-               \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
-            }%
+            \ifstr{\@figurewidth}{wide}%
+               {\end{addmargin}\end{figure}}%
+               {\end{figure}}%
          }%
-      \ifstr{\@figurewidth}{wide}%
-         {\end{addmargin}\end{figure}}%
-         {\end{figure}}%
-   }}%
+   }%
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcapindent{16mm}
@@ -787,6 +854,7 @@
 \RequirePackage{url}
 \urlstyle{same}
 \RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
+\RequirePackage{bookmark}
 \RequirePackage[%
    nomain,%
    abbreviations,%
@@ -915,8 +983,7 @@
     \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
 
-\newcommand{\@opttextatend}[1]{%
-   \par\noindent%
+\newcommand{\beforeblocktranslation}[1]{%
    \begin{addmargin}[2\parindent]{0pt}%
       #1%
    \end{addmargin}%
@@ -926,14 +993,6 @@
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
    \if@splitsplittranslation%
-%      \ifstrempty{#1}%
-%         {}%
-%         {%
-%           \par\noindent%
-%           \begin{addmargin}[2\parindent]{0pt}%
-%              #1%
-%           \end{addmargin}%
-%         }%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par}%
          {\begingroup\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\endgroup}%
@@ -953,7 +1012,6 @@
                #1%
             \end{addmargin}%
          }%
-      %\@ifnextchar[{\@opttextatend}{\relax}%
    \else%
       {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
       \par\vspace{\baselineskip}\noindent%
@@ -998,9 +1056,6 @@
 \renewcommand{\minisec}[1]{\vspace{\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
-\patchcmd{\frontmatter}{roman}{Roman}%
-   {\ClassInfo{brill}{Macro \string\frontmatter\space patched!}}%
-   {\ClassInfo{Macro \string\frontmatter\space NOT patched!}}%
 \appto{\frontmatter}{\setcounter{page}{5}} 
 \appto{\mainmatter}{%
    \begingroup%

@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.2] - 2019-08-27
+
+### Added
+- New options `source` and `longsource` for environment `brillfigure`
+- New macro `\beforeblocktranslation{}` for an indented text before a block translation
+- New macro `\anklink{}{}` for links to Anklesaria. `\Ank` is automatically added to second argument
+- New macro `\addsubsec{}` analog to `\addsec` etc.: No numbering, but entry in TOC
+
+### Fixed
+- Use small caps for Roman numerals in TOC
+
 ## [0.12.1] - 2019-08-21
 
 ### Added
@@ -14,7 +25,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.12.0] - 2019-08-16
 
 ### Added
-- New environment `brillfigure` with various option (similar to brilltable)
+- New environment `brillfigure` with various options (similar to brilltable)
 - New macro `\Ank` for Anklesaria links
 
 ### Fixed
@@ -179,6 +190,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.2]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.2
 [0.12.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.1
 [0.12.0]:
