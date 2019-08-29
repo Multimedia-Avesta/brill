@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Correct size for page number in header to 11bp (was 10bp)
+
 ## [0.12.3] - 2019-08-29
 
 ### Fixed

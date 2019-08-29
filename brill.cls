@@ -107,7 +107,6 @@
 \lohead{\headmark}
 \ohead{\pagemark}
 \pagestyle{scrheadings}
-\setkomafont{pagehead}{\normalfont\small\scshape}
 
 \if@corpusavesticum
    \AtEndOfClass{%
@@ -457,7 +456,8 @@
 \setcounter{tocdepth}{3}
 \addtokomafont{title}{\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
-\addtokomafont{pagenumber}{\addfontfeatures{Numbers=Lining}\scshape}
+\setkomafont{pagehead}{\normalfont\small\scshape}
+\setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
 \addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers=Tabular}}%
@@ -618,8 +618,12 @@
                      \@tableheaders%
                      \midrule
                      \endfirsthead
-                     \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
-                      (\textit{cont.})}\\
+                     \caption*{%
+                        \usekomafont{captionlabel}%
+                        \MakeLowercase{\tablename}~\thetable:~%
+                        \usekomafont{caption}%
+                        \@tablecaption~(\textit{cont.})%
+                     }\\
                      \toprule
                      \@tableheaders%
                      \midrule
@@ -631,8 +635,12 @@
                      \@tableheaders%
                      \hline
                      \endfirsthead
-                     \caption*{\usekomafont{captionlabel}table~\thetable:~\usekomafont{caption}\@tablecaption\
-                      (\textit{cont.})}\\
+                     \caption*{%
+                        \usekomafont{captionlabel}%
+                        \MakeLowercase{\tablename}~\thetable:~%
+                        \usekomafont{caption}%
+                        \@tablecaption~(\textit{cont.})%
+                     }\\
                      \firsthline
                      \@tableheaders%
                      \hline
