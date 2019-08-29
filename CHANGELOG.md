@@ -6,12 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.3] - 2019-08-29
+
+### Fixed
+- Correct definition of inline enumerations (bug introduced with v0.12)
+
 ## [0.12.2] - 2019-08-27
 
 ### Added
 - New options `source` and `longsource` for environment `brillfigure`
 - New macro `\beforeblocktranslation{}` for an indented text before a block translation
-- New macro `\anklink{}{}` for links to Anklesaria. `\Ank` is automatically added to second argument
+- New macro `\anklink{}{}` for links to Anklesaria. `\Ank` is automatically applied to second argument
 - New macro `\addsubsec{}` analog to `\addsec` etc.: No numbering, but entry in TOC
 
 ### Fixed
@@ -190,6 +195,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.3]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.3
 [0.12.2]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.2
 [0.12.1]:

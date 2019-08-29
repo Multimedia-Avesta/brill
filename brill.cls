@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/08/27 v0.12.2 A template for Brill publications]
+\ProvidesClass{brill}[2019/08/29 v0.12.3 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -995,7 +995,7 @@
    \if@splitsplittranslation%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par}%
-         {\begingroup\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\endgroup}%
+         {\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par}%
       \if@splittranslation%
          \vspace{\baselineskip}\noindent%
       \else%
