@@ -6,8 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [0.12.4] -2019-09-02
+
+### Added
+- Book macros like `\Y` and `\Par` automatically set the abbreviation internally
+
 ### Fixed
 - Correct size for page number in header to 11bp (was 10bp)
+
 
 ## [0.12.3] - 2019-08-29
 

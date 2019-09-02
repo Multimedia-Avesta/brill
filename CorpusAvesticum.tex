@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/08/29 v0.12.3 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/09/02 v0.12.4 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{luacode}
@@ -8,17 +8,9 @@ brill]
       local content = f:read("*all")
       f:seek('set')
       -- f:close()
-      content = string.gsub(content, "(Y~?)(%d+)%.(%d+)",
+      content = string.gsub(content, "\\gls {([^}]*)}~?(%d+)%.(%d+)",
       function(a,b,c) return
-         string.format("Y%03d.%03d@%s%d.%d", b, c, a, b, c) end)
-      -- content = string.gsub(content, "(Y~?)(%d+)%.(%u)", 
-      -- function(a,b,c) return
-      --   string.format("Y%03d.%s@%s%d.%s", b, c, a, b, c) end)         
-      -- content = string.gsub(content, "(Par~?)(%d+)%.(%d+)", 
-      -- function(a,b,c) return
-      --   string.format("Par%03d.%03d@%s%d.%d", b, c, a, b, c) end)
-      -- os.execute("timeout " .. tonumber(10))         
-      -- local f = io.open("passages.idx", "w")
+         string.format("%s%03d.%03d@%s~%d.%d", a, b, c, a, b, c) end)
       f:write(content)
       f:close()
    end
@@ -368,59 +360,60 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand{\Ger}[1]{\foreignlanguage{ngerman}{#1}}
 \newenvironment{FrBlock}{\begin{otherlanguage*}{french}}{\end{otherlanguage*}}
 \newenvironment{GerBlock}{\begin{otherlanguage*}{ngerman}}{\end{otherlanguage*}}
-\newcommand*{\aee}{ə\char"0304\relax}
-\newcommand*{\A}[1]{Ā~#1}% Afrinagan
-\newcommand*{\ABu}[1]{ĀBu~#1}% Afrin i Buzorgan
-\newcommand*{\AD}[1]{ĀD~#1}% Afrin i Dahman
-\newcommand*{\AG}[1]{ĀG~#1}% Afrin i Gahambar
-\newcommand*{\Ank}[1]{Ank~#1}% Afrin i Gahambar
-\newcommand*{\As}[1]{Aś~#1}% Asirvad
-\newcommand*{\AvAlph}[1]{AvAlph~#1}% Avestan alphabet
-\newcommand*{\Col}[1]{Col~#1}% Colophon
-\newcommand*{\DrYt}[1]{DrYt~#1}% Drōn Yašt
-\newcommand*{\DuP}[1]{DuP~#1}% Du&#702;a Paymani
-\newcommand*{\FiO}[1]{FiO~#1}% Frahang i Oim
-\newcommand*{\FrW}[1]{FrW~#1}% Fragment Westergard
-\newcommand*{\G}[1]{G~#1}% Gah
-\let\H\@undefined
-\newcommand*{\H}[1]{H~#1}% Herbedestan
-\let\Herbedestan\H
-\newcommand*{\Hb}[1]{Hb~#1}% Hosbam
-\let\HB\Hb
-\newcommand*{\HN}[1]{HN~#1}% Hadoxt Nask
-\newcommand*{\N}[1]{N~#1}% Nerangestan
-\newcommand*{\NiAb}[1]{NīĀb~#1}% Nērang-ī āb ud padyāb
-\newcommand*{\NiAs}[1]{NīAš~#1}% Nirang Asoan
-\newcommand*{\Nirang}[1]{Nīrang~#1}% Nirang
-\newcommand*{\NiSY}[1]{NīSY~#1}% Nirang Sangriza Yastan
-\newcommand*{\NkB}[1]{NkB~#1}% Nerang i kustig bastan
-\newcommand*{\NS}[1]{NS~#1}% Nam Stayisn
-\newcommand*{\Ny}[1]{Ny~#1}% Nyayisn
-\newcommand*{\Par}[1]{Par~#1}% Paragna
-\newcommand*{\PaIr}[1]{PaIr~#1}% Patet Irani
-\newcommand*{\PaPas}[1]{PaPaš~#1}% Patet Pasemanih
-\newcommand*{\PaXw}[1]{PaXw~#1}% Patet Xwad
-\newcommand*{\PazT}[1]{PazT~#1}% Pazand texts
-\newcommand*{\PPhl}[1]{PPhl~#1}% Payman i Pahlawi
-\newcommand*{\PS}[1]{PS~#1}% Payman i Sanskrit
-\let\S\@undefined
-\newcommand*{\S}[1]{S~#1}% Siroza
-\let\Siroza\S
-\newcommand*{\SrB}[1]{SrB~#1}% Sros Baj
-\newcommand*{\Vd}[1]{Vd~#1}% Videvdad
-\let\V\Vd
-\newcommand*{\VN}[1]{VN~#1}% Vae&#977;a Nask
-\newcommand*{\Vr}[1]{Vr~#1}% Visparad
-\newcommand*{\VrS}[1]{VrS~#1}% Visperad Sade
-\newcommand*{\VS}[1]{VS~#1}% Videvdad Sade
-\newcommand*{\Vyt}[1]{Vyt~#1}% Vistasp Yast
-\newcommand*{\VytS}[1]{VytS~#1}% Vishtasp Yasht Sade
-\newcommand*{\Y}[1]{Y~#1}% Yasna
-\newcommand*{\Yt}[1]{Yt~#1}% Yast
-\newcommand*{\YiR}[1]{YiR~#1}% Yasna ī Rapihwin
-\newcommand*{\YVr}[1]{YVr~1}% Yasna Visperad
-\newcommand*{\Ygah}[1]{Y-gah~#1}% Yazisn-gah
 
+\newcommand*{\A}[1]{\gls{A}~#1}% Afrinagan
+\newcommand*{\ABu}[1]{\gls{ABu}~#1}% Afrin i Buzorgan
+\newcommand*{\AD}[1]{\gls{AD}~#1}% Afrin i Dahman
+\newcommand*{\AG}[1]{\gls{AG}~#1}% Afrin i Gahambar
+\newcommand*{\Ank}[1]{\gls{Ank}~#1}% 
+\newcommand*{\As}[1]{\gls{As}~#1}% Asirvad
+\newcommand*{\AvAlph}[1]{\gls{AvAlph}~#1}% Avestan alphabet
+\newcommand*{\Col}[1]{\gls{Col}~#1}% Colophon
+\newcommand*{\DrYt}[1]{\gls{DrYt}~#1}% Drōn Yašt
+\newcommand*{\DuP}[1]{\gls{DuP}~#1}% Du&#702;a Paymani
+\newcommand*{\FiO}[1]{\gls{FiO}~#1}% Frahang i Oim
+\newcommand*{\FrW}[1]{\gls{FrW}~#1}% Fragment Westergard
+\newcommand*{\G}[1]{\gls{G}~#1}% Gah
+\let\H\@undefined
+\newcommand*{\H}[1]{\gls{H}~#1}% Herbedestan
+\let\Herbedestan\H
+\newcommand*{\Hb}[1]{\gls{Hb}~#1}% Hosbam
+\let\HB\Hb
+\newcommand*{\HN}[1]{\gls{HN}~#1}% Hadoxt Nask
+\newcommand*{\N}[1]{\gls{N}~#1}% Nerangestan
+\newcommand*{\NiAb}[1]{\gls{NiAb}~#1}% Nērang-ī āb ud padyāb
+\newcommand*{\NiAs}[1]{\gls{NiAs}~#1}% Nirang Asoan
+\newcommand*{\Nirang}[1]{\gls{Nirang}~#1}% Nirang
+\newcommand*{\NiSY}[1]{\gls{NiSY}~#1}% Nirang Sangriza Yastan
+\newcommand*{\NkB}[1]{\gls{NkB}~#1}% Nerang i kustig bastan
+\newcommand*{\NS}[1]{\gls{NS}~#1}% Nam Stayisn
+\newcommand*{\Ny}[1]{\gls{Ny}~#1}% Nyayisn
+\newcommand*{\Par}[1]{\gls{Par}~#1}% Paragna
+\newcommand*{\PaIr}[1]{\gls{PaIr}~#1}% Patet Irani
+\newcommand*{\PaPas}[1]{\gls{PaPas}~#1}% Patet Pasemanih
+\newcommand*{\PaXw}[1]{\gls{PaXw}~#1}% Patet Xwad
+\newcommand*{\PazT}[1]{\gls{PazT}~#1}% Pazand texts
+\newcommand*{\PPhl}[1]{\gls{PPhl}~#1}% Payman i Pahlawi
+\newcommand*{\PS}[1]{\gls{PS}~#1}% Payman i Sanskrit
+\let\S\@undefined
+\newcommand*{\S}[1]{\gls{S}~#1}% Siroza
+\let\Siroza\S
+\newcommand*{\SrB}[1]{\gls{SrB}~#1}% Sros Baj
+\newcommand*{\Vd}[1]{\gls{Vd}~#1}% Videvdad
+\let\V\Vd
+\newcommand*{\VN}[1]{\gls{VN}~#1}% Vae&#977;a Nask
+\newcommand*{\Vr}[1]{\gls{Vr}~#1}% Visparad
+\newcommand*{\VrS}[1]{\gls{VrS}~#1}% Visperad Sade
+\newcommand*{\VS}[1]{\gls{VS}~#1}% Videvdad Sade
+\newcommand*{\Vyt}[1]{\gls{Vyt}~#1}% Vistasp Yast
+\newcommand*{\VytS}[1]{\gls{VytS}~#1}% Vishtasp Yasht Sade
+\newcommand*{\Y}[1]{\gls{Y}~#1}% Yasna
+\newcommand*{\Yt}[1]{\gls{Yt}~#1}% Yast
+\newcommand*{\YiR}[1]{\gls{YiR}~#1}% Yasna ī Rapihwin
+\newcommand*{\YVr}[1]{\gls{YVr}~1}% Yasna Visperad
+\newcommand*{\Ygah}[1]{\gls{Ygah}~#1}% Yazisn-gah
+
+\newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\XVE}{x\textsuperscript{v}}
 \newcommand*{\NGVE}{ŋ\textsuperscript{v}}
 
