@@ -63,7 +63,8 @@
 \RequirePackage{fontspec}
 \RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
-\setmainfont{Brill}
+% Uses proportional oldstyle numbers by default
+\setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \RequirePackage[driver=none]{geometry}
@@ -260,7 +261,7 @@
    afterskip={\dimexpr 2\baselineskip+\@addchapterheight\relax},
    innerskip=.5\baselineskip,
    font={\LARGE\bfseries},
-   prefixfont={\normalsize\mdseries\addfontfeatures{Numbers={Proportional,Lining}}\scshape},
+   prefixfont={\normalfont\normalsize\mdseries\addfontfeatures{Numbers=Lining}\scshape},
    tocnumwidth=\dimexpr\@tocstartindent\relax,
    tocindent=0pt,
    tocbeforeskip=\dimexpr\@addchaptertocskip\relax,
@@ -281,8 +282,6 @@
    }}%
    {#2}#3%
 }%
-
-\renewcommand*{\chapapp}{\MakeLowercase{\chaptername}}
 
 \newcommand{\introduction}[1]{%
    {%
@@ -453,8 +452,7 @@
 \addtokomafont{title}{\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \setkomafont{pagehead}{\normalfont\small\scshape}
-\setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers={Proportional,Lining}}\scshape}
-%\setkomafont{chapterprefix}{\normalsize\mdseries\addfontfeatures{Numbers={Proportional,Lining}}\scshape}
+\setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
 \addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular,Lining}}}%
@@ -588,7 +586,7 @@
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
-      \addfontfeatures{Numbers=Tabular}
+      \addfontfeatures{Numbers={Tabular,Lining}}
       \@tablefontsize
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
@@ -655,7 +653,7 @@
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
          {\begin{table}[\@tableplacement]}
-         \addfontfeatures{Numbers=Tabular}
+         \addfontfeatures{Numbers={Tabular,Lining}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
             \caption{\@tablecaption}%
