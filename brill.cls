@@ -253,11 +253,6 @@
    \chapterheadstartvskip%
 }{}{}%
 
-%\patchcmd[]{\scr@@makeschapterhead}{\chapterheadstartvskip}{%
-%   \chapterheadstartvskip%
-%   \vskip -.5\baselineskip%
-%}{}{}%
-
 \newlength{\@addchaptertocskip}
 \newlength{\@addchapterheight}
 \RedeclareSectionCommand[%
@@ -265,7 +260,7 @@
    afterskip={\dimexpr 2\baselineskip+\@addchapterheight\relax},
    innerskip=.5\baselineskip,
    font={\LARGE\bfseries},
-   prefixfont=\normalsize\mdseries\scshape,
+   prefixfont={\normalsize\mdseries\addfontfeatures{Numbers={Proportional,Lining}}\scshape},
    tocnumwidth=\dimexpr\@tocstartindent\relax,
    tocindent=0pt,
    tocbeforeskip=\dimexpr\@addchaptertocskip\relax,
@@ -284,9 +279,10 @@
          \chapterheadmidvskip%
       }%
    }}%
-   {\MakeLowercase{#2}}%
-   #3%
+   {#2}#3%
 }%
+
+\renewcommand*{\chapapp}{\MakeLowercase{\chaptername}}
 
 \newcommand{\introduction}[1]{%
    {%
@@ -457,10 +453,11 @@
 \addtokomafont{title}{\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \setkomafont{pagehead}{\normalfont\small\scshape}
-\setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
+\setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers={Proportional,Lining}}\scshape}
+%\setkomafont{chapterprefix}{\normalsize\mdseries\addfontfeatures{Numbers={Proportional,Lining}}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
 \addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
-\addtokomafont{footnotelabel}{\addfontfeatures{Numbers=Tabular}}%
+\addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular,Lining}}}%
 \addtokomafont{minisec}{\bfseries}%
 %\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25pt]{16mm}

@@ -7,14 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 
-## [0.12.4] -2019-09-02
+## [0.12.4] -2019-09-03
 
 ### Added
-- Book macros like `\Y` and `\Par` automatically set the abbreviation internally
+- All book macros like `\Y` and `\Par` automatically set the corresponding abbreviation internally
 
 ### Fixed
 - Correct size for page number in header to 11bp (was 10bp)
-
+- Correct prefix font for chapters to use lining proportional numbers
 
 ## [0.12.3] - 2019-08-29
 
@@ -205,6 +205,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.4]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.4
 [0.12.3]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.3
 [0.12.2]:
