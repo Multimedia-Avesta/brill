@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.5] - 2019-09-16
 
-## [0.12.4] -2019-09-03
+### Changed
+- Spacing after `\beforeblocktranslation` set to one blank line
+
+## [0.12.4] - 2019-09-03
 
 ### Added
 - All book macros like `\Y` and `\Par` automatically set the corresponding abbreviation internally
@@ -205,6 +209,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.12.5]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.5
 [0.12.4]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.4
 [0.12.3]:

@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/09/02 v0.12.4 A template for Brill publications]
+\ProvidesClass{brill}[2019/09/16 v0.12.5 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -854,6 +854,7 @@
 }
 \fi%
 
+\RequirePackage{shellesc}
 \RequirePackage{url}
 \urlstyle{same}
 \RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
@@ -990,6 +991,7 @@
    \begin{addmargin}[2\parindent]{0pt}%
       #1%
    \end{addmargin}%
+   \par\nopagebreak\vspace{\baselineskip}%
 }
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
 
@@ -1010,7 +1012,7 @@
       \ifstrempty{#1}%
          {}%
          {%
-            \par\noindent%
+            \par\nopagebreak\noindent%
             \begin{addmargin}[2\parindent]{0pt}%
                #1%
             \end{addmargin}%
@@ -1022,7 +1024,7 @@
       \ifstrempty{#1}%
          {}%
          {%
-            \par\noindent%
+            \par\nopagebreak\noindent%
             \begin{addmargin}[2\parindent]{0pt}%
                #1%
             \end{addmargin}%
