@@ -6,10 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- New macro `\Link{}` for a link to an existing attestation
+- New macro `\Sublemma*{}` for an "inline" variant of a sublemmata to be introduced by "|"
+- New list `Subsublemmata` and corresponding macros `\Subsublemma{}` and `\Subsublemma*{}` for nested attestations
+
+### Changed
+- Verbatim usage of `~` now supported within complete `Sublemmata` environment
+- Replaced `~` with `\nobreakspace` for macros to not interfere with verbatim usage in dictionary
+
+### Fixed
+- Indention for `Sublemmata` and `Subsublemmata` set to `\parindent` and `2\parindent` resp.
+
 ## [0.12.5] - 2019-09-16
 
 ### Changed
-- Spacing after `\beforeblocktranslation` set to one blank line
+- Spacing after `\beforeblocktranslation{}` set to one blank line
 
 ## [0.12.4] - 2019-09-03
 
