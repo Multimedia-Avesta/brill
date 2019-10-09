@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/10/01 v0.12.6 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/10/09 v0.12.7 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{luacode}
@@ -58,7 +58,7 @@ brill]
    columnsep=4mm,%
    options={--noheadings --config brill}
    ]%
-\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
+\protected\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
    \ifstrempty{\@rightword}%
@@ -72,14 +72,14 @@ brill]
       {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
 }%
 
-\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
+\protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
    \index[passages]{\indexlanguage!#1}\textup{#2}\index[passages]{\indexlanguage!#1}%
 }%
 
-\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
-\def\Subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
 \newcommand{\@indexnamesandsubjects}[1]{\index[namesandsubjects]{#1}}
 \newcommand{\@@indexnamesandsubjects}[2][]{\index[namesandsubjects]{#1}#2}
 
@@ -130,7 +130,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\def\Av{\@ifstar\@Av\@@Av}
+\protected\def\Av{\@ifstar\@Av\@@Av}
 \newcommand*{\@Av}[2][]{%
    \def\indexlanguage{B@Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
