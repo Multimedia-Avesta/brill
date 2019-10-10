@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/09 v0.12.7 A template for Brill publications]
+\ProvidesClass{brill}[2019/10/09 v0.13BETA A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -857,8 +857,13 @@
 \RequirePackage{shellesc}
 \RequirePackage{url}
 \urlstyle{same}
-\RequirePackage[colorlinks=true,allcolors=blue]{hyperref}
+\RequirePackage[colorlinks=true,allcolors=blue,unicode]{hyperref}
 \RequirePackage{bookmark}
+\pdfstringdefDisableCommands{%
+   \let\Av\relax%
+   \let\newline\space%
+   \def\textsuperscript#1{\textasciicircum(#1)}%
+}%
 \RequirePackage[%
    nomain,%
    abbreviations,%

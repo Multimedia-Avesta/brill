@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- PDF bookmarks now support Unicode
+
+### Fixed
+- Fix PDF bookmark for `\Av`
+
 ## [0.12.7] - 2019-10-09
 
 ### Fixed
