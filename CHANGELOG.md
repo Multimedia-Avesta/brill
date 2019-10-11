@@ -6,11 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.12.8] - 2019-10-11
+
 ### Added
 - PDF bookmarks now support Unicode
 
+### Changed
+- Macro `\G` had to be changed to `\Gah`, because it is used by `hyperref`
+
 ### Fixed
 - Fix PDF bookmark for `\Av`
+- Concrete width values led to errors due to a missing `begin{figure}`
 
 ## [0.12.7] - 2019-10-09
 

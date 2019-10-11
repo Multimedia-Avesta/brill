@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/09 v0.13BETA A template for Brill publications]
+\ProvidesClass{brill}[2019/10/11 v0.12.8 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -750,7 +750,11 @@
                         }%
                   }%
             }%
-         }[\setkeys{Gin}{width=\@figurewidth}]%
+         }[%
+            \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
+            \efigure%
+            \setkeys{Gin}{width=\@figurewidth}%
+          ]%
       }%
    }{%\end{brillfigure}
       \ifdefvoid{\@figurecaption}%
