@@ -427,8 +427,8 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 %%% Special characters
 %\newunicodechar{←}{{\freeserif\symbol{"2190}}}
 %\newunicodechar{→}{{\freeserif\symbol{"2192}}}
-\newunicodechar{〈}{{\freeserif\symbol{"2329}}}
-\newunicodechar{〉}{{\freeserif\symbol{"232A}}}
+\newunicodechar{〈}{\textlangle}% map U+2329 to U+27E8
+\newunicodechar{〉}{\textrangle}% map U+232A to U+27E9
 \newunicodechar{●}{{\freeserif\symbol{"25CF}}}
 \newunicodechar{✓}{{\freeserif\symbol{"2713}}}
 %%%
@@ -437,13 +437,9 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\leftwardsarrow}{←}
 \newcommand*{\rightwardsarrow}{→}
 \newcommand*{\sectionsign}{§}
-\ifdef{\textlangle}%
-   {\renewcommand*{\textlangle}{〈}}%
-   {\providecommand*{\textlangle}{〈}}
-\ifdef{\textrangle}%
-   {\renewcommand*{\textrangle}{〉}}%
-   {\providecommand*{\textrangle}{〉}}
-
+%%% remap from U+2329 to U+27E8 and from U+232A to U+27E9
+\renewcommand*{\textlangle}{⟨}% U+27E8
+\renewcommand*{\textrangle}{⟩}% U+27E9
 
 \newcommand{\Newtranslation}[2]{\csgdef{translation-#1}{#2}}
 \let\newtranslation\Newtranslation
