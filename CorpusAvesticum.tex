@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/10/11 v0.12.8 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/10/14 v0.13.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{luacode}
@@ -425,7 +425,7 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 
 %%% Special characters
 \newcommand*{\blackcircle}{{\freeserif\symbol{"25CF}}}
-\newcommand*{\checkmark}{{\freeserif\symbol{"2713}}}
+\renewcommand*{\checkmark}{{\freeserif\symbol{"2713}}}% from AMSmath
 \newcommand*{\leftwardsarrow}{\symbol{"2190}}
 \newcommand*{\rightwardsarrow}{\symbol{"2192}}
 \newcommand*{\sectionsign}{\symbol{"00A7}}

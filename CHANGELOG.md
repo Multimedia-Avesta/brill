@@ -6,9 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.13.0] - 2019-10-14
+
 ### Added
 - Macros `\backcircle`, `\checkmark`, `\leftwardsarrow`,  `\rightwardsarrow`, `\sectionsign`, `\textlangle`, `\textrangle`
 - Book name macros `\PY`, `\PVr`, `\PV`, `\SY`, `\SYt` and `\PYt`
+- Load font `Gnu FreeFont` for additional symbols
 
 ## [0.12.8] - 2019-10-11
 
@@ -244,6 +247,10 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.13.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.13.0
+[0.12.8]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.8
 [0.12.7]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.12.7
 [0.12.6]:
