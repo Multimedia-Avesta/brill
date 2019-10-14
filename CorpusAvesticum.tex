@@ -361,13 +361,6 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newenvironment{FrBlock}{\begin{otherlanguage*}{french}}{\end{otherlanguage*}}
 \newenvironment{GerBlock}{\begin{otherlanguage*}{ngerman}}{\end{otherlanguage*}}
 
-
-
-
-
-
-
-
 \newcommand*{\A}[1]{\gls{A}\nobreakspace{}#1}% Afrinagan
 \newcommand*{\ABu}[1]{\gls{ABu}\nobreakspace{}#1}% Afrin i Buzorgan
 \newcommand*{\AD}[1]{\gls{AD}\nobreakspace{}#1}% Afrin i Dahman
@@ -429,6 +422,15 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\aee}{ə\char"0304\relax}
 \newcommand*{\XVE}{x\textsuperscript{v}}
 \newcommand*{\NGVE}{ŋ\textsuperscript{v}}
+
+%%% Special characters
+\newcommand*{\blackcircle}{{\freeserif\symbol{"25CF}}}
+\newcommand*{\checkmark}{{\freeserif\symbol{"2713}}}
+\newcommand*{\leftwardsarrow}{\symbol{"2190}}
+\newcommand*{\rightwardsarrow}{\symbol{"2192}}
+\newcommand*{\sectionsign}{\symbol{"00A7}}
+\providecommand*{\textlangle}{\symbol{"27E8}}
+\providecommand*{\textrangle}{\symbol{"27E9}}
 
 \newcommand{\Newtranslation}[2]{\csgdef{translation-#1}{#2}}
 \let\newtranslation\Newtranslation

@@ -65,6 +65,15 @@
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
 % Uses proportional oldstyle numbers by default
 \setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
+\newfontfamily{\freeserif}{FreeSerif}%
+[%
+   Extension      = .otf,%
+   UprightFont    = *,%
+   BoldFont       = *Bold,%
+   ItalicFont     = *Italic,%
+   BoldItalicFont = *BoldItalic,%
+   Scale          = MatchLowercase,% 
+]% 
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \RequirePackage[driver=none]{geometry}

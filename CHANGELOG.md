@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Macros `\backcircle`, `\checkmark`, `\leftwardsarrow`,  `\rightwardsarrow`, `\sectionsign`, `\textlangle`, `\textrangle`
+- Book name macros `\PY`, `\PVr`, `\PV`, `\SY`, `\SYt` and `\PYt`
+
 ## [0.12.8] - 2019-10-11
 
 ### Added
