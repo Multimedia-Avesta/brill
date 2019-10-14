@@ -1,6 +1,7 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/10/14 v0.13.0 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/10/14 v0.13.1 Configuration file for 
 brill]
 \RequirePackage{xstring}
+\RequirePackage{newunicodechar}
 \RequirePackage{luacode}
 \begin{luacode*}
    function modifySorting()
@@ -424,13 +425,25 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \newcommand*{\NGVE}{ŋ\textsuperscript{v}}
 
 %%% Special characters
-\newcommand*{\blackcircle}{{\freeserif\symbol{"25CF}}}
-\renewcommand*{\checkmark}{{\freeserif\symbol{"2713}}}% from AMSmath
-\newcommand*{\leftwardsarrow}{\symbol{"2190}}
-\newcommand*{\rightwardsarrow}{\symbol{"2192}}
-\newcommand*{\sectionsign}{\symbol{"00A7}}
-\providecommand*{\textlangle}{\symbol{"27E8}}
-\providecommand*{\textrangle}{\symbol{"27E9}}
+%\newunicodechar{←}{{\freeserif\symbol{"2190}}}
+%\newunicodechar{→}{{\freeserif\symbol{"2192}}}
+\newunicodechar{〈}{{\freeserif\symbol{"2329}}}
+\newunicodechar{〉}{{\freeserif\symbol{"232A}}}
+\newunicodechar{●}{{\freeserif\symbol{"25CF}}}
+\newunicodechar{✓}{{\freeserif\symbol{"2713}}}
+%%%
+\newcommand*{\blackcircle}{●}
+\renewcommand*{\checkmark}{✓}% from AMSmath
+\newcommand*{\leftwardsarrow}{←}
+\newcommand*{\rightwardsarrow}{→}
+\newcommand*{\sectionsign}{§}
+\ifdef{\textlangle}%
+   {\renewcommand*{\textlangle}{〈}}%
+   {\providecommand*{\textlangle}{〈}}
+\ifdef{\textrangle}%
+   {\renewcommand*{\textrangle}{〉}}%
+   {\providecommand*{\textrangle}{〉}}
+
 
 \newcommand{\Newtranslation}[2]{\csgdef{translation-#1}{#2}}
 \let\newtranslation\Newtranslation

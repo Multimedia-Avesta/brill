@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/14 v0.13.0 A template for Brill publications]
+\ProvidesClass{brill}[2019/10/14 v0.13.1 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -875,6 +875,7 @@
 \pdfstringdefDisableCommands{%
    \let\Av\relax%
    \let\newline\space%
+   \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
 \RequirePackage[%
