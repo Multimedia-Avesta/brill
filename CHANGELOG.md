@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.14.0] - 2019-10-15
+
+### Added
+- Environment `alphenumerate` for enumeration with letters
+- Options `enumdot`, `enumspace`, `enumparen` and `enumenclparen` for fine-tuning
+- Options `alphenumdot`, `alphenumspace`, `alphenumparen` and `alphenumenclparen` for fine-tuning
+
+### Changed
+- Remap from U+2329 to U+27E8 and from U+232A to U+27E9
+
+## [0.13.1] - 2019-10-14
+
+### Fixed
+- Definition of `\textrangle` and `\textlangle`
+
 ## [0.13.0] - 2019-10-14
 
 ### Added
@@ -247,6 +262,10 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.14.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.14.0
+[0.13.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.13.1
 [0.13.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.13.0
 [0.12.8]:
