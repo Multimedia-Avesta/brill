@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/14 v0.13.1 A template for Brill publications]
+\ProvidesClass{brill}[2019/10/15 v0.14 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -7,8 +7,25 @@
    Please use \string\addbibresource{}\space directly.}}      
 \newif{\if@showgrid}
 \DeclareOption{showgrid}{\@showgridtrue}
+\newif\if@enumspace
+\DeclareOption{enumspace}{\@enumspacetrue}
+\newif\if@enumparen
+\DeclareOption{enumparen}{\@enumparentrue}
+\newif\if@enumenclparen
+\DeclareOption{enumenclparen}{\@enumenclparentrue}
+\newif\if@enumdot
+\DeclareOption{enumdot}{\@enumdottrue}
+%%%
+\newif\if@alphenumspace
+\DeclareOption{alphenumspace}{\@alphenumspacetrue}
+\newif\if@alphenumparen
+\DeclareOption{alphenumparen}{\@alphenumparentrue}
+\newif\if@alphenumenclparen
+\DeclareOption{alphenumenclparen}{\@alphenumenclparentrue}
+\newif\if@alphenumdot
+\DeclareOption{alphenumdot}{\@alphenumdottrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\ExecuteOptions{CorpusAvesticum}
+\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \ProcessOptions*\relax
 \RequirePackage{iftex}
 \RequireLuaTeX
@@ -479,8 +496,29 @@
 
 \RequirePackage{enumitem}
 \setlist{labelsep=*,align=left,nosep}
-\setlist[enumerate,1]{leftmargin=2\parindent}
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
+\setlist[enumerate,1]{leftmargin=2\parindent}
+\if@enumspace
+   \setlist[enumerate]{label=\arabic*}
+\fi%
+\if@enumparen
+   \setlist[enumerate]{label=\arabic*)}
+\fi%
+\if@enumenclparen
+   \setlist[enumerate]{label=(\arabic*)}
+\fi%
+%%%
+\newlist{alphenumerate}{enumerate}{2}
+\setlist[alphenumerate,1]{leftmargin=2\parindent,label=\alph*.}
+\if@alphenumspace
+   \setlist[alphenumerate]{label=\alph*}
+\fi%
+\if@alphenumparen
+   \setlist[alphenumerate]{label=\alph*)}
+\fi%
+\if@alphenumenclparen
+   \setlist[alphenumerate]{label=(\alph*)}
+\fi%
 %%\setlist[itemize,2]{leftmargin=\parindent,label=\textendash}
 \newlist{enuminline}{enumerate*}{1}
 \setlist[enuminline]{label=(\alph*),font=\upshape\bfseries,mode=unboxed}
