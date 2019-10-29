@@ -443,8 +443,18 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 
 \newcommand{\Newtranslation}[2]{\csgdef{translation-#1}{#2}}
 \let\newtranslation\Newtranslation
-\newcommand{\Gettranslation}[1]{\csuse{translation-#1}}
+\def\Gettranslation{\@ifstar\@Gettranslation\@@Gettranslation}
+\newcommand{\@Gettranslation}[1]{%
+   \bgroup%
+   \let\AvTr\@gobble%
+   \csuse{translation-#1}%
+   \egroup%
+}
+\newcommand{\@@Gettranslation}[1]{\csuse{translation-#1}}
 \let\gettranslation\Gettranslation
+\newcommand{\AvTr}[1]{#1}
+\newcommand{\Rd}[1]{#1}
+%%%
 \newif\if@usechapterref
 \newcommand*{\Chapterref}[1]{\if@usechapterref\textsuperscript{\ref{#1}}\fi}
 \let\chapterref\Chapterref
