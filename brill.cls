@@ -91,6 +91,24 @@
    BoldItalicFont = *BoldItalic,%
    Scale          = MatchLowercase,% 
 ]% 
+\newfontfamily{\avestanfont}{Noto Sans Avestan}%
+[%
+   Extension=.ttf,%
+   UprightFont=*-Regular,%
+]%
+\newfontfamily{\gujaratifont}{Noto Serif Gujarati}%
+[%
+   Extension=.ttf,%
+   UprightFont=*-Regular,%
+]%
+\newfontfamily{\pahlavifont}{Noto Sans Inscriptional Pahlavi}%
+[%
+   Extension=.ttf,%
+   UprightFont=*-Regular,%
+]%
+\newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
+\newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \RequirePackage[driver=none]{geometry}
