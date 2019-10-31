@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/29 v0.15BETA A template for Brill publications]
+\ProvidesClass{brill}[2019/10/31 v0.15BETA A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -91,6 +91,27 @@
    BoldItalicFont = *BoldItalic,%
    Scale          = MatchLowercase,% 
 ]% 
+\newfontfamily{\avestanfont}{NotoSansAvestan}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   Scale          = MatchLowercase,%
+]%
+\newfontfamily{\gujaratifont}{NotoSerifGujarati}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+]%
+\newfontfamily{\pahlavifont}{KHUSRO}%
+[%
+   Extension      = .TTF,%
+   UprightFont    = *__,%
+]%
+\newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
+\newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \RequirePackage[driver=none]{geometry}
