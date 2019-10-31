@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/10/29 v0.15BETA A template for Brill publications]
+\ProvidesClass{brill}[2019/10/31 v0.15BETA A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -91,20 +91,23 @@
    BoldItalicFont = *BoldItalic,%
    Scale          = MatchLowercase,% 
 ]% 
-\newfontfamily{\avestanfont}{Noto Sans Avestan}%
+\newfontfamily{\avestanfont}{NotoSansAvestan}%
 [%
-   Extension=.ttf,%
-   UprightFont=*-Regular,%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   Scale          = MatchLowercase,%
 ]%
-\newfontfamily{\gujaratifont}{Noto Serif Gujarati}%
+\newfontfamily{\gujaratifont}{NotoSerifGujarati}%
 [%
-   Extension=.ttf,%
-   UprightFont=*-Regular,%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
 ]%
-\newfontfamily{\pahlavifont}{Noto Sans Inscriptional Pahlavi}%
+\newfontfamily{\pahlavifont}{KHUSRO}%
 [%
-   Extension=.ttf,%
-   UprightFont=*-Regular,%
+   Extension      = .TTF,%
+   UprightFont    = *__,%
 ]%
 \newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}

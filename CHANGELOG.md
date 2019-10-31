@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.15.0] - 2019-10-31
+
+### Added
+- New fonts for Avestan, Gujarati and Pahlavi (requires new package `muyafonts`)
+- Macros `\textavestan`, `\textgujarati` and `\textpahlavi`
+
 ## [0.14.0] - 2019-10-15
 
 ### Added
@@ -262,6 +268,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.15.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.15.0
 [0.14.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.14.0
 [0.13.1]:
