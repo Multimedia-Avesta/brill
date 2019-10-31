@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New fonts for Avestan, Gujarati and Pahlavi (requires new package `muyafonts`)
 - Macros `\textavestan`, `\textgujarati` and `\textpahlavi`
+- Macros for all Avestan characters (cf. https://de.wikipedia.org/wiki/Unicodeblock_Avestisch)
 
 ## [0.14.0] - 2019-10-15
 
