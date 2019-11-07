@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Option `PhD` for special thesis format (SOAS)
+
 ## [0.15.0] - 2019-10-31
 
 ### Added

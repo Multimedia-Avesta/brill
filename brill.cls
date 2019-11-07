@@ -24,6 +24,8 @@
 \DeclareOption{alphenumenclparen}{\@alphenumenclparentrue}
 \newif\if@alphenumdot
 \DeclareOption{alphenumdot}{\@alphenumdottrue}
+\newif\if@PhD
+\DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 \ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \ProcessOptions*\relax
@@ -42,38 +44,73 @@
    toc=bibliography,%
    toc=numberline,%
 ]{scrbook}[2018/03/30]
-\def\normalsize{%
-  \@setfontsize\normalsize{11bp}{13.2bp}%
-  \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
-  \abovedisplayshortskip \z@ \@plus3\p@
-  \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
-  \belowdisplayskip \abovedisplayskip
-  \let\@listi\@listI
-}%
-\def\small{%
-  \@setfontsize\small{10bp}{13.2bp}%
-  \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
-  \abovedisplayshortskip \z@ \@plus2\p@
-  \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
-  \def\@listi{\leftmargin\leftmargini
-    \topsep 4\p@ \@plus2\p@ \@minus2\p@
-    \parsep 2\p@ \@plus\p@ \@minus\p@
-    \itemsep \parsep}%
-  \belowdisplayskip \abovedisplayskip
-}%
-\def\footnotesize{%
-  \@setfontsize\footnotesize{9bp}{11bp}%
-  \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
-  \abovedisplayshortskip \z@ \@plus\p@
-  \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
-  \def\@listi{\leftmargin\leftmargini
-    \topsep 3\p@ \@plus\p@ \@minus\p@
-    \parsep 2\p@ \@plus\p@ \@minus\p@
-    \itemsep \parsep}%
-  \belowdisplayskip \abovedisplayskip
-}%
-\def\large{\@setfontsize\large{13bp}{13bp}}%
-\def\LARGE{\@setfontsize\LARGE{16bp}{20bp}}%
+\if@PhD
+   \def\normalsize{%
+     \@setfontsize\normalsize{12bp}{18bp}%
+     \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+     \abovedisplayshortskip \z@ \@plus3\p@
+     \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+     \belowdisplayskip \abovedisplayskip
+     \let\@listi\@listI
+   }%
+   \def\small{%
+     \@setfontsize\small{11bp}{13.2bp}%
+     \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+     \abovedisplayshortskip \z@ \@plus2\p@
+     \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+     \def\@listi{\leftmargin\leftmargini
+       \topsep 4\p@ \@plus2\p@ \@minus2\p@
+       \parsep 2\p@ \@plus\p@ \@minus\p@
+       \itemsep \parsep}%
+     \belowdisplayskip \abovedisplayskip
+   }%
+   \def\footnotesize{%
+     \@setfontsize\footnotesize{9bp}{11bp}%
+     \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+     \abovedisplayshortskip \z@ \@plus\p@
+     \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+     \def\@listi{\leftmargin\leftmargini
+       \topsep 3\p@ \@plus\p@ \@minus\p@
+       \parsep 2\p@ \@plus\p@ \@minus\p@
+       \itemsep \parsep}%
+     \belowdisplayskip \abovedisplayskip
+   }%
+   \def\large{\@setfontsize\large{14bp}{14bp}}%
+   \def\LARGE{\@setfontsize\LARGE{17bp}{20bp}}%
+\else
+   \def\normalsize{%
+     \@setfontsize\normalsize{11bp}{13.2bp}%
+     \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
+     \abovedisplayshortskip \z@ \@plus3\p@
+     \belowdisplayshortskip 6\p@ \@plus3\p@ \@minus3\p@
+     \belowdisplayskip \abovedisplayskip
+     \let\@listi\@listI
+   }%
+   \def\small{%
+     \@setfontsize\small{10bp}{13.2bp}%
+     \abovedisplayskip 8.5\p@ \@plus3\p@ \@minus4\p@
+     \abovedisplayshortskip \z@ \@plus2\p@
+     \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+     \def\@listi{\leftmargin\leftmargini
+       \topsep 4\p@ \@plus2\p@ \@minus2\p@
+       \parsep 2\p@ \@plus\p@ \@minus\p@
+       \itemsep \parsep}%
+     \belowdisplayskip \abovedisplayskip
+   }%
+   \def\footnotesize{%
+     \@setfontsize\footnotesize{9bp}{11bp}%
+     \abovedisplayskip 6\p@ \@plus2\p@ \@minus4\p@
+     \abovedisplayshortskip \z@ \@plus\p@
+     \belowdisplayshortskip 3\p@ \@plus\p@ \@minus2\p@
+     \def\@listi{\leftmargin\leftmargini
+       \topsep 3\p@ \@plus\p@ \@minus\p@
+       \parsep 2\p@ \@plus\p@ \@minus\p@
+       \itemsep \parsep}%
+     \belowdisplayskip \abovedisplayskip
+   }%
+   \def\large{\@setfontsize\large{13bp}{13bp}}%
+   \def\LARGE{\@setfontsize\LARGE{16bp}{20bp}}%
+\fi%
 \KOMAoptions{parskip=never}
 \normalsize%
 \RequirePackage{luatex85}
@@ -104,24 +141,35 @@
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
 ]%
-\newfontfamily{\pahlavifont}{KHUSRO}%
+\newfontfamily{\pahlavifont}{KHUSRO__}%
 [%
    Extension      = .TTF,%
-   UprightFont    = *__,%
+   UprightFont    = *,%
 ]%
 \newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
-\RequirePackage[driver=none]{geometry}
-\geometry{%
-   paperwidth=155truemm,paperheight=235truemm,%
-   top=19.75truemm,headsep=4.75truemm,%
-   inner=20truemm,outer=20truemm,%
-   lines=40%
-}
-\RequirePackage[a4,center,frame]{crop}
+\if@PhD
+   \RequirePackage{geometry}
+   \geometry{%
+      a4paper,twoside=false,includehead,%
+      top=20truemm,bottom=20truemm,%
+      headsep=5truemm,%
+      left=40truemm,right=20truemm,%
+      heightrounded%
+   }
+\else
+   \RequirePackage[driver=none]{geometry}
+   \geometry{%
+      paperwidth=155truemm,paperheight=235truemm,%
+      top=19.75truemm,headsep=4.75truemm,%
+      inner=20truemm,outer=20truemm,%
+      lines=40%
+   }
+   \RequirePackage[a4,center,frame]{crop}
+\fi%
 \RequirePackage{luatexbase}
 \RequirePackage[%
    final,%
