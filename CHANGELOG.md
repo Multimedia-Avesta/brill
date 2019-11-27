@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Option `PhD` for special thesis format (SOAS)
 - Proof of concept of sorted dictionary
+- New level `Subsubsublemmata` and macros `\Subsubsublemma` and `\Subsubsublemma*`
+
+### Changed
+- Increase indent of sublemmata entries
 
 ## [0.15.0] - 2019-10-31
 
