@@ -8,13 +8,100 @@ brill]
       local f = io.open("passages.idx", "r+")
       local content = f:read("*all")
       f:seek('set')
-      -- f:close()
       content = string.gsub(content, "\\gls {([^}]*)}~?(%d+)%.(%d+)",
       function(a,b,c) return
          string.format("%s%03d.%03d@%s~%d.%d", a, b, c, a, b, c) end)
       f:write(content)
       f:close()
    end
+   
+   -- see if the file exists
+   function file_exists(file)
+     local f = io.open(file, "rb")
+     if f then f:close() end
+     return f ~= nil
+   end
+   
+   -- get all lines from a file, returns an empty 
+   -- list/table if the file does not exist
+   function lines_from(file)
+     if not file_exists(file) then return {} end
+     lines = {}
+     for line in io.lines(file) do 
+       lines[#lines + 1] = line
+     end
+     return lines
+   end
+   
+   function sortGlossary()
+      -- tests the functions above
+      local file = 'dictionary.tex'
+      local outfile = 'dictionaryconv.tex'
+      
+      if not file_exists(file) then return {} end
+      
+      local lines = lines_from(file)
+      local text = ""
+      local str = ""
+      local prevlemma = ""
+      local lemma = ""
+      local lemmacontent = ""
+      local result = {}
+      local newkeys = {}
+      local inDictionary = false
+      local f = assert(io.open(outfile, "w+"))
+      
+      for k,v in pairs(lines) do
+         -- get line k and process it
+         local str = lines[k]
+         
+         if string.match(str, "^\\begin{Dictionary}") then
+            f:write('\\begin{ModDictionary}', "\n")
+            inDictionary = true
+         elseif string.match(str, "^\\end{Dictionary}") then
+            -- we reached the end of the dictionary
+            -- start sorting process
+            newkeys = sortLemma(result)
+            -- use the keys to retrieve the values in the sorted order
+            for _, k in ipairs(newkeys) do
+               f:write('\n\\Lemma{' .. k .. '}' .. result[k])
+            end
+            -- if lines follow they should be processed as well
+            f:write('\n\\end{ModDictionary}', "\n")
+            inDictionary = false
+         end              
+         if inDictionary == false then
+--            if str ~= '\\end{Dictionary}' then
+--               f:write(str, "\n")
+--            end
+         else
+            lemma, text = string.match(str, "^\\Lemma{(.-)}(.*)$") --$
+            if lemma and lemma ~= '' then
+            -- we found a new lemma
+            -- write previous lemma (if any) to table
+               if prevlemma and prevlemma ~= '' then
+                  result[prevlemma] = lemmacontent
+               end
+            -- remember new lemma as prevlemma for next entry
+               prevlemma = lemma
+               lemmacontent = text
+            else
+               lemmacontent = lemmacontent .. "\n" .. str
+            end
+         end
+      end
+      f:close()
+   end
+   
+   function sortLemma (t)
+      local tkeys = {}
+      -- populate the table that holds the keys
+      for k in pairs(t) do table.insert(tkeys, k) end
+      -- sort the keys
+      table.sort(tkeys)
+      return tkeys
+   end
+         
 \end{luacode*}
 %\LuaCodeDebugOn
 \patchcmd{\imki@putindex}%
@@ -528,12 +615,16 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
+
+\NewEnviron{Dictionary}%
+   {}[\directlua{sortGlossary()}\input{dictionaryconv}]%
 % For the dictionary
-\newlist{Dictionary}{description}{1}
-\setlist[Dictionary]{%
+\newlist{ModDictionary}{description}{1}
+\setlist[ModDictionary]{%
    leftmargin=*,%
    font=\normalfont\bfseries\itshape%
 }
+%\newenvironment{Dictionary}{}{}
 \newlist{Meanings}{enumerate*}{1}
 \setlist[Meanings]{label=\arabic*.,mode=unboxed}
 \newlist{Sublemmata}{description}{1}
@@ -559,7 +650,21 @@ Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
    \unskip\nobreakspace|\nobreakspace{}{\bfseries\itshape #1}}
 \newcommand*{\@@Subsublemma}[1]{\item[#1]\@firstattestationtrue}
 
+\makeindex[%
+   name=dictionary,%
+   title={Index of Words},%
+   columns=2,%
+   columnsep=4mm,%
+   options={--noheadings --config muya}   
+   ]%
 \newcommand{\Lemma}[1]{\item[#1]\@addtosequenceofletters{#1}}
+%\newcommand{\cnt}{}
+%\NewEnviron{Lemma}[1]{%
+%   \@addtosequenceofletters{#1}
+%   \renewcommand{\cnt}{}%
+%   \gappto\cnt{\BODY}%
+%}[\index[dictionary]{\cnt}]
+
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
 
 \newcommand{\AirWb}[1]{\textit{AirWb}\nobreakspace{}#1}

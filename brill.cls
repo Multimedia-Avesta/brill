@@ -1044,19 +1044,19 @@
       \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
       \glossentrydesc{##1}\glspostdescription\space ##2%
       \tabularnewline
-  }%
-  \renewcommand{\subglossentry}[3]{%
-     &
-     \glssubentryitem{##2}%
-     \glstarget{##2}{\strut}\glossentrydesc{##2}%
-     \glspostdescription\space ##3%
-     \tabularnewline
-  }%
-  \ifglsnogroupskip
-    \renewcommand*{\glsgroupskip}{}%
-  \else
-    \renewcommand*{\glsgroupskip}{ & \tabularnewline}%
-  \fi%
+   }%
+   \renewcommand{\subglossentry}[3]{%
+      &
+      \glssubentryitem{##2}%
+      \glstarget{##2}{\strut}\glossentrydesc{##2}%
+      \glspostdescription\space ##3%
+      \tabularnewline
+   }%
+   \ifglsnogroupskip
+      \renewcommand*{\glsgroupskip}{}%
+   \else
+      \renewcommand*{\glsgroupskip}{ & \tabularnewline}%
+   \fi%
 }
 \setglossarystyle{brill}
 \renewcommand{\glossarypreamble}{\small}
