@@ -1,4 +1,4 @@
-%%% 2019/05/15 v0.10.0
+%%% 2019/11/27 v0.16
 %%% Horizonal spacing for all three levels
 delim_0 "\\quad "
 delim_1 "\\quad "

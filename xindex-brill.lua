@@ -7,7 +7,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-brill'] = {
-      version = 0.13,
+      version = 0.16,
       comment = "main configuration to xindex.lua",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
