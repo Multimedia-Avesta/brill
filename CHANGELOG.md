@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Sorting now works on the complete `\Lemma`
+- `f` and `ṃ` are now considered for the Gujarati sort order
+
 ## [0.16.0] - 2019-11-27
 
 ### Added

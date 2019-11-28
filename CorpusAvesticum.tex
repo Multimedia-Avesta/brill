@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/11/28 v0.17 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/11/28 v0.17BETA Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{newunicodechar}
@@ -112,29 +112,29 @@ brill]
       local s2 = string.gsub(b, '-$', '')--$
       local so1, so2
       
-      texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
+      -- texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
       -- if both strings are equal we stop processing
       if s1 ~= s2 then
       -- as long as both strings have equal characters (and are both not empty)
       -- get the next sorting letter and compare them
-      while s1 ~= '' and s2 ~= '' do
-         -- texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
-         so1, s1 = sortletter(s1)
-         so2, s2 = sortletter(s2)
-         -- texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
-         -- texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
-         if so1 < so2 then
+         while s1 ~= '' and s2 ~= '' do
+            -- texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
+            so1, s1 = sortletter(s1)
+            so2, s2 = sortletter(s2)
+            -- texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
+            -- texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
+            if so1 < so2 then
+               return true
+            elseif so1 > so2 then
+               return false
+            end
+            -- texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
+         end
+         if s1 == '' then
             return true
-         elseif so1 > so2 then
+         else
             return false
          end
-         -- texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
-      end
-      if s1 == '' then
-         return true
-      else
-         return false
-      end
       else
          return false
       end
@@ -142,13 +142,13 @@ brill]
    
    function sortletter (s)
       local gujorder = {["a"] = 1, ["ā"] = 2, ["i"] = 3, ["ī"] = 4,["u"] = 5,
-      ["ū"] = 6, ["r̥"] = 7, ["e"] = 8, ["o"] = 9, ["k"] = 10, ["kh"] = 11,
-      ["g"] = 12, ["gh"] = 13, ["ṅ"] = 14, ["c"] = 15, ["ch"] = 16,
-      ["j"] = 17, ["jh"] = 18, ["ñ"] = 19, ["ṭ"] = 20, ["ṭh"] = 21,
-      ["ḍ"] = 22, ["ḍh"] = 23, ["ṇ"] = 24, ["t"] = 25, ["th"] = 26, ["d"] = 27, 
-      ["dh"] = 28, ["n"] = 29, ["p"] = 30, ["ph"] = 31, ["b"] = 32,
-      ["bh"] = 33, ["m"] = 34, ["y"] = 35, ["r"] = 36, ["l"] = 37, ["v"] = 38,
-      ["ś"] = 39, ["ṣ"] = 40,["s"] = 41, ["h"] = 42, ["ḷ"] = 43}   
+      ["ū"] = 6, ["r̥"] = 7, ["e"] = 8, ["o"] = 9, ["ṃ"] = 10, ["k"] = 11, 
+      ["kh"] = 12, ["g"] = 13, ["gh"] = 14, ["ṅ"] = 15, ["c"] = 16, ["ch"] = 17,
+      ["j"] = 18, ["jh"] = 19, ["ñ"] = 20, ["ṭ"] = 21, ["ṭh"] = 22,
+      ["ḍ"] = 23, ["ḍh"] = 24, ["ṇ"] = 25, ["t"] = 26, ["th"] = 27, ["d"] = 28, 
+      ["dh"] = 29, ["n"] = 30, ["p"] = 31, ["ph"] = 32, ["f"] = 33, ["b"] = 34,
+      ["bh"] = 35, ["m"] = 36, ["y"] = 37, ["r"] = 38, ["l"] = 39, ["v"] = 40,
+      ["ś"] = 41, ["ṣ"] = 42,["s"] = 43, ["h"] = 44, ["ḷ"] = 45}   
       local sortletter = ''
       
       -- If s is at last two characters long, we check, whether the first two 
