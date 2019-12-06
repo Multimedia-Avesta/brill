@@ -37,44 +37,99 @@ function sortGlossary()
    local lines = lines_from(file)
    local text = ""
    local sublemmatext = ""      
+   local subsublemmatext = ""      
+   local subsubsublemmatext = ""      
    local str = ""
    local prevlemma = ""
    local prevsublemma = ""
+   local prevsubsublemma = ""   
+   local prevsubsubsublemma = ""   
    local lemma = ""
    local sublemma = ""
+   local subsublemma = ""
+   local subsubsublemma = ""   
    local lemmacontent = ""
    local sublemmacontent = ""      
+   local subsublemmacontent = ""      
+   local subsubsublemmacontent = ""         
    local result = {}
    local sl = {}
+   local ssl = {}
+   local sssl = {}
    local newkeys = {}
    local inDictionary = false
    local inSublemmata = false
+   local inSubsublemmata = false
+   local inSubsubsublemmata = false   
    local f = assert(io.open(outfile, "w+"))
    
    for k,v in pairs(lines) do
       -- get line k and process it
       local str = lines[k]
       
-      if string.match(str, "^\\begin{Dictionary}") then
+      if string.match(str, "^%s*\\begin{Dictionary}") then
          f:write('\\begin{ModDictionary}', "\n")
          inDictionary = true
-      elseif string.match(str, "^\\begin{Sublemmata}") then
+      elseif string.match(str, "^%s*\\begin{Sublemmata}") then
          inSublemmata = true
+         -- Write line to top-level structure
+         lemmacontent = lemmacontent .. "\n\\begin{Sublemmata}"
+         -- define an empty table for sublemmata environment
          sl = {}
-         --strSubLemmata = ''
-         lemmacontent = lemmacontent .. "\n\\begin{SubLemmata}"
-      elseif string.match(str, "^\\end{Sublemmata}") then
+      elseif string.match(str, "^%s*\\begin{Subsublemmata}") then
+         inSubsublemmata = true
+         -- Write line to top-level structure
+         sublemmacontent = sublemmacontent .. "\n\\begin{Subsublemmata}"
+         -- define an empty table for sublemmata environment
+         ssl = {}
+      elseif string.match(str, "^%s*\\begin{Subsubsublemmata}") then
+         inSubsubsublemmata = true
+         -- Write line to top-level structure
+         subsublemmacontent = subsublemmacontent .. 
+         "\n\\begin{Subsubsublemmata}"
+         -- define an empty table for sublemmata environment
+         sssl = {}
+      elseif string.match(str, "^%s*\\end{Subsubsublemmata}") then
+         if prevsubsubsublemma and prevsubsubsublemma ~= '' then
+            sssl[prevsubsubsublemma] = subsubsublemmacontent
+         end
+         newkeys = sortLemma(sssl)
+         -- use the keys to retrieve the values in the sorted order
+         -- we write the sorted content to the top level structure
+         for _, k in ipairs(newkeys) do
+            subsublemmacontent = subsublemmacontent .. '\n' .. 
+               '\\Subsubsublemma{' .. k .. '}' .. sssl[k]
+         end
+         subsublemmacontent = subsublemmacontent .. "\n\\end{Subsubsublemmata}"
+         inSubsubsublemmata = false
+      elseif string.match(str, "^%s*\\end{Subsublemmata}") then
+         if prevsubsublemma and prevsubsublemma ~= '' then
+            ssl[prevsubsublemma] = subsublemmacontent
+         end
+         newkeys = sortLemma(ssl)
+         -- use the keys to retrieve the values in the sorted order
+         -- we write the sorted content to the top level structure
+         for _, k in ipairs(newkeys) do
+            sublemmacontent = sublemmacontent .. '\n' .. 
+               '\\Subsublemma{' .. k .. '}' .. ssl[k]
+         end
+         sublemmacontent = sublemmacontent .. "\n\\end{Subsublemmata}"
+         inSubsublemmata = false
+      elseif string.match(str, "^%s*\\end{Sublemmata}") then
+         --texio.write_nl("End sublemmata")
          if prevsublemma and prevsublemma ~= '' then
             sl[prevsublemma] = sublemmacontent
          end
          newkeys = sortLemma(sl)
          -- use the keys to retrieve the values in the sorted order
+         -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
-            lemmacontent = lemmacontent .. "\n" .. sl[k]               
+            lemmacontent = lemmacontent .. '\n' .. 
+               '\\Sublemma{' .. k .. '}' .. sl[k]
          end
          lemmacontent = lemmacontent .. "\n\\end{Sublemmata}"
          inSublemmata = false
-      elseif string.match(str, "^\\end{Dictionary}") then
+      elseif string.match(str, "^%s*\\end{Dictionary}") then
          -- we reached the end of the dictionary
          -- write last lemma to file
          if prevlemma and prevlemma ~= '' then
@@ -89,38 +144,74 @@ function sortGlossary()
          -- if lines follow they should be processed as well
          f:write('\n\\end{ModDictionary}', "\n")
          inDictionary = false
-      end              
-      if inDictionary == false then
---            if str ~= '\\end{Dictionary}' then
---               f:write(str, "\n")
---            end
       else
-         if inSublemmata == true then
-            sublemma, sublemmatext = string(str, "^\\Sublemma{(.-)}(.*)$")--$
-            if sublemma and sublemma ~= '' then
-            -- we found a new sublemma
-               if prevsublemma and prevsublemma ~= '' then
-                  sl[prevsublemma] = sublemmacontent
-               end
-               -- remember new sublemma as prevsublemma for next entry
-               prevsublemma = sublemma
-               sublemmacontent = sublemmatext
-            else
-               sublemmacontent = sublemmacontent .. "\n" .. str
-            end               
+         if inDictionary == false then
          else
-            lemma, text = string.match(str, "^\\Lemma{(.-)}(.*)$") --$
-            if lemma and lemma ~= '' then
-            -- we found a new lemma
-            -- write previous lemma (if any) to table
-               if prevlemma and prevlemma ~= '' then
-                  result[prevlemma] = lemmacontent
-               end
-            -- remember new lemma as prevlemma for next entry
-               prevlemma = lemma
-               lemmacontent = text
+            if inSubsubsublemmata == true then
+               subsubsublemma, subsubsublemmatext = 
+                  string.match(str, "^%s*\\Subsubsublemma{(.-)}(.*)$")--$
+               if subsubsublemma and subsubsublemma ~= '' then
+               -- we found a new sublemma
+                  if prevsubsubsublemma and prevsubsubsublemma ~= '' then
+                     sssl[prevsubsubsublemma] = subsubsublemmacontent
+                  end
+                  -- remember new sublemma as prevsublemma for next entry
+                  prevsubsubsublemma = subsubsublemma
+                  subsubsublemmacontent = subsubsublemmatext
+               else
+                  subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
+               end                                    
+            elseif inSubsublemmata == true then
+               subsublemma, subsublemmatext = 
+                  string.match(str, "^%s*\\Subsublemma{(.-)}(.*)$")--$
+               if subsublemma and subsublemma ~= '' then
+               -- we found a new sublemma
+                  if prevsubsublemma and prevsubsublemma ~= '' then
+                     ssl[prevsubsublemma] = subsublemmacontent
+                  end
+                  -- remember new sublemma as prevsublemma for next entry
+                  prevsubsublemma = subsublemma
+                  subsublemmacontent = subsublemmatext
+                  prevsubsubsublemma = ''
+                  subsubsublemmacontent = ''
+               else
+                  subsublemmacontent = subsublemmacontent .. "\n" .. str
+               end                           
+            elseif inSublemmata == true then
+               sublemma, sublemmatext = 
+                  string.match(str, "^%s*\\Sublemma{(.-)}(.*)$")--$
+               if sublemma and sublemma ~= '' then
+               -- we found a new sublemma
+                  if prevsublemma and prevsublemma ~= '' then
+                     sl[prevsublemma] = sublemmacontent
+                  end
+                  -- remember new sublemma as prevsublemma for next entry
+                  prevsublemma = sublemma
+                  sublemmacontent = sublemmatext
+                  prevsubsublemma = ''
+                  subsublemmacontent = '' 
+               else
+                  sublemmacontent = sublemmacontent .. "\n" .. str
+               end               
             else
-               lemmacontent = lemmacontent .. "\n" .. str
+               --texio.write_nl("Check line within dictionary")
+               lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+               if lemma and lemma ~= '' then
+   --            texio.write_nl("Found new lemma " .. lemma)            
+               -- we found a new lemma
+               -- write previous lemma (if any) to table
+                  if prevlemma and prevlemma ~= '' then
+                     result[prevlemma] = lemmacontent
+                  end
+               -- remember new lemma as prevlemma for next entry
+                  prevlemma = lemma
+                  lemmacontent = text
+               -- delete old entries for sublemma
+                  prevsublemma = ''
+                  sublemmacontent = '' 
+               else
+                  lemmacontent = lemmacontent .. "\n" .. str
+               end
             end
          end
       end
