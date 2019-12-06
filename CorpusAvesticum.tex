@@ -89,8 +89,6 @@ brill]
       {Goth}{\def\indexlanguage{Gothic}\itshape}%
       {Grk}{\def\indexlanguage{Greek}\upshape}%
       {Guj}{\def\indexlanguage{Gujarati}\itshape}%
-      %{IE}{\def\indexlanguage{O@Indo-European}\itshape}%
-      %{IIr}{\def\indexlanguage{L@Indo-Iranian}\itshape}%
       {IMP}{\def\indexlanguage{Inscriptional Middle Persian}\itshape}%
       {IParth}{\def\indexlanguage{Inscriptional Parthian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
@@ -109,9 +107,11 @@ brill]
       {PGmc}{\def\indexlanguage{Proto-Germanic}\itshape}%
       {Phl}{\def\indexlanguage{Pahlavi}\itshape}%
       {PIE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
+      {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
       {Pli}{\def\indexlanguage{PāỊi}\itshape}%
       {Pra}{\def\indexlanguage{Prakrit}\itshape}%
       {PrIIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
+      {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {PrIr}{\def\indexlanguage{Proto-Iranian}\itshape}%
       {Pz}{\def\indexlanguage{Pāzand}\itshape}%
       {Skt}{\def\indexlanguage{Sanskrit}\itshape}%
@@ -176,16 +176,6 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Gujr\Guj   
-%\newcommand*{\IE}[2][]{%
-%   \def\indexlanguage{O@Indo-European}%
-%   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-%   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-%   \resetlanguage}
-%\newcommand*{\IIr}[2][]{%
-%   \def\indexlanguage{L@Indo-Iranian}%
-%   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-%   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-%   \resetlanguage}
 \newcommand*{\IMP}[2][]{%
    \def\indexlanguage{Inscriptional Middle Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -295,6 +285,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\IE\PIE% 
 \newcommand*{\Pli}[2][]{%
    \def\indexlanguage{PāỊi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -310,6 +301,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\let\IIr\PrIIr%   
 \newcommand*{\PrIr}[2][]{%
    \def\indexlanguage{roto-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -363,8 +355,6 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{IParthBlock}{\def\indexlanguage{Inscriptional Parthian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-%\newenvironment{IEBlock}{\def\indexlanguage{O@Indo-European}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-%\newenvironment{IIrBlock}{\def\indexlanguage{L@Indo-Iranian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{KhotBlock}{\def\indexlanguage{Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LatBlock}{\def\indexlanguage{Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{MAvBlock}{%
@@ -402,14 +392,18 @@ brill]
 \newenvironment{PIEBlock}{%
    \def\indexlanguage{Proto-Indo-European}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\let\IEBlock\PIEBlock
+\let\endIEBlock\endPIEBlock   
 \newenvironment{PliBlock}{\def\indexlanguage{PāỊi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PraBlock}{\def\indexlanguage{Prakrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PrIIrBlock}{\def\indexlanguage{Proto-Indo-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
+\let\IIrBlock\PrIIrBlock
+\let\endIIrBlock\endPrIIrBlock   
 \newenvironment{PrIrBlock}{\def\indexlanguage{Proto-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
-\let\PIrBlock\PrIrBlock
-\let\endPIrBlock\endPrIrBlock
+%\let\PIrBlock\PrIrBlock
+%\let\endPIrBlock\endPrIrBlock
 \newenvironment{PzBlock}{\def\indexlanguage{Pāzand}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{SkrBlock}{\def\indexlanguage{Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\SaBlock\SkrBlock
@@ -478,7 +472,7 @@ brill]
 %\newbook{Nirang}
 \newbook{NiSY}
 \newbook{NkB}
-\newbook{NP}
+%\newbook{NP}
 \newbook{NS}
 \newbook{Ny}
 \newbook{PaIr}
@@ -512,8 +506,8 @@ brill]
 \let\Vd\V
 \newbook{VN}
 \newbook{Vr}
-%\newbook{VrS}
-%\newbook{VS}
+\newbook{VrS}
+\newbook{VS}
 \newbook{Vyt}
 \newbook{VytS}
 \newbook{WD}
