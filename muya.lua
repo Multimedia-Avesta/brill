@@ -1,3 +1,4 @@
+-- 2019/12/06 v0.17
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
@@ -231,19 +232,21 @@ end
 function compare (a,b)
    -- before sorting, we remove dashes at the end
    local s1 = string.gsub(a, '-$', '')--$
+   --s1 = string.gsub(s1, 'ṃ', 'ṃ')
    local s2 = string.gsub(b, '-$', '')--$
+   --s2 = string.gsub(s2, 'ṃ', 'ṃ')
    local so1, so2
    
-   -- texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
+   --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
    -- if both strings are equal we stop processing
    if s1 ~= s2 then
    -- as long as both strings have equal characters (and are both not empty)
    -- get the next sorting letter and compare them
       while s1 ~= '' and s2 ~= '' do
-         -- texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
-         -- texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
+         --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
          -- texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
          if so1 < so2 then
             return true
@@ -287,6 +290,7 @@ function sortletter (s)
    if gujorder[sortletter] then
       return gujorder[sortletter], string.sub(s, string.len(sortletter) + 1)
    else -- if there is a letter we don't know, insert at the very end
+      texio.write_nl("Unknown letter " .. sortletter)
       return 99, string.sub(s, string.len(sortletter) + 1)
    end
 end

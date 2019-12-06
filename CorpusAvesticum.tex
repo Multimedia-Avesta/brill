@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/11/28 v0.17BETA Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/12/06 v0.17 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{newunicodechar}
@@ -629,7 +629,6 @@ brill]
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
-
 \NewEnviron{Dictionary}%
    {}[\directlua{sortGlossary()}\input{dictionaryconv}]%
 % For the dictionary
@@ -722,7 +721,7 @@ brill]
 \gdef\@lastinitialletter{}
 \gdef\@sequenceofletters{}
 \gdef\@@sequenceofletters{}
-\AfterEndEnvironment{Dictionary}{%
+\AfterEndEnvironment{ModDictionary}{%
    \immediate\write\@auxout{\string\gdef\string\@sequenceofletters{\@@sequenceofletters}}}
 \newcommand{\@addtosequenceofletters}[1]{%
    \StrLeft{#1}{1}[\@initialletter]
@@ -737,7 +736,6 @@ brill]
 }
 \newcommand{\Sequenceofletters}{Sequence of 
 letters:\\\@sequenceofletters\par\vspace{\baselineskip}\noindent}
-
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%

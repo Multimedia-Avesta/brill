@@ -6,9 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.17.0] - 2019-12-06
+
 ### Added
-- Sorting now works on the complete `\Lemma`
+- Sorting now works for the complete word on the all four levels (* handling still missing)
 - `f` and `ṃ` are now considered for the Gujarati sort order
+- Some languages
+
+### Changed
+- Sorting of languages for Index of Words now alphabetically
 
 ## [0.16.0] - 2019-11-27
 
@@ -283,6 +289,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.17.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.17.0
 [0.16.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.16.0
 [0.15.0]:
