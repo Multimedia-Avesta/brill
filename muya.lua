@@ -3,9 +3,10 @@ function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
    f:seek('set')
-   content = string.gsub(content, "\\gls {([^}]*)}~?(%d+)%.(%d+)",
-   function(a,b,c) return
-      string.format("%s%03d.%03d@%s~%d.%d", a, b, c, a, b, c) end)
+   content = string.gsub(content, 
+   "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)%.(%d+)",
+   function(a,b,c) return string.format(
+      "%s%03d.%03d@%s\\nobreakspace{}%d.%d", a, b, c, a, b, c) end)
    f:write(content)
    f:close()
 end
