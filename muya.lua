@@ -1,4 +1,4 @@
--- 2019/12/06 v0.17
+-- 2019/12/09 v0.17.1
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
