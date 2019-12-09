@@ -1,4 +1,4 @@
--- 2019/12/09 v0.17.1
+-- 2019/12/09 v0.18.0
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
@@ -31,7 +31,7 @@ end
 
 function sortGlossary()
    -- tests the functions above
-   local file = 'dictionary.tex'
+   local file = status.filename
    local outfile = 'dictionaryconv.tex'
    
    if not file_exists(file) then return {} end
@@ -232,9 +232,9 @@ end
 
 function compare (a,b)
    -- before sorting, we remove dashes at the end
-   local s1 = string.gsub(a, '-$', '')--$
+   local s1 = string.gsub(a, '^-?(.+)-?$', '%1')--$
    --s1 = string.gsub(s1, 'ṃ', 'ṃ')
-   local s2 = string.gsub(b, '-$', '')--$
+   local s2 = string.gsub(b, '^-?(.+)-?$', '%1')--$
    --s2 = string.gsub(s2, 'ṃ', 'ṃ')
    local so1, so2
    

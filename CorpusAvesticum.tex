@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2019/12/09 v0.17.1 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2019/12/09 v0.18.0 Configuration file for 
 brill]
 \RequirePackage{xstring}
 \RequirePackage{newunicodechar}
@@ -721,12 +721,16 @@ brill]
 \gdef\@lastinitialletter{}
 \gdef\@sequenceofletters{}
 \gdef\@@sequenceofletters{}
+%%\AtBeginEnvironment{ModDictionary}{\gdef\@@sequenceofletters{}}
 \AfterEndEnvironment{ModDictionary}{%
    \immediate\write\@auxout{\string\gdef\string\@sequenceofletters{\@@sequenceofletters}}}
 \newcommand{\@addtosequenceofletters}[1]{%
-   \StrLeft{#1}{1}[\@initialletter]
+   \StrLeft{#1}{1}[\@@initialletter]
+   \ifdefstrequal{\@initialletter}{-}
+      {\StrLeft{\@initialletter}{1}[\@initialletter]}%
+      {\let\@initialletter\@@initialletter}
    \ifdefstrequal{\@initialletter}{\@lastinitialletter}
-      {}
+      {}%
       {%
          \ifstr{\@@sequenceofletters}{}
             {\xappto\@@sequenceofletters{\@initialletter}}%
@@ -734,8 +738,9 @@ brill]
          \let\@lastinitialletter\@initialletter
       }%
 }
-\newcommand{\Sequenceofletters}{Sequence of 
-letters:\\\@sequenceofletters\par\vspace{\baselineskip}\noindent}
+\newcommand{\Sequenceofletters}{Sequence of letters:\\%
+   \@sequenceofletters\gdef\@@sequenceofletters{}%
+   \par\vspace{\baselineskip}\noindent}
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%
