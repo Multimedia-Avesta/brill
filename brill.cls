@@ -133,6 +133,7 @@
    Extension      = .ttf,%
    UprightFont    = *-Regular,%
    Scale          = MatchLowercase,%
+   Script         = Avestan,%
 ]%
 \newfontfamily{\gujaratifont}{NotoSerifGujarati}%
 [%
@@ -140,7 +141,17 @@
    UprightFont    = *-Regular,%
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
+   Script         = Gujarati,%
 ]%
+\newfontfamily{\arabicfont}{NotoNaskhArabic}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+   Script         = Arabic,%
+]%
+
 \newfontfamily{\pahlavifont}{KHUSRO__}%
 [%
    Extension      = .TTF,%
@@ -148,6 +159,7 @@
 ]%
 \newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
+\newcommand{\textarabic}[1]{\bgroup\arabicfont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
