@@ -229,7 +229,12 @@
 \fi%   
 %%%\RequirePackage{fnpct}
 \RequirePackage[savepos,abspage,user]{zref}
+\newlength{\normalparindent}
 \newlength{\fnlabelsep}
+\AtBeginDocument{%
+   \setlength{\normalparindent}{\parindent}%
+   \setlength{\fnlabelsep}{\normalparindent}%
+}
 \newcommand\actcounterT{}
 \newcommand\actcounterH{}
 \newcounter{chaptercount}
@@ -567,8 +572,6 @@
 %\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25pt]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
-\newlength{\normalparindent}
-\AtBeginDocument{\setlength{\normalparindent}{\parindent}}
 %%%\deffootnote[1.25em]{1.25em}{1.25em}{\makebox[1.25em][r]{\thefootnotemark}\
 %% }
 %%\deffootnotemark{\thefootnotemark}
