@@ -349,13 +349,20 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Phl}[2][]{%
-   \@ifnextchar\bgroup{\@Phl[#1]{#2}}{\@Phl[#1]{#2}{}}}
-\newcommand*{\@Phl}[3][]{%
+\newif\if@PhlNoEmph   
+\def\Phl{\@ifstar{\@PhlNoEmphtrue\@Phl}{\@PhlNoEmphfalse\@Phl}}
+\newcommand*{\@Phl}[2][]{%
+   \@ifnextchar\bgroup{\@@Phl[#1]{#2}}{\@@Phl[#1]{#2}{}}}
+\newcommand*{\@@Phl}[3][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \textit{#2}%
-   \ifstrempty{#3}{}{\ 〈#3〉}%
+   \if@PhlNoEmph%
+      #2%
+      \ifstrempty{#3}{}{\ #3}%
+   \else%
+      \textit{#2}%
+      \ifstrempty{#3}{}{\ \textlangle{}#3\textrangle{}}%
+   \fi%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
