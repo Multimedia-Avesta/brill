@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2019/12/09 v0.18.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/01/07 v0.20.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -44,6 +44,9 @@
    toc=bibliography,%
    toc=numberline,%
 ]{scrbook}[2018/03/30]
+% In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
+% We make sure, that this macro exists for older versions as well.
+\ifundef{\Ifstr}{\let\Ifstr\ifstr}}{}
 \if@PhD
    \def\normalsize{%
      \@setfontsize\normalsize{12bp}{18bp}%
@@ -497,28 +500,28 @@
 %%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
 
 \renewcommand{\sectionlinesformat}[4]{%
-   \ifstr{#1}{section}{%
+   \Ifstr{#1}{section}{%
       \makebox[12mm][l]{\upshape #3}%
    }{%
-      \ifstr{#1}{subsection}{%
+      \Ifstr{#1}{subsection}{%
          \makebox[12mm][l]{\upshape #3}%
       }{%
-         \ifstr{#1}{subsubsection}{%
+         \Ifstr{#1}{subsubsection}{%
             \makebox[16mm][l]{\upshape #3}%
          }{%
-            \ifstr{#1}{subthreesection}{%
+            \Ifstr{#1}{subthreesection}{%
                \makebox[16mm][l]{\upshape #3}%
             }{%
-               \ifstr{#1}{subfoursection}{%
+               \Ifstr{#1}{subfoursection}{%
                   \makebox[20mm][l]{\upshape #3}%   
                }{%
-                  \ifstr{#1}{subfivesection}{%
+                  \Ifstr{#1}{subfivesection}{%
                      \makebox[20mm][l]{\upshape #3}%
                   }{%
-                     \ifstr{#1}{paragraph}{%
+                     \Ifstr{#1}{paragraph}{%
                         \makebox[24mm][l]{\upshape #3}%
                      }{%
-                        \ifstr{#1}{subparagraph}{%
+                        \Ifstr{#1}{subparagraph}{%
                            \makebox[24mm][l]{\upshape #3}%
                         }{}%
                      }%
@@ -653,51 +656,51 @@
 \newtoggle{@figurelandscape}
 \define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurecaption{#1}}%
       {\def\@tablecaption{#1}}%
 }%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
 \define@key{brill}{label}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurelabel{#1}}%
       {\def\@tablelabel{#1}}%
 }%
 \define@key{brill}{orientation}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
    	  {\def\@figureorientation{#1}}%
    	  {\def\@tableorientation{#1}}%
 }%
 \define@key{brill}{placement}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figureplacement{#1}}%
       {\def\@tableplacement{#1}}%
 }%
 \define@key{brill}{shortcaption}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figureshortcaption{#1}}%
       {\def\@tableshortcaption{#1}}%
 }%
 \define@key{brill}{width}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurewidth{#1}}%
       {\def\@tablewidth{#1}}%
 }%
 \define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
 \define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
 \define@key{brill}{landscape}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\settoggle{@figurelandscape}{#1}}%
       {\settoggle{@tablelandscape}{#1}}%
 }%
 \define@key{brill}{source}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figuresource{#1}}%
       {\def\@tablesource{#1}}%
 }
 \define@key{brill}{longsource}{%
-   \ifstr{\@currenvir}{brillfigure}
+   \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurelongsource{#1}}%
       {\def\@tablelongsource{#1}}%
 }
@@ -711,7 +714,7 @@
       width=full,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
-   \ifstr{\@tableorientation}{landscape}
+   \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}
       {}
    \iftoggle{@tablelong}{%
@@ -891,7 +894,7 @@
       \ifdefvoid{\@figurecaption}%
          {\par\vspace{\baselineskip}}%
          {%
-            \ifstr{\@figurewidth}{narrow}
+            \Ifstr{\@figurewidth}{narrow}
                {%
                   \ifdefvoid{\@figurecaption}
                      {}%
@@ -930,7 +933,7 @@
                      }%
                      \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
                }%
-            \ifstr{\@figurewidth}{wide}%
+            \Ifstr{\@figurewidth}{wide}%
                {\end{addmargin}\end{figure}}%
                {\end{figure}}%
          }%
@@ -941,7 +944,7 @@
 \newlength{\@currentcaplabelwidth}
 \AtBeginDocument{
    \renewcommand*{\captionformat}{%
-      \ifstr{\@captype}{figure}
+      \Ifstr{\@captype}{figure}
          {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
          {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
       \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
