@@ -56,7 +56,7 @@ brill]
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%
    {\immediate\closeout\csname #1@idxfile\endcsname
-    \ifstr{#1}{passages}{%
+    \Ifstr{#1}{passages}{%
       \ClassInfo{brill}{Start modifying passages for sorting ...}%
       \directlua{modifySorting()}%
       \ClassInfo{brill}{... done.}%
@@ -355,7 +355,7 @@ brill]
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \textit{#2}%
-   \ifstrempty{#3}{}{\ [#3]}%
+   \ifstrempty{#3}{}{\ 〈#3〉}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
@@ -904,7 +904,7 @@ brill]
    \ifdefstrequal{\@initialletter}{\@lastinitialletter}
       {}%
       {%
-         \ifstr{\@@sequenceofletters}{}
+         \Ifstr{\@@sequenceofletters}{}
             {\xappto\@@sequenceofletters{\@initialletter}}%
             {\xappto\@@sequenceofletters{, \@initialletter}}%
          \let\@lastinitialletter\@initialletter
