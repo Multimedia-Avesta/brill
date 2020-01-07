@@ -44,9 +44,6 @@
    toc=bibliography,%
    toc=numberline,%
 ]{scrbook}[2018/03/30]
-% In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
-% We make sure, that this macro exists for older versions as well.
-\ifundef{\Ifstr}{\let\Ifstr\ifstr}}{}
 \if@PhD
    \def\normalsize{%
      \@setfontsize\normalsize{12bp}{18bp}%
@@ -195,6 +192,10 @@
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
+% In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
+% We make sure, that this macro exists for older versions as well.
+\ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
+\ifundef{\Ifisinteger}{\let\Ifisinteger\ifisinteger}{}
 \RequirePackage[autostyle,english=british]{csquotes}
 %%\SetBlockThreshold{3}
 \renewcommand*{\mkcitation}[1]{\par\nopagebreak\hspace*{2\parindent}#1}
