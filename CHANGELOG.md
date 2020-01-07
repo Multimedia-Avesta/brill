@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Letter `z` for sorting of glossary
 - Macros and environments for languages and book names (#8774)
 
+### Changed
+- Pahlavi transliterations are now put in angle brackets instead of square brackets
+
 ### Fixed
 - Footnote indention for first footnote
 

@@ -1,12 +1,18 @@
--- 2019/12/09 v0.18.0
+-- 2020/01/07 v0.19.0
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
    f:seek('set')
+   -- first look for books with %d.%d
    content = string.gsub(content, 
-   "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)%.(%d+)",
-   function(a,b,c) return string.format(
-      "%s%03d.%03d@%s\\nobreakspace{}%d.%d", a, b, c, a, b, c) end)
+      "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)%.(%d+)",
+      function(a,b,c) return string.format(
+         "%s%03d.%03d@%s\\nobreakspace{}%d.%d", a, b, c, a, b, c) end)
+   -- look for books with %d
+   content = string.gsub(content, 
+      "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)",
+      function(a,b) return string.format(
+         "%s%03d@%s\\nobreakspace{}%d", a, b, a, b) end)
    f:write(content)
    f:close()
 end
