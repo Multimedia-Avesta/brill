@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Macro `\Ifstr` for older versions of KOMA-Script
+
+## [0.19.0] - 2019-12-18
+
+### Added
+- Support for Arabic using `Noto Naskh Arabic` (regular and bold)
+- Word count for `PhD` option (to be tested)
+- Letter `z` for sorting of glossary
+- Macros and environments for languages and book names (#8774)
+
+### Fixed
+- Footnote indention for first footnote
+
 ## [0.18.0] - 2019-12-09
 
 ### Added

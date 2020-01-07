@@ -2,7 +2,56 @@
 brill]
 \RequirePackage{xstring}
 \RequirePackage{newunicodechar}
-\directlua{require('muya')}
+\directlua{require("muya")}
+\if@PhD
+   \directlua{dofile(kpse.find_file"word_count.lua")}
+   \def\setwordthreshold#1{%
+     \directlua{packagedata.word_count.set_threshold(\number#1)}%
+   }
+   
+   \def\startwordcount{%
+     \directlua{
+       luatexbase.add_to_callback(
+         "pre_linebreak_filter",
+         packagedata.word_count.callback,
+         "word_count"
+       )
+     }%
+   }
+   
+   \def\stopwordcount{%
+     \endgraf %% force paragraph
+     \directlua{
+       luatexbase.remove_from_callback(
+         "pre_linebreak_filter",
+         "word_count"
+       )
+     }%
+   }
+   
+   %%% This outputs the word count to stdout.
+   \def\dumpwordcount{%
+     \directlua{packagedata.word_count.dump_total_word_count()}
+   }
+   
+   %%% This returns the word count at the current position. Works only at
+   %%% the end of a paragraph.
+   \def\currentwordcount{%
+     \directlua{packagedata.word_count.current_word_count()}%
+   }
+   
+   \def\printwordcount{%
+     \directlua{packagedata.word_count.print_total_word_count()}
+   }
+   
+   \setwordthreshold{3} %%% min chars in a row to count as word
+\else
+   \def\setwordthreshold#1{}%
+   \def\startwordcount{}%
+   \def\stopwordcount{}%
+   \def\currentwordcount{}%
+   \def\dumpwordcount{}%
+\fi%
 %\LuaCodeDebugOn
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%
@@ -89,34 +138,44 @@ brill]
       {Goth}{\def\indexlanguage{Gothic}\itshape}%
       {Grk}{\def\indexlanguage{Greek}\upshape}%
       {Guj}{\def\indexlanguage{Gujarati}\itshape}%
+      {Hitt}{\def\indexlanguage{Hittite}\itshape}%
       {IMP}{\def\indexlanguage{Inscriptional Middle Persian}\itshape}%
       {IParth}{\def\indexlanguage{Inscriptional Parthian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{Latin}\itshape}%
+      {Luw}{\def\indexlanguage{Luwian}\itshape}%
       {MAv}{\def\indexlanguage{Middle Avestan}\itshape}
       {MMP}{\def\indexlanguage{Manichaean Middle Persian}\itshape}
       {MP}{\def\indexlanguage{Middle Persian (unspecified)}\itshape}
       {MParth}{\def\indexlanguage{Manichaean Parthian}\itshape}
+      {Munji}{\def\indexlanguage{Munji}\itshape}
       {NP}{\def\indexlanguage{New Persian}\itshape}%
       {OAv}{\def\indexlanguage{Old Avestan}\itshape}
       {OE}{\def\indexlanguage{Old English}\itshape}%
       {OHG}{\def\indexlanguage{Old High German}\itshape}%
       {OP}{\def\indexlanguage{Old Persian}\itshape}%
       {Oss}{\def\indexlanguage{Ossetic}\itshape}%
-      %{Parth}{\def\indexlanguage{O@Parthian}\upshape}%
+      {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
+      {OssI}{\def\indexlanguage{Iron Ossetic}\itshape}%
+      {PDE}{\def\indexlanguage{Present-Day English}\itshape}%
       {PGmc}{\def\indexlanguage{Proto-Germanic}\itshape}%
       {Phl}{\def\indexlanguage{Pahlavi}\itshape}%
       {PIE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
       {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
+      {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {Pli}{\def\indexlanguage{PāỊi}\itshape}%
       {Pra}{\def\indexlanguage{Prakrit}\itshape}%
       {PrIIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {PrIr}{\def\indexlanguage{Proto-Iranian}\itshape}%
       {Pz}{\def\indexlanguage{Pāzand}\itshape}%
+      {Shugni}{\def\indexlanguage{Shugni}\itshape}%
       {Skt}{\def\indexlanguage{Sanskrit}\itshape}%
       {Sogd}{\def\indexlanguage{Sogdian}\itshape}%
+      {TochA}{\def\indexlanguage{Tocharian A}\itshape}%
+      {TochB}{\def\indexlanguage{Tocharian B}\itshape}%
       {Ved}{\def\indexlanguage{Vedic}\itshape}%
+      {Yidgha}{\def\indexlanguage{Yidgha}\itshape}%
       {ZD}{\def\indexlanguage{Zoroastrian Dari}\itshape}%
    }[\def\indexlanguage{A@General}\upshape]%
    \hyphenpenalty=10000%
@@ -176,6 +235,11 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Gujr\Guj   
+\newcommand*{\Hitt}[2][]{%
+   \def\indexlanguage{Hittite}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\IMP}[2][]{%
    \def\indexlanguage{Inscriptional Middle Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -196,6 +260,11 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newcommand*{\Luw}[2][]{%
+   \def\indexlanguage{Luwian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}   
 \newcommand*{\MAv}[2][]{%
    \def\indexlanguage{N@Middle Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -213,6 +282,11 @@ brill]
    \resetlanguage}
 \newcommand*{\MParth}[2][]{%
    \def\indexlanguage{Manichaean Parthian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Munji}[2][]{%
+   \def\indexlanguage{Munji}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
@@ -253,11 +327,26 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-%\newcommand*{\Parth}[2][]{%
-%   \def\indexlanguage{O@Parthian}%
-%   \renewcommand*{\idxentryfont}[1]{##1}%
-%   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
-%   \resetlanguage}
+\newcommand*{\OssD}[2][]{%
+   \def\indexlanguage{Digoron Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\OssI}[2][]{%
+   \def\indexlanguage{Iron Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\Pashto}[2][]{%
+   \def\indexlanguage{Pashto}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\PDE}[2][]{%
+   \def\indexlanguage{Present-Day English}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\PGmc}[2][]{%
    \def\indexlanguage{Proto-Germanic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -313,6 +402,11 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newcommand*{\Shugni}[2][]{%
+   \def\indexlanguage{Shugni}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\Skt}[2][]{%
    \def\indexlanguage{Sanskrit}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -320,7 +414,17 @@ brill]
    \resetlanguage}
 \let\Sa\Skt   
 \newcommand*{\Sogd}[2][]{%
-   \def\indexlanguage{ogdian}%
+   \def\indexlanguage{Sogdian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\TochA}[2][]{%
+   \def\indexlanguage{Tocharian A}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\TochB}[2][]{%
+   \def\indexlanguage{Tocharian B}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
@@ -330,33 +434,67 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\VedSa\Ved
+\newcommand*{\Yidgha}[2][]{%
+   \def\indexlanguage{Yidgha}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\ZD}[2][]{%
    \def\indexlanguage{Zoroastrian Dari}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newenvironment{ArmBlock}{\def\indexlanguage{Armenian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{AvBlock}{\def\indexlanguage{Avestan}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{ArmBlock}{%
+   \def\indexlanguage{Armenian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{AvBlock}{%
+   \def\indexlanguage{Avestan}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\AvstBlock\AvBlock
 \let\endAvstBlock\endAvBlock
-\newenvironment{BactrBlock}{\def\indexlanguage{Bactrian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{ChorBlock}{\def\indexlanguage{Choresmian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{ElBlock}{\def\indexlanguage{Elamite}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{NPBlock}{\def\indexlanguage{New Persian}%
+\newenvironment{BactrBlock}{%
+   \def\indexlanguage{Bactrian}%
+   \renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
+\newenvironment{ChorBlock}{%
+   \def\indexlanguage{Choresmian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{ElBlock}{%
+   \def\indexlanguage{Elamite}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{NPBlock}{%
+   \def\indexlanguage{New Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
-\newenvironment{GothBlock}{\def\indexlanguage{Gothic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{GrkBlock}{\def\indexlanguage{Greek}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{GujBlock}{\def\indexlanguage{Gujarati}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{GothBlock}{%
+   \def\indexlanguage{Gothic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{GrkBlock}{%
+   \def\indexlanguage{Greek}%
+   \renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
+\newenvironment{GujBlock}{%
+   \def\indexlanguage{Gujarati}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\GujrBlock\GujBlock
 \let\endGujrBlock\endGujBlock
-\newenvironment{IMPBlock}{\def\indexlanguage{Inscriptional Middle Persian}%
+\newenvironment{HittBlock}{%
+   \def\indexlanguage{Hittite}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{IParthBlock}{\def\indexlanguage{Inscriptional Parthian}%
+\newenvironment{IMPBlock}{%
+   \def\indexlanguage{Inscriptional Middle Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{KhotBlock}{\def\indexlanguage{Khotanese}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{LatBlock}{\def\indexlanguage{Latin}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{IParthBlock}{%
+   \def\indexlanguage{Inscriptional Parthian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{KhotBlock}{%
+   \def\indexlanguage{Khotanese}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{LatBlock}{%
+   \def\indexlanguage{Latin}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{LuwBlock}{%
+   \def\indexlanguage{Luwian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{MAvBlock}{%
    \def\indexlanguage{Middle Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -369,6 +507,9 @@ brill]
 \newenvironment{MParthBlock}{%
    \def\indexlanguage{Manichaean Parthian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{MunjiBlock}{%
+   \def\indexlanguage{Munji}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OAvBlock}{%
    \def\indexlanguage{Old Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -380,11 +521,22 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OPBlock}{\def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{OssBlock}{\def\indexlanguage{Ossetic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-%\newenvironment{ParthBlock}{\def\indexlanguage{O@Parthian}\renewcommand*{\idxentryfont}[1]{##1}}{\resetlanguage}
-\newenvironment{PGmcBlock}{\def\indexlanguage{Proto-Germanic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{PhlBlock}{\def\indexlanguage{Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OssBlock}{\def\indexlanguage{Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OssDBlock}{\def\indexlanguage{Digoron Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OssIBlock}{\def\indexlanguage{Iron Ossetic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PashtoBlock}{\def\indexlanguage{Pashto}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PDEBlock}{\def\indexlanguage{Present-Day English}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PGmcBlock}{\def\indexlanguage{Proto-Germanic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PhlBlock}{\def\indexlanguage{Pahlavi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\PhlvBlock\PhlBlock
 \let\endPhlvBlock\endPhlBlock
 \let\PhlvtltBlock\PhltltBlock
@@ -405,13 +557,21 @@ brill]
 %\let\PIrBlock\PrIrBlock
 %\let\endPIrBlock\endPrIrBlock
 \newenvironment{PzBlock}{\def\indexlanguage{Pāzand}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{ShugniBlock}{\def\indexlanguage{Shugni}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{SkrBlock}{\def\indexlanguage{Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\SaBlock\SkrBlock
 \let\endSaBlock\endSkrBlock
 \newenvironment{SogdBlock}{\def\indexlanguage{Sogdian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{TochABlock}{\def\indexlanguage{Tocharian A}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{TochBBlock}{\def\indexlanguage{Tocharian B}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{VedBlock}{\def\indexlanguage{Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
+\newenvironment{YidghaBlock}{%
+   \def\indexlanguage{Yidgha}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{ZDBlock}{%
    \def\indexlanguage{Zoroastrian Dari}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -441,19 +601,25 @@ brill]
 \newbook{AM}
 \newbook{Ank}
 \newbook{Aog}
+\newbook{ApSS}
 \newbook{As}
 \newbook{AV}
+\newbook{AVS}
 \newbook{AWM}
 %\newbook{AvAlph}
 \newbook{Bd}
 %\newbook{Col}
+\newbook{DB}
 \newbook{DD}
 \newbook{Dhy}
 \newbook{Dk}
+\newbook{DkM}
+\newbook{DPd}
 \newbook{DrYt}
 %\newbook{DrYt}
 \newbook{DuP}
 \newbook{FiO}
+\newbook{FrD}
 \newbook{FrW}
 \newbook[G]{Gah}
 %\newbook{Gah}
@@ -463,8 +629,11 @@ brill]
 \newbook{Hb}
 \let\HB\Hb
 \newbook{HN}
+\newbook{KB}
 \newbook{KN}
+\newbook{MBh}
 \newbook{MHD}
+\newbook{MS}
 \newbook{MX}
 \newbook{N}
 \newbook{NiAb}
@@ -481,6 +650,8 @@ brill]
 \newbook{Parth}
 \newbook{PaXw}
 \newbook{PazT}
+\newbook{PNy}
+\newbook{PRAF}
 \newbook{PRDd}
 %\newbook{PPhl}
 %\newbook{PS}
@@ -489,6 +660,7 @@ brill]
 \newbook{PVr}
 \newbook{PY}
 \newbook{PYt}
+\newbook{PWN}
 \newbook{RAF}
 \newbook{RV}
 \let\origS\S
@@ -502,8 +674,11 @@ brill]
 \newbook{STSnS}
 \newbook{SY}
 \newbook{SYt}
+\newbook{TB}
+\newbook{TS}
 \newbook{V}
 \let\Vd\V
+\newbook{ViDh}
 \newbook{VN}
 \newbook{Vr}
 \newbook{VrS}
