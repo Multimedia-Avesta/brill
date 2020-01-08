@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Macro `\Ifstr` for older versions of KOMA-Script
+- Macros `\Ifstr` and `Ifisinteger` for older versions of KOMA-Script
 
 ## [0.19.0] - 2020-01-08
 
