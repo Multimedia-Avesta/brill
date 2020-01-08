@@ -350,7 +350,7 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newif\if@PhlNoEmph   
-\def\Phl{\@ifstar{\@PhlNoEmphtrue\@Phl}{\@PhlNoEmphfalse\@Phl}}
+\newrobustcmd*{\Phl}{\@ifstar{\@PhlNoEmphtrue\@Phl}{\@PhlNoEmphfalse\@Phl}}
 \newcommand*{\@Phl}[2][]{%
    \@ifnextchar\bgroup{\@@Phl[#1]{#2}}{\@@Phl[#1]{#2}{}}}
 \newcommand*{\@@Phl}[3][]{%
@@ -556,21 +556,34 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
 \let\IIrBlock\PrIIrBlock
 \let\endIIrBlock\endPrIIrBlock   
-\newenvironment{PrIrBlock}{\def\indexlanguage{Proto-Iranian}%
+\newenvironment{PrIrBlock}{%
+   \def\indexlanguage{Proto-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
 %\let\PIrBlock\PrIrBlock
 %\let\endPIrBlock\endPrIrBlock
-\newenvironment{PzBlock}{\def\indexlanguage{Pāzand}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{ShugniBlock}{\def\indexlanguage{Shugni}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{SkrBlock}{\def\indexlanguage{Sanskrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{PzBlock}{%
+   \def\indexlanguage{Pāzand}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{ShugniBlock}{%
+   \def\indexlanguage{Shugni}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{SkrBlock}{%
+   \def\indexlanguage{Sanskrit}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\SaBlock\SkrBlock
 \let\endSaBlock\endSkrBlock
-\newenvironment{SogdBlock}{\def\indexlanguage{Sogdian}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{TochABlock}{\def\indexlanguage{Tocharian A}%
+\newenvironment{SogdBlock}{%
+   \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{TochBBlock}{\def\indexlanguage{Tocharian B}%
+\newenvironment{TochABlock}{%
+   \def\indexlanguage{Tocharian A}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
-\newenvironment{VedBlock}{\def\indexlanguage{Vedic}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{TochBBlock}{%
+   \def\indexlanguage{Tocharian B}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{VedBlock}{%
+   \def\indexlanguage{Vedic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
 \newenvironment{YidghaBlock}{%

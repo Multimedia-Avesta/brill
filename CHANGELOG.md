@@ -9,16 +9,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Macro `\Ifstr` for older versions of KOMA-Script
 
-## [0.19.0] - 2019-12-18
+## [0.19.0] - 2020-01-08
 
 ### Added
 - Support for Arabic using `Noto Naskh Arabic` (regular and bold)
 - Word count for `PhD` option (to be tested)
 - Letter `z` for sorting of glossary
 - Macros and environments for languages and book names (#8774)
+- Macro `\Phl*[]{}{}` for transliterated text (upright) and no angle brackets (#8829)
 
 ### Changed
 - Pahlavi transliterations are now put in angle brackets instead of square brackets
+- Use `xindy` instead of `makeindex` for sorting abbreviations (TODO: sort order)
 
 ### Fixed
 - Footnote indention for first footnote
@@ -316,6 +318,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.19.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.19.0
 [0.18.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.18.0
 [0.17.1]:

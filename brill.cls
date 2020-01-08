@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/01/07 v0.20.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/01/07 v0.19.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -562,7 +562,7 @@
 \newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
 
 \newcommand*{\pagenumbertocfont}[1]{%
-   \ifisinteger{#1}{#1}{\scshape #1}}
+   \Ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}
 \setcounter{tocdepth}{3}
 \addtokomafont{title}{\hyphenpenalty=10000}
@@ -1003,6 +1003,9 @@
    \let\newline\space%
    \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
+   \def\Y#1{Y~#1}%
+   \def\PY#1{PY~#1}%
+   \def\Phl#1{Phl~#1}%
 }%
 \RequirePackage[%
    nomain,%
@@ -1011,14 +1014,15 @@
    numberline,%
    nonumberlist,%
    nosuper,%
-   automake=immediate]{glossaries-extra}
+   automake=immediate,
+   xindy={glsnumbers=false}]{glossaries-extra}
 %%\RequirePackage{glossary-longbooktabs}
 \newdimen\widestabbreviation
 \setlength{\widestabbreviation}{0pt}
 
 \newlength{\currentwidth}
 \newcommand*{\@checkforwidestabbreviation}[1]{%
-   \settowidth{\currentwidth}{#1}
+   \settowidth{\currentwidth}{#1}%
    \ifdimgreater{\currentwidth}{\widestabbreviation}%
       {\global\setlength{\widestabbreviation}{\the\currentwidth}}%
       {}%
@@ -1026,24 +1030,24 @@
 \AtEndDocument{%
    \ifdimless{\widestabbreviation}{\normalparindent}%
       {\immediate\write\@auxout%
-         {\noexpand\setlength{\widestabbreviation}{\normalparindent}}
+         {\noexpand\setlength{\widestabbreviation}{\normalparindent}}%
       }{\ifdimless{\widestabbreviation}{2\normalparindent}%
          {\immediate\write\@auxout%
-            {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}
+            {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}%
          }{\ifdimless{\widestabbreviation}{3\normalparindent}%
             {\immediate\write\@auxout%
-               {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}
+               {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}%
             }{\ifdimless{\widestabbreviation}{4\normalparindent}%
                {\immediate\write\@auxout%
-                  {\noexpand\setlength{\widestabbreviation}{4\normalparindent}}
+                  {\noexpand\setlength{\widestabbreviation}{4\normalparindent}}%
                }{\ifdimless{\widestabbreviation}{5\normalparindent}%
                   {\immediate\write\@auxout%
-                     {\noexpand\setlength{\widestabbreviation}{5\normalparindent}}
+                     {\noexpand\setlength{\widestabbreviation}{5\normalparindent}}%
                   }{\ifdimless{\widestabbreviation}{6\normalparindent}%
                      {\immediate\write\@auxout%
-                        {\noexpand\setlength{\widestabbreviation}{6\normalparindent}}
+                        {\noexpand\setlength{\widestabbreviation}{6\normalparindent}}%
                      }{\immediate\write\@auxout%
-                           {\noexpand\setlength{\widestabbreviation}{7\normalparindent}}
+                           {\noexpand\setlength{\widestabbreviation}{7\normalparindent}}%
                      }%
                   }%
                }%
@@ -1062,14 +1066,14 @@
       \@checkforwidestabbreviation{##1}%
       \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
       \glossentrydesc{##1}\glspostdescription\space ##2%
-      \tabularnewline
+      \tabularnewline%
    }%
    \renewcommand{\subglossentry}[3]{%
       &
       \glssubentryitem{##2}%
       \glstarget{##2}{\strut}\glossentrydesc{##2}%
       \glspostdescription\space ##3%
-      \tabularnewline
+      \tabularnewline%
    }%
    \ifglsnogroupskip
       \renewcommand*{\glsgroupskip}{}%
