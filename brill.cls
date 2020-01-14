@@ -722,9 +722,11 @@
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
 \RequirePackage{array}
-\newcolumntype{L}{>{\raggedright}X}
-\newcolumntype{C}{>{\centering}X}
-\newcolumntype{R}{>{\raggedleft}X}
+\newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
+\newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
+\newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \RequirePackage{tabu}
