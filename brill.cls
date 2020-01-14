@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/01/07 v0.19.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/01/14 v0.20.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -119,6 +119,12 @@
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
 % Uses proportional oldstyle numbers by default
 \setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
+\newfontfamily{\trackingfont}{Brill}
+[%
+   Ligatures      = {NoCommon},%
+   WordSpace      = {1.35,1.45,1.55},%
+   LetterSpace    = 12.5,%
+]%
 \newfontfamily{\freeserif}{FreeSerif}%
 [%
    Extension      = .otf,%
@@ -151,7 +157,6 @@
    Scale          = MatchLowercase,%
    Script         = Arabic,%
 ]%
-
 \newfontfamily{\pahlavifont}{KHUSRO__}%
 [%
    Extension      = .TTF,%
@@ -161,6 +166,13 @@
 \newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
 \newcommand{\textarabic}[1]{\bgroup\arabicfont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
+\newrobustcmd*{\texttracking}[1]{{\trackingfont #1}}%
+\newrobustcmd*{\texttrackingL}[1]{\ifhmode\unskip\fi{\trackingfont\ #1}}%
+\newrobustcmd*{\texttrackingR}[1]{{\trackingfont #1\ }\ignorespaces}%
+\newrobustcmd*{\texttrackingLR}[1]{%
+   \ifhmode\unskip\fi%
+   {\trackingfont\ #1\ }\ignorespaces%
+}%   
 \RequirePackage{realscripts}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \if@PhD
