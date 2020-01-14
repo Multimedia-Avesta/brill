@@ -421,97 +421,189 @@
    }%
 }%   
 
-\RedeclareSectionCommand[%
-   beforeskip=-2\baselineskip,
-   afterskip=1\baselineskip,
-   font={\normalsize\bfseries},
-   tocnumwidth=8mm,
-   tocindent=\dimexpr\@tocstartindent\relax
-]{section}
-\renewcommand{\thesection}{\arabic{section}}
-
-\RedeclareSectionCommand[%
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\normalsize\bfseries\itshape},
-   tocnumwidth=8mm,
-   tocindent=\dimexpr\@tocstartindent+8mm\relax
-]{subsection}
-%%\renewcommand{\thesection}{\arabic{section}}
-
-\RedeclareSectionCommand[%
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\normalsize},
-   tocnumwidth=8mm,
-   tocindent=\dimexpr\@tocstartindent+16mm\relax
-]{subsubsection}
-
-\ProvideSectionCommand[%
-   style=section,
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\normalsize\itshape},
-   indent=0pt,
-   level=4,
-   tocindent=0pt,%%%TODO
-   tocnumwidth=6\parindent,
-   tocstyle=section,
-   counterwithin=subsubsection,
-]{subthreesection}
-\renewcommand{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
-
-\ProvideSectionCommand[%
-   style=section,
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\small},
-   indent=0pt,
-   level=5,
-   tocindent=0pt,%%%TODO
-   tocnumwidth=7\parindent,
-   tocstyle=section,
-   counterwithin=subthreesection,
-]{subfoursection}
-\renewcommand{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
-
-\ProvideSectionCommand[%
-   style=section,
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\small\itshape},
-   indent=0pt,
-   level=6,
-   tocindent=0pt,%%%TODO
-   tocnumwidth=8\parindent,
-   tocstyle=section,
-   counterwithin=subfoursection,
-]{subfivesection}
-\renewcommand{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
-
-\RedeclareSectionCommand[%
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\small},
-   indent=0pt,
-   level=7,
-   tocindent=0pt,%%%TODO
-   tocnumwidth=9\parindent,
-   counterwithin=subfivesection,
-]{paragraph}
-\renewcommand{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
-
-\RedeclareSectionCommand[%
-   beforeskip=-1\baselineskip,
-   afterskip=1sp,
-   font={\small\itshape},
-   indent=0pt,
-   level=8,
-   tocindent=0pt,%%%TODO
-   tocnumwidth=10\parindent,
-]{subparagraph}
-%%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
-
+% We use different set-ups for headings depending on PhD or not
+\if@PhD
+   \RedeclareSectionCommand[%
+      beforeskip=-2\baselineskip,
+      afterskip=1\baselineskip,
+      font={\normalsize\bfseries},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent\relax
+   ]{section}
+   \renewcommand{\thesection}{\arabic{section}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize\bfseries},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent+8mm\relax
+   ]{subsection}
+   %%\renewcommand{\thesection}{\arabic{section}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent+16mm\relax
+   ]{subsubsection}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize},
+      indent=0pt,
+      level=4,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=6\parindent,
+      tocstyle=section,
+      counterwithin=subsubsection,
+   ]{subthreesection}
+   \renewcommand{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=5,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=7\parindent,
+      tocstyle=section,
+      counterwithin=subthreesection,
+   ]{subfoursection}
+   \renewcommand{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=6,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=8\parindent,
+      tocstyle=section,
+      counterwithin=subfoursection,
+   ]{subfivesection}
+   \renewcommand{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=7,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=9\parindent,
+      counterwithin=subfivesection,
+   ]{paragraph}
+   \renewcommand{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=8,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=10\parindent,
+   ]{subparagraph}
+\else%
+   \RedeclareSectionCommand[%
+      beforeskip=-2\baselineskip,
+      afterskip=1\baselineskip,
+      font={\normalsize\bfseries},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent\relax
+   ]{section}
+   \renewcommand{\thesection}{\arabic{section}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize\bfseries\itshape},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent+8mm\relax
+   ]{subsection}
+   %%\renewcommand{\thesection}{\arabic{section}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize},
+      tocnumwidth=8mm,
+      tocindent=\dimexpr\@tocstartindent+16mm\relax
+   ]{subsubsection}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\normalsize\itshape},
+      indent=0pt,
+      level=4,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=6\parindent,
+      tocstyle=section,
+      counterwithin=subsubsection,
+   ]{subthreesection}
+   \renewcommand{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=5,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=7\parindent,
+      tocstyle=section,
+      counterwithin=subthreesection,
+   ]{subfoursection}
+   \renewcommand{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
+   
+   \ProvideSectionCommand[%
+      style=section,
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small\itshape},
+      indent=0pt,
+      level=6,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=8\parindent,
+      tocstyle=section,
+      counterwithin=subfoursection,
+   ]{subfivesection}
+   \renewcommand{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small},
+      indent=0pt,
+      level=7,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=9\parindent,
+      counterwithin=subfivesection,
+   ]{paragraph}
+   \renewcommand{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
+   
+   \RedeclareSectionCommand[%
+      beforeskip=-1\baselineskip,
+      afterskip=1sp,
+      font={\small\itshape},
+      indent=0pt,
+      level=8,
+      tocindent=0pt,%%%TODO
+      tocnumwidth=10\parindent,
+   ]{subparagraph}
+   %%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
+\fi%
 \renewcommand{\sectionlinesformat}[4]{%
    \Ifstr{#1}{section}{%
       \makebox[12mm][l]{\upshape #3}%
