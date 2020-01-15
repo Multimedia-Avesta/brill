@@ -1,4 +1,4 @@
--- 2020/01/07 v0.19.0
+-- 2020/01/15 v0.20.0
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
@@ -106,7 +106,7 @@ function sortGlossary()
          -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
             subsublemmacontent = subsublemmacontent .. '\n' .. 
-               '\\Subsubsublemma{' .. k .. '}' .. sssl[k]
+               '\\Subsubsublemma{' .. removesortid(k) .. '}' .. sssl[k]
          end
          subsublemmacontent = subsublemmacontent .. "\n\\end{Subsubsublemmata}"
          inSubsubsublemmata = false
@@ -119,7 +119,7 @@ function sortGlossary()
          -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
             sublemmacontent = sublemmacontent .. '\n' .. 
-               '\\Subsublemma{' .. k .. '}' .. ssl[k]
+               '\\Subsublemma{' .. removesortid(k) .. '}' .. ssl[k]
          end
          sublemmacontent = sublemmacontent .. "\n\\end{Subsublemmata}"
          inSubsublemmata = false
@@ -133,7 +133,7 @@ function sortGlossary()
          -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
             lemmacontent = lemmacontent .. '\n' .. 
-               '\\Sublemma{' .. k .. '}' .. sl[k]
+               '\\Sublemma{' .. removesortid(k) .. '}' .. sl[k]
          end
          lemmacontent = lemmacontent .. "\n\\end{Sublemmata}"
          inSublemmata = false
@@ -147,7 +147,7 @@ function sortGlossary()
          newkeys = sortLemma(result)
          -- use the keys to retrieve the values in the sorted order
          for _, k in ipairs(newkeys) do
-            f:write('\n\\Lemma{' .. k .. '}' .. result[k])
+            f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
          end
          -- if lines follow they should be processed as well
          f:write('\n\\end{ModDictionary}', "\n")
@@ -227,6 +227,14 @@ function sortGlossary()
    f:close()
 end
 
+function removesortid (s)
+   local snew = s
+   snew = string.gsub(snew, '^¹(.+)$', '%1')
+   snew = string.gsub(snew, '^²(.+)$', '%1')
+   snew = string.gsub(snew, '^³(.+)$', '%1')
+   return snew
+end
+
 function sortLemma (t)
    local tkeys = {}
    -- populate the table that holds the keys
@@ -239,9 +247,13 @@ end
 function compare (a,b)
    -- before sorting, we remove dashes at the end
    local s1 = string.gsub(a, '^-?(.+)-?$', '%1')--$
-   --s1 = string.gsub(s1, 'ṃ', 'ṃ')
+   s1 = string.gsub(s1, '^¹(.+)$', '%11')
+   s1 = string.gsub(s1, '^²(.+)$', '%12')
+   s1 = string.gsub(s1, '^³(.+)$', '%13')
    local s2 = string.gsub(b, '^-?(.+)-?$', '%1')--$
-   --s2 = string.gsub(s2, 'ṃ', 'ṃ')
+   s2 = string.gsub(s2, '^¹(.+)$', '%11')
+   s2 = string.gsub(s2, '^²(.+)$', '%12')
+   s2 = string.gsub(s2, '^³(.+)$', '%13')   
    local so1, so2
    
    --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
@@ -280,7 +292,8 @@ function sortletter (s)
    ["ḍ"] = 24, ["ḍh"] = 25, ["ṇ"] = 26, ["t"] = 27, ["th"] = 28, ["d"] = 29, 
    ["dh"] = 30, ["n"] = 31, ["p"] = 32, ["ph"] = 33, ["f"] = 34, ["b"] = 35,
    ["bh"] = 36, ["m"] = 37, ["y"] = 38, ["r"] = 39, ["l"] = 40, ["v"] = 41,
-   ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46}   
+   ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46, ["1"] = 47, 
+   ["2"] = 48, ["3"] = 49}   
    local sortletter = ''
    
    -- If s is at last two characters long, we check, whether the first two 

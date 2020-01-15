@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/01/14 v0.20.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/01/15 v0.20.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -664,7 +664,12 @@
   \if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
 }
 \newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
-
+%
+\newcommand*{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
+\newcommand*{\@addsubsubsec}{}
+\def\@addsubsubsec[#1]#2{\subsubsection*{#2}\addsubsubsectiontocentry{}{#1}}
+\newcommand*{\@saddsubsubsec}[1]{\subsubsection*{#1}}
+%
 \newcommand*{\pagenumbertocfont}[1]{%
    \Ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}

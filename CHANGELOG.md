@@ -6,8 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.20.0] - 2020-01-15
+
 ### Added
-- Macros `\Ifstr` and `Ifisinteger` for older versions of KOMA-Script
+- Macros `\Ifstr` and `\Ifisinteger` for older versions of KOMA-Script
+- New entries for class-brill.cwl
+- New column parameters `M{Number_of_columns}` and `x{Number_of_hsize_portion}`
+- Alternative definitions for heading for PhD mode
+- Macros for tracking (letter-spacing): `\texttracking{}` and variants
+- New source map for field `location`
+- Macro `\addsubsubsec[shorttitle]{title}`
+
+### Fixed
+- class-brill.cwl
+- Sorting in glossary respects "sort ids" at the beginning: ¹, ² and ³.
 
 ## [0.19.0] - 2020-01-08
 
@@ -318,6 +330,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.20.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.20.0
 [0.19.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.19.0
 [0.18.0]:
