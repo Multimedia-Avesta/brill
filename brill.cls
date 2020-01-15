@@ -664,7 +664,15 @@
   \if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
 }
 \newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
-
+%
+\newcommand*{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
+\newcommand*{\@addsubsubsec}{}
+\def\@addsubsubsec[#1]#2{\subsubsection*{#2}\addsubsubsectiontocentry{}{#1}}
+\newcommand*{\@saddsubsubsec}[1]{\subsubsection*{#1}}
+\newcommand*{\addsubsubsectiontocentry}[2]{%
+  \addtocentrydefault{subsubsection}{#1}{#2}%
+}
+%
 \newcommand*{\pagenumbertocfont}[1]{%
    \Ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}

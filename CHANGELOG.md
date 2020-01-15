@@ -7,7 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 
 ### Added
-- Macros `\Ifstr` and `Ifisinteger` for older versions of KOMA-Script
+- Macros `\Ifstr` and `\Ifisinteger` for older versions of KOMA-Script
+- New entries for class-brill.cwl
+- New column parameters `M{Number_of_columns}` and `x{Number_of_hsize_portion}`
+- Alternative definitions for heading for PhD mode
+- Macros for tracking (letter-spacing): `\texttracking{}` and variants
+- New source map for field `location`
+- Macro `\addsubsubsec[shorttitle]{title}`
+
+### Fixed
+- class-brill.cwl
 
 ## [0.19.0] - 2020-01-08
 
