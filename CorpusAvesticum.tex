@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/01/15 v0.20.0 Configuration file for 
+\ProvidesFile{CorpusAvesticum.tex}[2020/01/25 v0.20.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{newunicodechar}
@@ -8,7 +8,7 @@ brill]
    \def\setwordthreshold#1{%
      \directlua{packagedata.word_count.set_threshold(\number#1)}%
    }
-   
+
    \def\startwordcount{%
      \directlua{
        luatexbase.add_to_callback(
@@ -18,7 +18,7 @@ brill]
        )
      }%
    }
-   
+
    \def\stopwordcount{%
      \endgraf %% force paragraph
      \directlua{
@@ -28,22 +28,22 @@ brill]
        )
      }%
    }
-   
+
    %%% This outputs the word count to stdout.
    \def\dumpwordcount{%
      \directlua{packagedata.word_count.dump_total_word_count()}
    }
-   
+
    %%% This returns the word count at the current position. Works only at
    %%% the end of a paragraph.
    \def\currentwordcount{%
      \directlua{packagedata.word_count.current_word_count()}%
    }
-   
+
    \def\printwordcount{%
      \directlua{packagedata.word_count.print_total_word_count()}
    }
-   
+
    \setwordthreshold{3} %%% min chars in a row to count as word
 \else
    \def\setwordthreshold#1{}%
@@ -76,7 +76,7 @@ brill]
    title={Index of Words},%
    columns=2,%
    columnsep=4mm,%
-   options={--noheadings --config muya}   
+   options={--noheadings --config muya}
    ]%
 \makeindex[%
    name=passages,%
@@ -194,8 +194,8 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\Avst\Av   
-\newcommand*{\Bactr}[2]{%
+\let\Avst\Av
+\newcommand*{\Bactr}[2][]{%
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -215,7 +215,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\Fa\NP   
+\let\Fa\NP
 \newcommand*{\Goth}[2][]{%
    \def\indexlanguage{Gothic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -231,7 +231,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\Gujr\Guj   
+\let\Gujr\Guj
 \newcommand*{\Hitt}[2][]{%
    \def\indexlanguage{Hittite}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -261,7 +261,7 @@ brill]
    \def\indexlanguage{Luwian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}   
+   \resetlanguage}
 \newcommand*{\MAv}[2][]{%
    \def\indexlanguage{N@Middle Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -313,12 +313,12 @@ brill]
    \ifstrempty{#3}{}{\ [#3]}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
-   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}  
+   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
 \newcommand*{\OPtlt}[2][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
    #2\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}   
+   \resetlanguage}
 \newcommand*{\Oss}[2][]{%
    \def\indexlanguage{Ossetic}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -349,7 +349,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newif\if@PhlNoEmph   
+\newif\if@PhlNoEmph
 \newrobustcmd*{\Phl}{\@ifstar{\@PhlNoEmphtrue\@Phl}{\@PhlNoEmphfalse\@Phl}}
 \newcommand*{\@Phl}[2][]{%
    \@ifnextchar\bgroup{\@@Phl[#1]{#2}}{\@@Phl[#1]{#2}{}}}
@@ -366,7 +366,7 @@ brill]
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
-\let\Phlv\Phl   
+\let\Phlv\Phl
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
@@ -378,7 +378,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\IE\PIE% 
+\let\IE\PIE%
 \newcommand*{\Pli}[2][]{%
    \def\indexlanguage{PāỊi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -394,7 +394,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\IIr\PrIIr%   
+\let\IIr\PrIIr%
 \newcommand*{\PrIr}[2][]{%
    \def\indexlanguage{roto-Iranian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -416,7 +416,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\let\Sa\Skt   
+\let\Sa\Skt
 \newcommand*{\Sogd}[2][]{%
    \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -549,16 +549,16 @@ brill]
    \def\indexlanguage{Proto-Indo-European}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \let\IEBlock\PIEBlock
-\let\endIEBlock\endPIEBlock   
+\let\endIEBlock\endPIEBlock
 \newenvironment{PliBlock}{\def\indexlanguage{PāỊi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PraBlock}{\def\indexlanguage{Prakrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{PrIIrBlock}{\def\indexlanguage{Proto-Indo-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 \let\IIrBlock\PrIIrBlock
-\let\endIIrBlock\endPrIIrBlock   
+\let\endIIrBlock\endPrIIrBlock
 \newenvironment{PrIrBlock}{%
    \def\indexlanguage{Proto-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}	
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{}
 %\let\PIrBlock\PrIrBlock
 %\let\endPIrBlock\endPrIrBlock
 \newenvironment{PzBlock}{%
@@ -608,7 +608,7 @@ brill]
 \newbook{A}
 \newbook{AAM}
 %\newcommand*{\A}[1]{\gls{A}\nobreakspace{}#1}% Afrinagan
-%\newcommand*{\AAM}[1]{\gls{AAM}\nobreakspace{}#1}% 
+%\newcommand*{\AAM}[1]{\gls{AAM}\nobreakspace{}#1}%
 \newbook{Abu}
 \newbook{AD}
 \newbook{AG}
@@ -872,7 +872,7 @@ brill]
    title={Index of Words},%
    columns=2,%
    columnsep=4mm,%
-   options={--noheadings --config muya}   
+   options={--noheadings --config muya}
    ]%
 \newcommand{\Lemma}[1]{\item[#1]\@addtosequenceofletters{#1}}
 %\newcommand{\cnt}{}

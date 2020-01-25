@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Definition of `\Bactr` (\#8866)
+
 ## [0.20.0] - 2020-01-15
 
 ### Added
@@ -27,8 +30,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support for Arabic using `Noto Naskh Arabic` (regular and bold)
 - Word count for `PhD` option (to be tested)
 - Letter `z` for sorting of glossary
-- Macros and environments for languages and book names (#8774)
-- Macro `\Phl*[]{}{}` for transliterated text (upright) and no angle brackets (#8829)
+- Macros and environments for languages and book names (\#8774)
+- Macro `\Phl*[]{}{}` for transliterated text (upright) and no angle brackets (\#8829)
 
 ### Changed
 - Pahlavi transliterations are now put in angle brackets instead of square brackets
@@ -106,7 +109,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Fix PDF bookmark for `\Av`
-- Concrete width values led to errors due to a missing `begin{figure}`
+- Concrete width values led to errors due to a missing `\begin{figure}`
 
 ## [0.12.7] - 2019-10-09
 
