@@ -243,7 +243,9 @@
          }%
    }%
 \fi%   
-%%%\RequirePackage{fnpct}
+\RequirePackage{multicol}
+\AtBeginEnvironment{multicols}{\raggedright}
+\setlength{\columnsep}{4mm}
 \RequirePackage[savepos,abspage,user]{zref}
 \newlength{\normalparindent}
 \newlength{\fnlabelsep}
