@@ -6,8 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Environment `multicols` from the `multicol` package
+
 ### Fixed
 - Definition of `\Bactr` (\#8866)
+
 
 ## [0.20.0] - 2020-01-15
 
