@@ -874,7 +874,7 @@ brill]
    columnsep=4mm,%
    options={--noheadings --config muya}   
    ]%
-\newcommand{\Lemma}[1]{\item[#1]\@addtosequenceofletters{#1}}
+\newcommand{\Lemma}[1]{\item[#1]}
 %\newcommand{\cnt}{}
 %\NewEnviron{Lemma}[1]{%
 %   \@addtosequenceofletters{#1}
@@ -914,23 +914,25 @@ brill]
 \gdef\@sequenceofletters{}
 \gdef\@@sequenceofletters{}
 %%\AtBeginEnvironment{ModDictionary}{\gdef\@@sequenceofletters{}}
-\AfterEndEnvironment{ModDictionary}{%
-   \immediate\write\@auxout{\string\gdef\string\@sequenceofletters{\@@sequenceofletters}}}
-\newcommand{\@addtosequenceofletters}[1]{%
-   \StrLeft{#1}{1}[\@@initialletter]
-   \ifdefstrequal{\@initialletter}{-}
-      {\StrLeft{\@initialletter}{1}[\@initialletter]}%
-      {\let\@initialletter\@@initialletter}
-   \ifdefstrequal{\@initialletter}{\@lastinitialletter}
-      {}%
-      {%
-         \Ifstr{\@@sequenceofletters}{}
-            {\xappto\@@sequenceofletters{\@initialletter}}%
-            {\xappto\@@sequenceofletters{, \@initialletter}}%
-         \let\@lastinitialletter\@initialletter
-      }%
-}
-\newcommand{\Sequenceofletters}{Sequence of letters:\\%
+%%\AfterEndEnvironment{ModDictionary}{%
+%%   
+%%\immediate\write\@auxout{\string\gdef\string\@sequenceofletters{\@@sequenceofletters}}}
+%\newcommand{\@addtosequenceofletters}[1]{%
+%   \StrLeft{#1}{1}[\@@initialletter]
+%   \ifdefstrequal{\@initialletter}{-}
+%      {\StrLeft{\@initialletter}{1}[\@initialletter]}%
+%      {\let\@initialletter\@@initialletter}
+%   \ifdefstrequal{\@initialletter}{\@lastinitialletter}
+%      {}%
+%      {%
+%         \Ifstr{\@@sequenceofletters}{}
+%            {\xappto\@@sequenceofletters{\@initialletter}}%
+%            {\xappto\@@sequenceofletters{, \@initialletter}}%
+%         \let\@lastinitialletter\@initialletter
+%      }%
+%}
+\newcommand{\Sequenceofletters}{\par\noindent
+   Sequence of letters:\\%
    \@sequenceofletters\gdef\@@sequenceofletters{}%
    \par\vspace{\baselineskip}\noindent}
 
@@ -948,5 +950,7 @@ brill]
 %      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
 %       Please use \string\SetBibliographyFile\space}}%
 }%
+
+
 
 \endinput

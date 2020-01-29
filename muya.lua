@@ -72,6 +72,8 @@ function sortGlossary()
    local inSubsublemmata = false
    local inSubsubsublemmata = false   
    local f = assert(io.open(outfile, "w+"))
+   local hash = {}
+   local res = {}
    
    for k,v in pairs(lines) do
       -- get line k and process it
@@ -150,9 +152,26 @@ function sortGlossary()
          -- use the keys to retrieve the values in the sorted order
          for _, k in ipairs(newkeys) do
             f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
+            -- get the first letter of the lemma
+            local first = ustring.sub(removesortid(k),1,1)
+            --texio.write_nl(first)
+            -- check whether the letter is already known and not -
+            if not hash[first] and first ~= "-" then
+               res[#res+1] = first 
+               hash[first] = true
+            end
          end
          -- if lines follow they should be processed as well
          f:write('\n\\end{ModDictionary}', "\n")
+         local sequenceofletters = ""
+         for k,v in pairs(res) do
+            if sequenceofletters == "" then
+               sequenceofletters = v
+            else
+               sequenceofletters = sequenceofletters .. ", " .. v
+            end
+         end
+         tex.sprint([[\makeatletter\write\@mainaux{\string\gdef\string\@sequenceofletters{]],sequenceofletters,"}}",[[\makeatother]])
          inDictionary = false
       else
          if inDictionary == false then
@@ -283,23 +302,23 @@ function compare (a,b)
    -- the comparison returns a sort order so1 and so2
    local so1, so2
    
-   texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
+   --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
    -- if both strings are equal we stop processing
    if s1 ~= s2 then
    -- as long as both strings have equal characters (and are both not empty)
    -- get the next sorting letter and compare them
       while s1 ~= '' and s2 ~= '' do
-         texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
-         texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
-         texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
+         --texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
          if so1 < so2 then
             return true
          elseif so1 > so2 then
             return false
          end
-         texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
       end
       if s1 == '' then
          return true
@@ -333,7 +352,7 @@ function sortletter (s)
    else -- otherwise just take the first character and check
       sortletter = ustring.sub(s,1,1)   
    end
-   texio.write_nl(s .. ' ' .. sortletter .. ' ' .. ustring.len(sortletter))
+   --texio.write_nl(s .. ' ' .. sortletter .. ' ' .. ustring.len(sortletter))
    if gujorder[sortletter] then
       return gujorder[sortletter], ustring.sub(s, ustring.len(sortletter) + 1)
    else -- if there is a letter we don't know, insert at the very end
