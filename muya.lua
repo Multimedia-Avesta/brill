@@ -1,4 +1,6 @@
--- 2020/01/15 v0.20.0
+-- 2020/01/20 v0.21.0
+local ustring = require( 'ustring' )
+
 function modifySorting()
    local f = io.open("passages.idx", "r+")
    local content = f:read("*all")
@@ -70,6 +72,8 @@ function sortGlossary()
    local inSubsublemmata = false
    local inSubsubsublemmata = false   
    local f = assert(io.open(outfile, "w+"))
+   local hash = {}
+   local res = {}
    
    for k,v in pairs(lines) do
       -- get line k and process it
@@ -148,9 +152,26 @@ function sortGlossary()
          -- use the keys to retrieve the values in the sorted order
          for _, k in ipairs(newkeys) do
             f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
+            -- get the first letter of the lemma
+            local first = ustring.sub(removesortid(k),1,1)
+            --texio.write_nl(first)
+            -- check whether the letter is already known and not -
+            if not hash[first] and first ~= "-" then
+               res[#res+1] = first 
+               hash[first] = true
+            end
          end
          -- if lines follow they should be processed as well
          f:write('\n\\end{ModDictionary}', "\n")
+         local sequenceofletters = ""
+         for k,v in pairs(res) do
+            if sequenceofletters == "" then
+               sequenceofletters = v
+            else
+               sequenceofletters = sequenceofletters .. ", " .. v
+            end
+         end
+         tex.sprint([[\makeatletter\write\@mainaux{\string\gdef\string\@sequenceofletters{]],sequenceofletters,"}}",[[\makeatother]])
          inDictionary = false
       else
          if inDictionary == false then
@@ -245,15 +266,40 @@ function sortLemma (t)
 end
 
 function compare (a,b)
-   -- before sorting, we remove dashes at the end
+   -- before sorting, we remove dashes at the end and we remove sort ids
    local s1 = string.gsub(a, '^-?(.+)-?$', '%1')--$
    s1 = string.gsub(s1, '^¹(.+)$', '%11')
    s1 = string.gsub(s1, '^²(.+)$', '%12')
    s1 = string.gsub(s1, '^³(.+)$', '%13')
+   s1 = string.gsub(s1, '%s-…%s-', ' ')
+--   s1 = ustring.gsub(s1, 'é', 'é')
+   s1 = ustring.gsub(s1, 'ḍ', 'ḍ')
+--   s1 = ustring.gsub(s1, 'ḳ', 'ḳ')
+   s1 = ustring.gsub(s1, 'ḷ', 'ḷ')   
+   s1 = ustring.gsub(s1, 'ṃ', 'ṃ')      
+   s1 = ustring.gsub(s1, 'ṇ', 'ṇ')
+--   s1 = ustring.gsub(s1, 'ọ', 'ọ')
+   s1 = ustring.gsub(s1, 'ś', 'ś')
+   s1 = ustring.gsub(s1, 'ṣ', 'ṣ')
+   s1 = ustring.gsub(s1, 'ṭ', 'ṭ')
+         
    local s2 = string.gsub(b, '^-?(.+)-?$', '%1')--$
    s2 = string.gsub(s2, '^¹(.+)$', '%11')
    s2 = string.gsub(s2, '^²(.+)$', '%12')
    s2 = string.gsub(s2, '^³(.+)$', '%13')   
+   s2 = string.gsub(s2, '%s-…%s-', ' ')
+   s2 = ustring.gsub(s2, 'ḍ', 'ḍ')
+--   s2 = ustring.gsub(s2, 'é', 'é')
+--   s2 = ustring.gsub(s2, 'ḳ', 'ḳ')
+   s2 = ustring.gsub(s2, 'ḷ', 'ḷ')   
+   s2 = ustring.gsub(s2, 'ṃ', 'ṃ')   
+   s2 = ustring.gsub(s2, 'ṇ', 'ṇ')
+--   s2 = ustring.gsub(s2, 'ọ', 'ọ')   
+   s2 = ustring.gsub(s2, 'ś', 'ś')
+   s2 = ustring.gsub(s2, 'ṣ', 'ṣ')
+   s2 = ustring.gsub(s2, 'ṭ', 'ṭ')
+      
+   -- the comparison returns a sort order so1 and so2
    local so1, so2
    
    --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
@@ -266,13 +312,13 @@ function compare (a,b)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
          --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
-         -- texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
          if so1 < so2 then
             return true
          elseif so1 > so2 then
             return false
          end
-         -- texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
       end
       if s1 == '' then
          return true
@@ -293,25 +339,25 @@ function sortletter (s)
    ["dh"] = 30, ["n"] = 31, ["p"] = 32, ["ph"] = 33, ["f"] = 34, ["b"] = 35,
    ["bh"] = 36, ["m"] = 37, ["y"] = 38, ["r"] = 39, ["l"] = 40, ["v"] = 41,
    ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46, ["1"] = 47, 
-   ["2"] = 48, ["3"] = 49}   
+   ["2"] = 48, ["3"] = 49, [" "] = 50}   
    local sortletter = ''
    
    -- If s is at last two characters long, we check, whether the first two 
    -- characters form a valid sorting letter (according to our scheme)
-   if string.len(s) > 1 then
-      sortletter = string.sub(s,1,2)
+   if ustring.len(s) > 1 then
+      sortletter = ustring.sub(s,1,2)
       if gujorder[sortletter] == nil then
-         sortletter = string.sub(s,1,1)
+         sortletter = ustring.sub(s,1,1)
       end
    else -- otherwise just take the first character and check
-      sortletter = string.sub(s,1,1)   
+      sortletter = ustring.sub(s,1,1)   
    end
-   -- texio.write_nl(s .. ' ' .. sortletter .. ' ' .. string.len(sortletter))
+   --texio.write_nl(s .. ' ' .. sortletter .. ' ' .. ustring.len(sortletter))
    if gujorder[sortletter] then
-      return gujorder[sortletter], string.sub(s, string.len(sortletter) + 1)
+      return gujorder[sortletter], ustring.sub(s, ustring.len(sortletter) + 1)
    else -- if there is a letter we don't know, insert at the very end
       texio.write_nl("Unknown letter " .. sortletter)
-      return 99, string.sub(s, string.len(sortletter) + 1)
+      return 99, ustring.sub(s, ustring.len(sortletter) + 1)
    end
 end
 
