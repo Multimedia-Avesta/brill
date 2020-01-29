@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.21.0] - 2020-01-29
+
 ### Added
 - Environment `multicols` from the `multicol` package
 
 ### Fixed
 - Definition of `\Bactr` (\#8866)
-
+- `\Sequenceofletters` is now defined in the lua file
+- Sorting of glossary (not finished yet)
 
 ## [0.20.0] - 2020-01-15
 
@@ -337,6 +340,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.21.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.21.0
 [0.20.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.20.0
 [0.19.0]:
