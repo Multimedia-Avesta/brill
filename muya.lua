@@ -1,4 +1,4 @@
--- 2020/01/29 v0.21.0
+-- 2020/02/04 v0.22.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -171,7 +171,9 @@ function sortGlossary()
                sequenceofletters = sequenceofletters .. ", " .. v
             end
          end
-         tex.sprint([[\makeatletter\write\@mainaux{\string\gdef\string\@sequenceofletters{]],sequenceofletters,"}}",[[\makeatother]])
+         tex.sprint([[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
+         {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]])
+         tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]])
          inDictionary = false
       else
          if inDictionary == false then

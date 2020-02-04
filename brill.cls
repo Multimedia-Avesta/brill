@@ -1128,7 +1128,7 @@
    nonumberlist,%
    nosuper,%
    automake=immediate,
-   xindy={glsnumbers=false,language=english}]{glossaries-extra}
+   xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
 %%\RequirePackage{glossary-longbooktabs}
 \newdimen\widestabbreviation
 \setlength{\widestabbreviation}{0pt}
