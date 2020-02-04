@@ -195,6 +195,44 @@
    \RequirePackage[a4,center,frame]{crop}
 \fi%
 \RequirePackage{luatexbase}
+\if@PhD
+   \directlua{dofile(kpse.find_file"word_count.lua")}
+   
+   \def\setwordthreshold#1{%
+     \directlua{packagedata.word_count.set_threshold(\number#1)}%
+   }
+   
+   \def\startwordcount{%
+     \directlua{
+       luatexbase.add_to_callback(
+         "pre_linebreak_filter",
+         packagedata.word_count.callback,
+         "word_count"
+       )
+     }%
+   }
+   
+   \def\stopwordcount{%
+     \endgraf %% force paragraph
+     \directlua{
+       luatexbase.remove_from_callback(
+         "pre_linebreak_filter",
+         "word_count"
+       )
+     }%
+   }
+   
+   %%% This outputs the word count to stdout.
+   \def\dumpwordcount{%
+     \directlua{packagedata.word_count.dump_total_word_count()}
+   }
+   
+   %%% This returns the word count at the current position. Works only at
+   %%% the end of a paragraph.
+   \def\currentwordcount{%
+     \directlua{packagedata.word_count.current_word_count()}%
+   }
+\fi%
 \RequirePackage[%
    final,%
    tracking=smallcaps,%
