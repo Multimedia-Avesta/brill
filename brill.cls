@@ -1202,6 +1202,9 @@
 \renewcommand{\glsnamefont}[1]{\normalfont\mdseries #1}
 
 \RequirePackage{cleveref}
+\crefname{subthreesection}{section}{sections}
+\crefname{subfoursection}{section}{sections}
+\crefname{subfivesection}{section}{sections}
 
 %%\renewcaptionname{british}{\acronymname}{Abbreviations}
 \appto\captionsbritish{%
