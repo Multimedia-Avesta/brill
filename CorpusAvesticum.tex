@@ -1,6 +1,10 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/01/29 v0.21.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/05 v0.22.0 Configuration file for
 brill]
 \RequirePackage{xstring}
+\RequirePackage{collcell}
+%\let\collectcell@notabu\collectcell
+%\def\collectcell@intabu#1#2\tabu@cellleft{#2\tabu@cellleft\collectcell@notabu{#1}}
+%\def\collectcell{\tabu@ifenvir\collectcell@intabu\collectcell@notabu}
 \RequirePackage{newunicodechar}
 \directlua{require("muya")}
 \if@PhD
@@ -795,7 +799,10 @@ brill]
 \renewcommand*{\textlangle}{⟨}% U+27E8
 \renewcommand*{\textrangle}{⟩}% U+27E9
 
-\newcommand{\Newtranslation}[2]{\csgdef{translation-#1}{#2}}
+\newcommand{\Newtranslation}[3][]{%
+   \csgdef{translation-#2}{#3}%
+   \ifstrempty{#1}{}{\csgdef{rd-#2}{#1}}%
+}
 \let\newtranslation\Newtranslation
 \def\Gettranslation{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{%
@@ -804,7 +811,19 @@ brill]
    \csuse{translation-#1}%
    \egroup%
 }
-\newcommand{\@@Gettranslation}[1]{\csuse{translation-#1}}
+\newcommand{\@@Gettranslation}[2][]{%
+   \IfStrEqCase{#1}{%
+      {t}{%
+            \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+            \csuse{translation-#2}%
+         }%
+      {m}{}%
+      {b}{%
+            \csuse{translation-#2}%
+            \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
+         }%
+   }[\csuse{translation-#2}]%
+}
 \let\gettranslation\Gettranslation
 \newcommand{\AvTr}[1]{#1}
 \newcommand{\Rd}[1]{#1}
@@ -818,6 +837,8 @@ brill]
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
 %%\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
 %%\newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
+\newcommand*{\@abbreviationsacfile}{../muya.common/abbreviations_ac.tex}
+\newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
@@ -920,6 +941,58 @@ brill]
    \stepcounter{numberofglossaries}%
    \csuse{@sequenceofletters\thenumberofglossaries}%
    \par\vspace{\baselineskip}\noindent}
+
+\newdimen\widestabbreviationac
+\setlength{\widestabbreviationac}{0pt}
+
+\newcommand*{\@checkforwidestabbreviationac}[1]{%
+   \settowidth{\currentwidth}{#1}%
+   \ifdimgreater{\currentwidth}{\widestabbreviationac}%
+      {\global\setlength{\widestabbreviationac}{\the\currentwidth}}%
+      {}%
+}
+
+\AtEndDocument{%
+   \ifdimless{\widestabbreviationac}{\normalparindent}%
+      {\immediate\write\@auxout%
+         {\noexpand\setlength{\widestabbreviationac}{\normalparindent}}%
+      }{\ifdimless{\widestabbreviationac}{2\normalparindent}%
+         {\immediate\write\@auxout%
+            {\noexpand\setlength{\widestabbreviationac}{2\normalparindent}}%
+         }{\ifdimless{\widestabbreviationac}{3\normalparindent}%
+            {\immediate\write\@auxout%
+               {\noexpand\setlength{\widestabbreviationac}{3\normalparindent}}%
+            }{\ifdimless{\widestabbreviationac}{4\normalparindent}%
+               {\immediate\write\@auxout%
+                  {\noexpand\setlength{\widestabbreviationac}{4\normalparindent}}%
+               }{\ifdimless{\widestabbreviationac}{5\normalparindent}%
+                  {\immediate\write\@auxout%
+                     {\noexpand\setlength{\widestabbreviationac}{5\normalparindent}}%
+                  }{\ifdimless{\widestabbreviationaac}{6\normalparindent}%
+                     {\immediate\write\@auxout%
+                        {\noexpand\setlength{\widestabbreviationac}{6\normalparindent}}%
+                     }{\immediate\write\@auxout%
+                           {\noexpand\setlength{\widestabbreviationac}{7\normalparindent}}%
+                     }%
+                  }%
+               }%
+            }%
+         }%
+      }%
+}%
+%\newcolumntype{W}{>{\collectcell\testme}p{\widestabbreviationac}<{\endcollectcell}}
+%\tabucolumn W
+\newenvironment{abbreviationsac}
+   {\begin{longtabu} to \textwidth{%
+      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
+   {\end{longtabu}}      
+
+\newcommand{\printabbreviationsac}{%
+   \addchap{Abbreviations for the apparatus criticus}
+   \begin{abbreviationsac}
+   \InputIfFileExists{\@abbreviationsacfile}{}{}%
+   \end{abbreviationsac}
+}
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%

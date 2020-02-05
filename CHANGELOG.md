@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.22.0] - 2020-02-05
+
+### Added
+- `cleveref` definitions for `\subthreesection`, `\subfoursection` and `\subfivesection`
+- Macros and methods for word count when in PhD mode
+
+### Changed
+- Options for `xindy` at `glossary` loading
+- `\newtranslation` now supports an optional argument for a ritual direction
+- `\gettranslation` now supports an optional argument for the position of the corresponding ritual direction (empty for no rd output) (Experimental!)
+
+### Fixed
+- `\Sequenceofletters` now works for multiple glossaries/dictionaries as well
 
 ## [0.21.0] - 2020-01-29
 
@@ -341,6 +354,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.22.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.22.0
 [0.21.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.21.0
 [0.20.0]:

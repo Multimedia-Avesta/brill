@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/01/29 v0.21.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/05 v0.22.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -1177,7 +1177,8 @@
    \ifdimgreater{\currentwidth}{\widestabbreviation}%
       {\global\setlength{\widestabbreviation}{\the\currentwidth}}%
       {}%
-  }
+}
+
 \AtEndDocument{%
    \ifdimless{\widestabbreviation}{\normalparindent}%
       {\immediate\write\@auxout%
@@ -1206,6 +1207,7 @@
          }%
       }%
 }%
+
 \newglossarystyle{brill}{%
    \renewenvironment{theglossary}%
       {\begin{longtabu} to%
