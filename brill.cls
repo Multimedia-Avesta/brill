@@ -722,7 +722,7 @@
 \addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular,Lining}}}%
 \addtokomafont{minisec}{\bfseries}%
-%\addtokomafont{footnotereference}{\addfontfeatures{VerticalPosition=Superior}}
+\addtokomafont{footnotereference}{\upshape}%\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25pt]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
 %%%\deffootnote[1.25em]{1.25em}{1.25em}{\makebox[1.25em][r]{\thefootnotemark}\
