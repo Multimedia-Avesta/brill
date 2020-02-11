@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.23.0] - 2020-02-11
+
+### Added
+- New book macros (#8774)
+- New option `countwords` to ba available to all outputs (not only to the PhDs)
+- New macro `\logwords` to write information about the number of words into the log file rather than the document itself
+- New macro `\declarationPhD` for adding a standard declaration in PhD mode
+
+### Changed
+- `PhD` option does no longer activate the counting of words by default (use option `countwords`)
+
 ## [0.22.1] - 2020-02-05
 
 ### Changed

@@ -134,7 +134,8 @@ end
 word_count.callback = callback
 
 local current_count = function ()
-  tex.print(collected.total)
+  tex.sprint('The document consists of ',collected.total,
+  ' words (using a threshold of ',word_count.threshold,')')
 end
 
 word_count.current_word_count = current_count
@@ -188,4 +189,13 @@ local print_total = function ()
 end
 
 word_count.print_total_word_count = print_total
+
+local print_total_to_log = function ()
+  --print(table.serialize(collected))
+  tex.sprint([[\ClassInfo{brill}{The document consists of 
+  ]],collected.total,' words (using a threshold of ',word_count.threshold,')}')
+end
+
+word_count.print_total_word_count_to_log = print_total_to_log
+
 

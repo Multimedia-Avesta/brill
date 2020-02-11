@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/02/05 v0.22.1 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/11 v0.23.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -26,6 +26,8 @@
 \DeclareOption{alphenumdot}{\@alphenumdottrue}
 \newif\if@PhD
 \DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
+\newif\if@countwords
+\DeclareOption{countwords}{\@countwordstrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 \ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \ProcessOptions*\relax
@@ -195,7 +197,7 @@
    \RequirePackage[a4,center,frame]{crop}
 \fi%
 \RequirePackage{luatexbase}
-\if@PhD
+\if@countwords
    \directlua{dofile(kpse.find_file"word_count.lua")}
    
    \def\setwordthreshold#1{%
@@ -230,8 +232,26 @@
    %%% This returns the word count at the current position. Works only at
    %%% the end of a paragraph.
    \def\currentwordcount{%
-     \directlua{packagedata.word_count.current_word_count()}%
+      \directlua{packagedata.word_count.current_word_count()}%
+      \logwordcount
    }
+
+%   \def\printwordcount{%
+%      \directlua{packagedata.word_count.print_total_word_count()}%
+%      \logwordcount
+%   }
+   
+   \def\logwordcount{%
+      \directlua{packagedata.word_count.print_total_word_count_to_log()}%
+   }
+\else
+   \def\setwordthreshold#1{\@gobble}
+   \let\startwordcount\relax
+   \let\stopwordcount\relax
+   \let\dumpwordcount\relax
+   \let\currentwordcount\relax
+%   \let\printwordcount\relax
+   \let\logwordcount\relax
 \fi%
 \RequirePackage[%
    final,%

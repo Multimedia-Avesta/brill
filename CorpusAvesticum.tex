@@ -1021,4 +1021,21 @@ brill]
 %       Please use \string\SetBibliographyFile\space}}%
 }%
 
+\if@PhD
+   \newcommand{\declarationPhD}{%
+      \cleardoubleemptypage
+      \minisec{Declaration for SOAS PhD thesis}
+   \noindent I have read and understood Regulation 21 of the General and 
+   Admissions Regulations for students of the SOAS, University of London 
+   concerning plagiarism. I undertake that all the material presented for 
+   examination is my own work and has not been written for me, in whole or in 
+   part, by any other person. I also undertake that any quotation or paraphrase 
+   from the published or unpublished work of another person has been duly 
+   acknowledged in the work which I present for 
+   examination.\par\vspace{\baselineskip}
+   \noindent Signed: \rule{4cm}{0.4pt} \hfill Date: \rule{4cm}{0.4pt}%
+   }
+\else
+   \let\declarationPhD\relax
+\fi%
 \endinput
