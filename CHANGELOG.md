@@ -11,11 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New book macros (#8774)
 - New option `countwords` to ba available to all outputs (not only to the PhDs)
-- New macro `\logwords` to write information about the number of words into the log file rather than the document itself
+- New macro `\logwordcount` to write information about the number of words into the log file rather than the document itself
 - New macro `\declarationPhD` for adding a standard declaration in PhD mode
 
 ### Changed
 - `PhD` option does no longer activate the counting of words by default (use option `countwords`)
+- `\Phl` now supports a second optional argument (`r` for reverse)
 
 ## [0.22.1] - 2020-02-05
 
@@ -370,6 +371,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.23.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.23.0
 [0.22.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.22.1
 [0.22.0]:

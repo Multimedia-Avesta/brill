@@ -1,3 +1,4 @@
+-- 2020/02/11 v0.23.0
 packagedata            = packagedata or { } -- namespace proposal for packages
 local word_count       = { threshold = 3, }
 packagedata.word_count = packagedata.word_count or word_count

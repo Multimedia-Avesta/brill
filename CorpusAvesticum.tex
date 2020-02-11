@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/05 v0.22.1 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/11 v0.23.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{collcell}
@@ -354,7 +354,27 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newif\if@PhlNoEmph
-\newrobustcmd*{\Phl}{\@ifstar{\@PhlNoEmphtrue\@Phl}{\@PhlNoEmphfalse\@Phl}}
+\newrobustcmd*{\Phl}{\@ifstar{\@PhlNoEmphtrue\@@@Phl}{\@PhlNoEmphfalse\@@@Phl}}
+\newcommand*{\@@@Phl}{%
+   % Check for optional argument
+   \@ifnextchar[%
+      {% Call another macro to see, whether we have a second optional argument
+         \@@@@Phl%
+      }%
+      {% Call the normal command which works with at most one optional argument
+         \@Phl%
+      }%
+}
+\def\@@@@Phl[#1]{%
+   % There is at least one optional argument. Check for second one.
+   \@ifnextchar[%
+      {% We have two optional arguments. Therefore #1 could be 'r'. Check
+         \Ifstr{#1}{r}{\@Phlreverse}{\@Phl}
+      }%
+      {% There is only one optional argument 
+         \@Phl[#1]%
+      }%
+}
 \newcommand*{\@Phl}[2][]{%
    \@ifnextchar\bgroup{\@@Phl[#1]{#2}}{\@@Phl[#1]{#2}{}}}
 \newcommand*{\@@Phl}[3][]{%
@@ -370,6 +390,15 @@ brill]
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
    \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
+\newcommand*{\@Phlreverse}[3][]{%
+   \def\indexlanguage{Pahlavi}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \ifstrempty{#3}{}{\textlangle{}#3\textrangle{}}%
+   \ifstrempty{#2}{}{\ \textit{(#2)}}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage
+   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}%
+}
 \let\Phlv\Phl
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
