@@ -1,2 +1,18 @@
-\ProvidesFile{muya.cbx}[2019/11/27 v0.16 biblatex citation style]
+\ProvidesFile{muya.cbx}[2020/02/16 v0.24 biblatex citation style]
 \RequireCitationStyle{sp-authoryear-comp}
+\renewbibmacro*{cite:labelyear+extradate}{%
+   \iffieldundef{labelyear}
+      {}
+      {\iffieldundef{labelendyear}
+      {%
+         \printtext[bibhyperref]{%
+            \printfield{labelyear}%
+            \printfield{extradate}}%
+      }%
+      {%
+         \printtext[bibhyperref]{%
+            \printfield{labelyear}\bibrangedash\printfield{labelendyear}%
+            \printfield{extradate}}%
+      }%
+   }%
+}
