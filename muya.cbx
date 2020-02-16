@@ -16,3 +16,34 @@
       }%
    }%
 }
+
+\DeclareCiteCommand{\citeyear}
+   {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+   {\printtext[bibhyperref]{%
+      \iffieldundef{year}
+         {\printfield{labelyear}}%
+         {\iffieldundef{endyear}
+            {\printfield{year}}%
+            {\printfield{year}\bibrangedash\printfield{endyear}}%
+         }%
+      \printfield{extradate}}%
+   }%
+   {\multicitedelim}
+   {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\citeyearpar}[\mkbibparens]
+   {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+   {\printtext[bibhyperref]{%
+      \iffieldundef{year}
+         {\iffieldundef{endyear}
+            {\printfield{year}}%
+            {\printfield{year}\bibrangedash\printfield{endyear}}%
+         }%
+      \printfield{extradate}}%
+   }%
+   {\multicitedelim}
+   {\usebibmacro{postnote}}
