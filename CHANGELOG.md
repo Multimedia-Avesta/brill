@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - All cite macros now respect a date range (\#8911)
-- `\Bactr` and `\Sogd` understand a third argument for the phonemic analysis
+- `\Bactr` and `\Sogd` understand a third argument for the phonemic analysis (\#8907)
 
 ### Fixed
 - Empty argument for `Phl` caused spurious blank (\#8908)
