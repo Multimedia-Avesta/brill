@@ -1,6 +1,8 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/11 v0.23.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/16 v0.24.0 Configuration file for
 brill]
 \RequirePackage{xstring}
+\RequirePackage{xspace}
+%\xspaceremoveexception{s}
 \RequirePackage{collcell}
 %\let\collectcell@notabu\collectcell
 %\def\collectcell@intabu#1#2\tabu@cellleft{#2\tabu@cellleft\collectcell@notabu{#1}}
@@ -199,10 +201,12 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Avst\Av
-\newcommand*{\Bactr}[2][]{%
+\newcommand*{\Bactr}[3][]{%
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   #2%
+   \ifstrempty{#3}{}{\unskip\ /#3/}%
+   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\Chor}[2][]{%
    \def\indexlanguage{Choresmian}%
@@ -369,7 +373,7 @@ brill]
    % There is at least one optional argument. Check for second one.
    \@ifnextchar[%
       {% We have two optional arguments. Therefore #1 could be 'r'. Check
-         \Ifstr{#1}{r}{\@Phlreverse}{\@Phl}
+         \Ifstr{#1}{r}{\@Phlreverse}{\@Phl}%
       }%
       {% There is only one optional argument 
          \@Phl[#1]%
@@ -381,29 +385,31 @@ brill]
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \if@PhlNoEmph%
-      #2%
-      \ifstrempty{#3}{}{\ #3}%
+      \ifstrempty{#2}{}{#2}%
+      \ifstrempty{#3}{}{\unskip\ #3}%
    \else%
-      \textit{#2}%
-      \ifstrempty{#3}{}{\ \textlangle{}#3\textrangle{}}%
+      \ifstrempty{#2}{}{\textit{#2}}%
+      \ifstrempty{#3}{}{\unskip\ \textlangle{}#3\textrangle{}}%
    \fi%
-   \ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage
-   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
+   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   \resetlanguage%
+   \xspace%
+}
 \newcommand*{\@Phlreverse}[3][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \ifstrempty{#3}{}{\textlangle{}#3\textrangle{}}%
-   \ifstrempty{#2}{}{\ \textit{(#2)}}%
-   \ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage
-   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}%
+   \ifstrempty{#2}{}{\unskip\ \textit{(#2)}}%
+   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   \resetlanguage%
+   \xspace%
 }
 \let\Phlv\Phl
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   #2\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \ifstrempty{#2}{}{#2}%
+   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
 \newcommand*{\PIE}[2][]{%
@@ -450,10 +456,12 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Sa\Skt
-\newcommand*{\Sogd}[2][]{%
+\newcommand*{\Sogd}[3][]{%
    \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \emph{#2}%
+   \ifstrempty{#3}{}{\unskip\ /#3/}%
+   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\TochA}[2][]{%
    \def\indexlanguage{Tocharian A}%

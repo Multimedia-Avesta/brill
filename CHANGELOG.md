@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- New macros for cwl file
+
+### Changed
+- All cite macros now respect a date range (\#8911)
+- `\Bactr` and `\Sogd` understand a third argument for the phonemic analysis (\#8907)
+
+### Fixed
+- Empty argument for `Phl` caused spurious blank (\#8908)
+
 ## [0.23.0] - 2020-02-11
 
 ### Added

@@ -1,2 +1,49 @@
-\ProvidesFile{muya.cbx}[2019/11/27 v0.16 biblatex citation style]
+\ProvidesFile{muya.cbx}[2020/02/16 v0.24 biblatex citation style]
 \RequireCitationStyle{sp-authoryear-comp}
+\renewbibmacro*{cite:labelyear+extradate}{%
+   \iffieldundef{labelyear}
+      {}
+      {\iffieldundef{labelendyear}
+      {%
+         \printtext[bibhyperref]{%
+            \printfield{labelyear}%
+            \printfield{extradate}}%
+      }%
+      {%
+         \printtext[bibhyperref]{%
+            \printfield{labelyear}\bibrangedash\printfield{labelendyear}%
+            \printfield{extradate}}%
+      }%
+   }%
+}
+
+\DeclareCiteCommand{\citeyear}
+   {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+   {\printtext[bibhyperref]{%
+      \iffieldundef{year}
+         {\printfield{labelyear}}%
+         {\iffieldundef{endyear}
+            {\printfield{year}}%
+            {\printfield{year}\bibrangedash\printfield{endyear}}%
+         }%
+      \printfield{extradate}}%
+   }%
+   {\multicitedelim}
+   {\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\citeyearpar}[\mkbibparens]
+   {\boolfalse{citetracker}%
+   \boolfalse{pagetracker}%
+   \usebibmacro{prenote}}
+   {\printtext[bibhyperref]{%
+      \iffieldundef{year}
+         {\iffieldundef{endyear}
+            {\printfield{year}}%
+            {\printfield{year}\bibrangedash\printfield{endyear}}%
+         }%
+      \printfield{extradate}}%
+   }%
+   {\multicitedelim}
+   {\usebibmacro{postnote}}
