@@ -14,9 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - All cite macros now respect a date range (\#8911)
 - `\Bactr` and `\Sogd` understand a third argument for the phonemic analysis (\#8907)
+- `\Phl` now uses the `xspace` package instead of custom lists of characters (\#8912)
+- `\blocktranslation` now checks for empty third mandatory argument (\#8908)
 
 ### Fixed
-- Empty argument for `Phl` caused spurious blank (\#8908)
+- Empty argument for `\Phl` caused spurious blank (\#8908)
 
 ## [0.23.0] - 2020-02-11
 

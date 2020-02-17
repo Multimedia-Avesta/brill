@@ -1331,9 +1331,11 @@
       \else%
          \noindent%
       \fi%
-      \begin{enuminlinesplitB}
-      #4%
-      \end{enuminlinesplitB}
+      \ifstrempty{#4}{}{%
+         \begin{enuminlinesplitB}
+         #4%
+         \end{enuminlinesplitB}
+      }%
       \ifstrempty{#1}%
          {}%
          {%
@@ -1345,7 +1347,7 @@
    \else%
       {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
       \par\vspace{\baselineskip}\noindent%
-      #4%
+      \ifstrempty{#4}{}{#4}%
       \ifstrempty{#1}%
          {}%
          {%
@@ -1361,8 +1363,10 @@
 \newcommand{\@@blocktranslation}[3]{%
    \begin{displayquote}%
    {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1}#2}}%
-   \par\vspace{\baselineskip}\noindent%
-   #3%
+   \ifstrempty{#3}{}{%
+      \par\vspace{\baselineskip}\noindent%
+      #3%
+   }%
    \end{displayquote}%
 }%
 
