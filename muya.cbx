@@ -1,5 +1,7 @@
-\ProvidesFile{muya.cbx}[2020/02/16 v0.24 biblatex citation style]
+\ProvidesFile{muya.cbx}[2020/02/17 v0.24 biblatex citation style]
 \RequireCitationStyle{sp-authoryear-comp}
+%%% We have to redefine some macros in order to have the labelendyear being used
+%%% for the different cite commands
 \renewbibmacro*{cite:labelyear+extradate}{%
    \iffieldundef{labelyear}
       {}
@@ -16,6 +18,9 @@
       }%
    }%
 }
+
+%%% \citeyear uses a different approach. Therefore we have to define this macro
+%%% separately.
 
 \DeclareCiteCommand{\citeyear}
    {\boolfalse{citetracker}%

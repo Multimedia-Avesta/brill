@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/02/11 v0.23.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/17 v0.24.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
