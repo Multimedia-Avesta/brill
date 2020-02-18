@@ -6,8 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.25.0] - 2020-02-18
+
+### Changed
+- Definitions of `\addsubsec` and `\addsubsubsec` to match KOMA-Script definitions
+- Layout of headings in PhD mode (\#8915)
+
 ### Fixed
-- Remove spurious blank in front of `\Phl`, `\Bactr` and `\Sogd`
+- Remove spurious blank in front of `\Phl`, `\Bactr` and `\Sogd` (\#8912)
 
 ## [0.24.0] - 2020-02-17
 
@@ -388,6 +394,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.25.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.25.0
 [0.24.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.24.0
 [0.23.0]:
