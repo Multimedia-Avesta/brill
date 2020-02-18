@@ -119,24 +119,20 @@
 % Split up date field
       \map[overwrite]{%
          \step[fieldsource=date,%
-               match=\regexp{(.*)\s+\[(.*)\s*(\d{4}-\d{4}.*)\]},final]%
+               match=\regexp{(.*)\s+\[(.*)\s*(\d{4}-\d{4})(.*)\]},final]%
          \step[fieldset=date,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
+         \step[fieldset=preorigdatetext,fieldvalue=\regexp{$2}]%$
          \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
+         \step[fieldset=postorigdatetext,fieldvalue=\regexp{$4}]%$         
       }      
       \map[overwrite]{%
          \step[fieldsource=date,%
-               match=\regexp{(.*)\s+\[(.*)\s*(\d{4}.*)\]},final]%
+               match=\regexp{(.*)\s+\[(.*)\s*(\d{4})(.*)\]},final]%
          \step[fieldset=date,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
+         \step[fieldset=preorigdatetext,fieldvalue=\regexp{$2}]%$
          \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
+         \step[fieldset=postorigdatetext,fieldvalue=\regexp{$4}]%$
       }
-%%      \map[overwrite]{%
-%%         \step[fieldsource=date,%
-%%               match=\regexp{(.*)\s+\[(.*)\]},final]%
-%%         \step[fieldset=date,fieldvalue=\regexp{$1}]%$
-%%         \step[fieldset=origdatetext,fieldvalue=\regexp{$2}]%$
-%%         \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$         
 %circa dates
       \map{%
           \step[fieldsource=date,%
@@ -295,7 +291,12 @@
   \iffieldundef{origyear}%
    {}%
    {\addspace%
-    \printtext[brackets]{\printfield{origdatetext}\setunit*{\addspace}\printorigdate}%
+    \printtext[brackets]{%
+      \printfield{preorigdatetext}%
+      \setunit*{\addspace}%
+      \printorigdate%
+      \setunit{\addspace}%
+      \printfield{postorigdatetext}}%
    }%
 }%
 

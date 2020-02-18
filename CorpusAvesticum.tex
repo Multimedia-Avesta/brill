@@ -362,7 +362,18 @@ brill]
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newif\if@PhlNoEmph
-\newrobustcmd*{\Phl}{\@ifstar{\@PhlNoEmphtrue\@@@Phl}{\@PhlNoEmphfalse\@@@Phl}}
+\newrobustcmd*{\Phl}{\@ifstar%
+   {%
+      \directlua{luatexbase.add_to_callback("post_linebreak_filter",upright_punctuation,"upright_punctuation")}%
+      \@PhlNoEmphtrue\@@@Phl%
+      \directlua{luatexbase.remove_from_callback("post_linebreak_filter",upright_punctuation,"upright_punctuation")}%
+   }%
+   {%
+      \directlua{luatexbase.add_to_callback("post_linebreak_filter",upright_punctuation,"upright_punctuation")}%
+      \@PhlNoEmphfalse\@@@Phl%
+      \directlua{luatexbase.remove_from_callback("post_linebreak_filter",upright_punctuation,"upright_punctuation")}%
+   }%
+}
 \newcommand*{\@@@Phl}{%
    % Check for optional argument
    \@ifnextchar[%

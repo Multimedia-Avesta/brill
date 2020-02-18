@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Add rule for splitting up date fields (\#8917)
+
 ## [0.25.0] - 2020-02-18
 
 ### Changed

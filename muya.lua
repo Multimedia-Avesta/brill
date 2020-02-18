@@ -364,3 +364,34 @@ function sortletter (s)
 end
 
 -- taken from https://gist.github.com/phi-gamma/2622252
+
+--[[ 
+https://tex.stackexchange.com/questions/374064/upright-punctuation-independent-from-font-style
+This is a function to get specific punctuation characters upright even if they 
+are in an italics environment
+--]]
+function table.contains(t, k)
+    for _, v in pairs(t) do
+        if v == k then
+            return true
+        end
+    end
+    return false
+end
+
+function upright_punctuation(head)
+    -- Traverse vertical list
+    for line in node.traverse_id(node.id("hhead"),head) do
+       -- Traverse horizontal list
+       for glyph in node.traverse_id(node.id("glyph"), line.head) do
+           -- Check if the glyph is
+           --                   (   )   ,   :   ;
+           if (table.contains({ 40, 41, 44, 58, 59 }, glyph.char)) then
+               -- and change its font to upright.
+               -- (this is not so generic, 15 just happens to be upright)
+               glyph.font = 15
+           end
+       end
+    end
+    return head
+end
