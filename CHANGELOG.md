@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Remove spurious blank in front of `\Phl`, `\Bactr` and `\Sogd`
+
 ## [0.24.0] - 2020-02-17
 
 ### Added
