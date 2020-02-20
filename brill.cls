@@ -40,7 +40,7 @@
    captions=bottombeside,%
    captions=rightbeside,%
    chapterprefix,%
-   headings=optiontohead,
+   %headings=optiontohead,
    listof=leveldown,%
    open=any,%
    toc=bibliography,%
