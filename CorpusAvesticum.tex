@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/17 v0.24.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/18 v0.25.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -204,9 +204,13 @@ brill]
 \newcommand*{\Bactr}[3][]{%
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   #2%
-   \ifstrempty{#3}{}{\unskip\ /#3/}%
-   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   \ifstrempty{#2}
+      {/#3/}%
+      {%
+         #2%
+         \ifstrempty{#3}{}{\ /#3/}%
+      }%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\Chor}[2][]{%
    \def\indexlanguage{Choresmian}%
@@ -385,22 +389,40 @@ brill]
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \if@PhlNoEmph%
-      \ifstrempty{#2}{}{#2}%
-      \ifstrempty{#3}{}{\unskip\ #3}%
+      \ifstrempty{#2}
+         {\ifstrempty{#3}{}{#3}}%
+         {%
+            #2%
+            \ifstrempty{#3}{}{\ #3}%
+         }%
    \else%
-      \ifstrempty{#2}{}{\textit{#2}}%
-      \ifstrempty{#3}{}{\unskip\ \textlangle{}#3\textrangle{}}%
+      \ifstrempty{#2}
+         {% We assume, that #2 and #3 are not both empty
+            \textlangle{}#3\textrangle{}%
+         }%
+         {%
+            \textit{#2}%
+            \ifstrempty{#3}
+               {}%
+               {\ \textlangle{}#3\textrangle{}}%
+         }%
    \fi%
-   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   % We assume, that #2 and #3 are not both empty
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage%
    \xspace%
 }
 \newcommand*{\@Phlreverse}[3][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \ifstrempty{#3}{}{\textlangle{}#3\textrangle{}}%
-   \ifstrempty{#2}{}{\unskip\ \textit{(#2)}}%
-   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   \ifstrempty{#3}
+      {\textit{(#2)}}%
+      {%
+         \textlangle{}#3\textrangle{}%
+         \ifstrempty{#2}{}{\ \textit{(#2)}}%   
+      }%
+   % We assume, that #2 and #3 are not both empty
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage%
    \xspace%
 }
@@ -459,9 +481,13 @@ brill]
 \newcommand*{\Sogd}[3][]{%
    \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{#2}%
-   \ifstrempty{#3}{}{\unskip\ /#3/}%
-   \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
+   \ifstrempty{#2}
+      {/#3/}%
+      {%
+         \emph{#2}%
+         \ifstrempty{#3}{}{\ /#3/}%
+      }%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\TochA}[2][]{%
    \def\indexlanguage{Tocharian A}%

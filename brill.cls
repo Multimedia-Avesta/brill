@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/02/17 v0.24.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/18 v0.25.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -495,7 +495,7 @@
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
+      afterskip=.5\baselineskip,
       font={\normalsize\bfseries},
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+8mm\relax
@@ -503,8 +503,8 @@
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\normalsize},
+      afterskip=.5\baselineskip,
+      font={\normalsize\bfseries},
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+16mm\relax
    ]{subsubsection}
@@ -512,8 +512,8 @@
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\normalsize},
+      afterskip=.5\baselineskip,
+      font={\normalsize\bfseries},
       indent=0pt,
       level=4,
       tocindent=0pt,%%%TODO
@@ -526,8 +526,8 @@
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\small},
+      afterskip=.5\baselineskip,
+      font={\small\bfseries},
       indent=0pt,
       level=5,
       tocindent=0pt,%%%TODO
@@ -540,8 +540,8 @@
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\small},
+      afterskip=.5\baselineskip,
+      font={\small\bfseries},
       indent=0pt,
       level=6,
       tocindent=0pt,%%%TODO
@@ -553,8 +553,8 @@
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\small},
+      afterskip=.5\baselineskip,
+      font={\small\bfseries},
       indent=0pt,
       level=7,
       tocindent=0pt,%%%TODO
@@ -565,8 +565,8 @@
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
-      afterskip=1sp,
-      font={\small},
+      afterskip=.5\baselineskip,
+      font={\small\bfseries},
       indent=0pt,
       level=8,
       tocindent=0pt,%%%TODO
@@ -581,7 +581,7 @@
       tocindent=\dimexpr\@tocstartindent\relax
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
-   
+   %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
       afterskip=1sp,
@@ -589,7 +589,7 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+8mm\relax
    ]{subsection}
-   
+   %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
       afterskip=1sp,
@@ -597,7 +597,7 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+16mm\relax
    ]{subsubsection}
-   
+   %
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
@@ -611,7 +611,7 @@
       counterwithin=subsubsection,
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
-   
+%
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
@@ -625,7 +625,7 @@
       counterwithin=subthreesection,
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
-   
+%
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
@@ -639,7 +639,7 @@
       counterwithin=subfoursection,
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
-   
+   %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
       afterskip=1sp,
@@ -651,7 +651,7 @@
       counterwithin=subfivesection,
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
-   
+   %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
       afterskip=1sp,
@@ -663,41 +663,81 @@
    ]{subparagraph}
    %%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
 \fi%
-\renewcommand{\sectionlinesformat}[4]{%
-   \Ifstr{#1}{section}{%
-      \makebox[12mm][l]{\upshape #3}%
-   }{%
-      \Ifstr{#1}{subsection}{%
+\if@PhD
+   \renewcommand{\sectionlinesformat}[4]{%
+      \Ifnumbered{#1}
+      {%
+         \Ifstr{#1}{section}{%
+            {\makebox[12mm][l]{\upshape #3}}%
+         }{%
+            \Ifstr{#1}{subsection}{%
+               \makebox[12mm][l]{\upshape #3}%
+            }{%
+               \Ifstr{#1}{subsubsection}{%
+                  \makebox[16mm][l]{\upshape #3}%
+               }{%
+                  \Ifstr{#1}{subthreesection}{%
+                     \makebox[16mm][l]{\upshape #3}%
+                  }{%
+                     \Ifstr{#1}{subfoursection}{%
+                        \makebox[20mm][l]{\upshape #3}%   
+                     }{%
+                        \Ifstr{#1}{subfivesection}{%
+                           \makebox[20mm][l]{\upshape #3}%
+                        }{%
+                           \Ifstr{#1}{paragraph}{%
+                              \makebox[24mm][l]{\upshape #3}%
+                           }{%
+                              \Ifstr{#1}{subparagraph}{%
+                                 \makebox[24mm][l]{\upshape #3}%
+                              }{}%
+                           }%
+                        }%
+                     }% 
+                  }%       
+               }%
+            }%
+         }%
+         #4%
+      }%
+      {\@hangfrom{\hskip #2#3}{#4}}%
+   }%
+\else
+   \renewcommand{\sectionlinesformat}[4]{%
+      \Ifstr{#1}{section}{%
          \makebox[12mm][l]{\upshape #3}%
       }{%
-         \Ifstr{#1}{subsubsection}{%
-            \makebox[16mm][l]{\upshape #3}%
+         \Ifstr{#1}{subsection}{%
+            \makebox[12mm][l]{\upshape #3}%
          }{%
-            \Ifstr{#1}{subthreesection}{%
+            \Ifstr{#1}{subsubsection}{%
                \makebox[16mm][l]{\upshape #3}%
             }{%
-               \Ifstr{#1}{subfoursection}{%
-                  \makebox[20mm][l]{\upshape #3}%   
+               \Ifstr{#1}{subthreesection}{%
+                  \makebox[16mm][l]{\upshape #3}%
                }{%
-                  \Ifstr{#1}{subfivesection}{%
-                     \makebox[20mm][l]{\upshape #3}%
+                  \Ifstr{#1}{subfoursection}{%
+                     \makebox[20mm][l]{\upshape #3}%   
                   }{%
-                     \Ifstr{#1}{paragraph}{%
-                        \makebox[24mm][l]{\upshape #3}%
+                     \Ifstr{#1}{subfivesection}{%
+                        \makebox[20mm][l]{\upshape #3}%
                      }{%
-                        \Ifstr{#1}{subparagraph}{%
+                        \Ifstr{#1}{paragraph}{%
                            \makebox[24mm][l]{\upshape #3}%
-                        }{}%
+                        }{%
+                           \Ifstr{#1}{subparagraph}{%
+                              \makebox[24mm][l]{\upshape #3}%
+                           }{}%
+                        }%
                      }%
-                  }%
-               }% 
-            }%       
+                  }% 
+               }%       
+            }%
          }%
       }%
+      #4%
    }%
-   #4%
-}%
-
+\fi%
 \newcommand\tocpageseparator{\unskip\hspace{2em}}
 \newcommand\tocpagenumberbox[1]{\mbox{#1}}%
 \RedeclareSectionCommands[%
@@ -717,17 +757,37 @@
 %%   toconstartlowerlevel=\vspace{\baselineskip}]{chapter}
 \RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
 
-\newcommand*{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
+\newcommand{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
 \newcommand*{\@addsubsec}{}
-\def\@addsubsec[#1]#2{\subsection*{#2}\addsubsectiontocentry{}{#1}
-  \if@twoside\ifx\@mkboth\markboth\markright{#1}\fi\fi
+\def\@addsubsec[#1]#2{%
+  \edef\reserved@a{%
+    \unexpanded{%
+      \subsection[{#1}]{#2}%
+      \c@secnumdepth=
+    }\the\c@secnumdepth\relax
+  }%
+  \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+  \reserved@a
 }
-\newcommand*{\@saddsubsec}[1]{\subsection*{#1}\@mkboth{}{}}
+\newcommand*{\@saddsubsec}[1]{%
+  \subsection*{#1}\addsecmark{}%
+}
 %
-\newcommand*{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
+\newcommand{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
 \newcommand*{\@addsubsubsec}{}
-\def\@addsubsubsec[#1]#2{\subsubsection*{#2}\addsubsubsectiontocentry{}{#1}}
-\newcommand*{\@saddsubsubsec}[1]{\subsubsection*{#1}}
+\def\@addsubsubsec[#1]#2{%
+  \edef\reserved@a{%
+    \unexpanded{%
+      \subsubsection[{#1}]{#2}%
+      \c@secnumdepth=
+    }\the\c@secnumdepth\relax
+  }%
+  \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+  \reserved@a
+}
+\newcommand*{\@saddsubsubsec}[1]{%
+  \subsubsection*{#1}\addsecmark{}%
+}
 %
 \newcommand*{\pagenumbertocfont}[1]{%
    \Ifisinteger{#1}{#1}{\scshape #1}}
