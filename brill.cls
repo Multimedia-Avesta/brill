@@ -964,9 +964,10 @@
       }[]
          \ifdefvoid{\@tablecaption}{}{%
             \ifdefvoid{\@tableshortcaption}%
-               {\caption{\@tablecaption}\\}%
-               {\caption[\@tableshortcaption]{\@tablecaption}\\}%
+               {\caption{\@tablecaption}}%
+               {\caption[\@tableshortcaption]{\@tablecaption}}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+            \\%
          }%
          \hiderowcolors
          \ifdefvoid{\@tableheaders}%
