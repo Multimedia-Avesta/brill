@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.26.0] - 2020-02-25
-
 ### Added
 - Macro `\th` for as shortcut for `\textsuperscript{th}`
+
+## [0.26.0] - 2020-02-25
 
 ### Changed
 - Prefixes of names are no longer considered for sorting (\#8935)
