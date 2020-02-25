@@ -36,7 +36,7 @@
 \LoadClass[%
    parskip=never,%
    captions=nooneline,%
-   captions=tableabove,
+   captions=tableabove,%
    captions=bottombeside,%
    captions=rightbeside,%
    chapterprefix,%

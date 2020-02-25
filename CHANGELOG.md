@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Prefixes of names are no longer considered for sorting (\#8935)
+- Deactivate option `headings=optiontohead` (\#8921)
 
 ### Fixed
 - Add rule for splitting up date fields (\#8917)
