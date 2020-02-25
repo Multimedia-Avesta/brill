@@ -76,14 +76,11 @@
                replace=\regexp{$1\\enquote\{$2\}$3}]%$
       }%                        
 %            
-%     
       \map{%
          \pertype{movie}%
          \step[fieldsource=director,fieldtarget=author]%
-      }
+      }%
 % 
-      %%\step[fieldsource=note,match=\regexp{(ISBN)|(978-?\d-?\d{5}-?\d{3}-?\d)},final]
-      %%%\step[entry... manuscript]
       \map{%
          \step[fieldsource=note,match=\regexp{(97[8|9]-[-\d]{13})},final]%
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
@@ -195,7 +192,25 @@
          \step[fieldsource=pages,%
                match=\regexp{f\.},%
                replace=\regexp{\\psq}]                  
-      }
+      }%
+      % We search for names with prefixes and apapt the sorting order
+      \map[overwrite=true]{%
+         \step[fieldsource=translator]
+         \step[fieldset=tempsortname, origfieldval]
+         \step[fieldsource=editor]
+         \step[fieldset=tempsortname, origfieldval]
+         \step[fieldsource=author]
+         \step[fieldset=tempsortname, origfieldval]
+      }%
+      \map[overwrite=true]{%
+         \step[fieldsource=tempsortname,%
+               match=\regexp{(.+),\s+prefix=.+,\s+useprefix=true(.*)},%
+               replace={$1$2}]%
+      }%
+      \map[overwrite=false]{%
+         \step[fieldsource=tempsortname]
+         \step[fieldset=sortname,origfieldval]
+      }%
    }%
 }%
 \renewcommand{\bibfont}{\normalfont\small}%

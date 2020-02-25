@@ -40,7 +40,7 @@
    captions=bottombeside,%
    captions=rightbeside,%
    chapterprefix,%
-   headings=optiontohead,
+   %headings=optiontohead,
    listof=leveldown,%
    open=any,%
    toc=bibliography,%
@@ -319,64 +319,65 @@
 %%%\RequirePackage{bigfoot}
 \let\ORIG@footnote\footnote
 \renewcommand{\footnote}[2][]{%
-     \ifnum\value{footnote}=0%
-        \global\stepcounter{chaptercount}%
-        \@ifundefined{c@changeToTen\thechaptercount}%
-           {\expandafter\newcounter{changeToTen%
-            \csname thechaptercount\endcsname}}%
-           {}%
-        \protected@write\@auxout{}%
-           {%
-              \string\@ifundefined{c@changeToTen\thechaptercount}%
-                 {\string\newcounter{\expandafter changeToTen%
-                  \csname thechaptercount\endcsname}%
-                 }%
-                 {}%
-           }%  
-        \@ifundefined{c@changeToHundred\thechaptercount}%
-           {\expandafter\newcounter{changeToHundred%
-            \csname thechaptercount\endcsname}}%
-           {}%
-        \protected@write\@auxout{}%
-           {%
-              \string\@ifundefined{c@changeToHundred\thechaptercount}%
-                 {\string\newcounter{\expandafter changeToHundred%
-                  \csname thechaptercount\endcsname}%
-                 }%
-                 {}%
-           }%
-        \gdef\actcounterT{changeToTen\thechaptercount}%
-        \gdef\actcounterH{changeToHundred\thechaptercount}%
-     \fi%
-     \ifnum\value{footnote}=99%
-        \protected@write\@auxout{}%
-           {\string\global\string\setcounter{\actcounterH}{\theabspage}}%
-     \fi% 
-     \ifnum\value{footnote}=9%
-        \protected@write\@auxout{}%
-           {\string\global\string\setcounter{\actcounterT}{\theabspage}}%
-     \fi%
-     \setcounter{testcounter}{\value{footnote}}%
-     \stepcounter{testcounter}%
-     \ifnum\value{footnote}<99%
-        \ifnum\value{footnote}<9%
-           \ifnumequal%
+   \ifnum\value{footnote}=0%
+      \global\stepcounter{chaptercount}%
+      \@ifundefined{c@changeToTen\thechaptercount}%
+         {\expandafter\newcounter{changeToTen%
+          \csname thechaptercount\endcsname}}%
+         {}%
+      \protected@write\@auxout{}%
+         {%
+            \string\@ifundefined{c@changeToTen\thechaptercount}%
+            {\string\newcounter{\expandafter changeToTen%
+             \csname thechaptercount\endcsname}%
+            }%
+            {}%
+         }%  
+      \@ifundefined{c@changeToHundred\thechaptercount}%
+         {\expandafter\newcounter{changeToHundred%
+          \csname thechaptercount\endcsname}%
+         }%
+         {}%
+      \protected@write\@auxout{}%
+         {%
+            \string\@ifundefined{c@changeToHundred\thechaptercount}%
+            {\string\newcounter{\expandafter changeToHundred%
+             \csname thechaptercount\endcsname}%
+            }%
+            {}%
+         }%
+      \gdef\actcounterT{changeToTen\thechaptercount}%
+      \gdef\actcounterH{changeToHundred\thechaptercount}%
+   \fi%
+   \ifnum\value{footnote}=99%
+      \protected@write\@auxout{}%
+         {\string\global\string\setcounter{\actcounterH}{\theabspage}}%
+   \fi% 
+   \ifnum\value{footnote}=9%
+      \protected@write\@auxout{}%
+      {\string\global\string\setcounter{\actcounterT}{\theabspage}}%
+   \fi%
+   \setcounter{testcounter}{\value{footnote}}%
+   \stepcounter{testcounter}%
+   \ifnum\value{footnote}<99%
+      \ifnum\value{footnote}<9%
+         \ifnumequal%
             {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
             {\value{\actcounterT}}%
                {\setlength{\fnlabelsep}{2\normalparindent}}%
                {\setlength{\fnlabelsep}{\normalparindent}}%
-        \else%11-99
-           \ifnumequal%
+      \else%10-98
+         \ifnumequal%
             {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
             {\value{\actcounterH}}%
                {\setlength{\fnlabelsep}{3\normalparindent}}%
                {\setlength{\fnlabelsep}{2\normalparindent}}%
-       \fi%
-  \else%
+      \fi%
+   \else%>=99
       \setlength{\fnlabelsep}{3\normalparindent}%
-  \fi%
-  %%\deffootnote{\fnlabelsep}{\fnlabelsep}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
-  \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
+   \fi%
+   %%\deffootnote{\fnlabelsep}{\fnlabelsep}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
+   \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
 }%
 
 
@@ -490,7 +491,7 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent\relax
    ]{section}
-   \renewcommand{\thesection}{\arabic{section}}
+   \renewcommand*{\thesection}{\arabic{section}}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -499,7 +500,6 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+8mm\relax
    ]{subsection}
-   %%\renewcommand{\thesection}{\arabic{section}}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -521,7 +521,7 @@
       tocstyle=section,
       counterwithin=subsubsection,
    ]{subthreesection}
-   \renewcommand{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
+   \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
    
    \ProvideSectionCommand[%
       style=section,
@@ -535,7 +535,7 @@
       tocstyle=section,
       counterwithin=subthreesection,
    ]{subfoursection}
-   \renewcommand{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
+   \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
    
    \ProvideSectionCommand[%
       style=section,
@@ -549,7 +549,7 @@
       tocstyle=section,
       counterwithin=subfoursection,
    ]{subfivesection}
-   \renewcommand{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
+   \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -561,7 +561,7 @@
       tocnumwidth=9\parindent,
       counterwithin=subfivesection,
    ]{paragraph}
-   \renewcommand{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
+   \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -580,7 +580,7 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent\relax
    ]{section}
-   \renewcommand{\thesection}{\arabic{section}}
+   \renewcommand*{\thesection}{\arabic{section}}
    %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -589,7 +589,6 @@
       tocnumwidth=8mm,
       tocindent=\dimexpr\@tocstartindent+8mm\relax
    ]{subsection}
-   %%\renewcommand{\thesection}{\arabic{section}}
    %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -611,8 +610,8 @@
       tocstyle=section,
       counterwithin=subsubsection,
    ]{subthreesection}
-   \renewcommand{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
-   %
+   \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
+%
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
@@ -625,8 +624,8 @@
       tocstyle=section,
       counterwithin=subthreesection,
    ]{subfoursection}
-   \renewcommand{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
-   %
+   \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
+%
    \ProvideSectionCommand[%
       style=section,
       beforeskip=-1\baselineskip,
@@ -639,7 +638,7 @@
       tocstyle=section,
       counterwithin=subfoursection,
    ]{subfivesection}
-   \renewcommand{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
+   \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
    %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -651,7 +650,7 @@
       tocnumwidth=9\parindent,
       counterwithin=subfivesection,
    ]{paragraph}
-   \renewcommand{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
+   \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
    %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,
@@ -965,9 +964,10 @@
       }[]
          \ifdefvoid{\@tablecaption}{}{%
             \ifdefvoid{\@tableshortcaption}%
-               {\caption{\@tablecaption}\\}%
-               {\caption[\@tableshortcaption]{\@tablecaption}\\}%
+               {\caption{\@tablecaption}}%
+               {\caption[\@tableshortcaption]{\@tablecaption}}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+            \\%
          }%
          \hiderowcolors
          \ifdefvoid{\@tableheaders}%

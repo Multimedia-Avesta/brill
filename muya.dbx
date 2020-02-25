@@ -1,7 +1,7 @@
-\ProvidesFile{muya.dbx}[2019/11/27 v0.16 biblatex datamodel style]
-%%\DeclareDatamodelFields[type=field,datatype=date]{iraniandate}
-%%\DeclareDatamodelEntryfields{iraniandate}
+\ProvidesFile{muya.dbx}[2020/02/22 v0.26 biblatex datamodel style]
 \DeclareDatamodelFields[type=field,datatype=literal]{preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}
 \DeclareDatamodelFields[type=list,datatype=name]{director}
 \DeclareDatamodelEntryfields[movie]{director}
+\DeclareDatamodelFields[type=list,datatype=name]{tempsortname}
+\DeclareDatamodelEntryfields{tempsortname}
