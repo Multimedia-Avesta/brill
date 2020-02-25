@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/02/18 v0.25.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/22 v0.26.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -118,6 +118,19 @@
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
 \RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
+%\directlua{
+%   fonts.handlers.otf.addfeature {
+%      name = "moresups",
+%      type = "substitution",
+%      data = {
+%         question = "question",
+%      },
+%   }
+%}
+%\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}}%
+%   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
+%   {}%
+%   {\ClassWarning{kfsa}{Patch of realsuperscript failed}}
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
 % Uses proportional oldstyle numbers by default
 \setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
