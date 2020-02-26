@@ -6,11 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.26.0] - 2020-02-26
+## [0.26.1] - 2020-02-26
 
 ### Added
 - Macro `\supth` as shortcut for `\textsuperscript{th}`
 - Macro `\uncertain{text}` as shortcut for `text\textsuperscript{\textup{?}}`
+
+### Fixed
+- Remove development code
+
+## [0.26.1] - 2020-02-25
 
 ### Changed
 - Prefixes of names are no longer considered for sorting (\#8935)
