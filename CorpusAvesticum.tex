@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/26 v0.26.1 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/26 v0.26.2 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -1096,7 +1096,21 @@ brill]
 }%
 
 \newcommand*{\supth}{\textsuperscript{th}\xspace}
-\newcommand*{\uncertain}[1]{#1\textsuperscript*{?}}
+\newcommand*{\uncertain}[1]{#1\textsuperscript*{\textup{?}}}
+%\let\@ORIGrealsuperscript\realsuperscript
+%\let\@ORIGfakesuperscript\fakesuperscript
+%\renewcommand{\realsuperscript}[1]{%
+%   \IfStrEqCase{#1}{%
+%      {?}{\@ORIGfakesuperscript{#1}}%
+%   }[\@ORIGrealsuperscript{#1}]%
+%}
+%\newcommand*{\realsuperscriptUP}[1]{%
+%   \IfStrEqCase{#1}{%
+%      {?}{\@ORIGfakesuperscript{?}}%
+%   }[\textup{\@ORIGrealsuperscript{#1}}]%
+%}
+%\let\fakesuperscript\realsuperscriptUP
+
 %\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}#1}%
 %   {%
 %      \IfStrEqCase{#1}{%

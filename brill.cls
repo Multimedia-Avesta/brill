@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/02/26 v0.26.1 A template for Brill publications]
+\ProvidesClass{brill}[2020/02/26 v0.26.2 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -130,7 +130,7 @@
 %\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}}%
 %   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
 %   {}%
-%   {\ClassWarning{kfsa}{Patch of realsuperscript failed}}
+%   {\ClassWarning{brill}{Patch of realsuperscript failed}}
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
 % Uses proportional oldstyle numbers by default
 \setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
