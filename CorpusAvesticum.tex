@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/22 v0.26.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/02/26 v0.26.1 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -1095,7 +1095,20 @@ brill]
 %       Please use \string\SetBibliographyFile\space}}%
 }%
 
-%%\newcommand*{\th}{\textsuperscript{th}\xspace}
+\newcommand*{\supth}{\textsuperscript{th}\xspace}
+\newcommand*{\uncertain}[1]{#1\textsuperscript*{?}}
+%\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}#1}%
+%   {%
+%      \IfStrEqCase{#1}{%
+%         {?}{\selectfont#1}%
+%      }[\addfontfeature{VerticalPosition=Superior}#1]%
+%   }%
+%   {\ClassInfo{brill}{`\realsuperscript` successfully patched}}%
+%   {\ClassWarning{brill}{Patching of `\realsuperscript` failed}}
+%\patchcmd{\fakesuperscript}{\selectfont}{\upshape\selectfont}%
+%   {\ClassInfo{brill}{`\fakesuperscript` successfully patched}}%
+%   {\ClassWarning{brill}{Patching of `\fakesuperscript` failed}}
+
 \if@PhD
    \newcommand{\declarationPhD}{%
       \cleardoubleemptypage

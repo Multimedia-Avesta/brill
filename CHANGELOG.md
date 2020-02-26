@@ -6,10 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-### Added
-- Macro `\th` for as shortcut for `\textsuperscript{th}`
+## [0.26.0] - 2020-02-26
 
-## [0.26.0] - 2020-02-25
+### Added
+- Macro `\supth` as shortcut for `\textsuperscript{th}`
+- Macro `\uncertain{text}` as shortcut for `text\textsuperscript{\textup{?}}`
 
 ### Changed
 - Prefixes of names are no longer considered for sorting (\#8935)
@@ -18,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Add rule for splitting up date fields (\#8917)
 - Bug in `brilltable` for option `long` together with `label` (\#8940)
-
 
 ## [0.25.0] - 2020-02-18
 
