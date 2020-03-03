@@ -6,6 +6,8 @@
    autolang=hyphen
 }
 \DeclareLanguageMapping{british}{british-muya}
+\DeclareFieldFormat[thesis]{type}{\ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
+
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
       \map[foreach={title,booktitle,note}]{%
@@ -99,6 +101,11 @@
          \step[fieldset=pagetotal,null]%
       }%
 %      
+      \map[overwrite=false]{%
+         \pertype{thesis}%
+         \step{fieldset=type,fieldvalue={Thesis}%
+      }%
+%
       \map{%
          \step[fieldsource=year,fieldtarget=date]%
       }%
@@ -213,6 +220,7 @@
       }%
    }%
 }%
+
 \renewcommand{\bibfont}{\normalfont\small}%
 
 %%% Automatic Sentence case for _no_ language at all

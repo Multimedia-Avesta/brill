@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Macro `\supth` as shortcut for `\textsuperscript{th}`
-- Macro `\uncertain{text}` as shortcut for `text\textsuperscript{\textup{?}}`
+- Macro `\uncertain{text}` as shortcut for `text\textsuperscript{\textup{?}}` (\#8941)
 
 ### Fixed
 - Remove development code
