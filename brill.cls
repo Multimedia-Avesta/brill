@@ -306,16 +306,20 @@
       \gdef\actcounterT{changeToTen\thechaptercount}%
       \gdef\actcounterH{changeToHundred\thechaptercount}%
    \fi%
+   \setcounter{testcounter}{\value{footnote}}%
+   \stepcounter{testcounter}%
    \ifnum\value{footnote}=99%
       \protected@write\@auxout{}%
-         {\string\global\string\setcounter{\actcounterH}{\theabspage}}%
+         {\string\global\string\setcounter{\actcounterH}%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
+         }%
    \fi% 
    \ifnum\value{footnote}=9%
       \protected@write\@auxout{}%
-      {\string\global\string\setcounter{\actcounterT}{\theabspage}}%
+      {\string\global\string\setcounter{\actcounterT}%
+         {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
+      }%
    \fi%
-   \setcounter{testcounter}{\value{footnote}}%
-   \stepcounter{testcounter}%
    \ifnum\value{footnote}<99%
       \ifnum\value{footnote}<9%
          \ifnumequal%
