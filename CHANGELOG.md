@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Empty `type`fields are automatically set to `Thesis` for @thesis entries
+
+### Fixed
+- Fix footnote indention for pages where the counter switches from 9 to 10 and 99 to 100 resp.
+
 ## [0.26.2] - 2020-02-26
 
 ### Fixed
