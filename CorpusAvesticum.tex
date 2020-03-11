@@ -213,6 +213,7 @@ brill]
 \newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}\renewcommand*{\idxentryfont}[1]{##1}}
 \newcommand{\ItalicsOrNot}[1]{%
    \IfStrEqCase{#1}{%
+      {Aram}{\def\indexlanguage{Aramaic}\itshape}%
       {Arm}{\def\indexlanguage{Armenian}\itshape}%
       {Av}{\def\indexlanguage{Avestan}\itshape}%
       {Bactr}{\def\indexlanguage{Bactrian}\upshape}%
@@ -226,6 +227,7 @@ brill]
       {IParth}{\def\indexlanguage{Inscriptional Parthian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{Latin}\itshape}%
+      {Lith}{\def\indexlanguage{Lithuanian}\itshape}%
       {Luw}{\def\indexlanguage{Luwian}\itshape}%
       {MAv}{\def\indexlanguage{Middle Avestan}\itshape}
       {MMP}{\def\indexlanguage{Manichaean Middle Persian}\itshape}
@@ -236,6 +238,7 @@ brill]
       {OAv}{\def\indexlanguage{Old Avestan}\itshape}
       {OE}{\def\indexlanguage{Old English}\itshape}%
       {OHG}{\def\indexlanguage{Old High German}\itshape}%
+      {OIrish}{\def\indexlanguage{Old Irish}\itshape}%
       {OP}{\def\indexlanguage{Old Persian}\itshape}%
       {Oss}{\def\indexlanguage{Ossetic}\itshape}%
       {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
@@ -264,6 +267,11 @@ brill]
    \hyphenpenalty=10000%
 }
 %%% Define macros for languages
+\newcommand*{\Aram}[2][]{%
+   \def\indexlanguage{Aramaic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\Arm}[2][]{%
    \def\indexlanguage{Armenian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -349,6 +357,11 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newcommand*{\Lith}[2][]{%
+   \def\indexlanguage{Lithuanian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\Luw}[2][]{%
    \def\indexlanguage{Luwian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -393,6 +406,11 @@ brill]
    \resetlanguage}
 \newcommand*{\OHG}[2][]{%
    \def\indexlanguage{Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\OIrish}[2][]{%
+   \def\indexlanguage{Old Irish}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
@@ -606,6 +624,10 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+%%%
+\newenvironment{AramBlock}{%
+   \def\indexlanguage{Aramaic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}   
 \newenvironment{ArmBlock}{%
    \def\indexlanguage{Armenian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -654,6 +676,9 @@ brill]
 \newenvironment{LatBlock}{%
    \def\indexlanguage{Latin}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{LithBlock}{%
+   \def\indexlanguage{Lithuanian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LuwBlock}{%
    \def\indexlanguage{Luwian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -680,6 +705,9 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OHGBlock}{%
    \def\indexlanguage{Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OIrish}{%
+   \def\indexlanguage{Old Irish}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OPBlock}{\def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -792,8 +820,8 @@ brill]
 \newbook{Dk}
 \newbook{DkM}
 \newbook{DPd}
+\newbook{DPe}
 \newbook{DrYt}
-%\newbook{DrYt}
 \newbook{DuP}
 \newbook{FiO}
 \newbook{FiP}
