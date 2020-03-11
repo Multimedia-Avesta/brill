@@ -93,9 +93,13 @@ brill]
       \fi
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
       \begin{center}
-        {\normalfont\fontsize{26bp}{36bp}\selectfont\bfseries \@title\par}%
+        {\normalfont\fontsize{26bp}{36bp}\selectfont\bfseries\hyphenpenalty=10000
+         \@title\par}%
         \vskip 2\baselineskip
-        {\ifx\@subtitle\@empty\else{\normalfont\fontsize{16bp}{20bp}\selectfont\itshape\@subtitle\par}\fi}%
+        {\ifx\@subtitle\@empty\else
+         {\normalfont\fontsize{16bp}{20bp}\selectfont\itshape\hyphenpenalty=10000
+            \@subtitle\par}\fi%
+        }%
         \vskip 2\baselineskip
         {\normalsize\itshape By\par}
         \vskip 1\baselineskip
