@@ -58,6 +58,86 @@ brill]
    %   \let\printwordcount\relax
    \let\logwordcount\relax
 \fi%
+
+\renewcommand*{\maketitle}[1][1]{%
+   \InputIfFileExists{titlepages.tex}%
+      {\ClassInfo{brill}{Information for title pages successfully loaded}}%
+      {\ClassWarningNoLine{brill}{Found no titlepage information.\MessageBreak
+       Please check, whether you copied titlepages.tex correctly.}}%
+   \begin{titlepage}
+      \setcounter{page}{%
+        #1%
+      }%
+      \let\titlepage@restore\relax
+      %\let\footnotesize\small
+      \let\footnoterule\relax
+      \let\footnote\thanks
+      \renewcommand*\thefootnote{\@fnsymbol\c@footnote}%
+      \let\@oldmakefnmark\@makefnmark
+      \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
+      \ifx\@extratitle\@empty
+        \ifx\@frontispiece\@empty
+        \else
+          \if@twoside\mbox{}\next@tpage\fi
+          \noindent\@frontispiece\next@tdpage
+        \fi
+      \else
+        \noindent\@extratitle
+        \ifx\@frontispiece\@empty
+        \else
+          \next@tpage
+          \noindent\@frontispiece
+        \fi
+        \next@tdpage
+      \fi
+      \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
+      \begin{center}
+        {\normalfont\fontsize{26bp}{36bp}\selectfont\bfseries \@title\par}%
+        \vskip 2\baselineskip
+        {\ifx\@subtitle\@empty\else{\normalfont\fontsize{16bp}{20bp}\selectfont\itshape\@subtitle\par}\fi}%
+        \vskip 2\baselineskip
+        {\normalsize\itshape By\par}
+        \vskip 1\baselineskip
+        {%
+          \fontsize{14bp}{17bp}\selectfont{%
+            %\lineskip 0.75em
+            \begin{tabular}[t]{c}
+              \@author
+            \end{tabular}\par
+          }%
+        }%
+        \vfill
+        \@publishers%
+      \end{center}%
+      \if@PhD\else
+         \next@tpage
+         \begin{addmargin}[-11mm]{-4mm}
+         \begin{minipage}[t]{100mm}
+            \footnotesize%
+            \raggedright%
+            \@uppertitleback%
+         \end{minipage}%
+         \vfill
+         \begin{minipage}[b]{130mm}%
+            \footnotesize%
+            \raggedright%
+            \@lowertitleback%
+         \end{minipage}%
+         \end{addmargin}%
+      \fi%
+      \ifx\@dedication\@empty
+      \else
+        \next@tdpage\null\vfill
+        {\centering\usekomafont{dedication}{\@dedication \par}}%
+        \vskip \z@ \@plus3fill
+        \@thanks\global\let\@thanks\@empty
+        \cleardoubleemptypage
+      \fi
+      \ifx\titlepage@restore\relax\else\clearpage\titlepage@restore\fi
+   \end{titlepage}
+   \setcounter{footnote}{0}%
+   \global\let\and\relax
+}
 %\LuaCodeDebugOn
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%

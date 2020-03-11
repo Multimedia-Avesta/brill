@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for title pages
+
 ### Changed
 - Empty `type`fields are automatically set to `Thesis` for @thesis entries
 
