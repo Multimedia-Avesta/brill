@@ -64,6 +64,7 @@ brill]
       {\ClassInfo{brill}{Information for title pages successfully loaded}}%
       {\ClassWarningNoLine{brill}{Found no titlepage information.\MessageBreak
        Please check, whether you copied titlepages.tex correctly.}}%
+   \def\and{\newline}
    \begin{titlepage}
       \setcounter{page}{%
         #1%
@@ -98,14 +99,7 @@ brill]
         \vskip 2\baselineskip
         {\normalsize\itshape By\par}
         \vskip 1\baselineskip
-        {%
-          \fontsize{14bp}{17bp}\selectfont{%
-            %\lineskip 0.75em
-            \begin{tabular}[t]{c}
-              \@author
-            \end{tabular}\par
-          }%
-        }%
+        {\fontsize{14bp}{17bp}\selectfont\@author\par}%
         \vfill
         \@publishers%
       \end{center}%
