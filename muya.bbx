@@ -347,11 +347,11 @@
 \renewbibmacro*{series+number}{%
    \iffieldundef{series}
    {}
-   {\ifboolexpr{ test {\ifentrytype{inreferences}} and
+   {\ifboolexpr{ test {\ifentrytype{inreference}} and
                  test {\iffieldnum{series}} }%
       {%
          \printtext[parens]{%
-            \bibstring{volume}\addnbspace\printfield{series}%
+            \bibcpsstring{volume}\addnbspace\printfield{series}%
             \setunit*{\adddot}%
             \printfield{number}% 
          }%
