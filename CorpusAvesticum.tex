@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/02/26 v0.26.2 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/03/11 v0.27.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -58,6 +58,84 @@ brill]
    %   \let\printwordcount\relax
    \let\logwordcount\relax
 \fi%
+
+\renewcommand*{\maketitle}[1][1]{%
+   \InputIfFileExists{titlepages.tex}%
+      {\ClassInfo{brill}{Information for title pages successfully loaded}}%
+      {\ClassWarningNoLine{brill}{Found no titlepage information.\MessageBreak
+       Please check, whether you copied titlepages.tex correctly.}}%
+   \def\and{\newline}
+   \begin{titlepage}
+      \setcounter{page}{%
+        #1%
+      }%
+      \let\titlepage@restore\relax
+      %\let\footnotesize\small
+      \let\footnoterule\relax
+      \let\footnote\thanks
+      \renewcommand*\thefootnote{\@fnsymbol\c@footnote}%
+      \let\@oldmakefnmark\@makefnmark
+      \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
+      \ifx\@extratitle\@empty
+        \ifx\@frontispiece\@empty
+        \else
+          \if@twoside\mbox{}\next@tpage\fi
+          \noindent\@frontispiece\next@tdpage
+        \fi
+      \else
+        \noindent\@extratitle
+        \ifx\@frontispiece\@empty
+        \else
+          \next@tpage
+          \noindent\@frontispiece
+        \fi
+        \next@tdpage
+      \fi
+      \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
+      \begin{center}
+        {\normalfont\fontsize{26bp}{36bp}\selectfont\bfseries\hyphenpenalty=10000
+         \@title\par}%
+        \vskip 2\baselineskip
+        {\ifx\@subtitle\@empty\else
+         {\normalfont\fontsize{16bp}{20bp}\selectfont\itshape\hyphenpenalty=10000
+            \@subtitle\par}\fi%
+        }%
+        \vskip 2\baselineskip
+        {\normalsize\itshape By\par}
+        \vskip 1\baselineskip
+        {\fontsize{14bp}{17bp}\selectfont\@author\par}%
+        \vfill
+        \@publishers%
+      \end{center}%
+      \if@PhD\else
+         \next@tpage
+         \begin{addmargin}[-11mm]{-4mm}
+         \begin{minipage}[t]{100mm}
+            \footnotesize%
+            \raggedright%
+            \@uppertitleback%
+         \end{minipage}%
+         \vfill
+         \begin{minipage}[b]{130mm}%
+            \footnotesize%
+            \raggedright%
+            \@lowertitleback%
+         \end{minipage}%
+         \end{addmargin}%
+      \fi%
+      \ifx\@dedication\@empty
+      \else
+        \next@tdpage\null\vfill
+        {\centering\usekomafont{dedication}{\@dedication \par}}%
+        \vskip \z@ \@plus3fill
+        \@thanks\global\let\@thanks\@empty
+        \cleardoubleemptypage
+      \fi
+      \ifx\titlepage@restore\relax\else\clearpage\titlepage@restore\fi
+   \end{titlepage}
+   \setcounter{footnote}{0}%
+   \global\let\and\relax
+}
 %\LuaCodeDebugOn
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%
@@ -133,6 +211,7 @@ brill]
 \newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}\renewcommand*{\idxentryfont}[1]{##1}}
 \newcommand{\ItalicsOrNot}[1]{%
    \IfStrEqCase{#1}{%
+      {Aram}{\def\indexlanguage{Aramaic}\itshape}%
       {Arm}{\def\indexlanguage{Armenian}\itshape}%
       {Av}{\def\indexlanguage{Avestan}\itshape}%
       {Bactr}{\def\indexlanguage{Bactrian}\upshape}%
@@ -146,6 +225,7 @@ brill]
       {IParth}{\def\indexlanguage{Inscriptional Parthian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{Latin}\itshape}%
+      {Lith}{\def\indexlanguage{Lithuanian}\itshape}%
       {Luw}{\def\indexlanguage{Luwian}\itshape}%
       {MAv}{\def\indexlanguage{Middle Avestan}\itshape}
       {MMP}{\def\indexlanguage{Manichaean Middle Persian}\itshape}
@@ -156,6 +236,7 @@ brill]
       {OAv}{\def\indexlanguage{Old Avestan}\itshape}
       {OE}{\def\indexlanguage{Old English}\itshape}%
       {OHG}{\def\indexlanguage{Old High German}\itshape}%
+      {OIrish}{\def\indexlanguage{Old Irish}\itshape}%
       {OP}{\def\indexlanguage{Old Persian}\itshape}%
       {Oss}{\def\indexlanguage{Ossetic}\itshape}%
       {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
@@ -184,6 +265,11 @@ brill]
    \hyphenpenalty=10000%
 }
 %%% Define macros for languages
+\newcommand*{\Aram}[2][]{%
+   \def\indexlanguage{Aramaic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\Arm}[2][]{%
    \def\indexlanguage{Armenian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -269,6 +355,11 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newcommand*{\Lith}[2][]{%
+   \def\indexlanguage{Lithuanian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
 \newcommand*{\Luw}[2][]{%
    \def\indexlanguage{Luwian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
@@ -313,6 +404,11 @@ brill]
    \resetlanguage}
 \newcommand*{\OHG}[2][]{%
    \def\indexlanguage{Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
+   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \resetlanguage}
+\newcommand*{\OIrish}[2][]{%
+   \def\indexlanguage{Old Irish}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
@@ -526,6 +622,10 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+%%%
+\newenvironment{AramBlock}{%
+   \def\indexlanguage{Aramaic}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}   
 \newenvironment{ArmBlock}{%
    \def\indexlanguage{Armenian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -574,6 +674,9 @@ brill]
 \newenvironment{LatBlock}{%
    \def\indexlanguage{Latin}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{LithBlock}{%
+   \def\indexlanguage{Lithuanian}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{LuwBlock}{%
    \def\indexlanguage{Luwian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -600,6 +703,9 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OHGBlock}{%
    \def\indexlanguage{Old High German}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
+\newenvironment{OIrishBlock}{%
+   \def\indexlanguage{Old Irish}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
 \newenvironment{OPBlock}{\def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape}{\resetlanguage}
@@ -712,8 +818,8 @@ brill]
 \newbook{Dk}
 \newbook{DkM}
 \newbook{DPd}
+\newbook{DPe}
 \newbook{DrYt}
-%\newbook{DrYt}
 \newbook{DuP}
 \newbook{FiO}
 \newbook{FiP}

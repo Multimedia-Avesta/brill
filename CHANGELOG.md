@@ -6,11 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.27.0] - 2020-03-11
+
+### Added
+- Support for title pages
+- New macros for languages and book name (\#8774)
+
 ### Changed
-- Empty `type`fields are automatically set to `Thesis` for @thesis entries
+- Empty `type` fields are automatically set to `Thesis` for `@thesis` entries (\#8966)
 
 ### Fixed
-- Fix footnote indention for pages where the counter switches from 9 to 10 and 99 to 100 resp.
+- Fix footnote indention for pages where the counter switches from 9 to 10 and 99 to 100 resp. (\#8919)
 
 ## [0.26.2] - 2020-02-26
 
@@ -424,6 +430,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.27.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.27.0
 [0.26.2]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.26.2
 [0.26.1]:
