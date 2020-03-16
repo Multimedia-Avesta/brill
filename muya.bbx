@@ -345,22 +345,35 @@
   \printfield{addendum}}%
   
 \renewbibmacro*{series+number}{%
-  \iffieldundef{series}
-    {}
-    {\printtext[parens]{%
-      \printfield{series}%
-      \setunit*{\addnbspace}%
-      \printfield{number}}%
-    }}  
+   \iffieldundef{series}
+   {}
+   {\ifboolexpr{ test {\ifentrytype{inreferences}} and
+                 test {\iffieldnum{series}} }%
+      {%
+         \printtext[parens]{%
+            \bibstring{volume}\addnbspace\printfield{series}%
+            \setunit*{\adddot}%
+            \printfield{number}% 
+         }%
+      }%
+      {%
+         \printtext[parens]{%
+            \printfield{series}%
+            \setunit*{\addnbspace}%
+            \printfield{number}%
+         }%
+      }%
+    }%
+}  
 
 \DeclareLabeldate{%
-\field{date}
-\field{year}
-\field{eventdate}
-\field{origdate}
-\field{urldate}
-\field{pubstate}
-\literal{nodate}
+   \field{date}
+   \field{year}
+   \field{eventdate}
+   \field{origdate}
+   \field{urldate}
+   \field{pubstate}
+   \literal{nodate}
 }
 %%\defbibenvironment{bibliography}
 %%  {\list{}{%
