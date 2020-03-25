@@ -1345,8 +1345,8 @@
    \par\noindent%
    \if@splitsplittranslation%
       \ifstrempty{#2}%
-         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par}%
-         {\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par}%
+         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
       \if@splittranslation%
          \vspace{\baselineskip}\noindent%
       \else%
