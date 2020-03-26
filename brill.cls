@@ -666,28 +666,28 @@
 \else
    \renewcommand{\sectionlinesformat}[4]{%
       \Ifstr{#1}{section}{%
-         \makebox[12mm][l]{\upshape #3}%
+         \@hangfrom{\makebox[12mm][l]{\upshape #3}}%
       }{%
          \Ifstr{#1}{subsection}{%
-            \makebox[12mm][l]{\upshape #3}%
+            \@hangfrom{\makebox[12mm][l]{\upshape #3}}%
          }{%
             \Ifstr{#1}{subsubsection}{%
-               \makebox[16mm][l]{\upshape #3}%
+               \@hangfrom{\makebox[16mm][l]{\upshape #3}}%
             }{%
                \Ifstr{#1}{subthreesection}{%
-                  \makebox[16mm][l]{\upshape #3}%
+                  \@hangfrom{\makebox[16mm][l]{\upshape #3}}%
                }{%
                   \Ifstr{#1}{subfoursection}{%
-                     \makebox[20mm][l]{\upshape #3}%   
+                     \@hangfrom{\makebox[20mm][l]{\upshape #3}}%
                   }{%
                      \Ifstr{#1}{subfivesection}{%
-                        \makebox[20mm][l]{\upshape #3}%
+                        \@hangfrom{\makebox[20mm][l]{\upshape #3}}%
                      }{%
                         \Ifstr{#1}{paragraph}{%
-                           \makebox[24mm][l]{\upshape #3}%
+                           \@hangfrom{\makebox[24mm][l]{\upshape #3}}%
                         }{%
                            \Ifstr{#1}{subparagraph}{%
-                              \makebox[24mm][l]{\upshape #3}%
+                              \@hangfrom{\makebox[24mm][l]{\upshape #3}}%
                            }{}%
                         }%
                      }%
