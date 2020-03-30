@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Indention for `\subsubsection` in TOC increased (could also be calculated later)
+
 ## [0.28.0] - 2020-03-29
 
 ### Changed
 - Make `series+number` output flexible (\#8984)
 - Add `\nopagebreak` to `\blocktranslation` to (hopefully) improve page breaks
-- Change non-breakable space between book names and numbers to be _fixed_
+- Change non-breakable space between book names and numbers to have fixed width
 - `PhD` mode only: All entries in the TOC are now set upright (\#8915)
 - Suppress hyphenation in language macros and environments
 

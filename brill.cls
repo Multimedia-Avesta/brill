@@ -570,7 +570,7 @@
       beforeskip=-1\baselineskip,
       afterskip=1sp,
       font={\normalsize},
-      tocnumwidth=8mm,
+      tocnumwidth=12mm,
       tocindent=\dimexpr\@tocstartindent+16mm\relax
    ]{subsubsection}
    %
