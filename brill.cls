@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/03/11 v0.27.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/03/29 v0.28.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -120,10 +120,22 @@
 \RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
 %\directlua{
 %   fonts.handlers.otf.addfeature {
-%      name = "moresups",
+%      name = "thetasubst",
 %      type = "substitution",
 %      data = {
-%         question = "question",
+%         theta = "uni03d1",
+%      },
+%   }
+%}
+%\directlua
+%{
+%   fonts.handlers.otf.addfeature 
+%   {
+%      name = "ktest",
+%      type = "kern",
+%      data = 
+%      {
+%         ["5"] = { [","] =  1000 },
 %      },
 %   }
 %}
@@ -133,6 +145,7 @@
 %   {\ClassWarning{brill}{Patch of realsuperscript failed}}
 \defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
 % Uses proportional oldstyle numbers by default
+%\setmainfont{Brill}[RawFeature={+ktest+thetasubst},SmallCapsFeatures = {RawFeature=+c2sc}]
 \setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
 \newfontfamily{\trackingfont}{Brill}
 [%
@@ -480,7 +493,7 @@
       tocindent=0pt,%%%TODO
       tocnumwidth=6\parindent,
       tocstyle=section,
-      counterwithin=subsubsection,
+      counterwithin=subsubsection
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
    
@@ -494,7 +507,7 @@
       tocindent=0pt,%%%TODO
       tocnumwidth=7\parindent,
       tocstyle=section,
-      counterwithin=subthreesection,
+      counterwithin=subthreesection
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
    
@@ -508,7 +521,7 @@
       tocindent=0pt,%%%TODO
       tocnumwidth=8\parindent,
       tocstyle=section,
-      counterwithin=subfoursection,
+      counterwithin=subfoursection
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
    
@@ -520,7 +533,7 @@
       level=7,
       tocindent=0pt,%%%TODO
       tocnumwidth=9\parindent,
-      counterwithin=subfivesection,
+      counterwithin=subfivesection
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
    
@@ -531,7 +544,7 @@
       indent=0pt,
       level=8,
       tocindent=0pt,%%%TODO
-      tocnumwidth=10\parindent,
+      tocnumwidth=10\parindent
    ]{subparagraph}
 \else%
    \RedeclareSectionCommand[%
@@ -548,7 +561,9 @@
       afterskip=1sp,
       font={\normalsize\bfseries\itshape},
       tocnumwidth=8mm,
-      tocindent=\dimexpr\@tocstartindent+8mm\relax
+      tocindent=\dimexpr\@tocstartindent+8mm\relax,
+      tocentrynumberformat=\upshape,%
+      tocentryformat=\itshape
    ]{subsection}
    %
    \RedeclareSectionCommand[%
@@ -716,7 +731,7 @@
 %%\RedeclareSectionCommands[
 %%   toconstartsamelevel=\vspace{0pt},%
 %%   toconstartlowerlevel=\vspace{\baselineskip}]{chapter}
-\RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
+%\RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
 
 \newcommand{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
 \newcommand*{\@addsubsec}{}
@@ -1185,7 +1200,7 @@
 }
 \fi%
 
-\RequirePackage{shellesc}
+\RequirePackage{shellesc} %TODO: Check whether still needed
 \RequirePackage{url}
 \urlstyle{same}
 \RequirePackage[colorlinks=true,allcolors=blue,unicode]{hyperref}
