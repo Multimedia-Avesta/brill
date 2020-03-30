@@ -202,6 +202,7 @@
    {\trackingfont\ #1\ }\ignorespaces%
 }%   
 \RequirePackage{realscripts}
+%\RequirePackage{newunicodechar}
 %%%\setmonofont[Scale=MatchLowercase]{Noto Sans Mono}
 \if@PhD
    \RequirePackage{geometry}
@@ -445,7 +446,7 @@
    }}%
    {#2}#3%
 }%
-
+%TODO: \introduction should have an optional argument, p. 19
 \newcommand{\introduction}[1]{%
    {%
     \renewcommand*{\chapterformat}{\hspace*{3\normalparindent}\introductionname}%
