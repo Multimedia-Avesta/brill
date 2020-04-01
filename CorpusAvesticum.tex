@@ -265,16 +265,32 @@ brill]
    \hyphenpenalty=10000%
 }
 %%% Define macros for languages
-\newcommand*{\Aram}[2][]{%
-   \def\indexlanguage{Aramaic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Arm}[2][]{%
-   \def\indexlanguage{Armenian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\def\newlanguage{\@ifstar\@newlanguage\@@newlanguage}% 
+\newcommand{\@newlanguage}[2]{%
+   \expandafter\newcommand\csname #1\endcsname[2][]{%
+      \def\indexlanguage{#2}%
+      \renewcommand*{\idxentryfont}[1]{####1}%
+      {\hyphenpenalty=10000\relax##2}\ifstrempty{##1}{}{\ \enquote{##1}}%
+      \resetlanguage}
+   \newenvironment{#1Block}{%
+      \def\indexlanguage{#2}%
+      \renewcommand*{\idxentryfont}[1]{####1}\hyphenpenalty=10000\relax}%
+   {\resetlanguage}           
+}
+\newcommand{\@@newlanguage}[2]{%
+   \expandafter\newcommand\csname #1\endcsname[2][]{%
+      \def\indexlanguage{#2}%
+      \renewcommand*{\idxentryfont}[1]{\textit{####1}}%
+      \emph{\hyphenpenalty=10000\relax##2}\ifstrempty{##1}{}{\ \enquote{##1}}%
+      \resetlanguage} 
+   \newenvironment{#1Block}{%
+      \def\indexlanguage{#2}%
+      \renewcommand*{\idxentryfont}[1]{\textit{####1}}\itshape\hyphenpenalty=10000\relax}%
+   {\resetlanguage}              
+}
+
+\newlanguage{Aram}{Aramaic}
+\newlanguage{Arm}{Armenian}
 \protected\def\Av{\@ifstar\@Av\@@Av}
 \newcommand*{\@Av}[2][]{%
    \def\indexlanguage{Avestan}%
@@ -298,120 +314,32 @@ brill]
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Chor}[2][]{%
-   \def\indexlanguage{Choresmian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\El}[2][]{%
-   \def\indexlanguage{Elamite}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\NP}[2][]{%
-   \def\indexlanguage{New Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Chor}{Choresmian}
+\newlanguage{El}{Elamite}
+\newlanguage{NP}{New Persian}
 \let\Fa\NP
-\newcommand*{\Goth}[2][]{%
-   \def\indexlanguage{Gothic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Grk}[2][]{%
-   \def\indexlanguage{Greek}%
-   \renewcommand*{\idxentryfont}[1]{##1}%
-   {\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Guj}[2][]{%
-   \def\indexlanguage{Gujarati}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Goth}{Gothic}
+\newlanguage*{Grk}{Greek}
+\newlanguage{Guj}{Gujarati}
 \let\Gujr\Guj
-\newcommand*{\Hitt}[2][]{%
-   \def\indexlanguage{Hittite}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\IMP}[2][]{%
-   \def\indexlanguage{Inscriptional Middle Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\IParth}[2][]{%
-   \def\indexlanguage{Inscriptional Parthian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Khot}[2][]{%
-   \def\indexlanguage{Khotanese}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Lat}[2][]{%
-   \def\indexlanguage{Latin}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Lith}[2][]{%
-   \def\indexlanguage{Lithuanian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Luw}[2][]{%
-   \def\indexlanguage{Luwian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\MAv}[2][]{%
-   \def\indexlanguage{N@Middle Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\MMP}[2][]{%
-   \def\indexlanguage{Manichaean Middle Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\MP}[2][]{%
-   \def\indexlanguage{Middle Persian (unspecified)}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\MParth}[2][]{%
-   \def\indexlanguage{Manichaean Parthian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Munji}[2][]{%
-   \def\indexlanguage{Munji}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\OAv}[2][]{%
-   \def\indexlanguage{Old Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Hitt}{Hittite}
+\newlanguage{IMP}{Inscriptional Middle Persian}
+\newlanguage{IParth}{Inscriptional Parthian}
+\newlanguage{Khot}{Khotanese}
+\newlanguage{Lat}{Latin}
+\newlanguage{Lith}{Lithuanian}
+\newlanguage{Luw}{Luwian}
+\newlanguage{MAv}{Middle Avestan}
+\newlanguage{MMP}{Manichaean Middle Persian}
+\newlanguage{MP}{Middle Persian (unspecified)}
+\newlanguage{MParth}{Manichaean Parthian}
+\newlanguage{Munji}{Munji}
+\newlanguage{OAv}{Old Avestan}
 \let\origOE\OE
 \let\OE\@undefined
-\newcommand*{\OE}[2][]{%
-   \def\indexlanguage{Old English}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\OHG}[2][]{%
-   \def\indexlanguage{Old High German}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\OIrish}[2][]{%
-   \def\indexlanguage{Old Irish}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{OE}{Old English}
+\newlanguage{OHG}{Old High German}
+\newlanguage{OIrish}{Old Irish}
 \newcommand*{\OP}[2][]{%
    \@ifnextchar\bgroup{\@OP[#1]{#2}}{\@OP[#1]{#2}{}}}
 \newcommand*{\@OP}[3][]{%
@@ -427,36 +355,12 @@ brill]
    \renewcommand*{\idxentryfont}[1]{##1}%
    {\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\Oss}[2][]{%
-   \def\indexlanguage{Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\OssD}[2][]{%
-   \def\indexlanguage{Digoron Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\OssI}[2][]{%
-   \def\indexlanguage{Iron Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Pashto}[2][]{%
-   \def\indexlanguage{Pashto}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\PDE}[2][]{%
-   \def\indexlanguage{Present-Day English}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\PGmc}[2][]{%
-   \def\indexlanguage{Proto-Germanic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Oss}{Ossetic}
+\newlanguage{OssD}{Iron Ossetic}
+\newlanguage{OssI}{Iron Ossetic}
+\newlanguage{Pashto}{Paṣ̌tō}
+\newlanguage{PDE}{Present-Day English}
+\newlanguage{PGmc}{Proto-Germanic}
 \newif\if@PhlNoEmph
 \newrobustcmd*{\Phl}{\@ifstar%
    {%
@@ -541,49 +445,16 @@ brill]
    \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
-\newcommand*{\PIE}[2][]{%
-   \def\indexlanguage{Proto-Indo-European}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{PIE}{Proto-Indo-European}
 \let\IE\PIE%
-\newcommand*{\Pli}[2][]{%
-   \def\indexlanguage{PāỊi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Pra}[2][]{%
-   \def\indexlanguage{Prakrit}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\PrIIr}[2][]{%
-   \def\indexlanguage{Proto-Indo-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Pli}{PāỊi}
+\newlanguage{Pra}{Prakrit}
+\newlanguage{PrIIr}{Proto-Indo-Iranian}
 \let\IIr\PrIIr%
-\newcommand*{\PrIr}[2][]{%
-   \def\indexlanguage{roto-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-%\let\PIr\PrIr
-\newcommand*{\Pz}[2][]{%
-   \def\indexlanguage{Pāzand}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Shugni}[2][]{%
-   \def\indexlanguage{Shugni}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Skt}[2][]{%
-   \def\indexlanguage{Sanskrit}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{PrIr}{Proto-Iranian}
+\newlanguage{Pz}{Pāzand}
+\newlanguage{Shughni}{Šuγnī}
+\newlanguage{Skt}{Sanskrit}
 \let\Sa\Skt
 \newcommand*{\Sogd}[3][]{%
    \def\indexlanguage{Sogdian}%
@@ -596,41 +467,21 @@ brill]
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
-\newcommand*{\TochA}[2][]{%
-   \def\indexlanguage{Tocharian A}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\TochB}[2][]{%
-   \def\indexlanguage{Tocharian B}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\Ved}[2][]{%
-   \def\indexlanguage{Vedic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{TochA}{Tocharian A}
+\newlanguage{TochB}{Tocharian B}
+\newlanguage{Ved}{Vedic}
 \let\VedSa\Ved
-\newcommand*{\Yidgha}[2][]{%
-   \def\indexlanguage{Yidgha}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
-\newcommand*{\ZD}[2][]{%
-   \def\indexlanguage{Zoroastrian Dari}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage}
+\newlanguage{Yidgha}{Yidγa}
+\newlanguage{ZD}{Zoroastrian Dari}
+\newlanguage{Waxi}{Waxī}
+\newlanguage{Gilaki}{Gīlakī}
+\newlanguage{Ormuri}{Ōrmuṛī}
+\newlanguage{Zazaki}{Zāzākī}
+\newlanguage{Parachi}{Parāčī}
+\newlanguage{Balochi}{Balōčī}
+\newlanguage{Yazghulami}{Yazγulāmī}
+\newlanguage{Kurmanji}{Kurmanǰī}
 %%%
-\newenvironment{AramBlock}{%
-   \def\indexlanguage{Aramaic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}   
-\newenvironment{ArmBlock}{%
-   \def\indexlanguage{Armenian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \newenvironment{AvBlock}{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
@@ -641,119 +492,10 @@ brill]
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\relax}%
    {\resetlanguage}
-\newenvironment{ChorBlock}{%
-   \def\indexlanguage{Choresmian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{ElBlock}{%
-   \def\indexlanguage{Elamite}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{NPBlock}{%
-   \def\indexlanguage{New Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
-\newenvironment{GothBlock}{%
-   \def\indexlanguage{Gothic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{GrkBlock}{%
-   \def\indexlanguage{Greek}%
-   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{GujBlock}{%
-   \def\indexlanguage{Gujarati}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\GujrBlock\GujBlock
 \let\endGujrBlock\endGujBlock
-\newenvironment{HittBlock}{%
-   \def\indexlanguage{Hittite}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{IMPBlock}{%
-   \def\indexlanguage{Inscriptional Middle Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{IParthBlock}{%
-   \def\indexlanguage{Inscriptional Parthian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{KhotBlock}{%
-   \def\indexlanguage{Khotanese}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{LatBlock}{%
-   \def\indexlanguage{Latin}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{LithBlock}{%
-   \def\indexlanguage{Lithuanian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{LuwBlock}{%
-   \def\indexlanguage{Luwian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{MAvBlock}{%
-   \def\indexlanguage{Middle Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{MMPBlock}{%
-   \def\indexlanguage{Manichaean Middle Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{MPBlock}{%
-   \def\indexlanguage{Middle Persian (unspecified)}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{MParthBlock}{%
-   \def\indexlanguage{Manichaean Parthian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{MunjiBlock}{%
-   \def\indexlanguage{Munji}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OAvBlock}{%
-   \def\indexlanguage{Old Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OEBlock}{%
-   \def\indexlanguage{Old English}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OHGBlock}{%
-   \def\indexlanguage{Old High German}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OIrishBlock}{%
-   \def\indexlanguage{Old Irish}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OPBlock}{\def\indexlanguage{Old Persian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OssBlock}{\def\indexlanguage{Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OssDBlock}{\def\indexlanguage{Digoron Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{OssIBlock}{\def\indexlanguage{Iron Ossetic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{PashtoBlock}{\def\indexlanguage{Pashto}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{PDEBlock}{\def\indexlanguage{Present-Day English}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{PGmcBlock}{\def\indexlanguage{Proto-Germanic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \newenvironment{PhlBlock}{\def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
    {\resetlanguage}
@@ -764,69 +506,19 @@ brill]
 \let\endPhlvBlock\endPhlBlock
 \let\PhlvtltBlock\PhltltBlock
 \let\endPhlvtltBlock\endPhltltBlock
-\newenvironment{PIEBlock}{%
-   \def\indexlanguage{Proto-Indo-European}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\IEBlock\PIEBlock
 \let\endIEBlock\endPIEBlock
-\newenvironment{PliBlock}{\def\indexlanguage{PāỊi}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{PraBlock}{\def\indexlanguage{Prakrit}\renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{PrIIrBlock}{\def\indexlanguage{Proto-Indo-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\IIrBlock\PrIIrBlock
 \let\endIIrBlock\endPrIIrBlock
-\newenvironment{PrIrBlock}{%
-   \def\indexlanguage{Proto-Iranian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-%\let\PIrBlock\PrIrBlock
-%\let\endPIrBlock\endPrIrBlock
-\newenvironment{PzBlock}{%
-   \def\indexlanguage{Pāzand}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{ShugniBlock}{%
-   \def\indexlanguage{Shugni}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{SkrBlock}{%
-   \def\indexlanguage{Sanskrit}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\SaBlock\SkrBlock
 \let\endSaBlock\endSkrBlock
 \newenvironment{SogdBlock}{%
    \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
    {\resetlanguage}
-\newenvironment{TochABlock}{%
-   \def\indexlanguage{Tocharian A}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{TochBBlock}{%
-   \def\indexlanguage{Tocharian B}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{VedBlock}{%
-   \def\indexlanguage{Vedic}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
-\newenvironment{YidghaBlock}{%
-   \def\indexlanguage{Yidgha}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
-\newenvironment{ZDBlock}{%
-   \def\indexlanguage{Zoroastrian Dari}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
-   {\resetlanguage}
 %%%
-
 \newcommand{\Fr}[1]{\foreignlanguage{french}{#1}}
 \newcommand{\Ger}[1]{\foreignlanguage{ngerman}{#1}}
 \newenvironment{FrBlock}{\begin{otherlanguage*}{french}}{\end{otherlanguage*}}

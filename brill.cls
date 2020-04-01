@@ -1461,6 +1461,6 @@
 \displaywidowpenalty=10000
 \clubpenalty=5000
 \interfootnotelinepenalty=9999
-\brokenpenalty=2000
+\brokenpenalty=5000
 \vfuzz \hfuzz
 \endinput

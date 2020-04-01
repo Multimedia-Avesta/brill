@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- `θ` (U+03B8) is always substitued by `ϑ` (U+03D1)
+- Increase `\interlinefootnotepenalty` from `2000` to `5000`
+
 ### Fixed
 - Indention for `\subsubsection` in TOC increased (could also be calculated later)
 
