@@ -1399,11 +1399,24 @@
 
 \newcommand{\@@blocktranslation}[3]{%
    \begin{displayquote}%
-   {\ifstrempty{#1}{#2}{\ItalicsOrNot{#1}#2}}%
-   \ifstrempty{#3}{}{%
-      \par\vspace{\baselineskip}\noindent%
-      #3%
-   }%
+      \ifstrempty{#1}%
+         {\ifstrempty{#2}%
+            {\noindent #3}%
+            {%
+               #2%
+               \ifstrempty{#3}{}{%
+                  \par\vspace{\baselineskip}\noindent%
+                  #3%
+               }%
+            }%
+         }%
+         {%
+            \ItalicsOrNot{#1}#2%
+            \ifstrempty{#3}{}{%
+               \par\vspace{\baselineskip}\noindent%
+               #3%
+            }%
+         }%
    \end{displayquote}%
 }%
 
