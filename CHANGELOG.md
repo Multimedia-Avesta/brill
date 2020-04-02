@@ -8,11 +8,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - New macro `\addblankline[NUM]` (\#8943)
+- New macro `\insertion{text}` for English passages within other languages
 
 ### Changed
-- `θ` (U+03B8) is always substitued by `ϑ` (U+03D1)
-- Increase `\interlinefootnotepenalty` from `2000` to `5000`
-- Modify macro `\blocktranslation` to work with empty first and second arguments
+- `θ` (U+03B8) is always substitued by `ϑ` (U+03D1) (\#8996)
+- Increase `\brokenpenalty` from `2000` to `5000`
+- Modify macro `\blocktranslation` to work with empty first and second arguments (\#8908)
 
 ### Fixed
 - Indention for `\subsubsection` in TOC increased (could also be calculated later)
