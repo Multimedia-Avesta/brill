@@ -126,9 +126,11 @@ brill]
       \ifx\@dedication\@empty
       \else
         \next@tdpage\null\vfill
-        {\centering\usekomafont{dedication}{\@dedication \par}}%
-        \vskip \z@ \@plus3fill
-        \@thanks\global\let\@thanks\@empty
+        {\centering{\usekomafont{dedication}{\fontsize{12bp}{13.2bp}\selectfont%
+         \@dedication \par}}%
+        \vskip 3\baselineskip
+        {\fontsize{24bp}{24bp}\selectfont\symbol{"2235}\par}}%
+        \vspace*{28\baselineskip}%
         \cleardoubleemptypage
       \fi
       \ifx\titlepage@restore\relax\else\clearpage\titlepage@restore\fi
