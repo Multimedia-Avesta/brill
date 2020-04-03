@@ -28,8 +28,10 @@
 \DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
 \newif\if@countwords
 \DeclareOption{countwords}{\@countwordstrue}
+\DeclareOption{colorlinks}{\PassOptionsToPackage{colorlinks=true,allcolors=blue}{hyperref}
+\DeclareOption{nocolorlinks}{\PassOptionsToPackage{colorlinks=true,allcolors=black}{hyperref}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
+\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot,nocolorlinks}
 \ProcessOptions*\relax
 \RequirePackage{iftex}
 \RequireLuaTeX
@@ -260,7 +262,7 @@
 \lohead{\headmark}
 \ohead{\pagemark}
 \pagestyle{scrheadings}
-
+%
 \if@corpusavesticum
    \AtEndOfClass{%
       \InputIfFileExists{CorpusAvesticum.tex}%
@@ -270,8 +272,8 @@
          {\ClassWarning{brill}{Could not find configuration file 
          ``CorpusAvesticum.tex''!}%
          }%
-   }%
-\fi%   
+}
+\fi%
 \RequirePackage{multicol}
 \AtBeginEnvironment{multicols}{\raggedright}
 \setlength{\columnsep}{4mm}
@@ -1204,7 +1206,7 @@
 \RequirePackage{shellesc} %TODO: Check whether still needed
 \RequirePackage{url}
 \urlstyle{same}
-\RequirePackage[colorlinks=true,allcolors=blue,unicode]{hyperref}
+\RequirePackage[unicode]{hyperref}
 \RequirePackage{bookmark}
 \pdfstringdefDisableCommands{%
    \let\newline\space%
