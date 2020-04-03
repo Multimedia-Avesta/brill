@@ -1207,13 +1207,9 @@
 \RequirePackage[colorlinks=true,allcolors=blue,unicode]{hyperref}
 \RequirePackage{bookmark}
 \pdfstringdefDisableCommands{%
-   \let\Av\relax%
    \let\newline\space%
    \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
-   \def\Y#1{Y~#1}%
-   \def\PY#1{PY~#1}%
-   \def\Phl#1{Phl~#1}%
 }%
 \RequirePackage[%
    nomain,%

@@ -270,7 +270,8 @@ brill]
    \expandafter\newcommand\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{####1}%
-      {\hyphenpenalty=10000\relax##2}\ifstrempty{##1}{}{\ \enquote{##1}}%
+      \begin{hyphenrules}{nohyphenation}##2\end{hyphenrules}%
+      \ifstrempty{##1}{}{\ \enquote{##1}}%
       \resetlanguage}
    \newenvironment{#1Block}{%
       \def\indexlanguage{#2}%
@@ -281,7 +282,8 @@ brill]
    \expandafter\newcommand\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{\textit{####1}}%
-      \emph{\hyphenpenalty=10000\relax##2}\ifstrempty{##1}{}{\ \enquote{##1}}%
+      \begin{hyphenrules}{nohyphenation}\emph{##2}\end{hyphenrules}%
+      \ifstrempty{##1}{}{\ \enquote{##1}}%
       \resetlanguage} 
    \newenvironment{#1Block}{%
       \def\indexlanguage{#2}%
@@ -295,12 +297,14 @@ brill]
 \newcommand*{\@Av}[2][]{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \Word[#2]{\emph{\hyphenpenalty=10000\relax#2}}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \Word[#2]{\begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\@@Av}[2][]{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \emph{\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Avst\Av
 \newcommand*{\Bactr}[3][]{%
@@ -309,7 +313,7 @@ brill]
    \ifstrempty{#2}
       {/#3/}%
       {%
-         {\hyphenpenalty=10000\relax#2}%
+         \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
          \ifstrempty{#3}{}{\ /#3/}%
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -345,7 +349,7 @@ brill]
 \newcommand*{\@OP}[3][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \textit{\hyphenpenalty=10000\relax#2}%
+   \begin{hyphenrules}{nohyphenation}\textit{#2}\end{hyphenrules}%
    \ifstrempty{#3}{}{\ [#3]}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
@@ -353,7 +357,8 @@ brill]
 \newcommand*{\OPtlt}[2][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   {\hyphenpenalty=10000\relax#2}\ifstrempty{#1}{}{\ \enquote{#1}}%
+   \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
+   \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newlanguage{Oss}{Ossetic}
 \newlanguage{OssD}{Iron Ossetic}
@@ -403,7 +408,7 @@ brill]
       \ifstrempty{#2}
          {\ifstrempty{#3}{}{#3}}%
          {%
-            {\hyphenpenalty=10000\relax#2}%
+            \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
             \ifstrempty{#3}{}{\ #3}%
          }%
    \else%
@@ -412,7 +417,7 @@ brill]
             \textlangle{}#3\textrangle{}%
          }%
          {%
-            \textit{\hyphenpenalty=10000\relax#2}%
+            \begin{hyphenrules}{nohyphenation}\textit{#2}\end{hyphenrules}%
             \ifstrempty{#3}
                {}%
                {\ \textlangle{}#3\textrangle{}}%
@@ -427,7 +432,7 @@ brill]
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \ifstrempty{#3}
-      {\textit{\hyphenpenalty=10000\relax(#2)}}%
+      {\begin{hyphenrules}{nohyphenation}\textit{(#2)}\end{hyphenrules}}%
       {%
          \textlangle{}#3\textrangle{}%
          \ifstrempty{#2}{}{\ \textit{\hyphenpenalty=10000\relax(#2)}}%   
@@ -441,7 +446,7 @@ brill]
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   \ifstrempty{#2}{}{\hyphenpenalty=10000\relax#2}%
+   \ifstrempty{#2}{}{\begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}}%
    \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
@@ -462,7 +467,7 @@ brill]
    \ifstrempty{#2}
       {/#3/}%
       {%
-         \emph{\hyphenpenalty=10000\relax#2}%
+         \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
          \ifstrempty{#3}{}{\ /#3/}%
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -521,6 +526,7 @@ brill]
 %%%
 \newcommand{\Fr}[1]{\foreignlanguage{french}{#1}}
 \newcommand{\Ger}[1]{\foreignlanguage{ngerman}{#1}}
+\newcommand{\En}[1]{\foreignlanguage{british}{#1}}
 \newenvironment{FrBlock}{\begin{otherlanguage*}{french}}{\end{otherlanguage*}}
 \newenvironment{GerBlock}{\begin{otherlanguage*}{ngerman}}{\end{otherlanguage*}}
 
@@ -990,4 +996,12 @@ brill]
 \else
    \let\declarationPhD\relax
 \fi%
+\pdfstringdefDisableCommands{%
+   \def\Av[#1]#2{#2}%
+   \renewcommand*{\Guj}[2][]{#2}%
+   \def\gls#1{#1}%
+   \def\Y#1{Y~#1}%
+   \def\PY#1{PY~#1}%
+   \def\Phl#1{Phl~#1}%
+}%
 \endinput

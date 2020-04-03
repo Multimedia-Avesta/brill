@@ -14,9 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `θ` (U+03B8) is always substitued by `ϑ` (U+03D1) (\#8996)
 - Increase `\brokenpenalty` from `2000` to `5000`
 - Modify macro `\blocktranslation` to work with empty first and second arguments (\#8908)
+- Deactivate the redefinition of biblatex' `\mknormpage` to get `endashes` for `postnote` fields
 
 ### Fixed
 - Indention for `\subsubsection` in TOC increased (could also be calculated later)
+- Correct sorting of indexes (bug introducesd when changing from ~ to fixed width space)
 
 ## [0.28.0] - 2020-03-29
 

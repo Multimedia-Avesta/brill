@@ -7,14 +7,14 @@ function modifySorting()
    f:seek('set')
    -- first look for books with %d.%d
    content = string.gsub(content, 
-      "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)%.(%d+)",
+      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)%.(%d+)",
       function(a,b,c) return string.format(
-         "%s%03d.%03d@%s\\nobreakspace{}%d.%d", a, b, c, a, b, c) end)
+         "%s%03d.%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}%d.%d", a, b, c, a, b, c) end)
    -- look for books with %d
    content = string.gsub(content, 
-      "\\gls%s*{([^}]*)}\\nobreakspace%s*{}(%d+)",
+      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)",
       function(a,b) return string.format(
-         "%s%03d@%s\\nobreakspace{}%d", a, b, a, b) end)
+         "%s%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}%d", a, b, a, b) end)
    f:write(content)
    f:close()
 end
