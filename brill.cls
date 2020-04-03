@@ -773,6 +773,8 @@
 \setcounter{secnumdepth}{8}
 \setcounter{tocdepth}{3}
 \addtokomafont{title}{\hyphenpenalty=10000}
+\addtokomafont{subtitle}{\hyphenpenalty=10000}
+\addtokomafont{dedication}{\itshape\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \setkomafont{pagehead}{\normalfont\small\scshape}
 \setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
