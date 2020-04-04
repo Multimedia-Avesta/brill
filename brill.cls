@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/03/29 v0.28.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/04/04 v0.29.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -28,10 +28,11 @@
 \DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
 \newif\if@countwords
 \DeclareOption{countwords}{\@countwordstrue}
-\DeclareOption{colorlinks}{\PassOptionsToPackage{colorlinks=true,allcolors=blue}{hyperref}
-\DeclareOption{nocolorlinks}{\PassOptionsToPackage{colorlinks=true,allcolors=black}{hyperref}
+\newif\if@colourlinks
+\DeclareOption{colorlinks}{\@colourlinkstrue}
+\DeclareOption{colourlinks}{\@colourlinkstrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot,nocolorlinks}
+\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \ProcessOptions*\relax
 \RequirePackage{iftex}
 \RequireLuaTeX
@@ -1208,7 +1209,11 @@
 \RequirePackage{shellesc} %TODO: Check whether still needed
 \RequirePackage{url}
 \urlstyle{same}
-\RequirePackage[unicode]{hyperref}
+\if@colourlinks
+   \RequirePackage[unicode,colorlinks=true,allcolors=blue]{hyperref}
+\else
+   \RequirePackage[unicode,colorlinks=true,allcolors=black]{hyperref}
+\fi%   
 \RequirePackage{bookmark}
 \pdfstringdefDisableCommands{%
    \let\newline\space%

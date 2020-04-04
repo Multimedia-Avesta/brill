@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Support of an additional file for hyphenation exceptions
 
 ### Changed
+- Suppress hyphenation for title pages (`\title`, `\subtitle`, `\dedication`)
 - `θ` (U+03B8) is always substitued by `ϑ` (U+03D1) (\#8996)
 - Increase `\brokenpenalty` from `2000` to `5000`
 - Modify macro `\blocktranslation` to work with empty first and second arguments (\#8908)

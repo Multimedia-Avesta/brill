@@ -535,7 +535,7 @@ brill]
 %%% We define a ``meta macro'' to define all book macros in the same way
 \def\newbook{\@dblarg\@newbook}
 \def\@newbook[#1]#2{%
-    \expandafter\newcommand\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
+    \expandafter\newrobustcmd\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
 }
 
 \newbook{A}
