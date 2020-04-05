@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Add more checks to `\blocktranslation` (\#8908)
+- Fix font shape for translation in `\blocktranslation` (\#9057)
+
 ## [0.29.0] - 2020-04-04
 
 ### Added

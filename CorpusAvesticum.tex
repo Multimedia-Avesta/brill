@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/04/03 v0.29.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/04/05 v0.30.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -305,7 +305,7 @@ brill]
 \newcommand*{\@@Av}[2][]{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
+   \emph{#2}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Avst\Av
@@ -535,7 +535,7 @@ brill]
 %%% We define a ``meta macro'' to define all book macros in the same way
 \def\newbook{\@dblarg\@newbook}
 \def\@newbook[#1]#2{%
-    \expandafter\newrobustcmd\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
+    \expandafter\newcommand\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
 }
 
 \newbook{A}
