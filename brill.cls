@@ -1387,7 +1387,7 @@
             \end{addmargin}%
          }%
    \else%
-      {\ifstrempty{#2}{#3}{\ItalicsOrNot{#2}#3}}%
+      {\ifstrempty{#2}{#3}{{\ItalicsOrNot{#2}#3}}}%
       \par\vspace{\baselineskip}\noindent%
       \ifstrempty{#4}{}{#4}%
       \ifstrempty{#1}%
@@ -1417,14 +1417,16 @@
          }%
          {%
             \ifstrempty{#2}%
-               {\noindent #3}%
+               {\ifstrempty{#3}{}{\noindent #3}}%
                {%
                   {\ItalicsOrNot{#1}#2}%
-                  \ifstrempty{#3}{}{%
-                  \par\vspace{\baselineskip}\noindent%
-                  #3%
+                  \ifstrempty{#3}%
+                     {}%
+                     {%
+                        \par\vspace{\baselineskip}\noindent%
+                        #3%
+                     }%
                }%
-            }%
          }%
    \end{displayquote}%
 }%

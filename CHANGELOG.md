@@ -6,9 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.30.0] - 2020-04-05
+
+### Changed
+- Index of Passages is now reimplemented to use an additional file `passages-mod.idx`
+- Index macros are patched to use the aditional file for output
+
 ### Fixed
 - Add more checks to `\blocktranslation` (\#8908)
 - Fix font shape for translation in `\blocktranslation` (\#9057)
+- Fix definition of `\Av` for the PDF bookmarks (\#9056)
 
 ## [0.29.0] - 2020-04-04
 
@@ -466,6 +473,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.30.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.30.0
 [0.29.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.29.0
 [0.28.0]:

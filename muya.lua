@@ -1,8 +1,9 @@
--- 2020/02/17 v0.24.0
+-- 2020/04/05 v0.30.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
-   local f = io.open("passages.idx", "r+")
+   local f = io.open("passages.idx", "r")
+   local g = io.open("passages-mod.idx", "w+")
    local content = f:read("*all")
    f:seek('set')
    -- first look for books with %d.%d
@@ -15,8 +16,9 @@ function modifySorting()
       "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)",
       function(a,b) return string.format(
          "%s%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}%d", a, b, a, b) end)
-   f:write(content)
+   g:write(content)
    f:close()
+   g:close()
 end
 
 -- see if the file exists
