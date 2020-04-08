@@ -29,6 +29,8 @@
 \newif\if@countwords
 \DeclareOption{countwords}{\@countwordstrue}
 \newif\if@colourlinks
+\DeclareOption{printversion}{\@printversiontrue}
+\newif\if@printversion
 \DeclareOption{colorlinks}{\@colourlinkstrue}
 \DeclareOption{colourlinks}{\@colourlinkstrue}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
@@ -224,7 +226,9 @@
       inner=20truemm,outer=20truemm,%
       lines=40%
    }
-   \RequirePackage[a4,center,frame]{crop}
+   \if@printversion\else
+      \RequirePackage[a4,center,frame]{crop}
+   \fi%
 \fi%
 \RequirePackage{luatexbase}
 \RequirePackage[%
@@ -1220,6 +1224,9 @@
    \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
+\ifboolexpr{ not bool {@PhD} and bool {@printversion} }%
+   {\RequirePackage[x-1a1]{pdfx}}%
+   {}%
 \RequirePackage[%
    nomain,%
    abbreviations,%
