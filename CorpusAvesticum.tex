@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/04/05 v0.30.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/04/08 v0.31.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -105,8 +105,11 @@ brill]
         \vskip 1\baselineskip
         {\fontsize{14bp}{17bp}\selectfont\@author\par}%
         \vfill
-        \@publishers%
-      \end{center}%
+        \IfFileExists{\@titlelogofile}%
+           {\includegraphics{\@titlelogofile}\par\vspace*{\baselineskip}}%
+           {}
+        {\normalsize\scshape LEIDEN\ |\ BOSTON\par}%
+      \end{center}\removelastskip%
       \if@PhD\else
          \next@tpage
          \begin{addmargin}[-11mm]{-4mm}
@@ -121,7 +124,7 @@ brill]
             \raggedright%
             \@lowertitleback%
          \end{minipage}%
-         \end{addmargin}%
+         \end{addmargin}\removelastskip%
       \fi%
       \ifx\@dedication\@empty
       \else
@@ -801,6 +804,8 @@ brill]
 \newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
 \newcommand*{\@hyphexceptionsfile}{../muya.common/hyphenation-exceptions.tex}
 \newcommand*{\SetHyphexceptionsFile}[1]{\renewcommand*{\@hyphexceptionsfile}{#1}}
+\newcommand*{\@titlelogofile}{../muya.common/BRILL.pdf}
+\newcommand*{\SetTitleLogoFile}[1]{\renewcommand*{\@titlelogofile}{#1}}
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 

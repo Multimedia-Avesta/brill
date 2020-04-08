@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for package `pdfx`
+- New option `printversion` (no crop and `pdfx`)
+
+### Changed
+- Title pages (Brill logo, spacing)
+
 ## [0.30.0] - 2020-04-05
 
 ### Changed
