@@ -777,9 +777,9 @@
    \Ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}
 \setcounter{tocdepth}{3}
-\addtokomafont{title}{\hyphenpenalty=10000}
-\addtokomafont{subtitle}{\hyphenpenalty=10000}
-\addtokomafont{dedication}{\itshape\hyphenpenalty=10000}
+\setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=10000}
+\setkomafont{subtitle}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
+\setkomafont{dedication}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \setkomafont{pagehead}{\normalfont\small\scshape}
 \setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
@@ -1211,6 +1211,11 @@
 \fi%
 
 \RequirePackage{shellesc} %TODO: Check whether still needed
+\if@printversion
+\else
+   \RequirePackage{gitver}%
+   \cfoot*{\versionBox{}}%
+\fi%
 \RequirePackage{url}
 \urlstyle{same}
 \if@colourlinks

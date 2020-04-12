@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Support for package `pdfx`
 - New option `printversion` (no crop and `pdfx`)
+- New macro `\RDTrans{text}` for ritual directions in translations
+- Support for package `gitver` with output of git version in footer
 
 ### Fixed
 - Title pages (Brill logo, spacing)
