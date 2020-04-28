@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/04/08 v0.31.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/04/28 v0.31.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -115,14 +115,15 @@ brill]
          %   {\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%aufgerundet
          %   {\vspace{\baselineskip}\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%abgerundet
          %\vspace{\dimexpr .5\baselineskip - \dp\@titlebox\relax}%
-         \vspace{\dimexpr 1.5\baselineskip - \dp\@titlebox\relax}%
+         \ifdimgreater{\ht\@titlebox}{28bp}{\vspace*{3.2bp}}{\vspace*{8.2bp}}%
+         %\vspace{\dimexpr 1.5\baselineskip - \dp\@titlebox\relax}%
          \prevdepth0pt% \vskip 2\baselineskip
          \ifx\@subtitle\@empty%
          \else%
             \vskip 2\baselineskip
             {\vspace*{-20bp}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%
             %\vspace{\dimexpr 0.484848\baselineskip - \dp\@subtitlebox\relax}%
-            %\vspace*{10.6bp}%
+            \vspace*{9.2bp}%
          \fi%
          \prevdepth0pt% 
          \vskip 3\baselineskip
