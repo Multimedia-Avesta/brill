@@ -33,6 +33,9 @@
 \newif\if@printversion
 \DeclareOption{colorlinks}{\@colourlinkstrue}
 \DeclareOption{colourlinks}{\@colourlinkstrue}
+\newif\if@gitver
+\@gitvertrue
+\DeclareOption{nogitver}{\@gitverfalse}
 \DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
 \ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \ProcessOptions*\relax
@@ -1211,11 +1214,6 @@
 \fi%
 
 \RequirePackage{shellesc} %TODO: Check whether still needed
-\if@printversion
-\else
-   \RequirePackage{gitver}%
-   \cfoot*{\versionBox{}}%
-\fi%
 \RequirePackage{url}
 \urlstyle{same}
 \if@colourlinks
@@ -1229,6 +1227,12 @@
    \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
+\ifboolexpr{ not bool {@printversion} and bool {@gitver} }%
+   {%
+      \RequirePackage[noheader]{gitver}%
+      \cfoot*{\versionBox{}}%
+   }%
+   {}%
 \ifboolexpr{ not bool {@PhD} and bool {@printversion} }%
    {\RequirePackage[x-1a1]{pdfx}}%
    {}%

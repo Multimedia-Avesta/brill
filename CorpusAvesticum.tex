@@ -59,6 +59,10 @@ brill]
    \let\logwordcount\relax
 \fi%
 
+\newsavebox\@titlebox
+\newsavebox\@subtitlebox
+\newlength{\@titleboxht}
+\newlength{\@titleskip}
 \renewcommand*{\maketitle}[1][1]{%
    \InputIfFileExists{titlepages.tex}%
       {\ClassInfo{brill}{Information for title pages successfully loaded}}%
@@ -76,6 +80,14 @@ brill]
       \renewcommand*\thefootnote{\@fnsymbol\c@footnote}%
       \let\@oldmakefnmark\@makefnmark
       \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
+      %%% Calculate title size
+      \savebox{\@titlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}}%
+      \savebox{\@subtitlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}}%
+      %\setlength{\@titleboxht}{\ht\@titlebox}%
+      %\addtolength{\@titleboxht}{\dp\@titlebox}%
+      %\numdef{\@titleskip}{\dimexpr\@titleboxht / \baselineskip}%
+      %\dimdef{\@titleskipdiff}{\@titleskip\baselineskip}
+      %\dimdef{\@@titleskipdiff}{\@titleskipdiff - \@titleboxht}
       \ifx\@extratitle\@empty
         \ifx\@frontispiece\@empty
         \else
@@ -88,28 +100,42 @@ brill]
         \else
           \next@tpage
           \noindent\@frontispiece
-        \fi
+        \fi%
         \next@tdpage
-      \fi
+      \fi%
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
-      \begin{center}
-        {\normalfont\fontsize{26bp}{36bp}\selectfont\bfseries\hyphenpenalty=10000
-         \@title\par}%
-        \vskip 2\baselineskip
-        {\ifx\@subtitle\@empty\else
-         {\normalfont\fontsize{16bp}{20bp}\selectfont\itshape\hyphenpenalty=10000
-            \@subtitle\par}\fi%
-        }%
-        \vskip 2\baselineskip
+      {\centering
+         %\usebox{\@titlebox}%
+         {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
+%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\smash\parbox[t]{\textwidth}{\@title}}}%
+%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
+%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
+         %\vspace*{33bp}%
+         %\ifdimgreater{\@titleskipdiff - \@titleboxht}{0pt}%
+         %   {\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%aufgerundet
+         %   {\vspace{\baselineskip}\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%abgerundet
+         %\vspace{\dimexpr .5\baselineskip - \dp\@titlebox\relax}%
+         \vspace{\dimexpr 1.5\baselineskip - \dp\@titlebox\relax}%
+         \prevdepth0pt% \vskip 2\baselineskip
+         \ifx\@subtitle\@empty%
+         \else%
+            \vskip 2\baselineskip
+            {\vspace*{-20bp}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%
+            %\vspace{\dimexpr 0.484848\baselineskip - \dp\@subtitlebox\relax}%
+            %\vspace*{10.6bp}%
+         \fi%
+         \prevdepth0pt% 
+         \vskip 3\baselineskip
         {\normalsize\itshape By\par}
-        \vskip 1\baselineskip
+        \vskip 2\baselineskip
+        \vspace*{-17bp}%
         {\fontsize{14bp}{17bp}\selectfont\@author\par}%
         \vfill
         \IfFileExists{\@titlelogofile}%
            {\includegraphics[scale=0.8]{\@titlelogofile}\par\vspace*{\baselineskip}}%
            {}
         {\normalsize\scshape LEIDEN\ |\ BOSTON\par}%
-      \end{center}\removelastskip%
+      }%
       \if@PhD\else
          \next@tpage
          \begin{addmargin}[-11mm]{-4mm}
@@ -129,11 +155,11 @@ brill]
       \ifx\@dedication\@empty
       \else
         \next@tdpage\null\vfill
-        {\centering{\usekomafont{dedication}{\fontsize{12bp}{13.2bp}\selectfont%
-         \@dedication \par}}%
+        {\centering
+        {\usekomafont{dedication}{\fontsize{12bp}{13.2bp}\selectfont\@dedication\par}}%
         \vskip 3\baselineskip
-        {\fontsize{24bp}{24bp}\selectfont\symbol{"2235}\par}}%
-        \vspace*{28\baselineskip}%
+        {\fontsize{24bp}{13.2bp}\selectfont\symbol{"2235}\par}}%
+        \vspace*{22\baselineskip}%
         \cleardoubleemptypage
       \fi
       \ifx\titlepage@restore\relax\else\clearpage\titlepage@restore\fi
@@ -770,7 +796,7 @@ brill]
 \def\Gettranslation{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{%
    \bgroup%
-   \let\AvTr\@gobble%
+   \let\RDTrans\@gobble%
    \csuse{translation-#1}%
    \egroup%
 }
@@ -885,17 +911,19 @@ brill]
 \newcommand{\Stage}[1]{#1}
 %%\newcommand{\Ved}[1]{#1}
 \newcounter{attestation}
-\def\Attestation{%
-   \@ifstar{\stepcounter{attestation}\@attestation}%
-      {\setcounter{attestation}{1}\@attestation}}
+\def\Attestation{\@ifstar%
+   {\stepcounter{attestation}\@attestation}%
+   {\setcounter{attestation}{1}\@attestation}}
 \newif\if@firstattestation
-\newcommand{\@attestation}[2]{%
+\def\@attestation{\@ifnextchar[{\@@attestation}{\@@attestation[0]}}
+\newcommand{\@@attestation}[3][]{%
    \if@firstattestation
       \@firstattestationfalse%
    \else%
       \unskip\nobreakspace|\nobreakspace%
    \fi%
-   \theattestation.\nobreakspace\textit{#1}\ #2}
+   \ifstrempty{#1}{}{\ifstr{#1}{0}{\theattestation.}{#1.}}%
+   \nobreakspace\textit{#2}\ #3}%
 \newcommand{\Pos}[1]{#1}
 
 \ifltxcounter{numberofglossaries}%
@@ -987,6 +1015,7 @@ brill]
 \newcommand*{\uncertain}[1]{#1\textsuperscript*{\textup{?}}}
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand{\insertion}[1]{{\upshape #1}}
+\newcommand{\RDTrans}[1]{{\itshape #1}}
 %\let\@ORIGrealsuperscript\realsuperscript
 %\let\@ORIGfakesuperscript\fakesuperscript
 %\renewcommand{\realsuperscript}[1]{%
