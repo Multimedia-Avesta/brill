@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.32.0] - 2020-04-30
+
+### Changed
+- Add optional argument to `\Lemma` (\#9115)
+- Add optional argument to `dictionary` envrionment (\#9115)
+- Modify `\attestation` to be language-dependent
+
 ## [0.31.0] - 2020-04-28
 
 ### Added
@@ -14,7 +21,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - New macro `\RDTrans{text}` for ritual directions in translations
 - Support for package `gitver` with output of git version in footer
 - Class option `nogitver`
-- Optional argument for `\attestation` and `\attestation*`. Empty to override counting.
+- Optional argument for `\attestation` and `\attestation*`. Empty to override counting. (\#7865)
 
 ### Fixed
 - Title pages (Brill logo, spacing)
@@ -23,7 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Index of Passages is now reimplemented to use an additional file `passages-mod.idx`
-- Index macros are patched to use the aditional file for output
+- Index macros are patched to use the additional file for output
 
 ### Fixed
 - Add more checks to `\blocktranslation` (\#8908)
@@ -486,6 +493,8 @@ Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.32.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.32.0
 [0.31.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.31.0
 [0.30.0]:

@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/04/28 v0.31.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/04/30 v0.32.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -105,6 +105,7 @@ brill]
       \fi%
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
       {\centering
+         %\lineskiplimit=-\maxdimen%
          %\usebox{\@titlebox}%
          {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
 %        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\smash\parbox[t]{\textwidth}{\@title}}}%
@@ -114,15 +115,15 @@ brill]
          %\ifdimgreater{\@titleskipdiff - \@titleboxht}{0pt}%
          %   {\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%aufgerundet
          %   {\vspace{\baselineskip}\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%abgerundet
-         %\vspace{\dimexpr .5\baselineskip - \dp\@titlebox\relax}%
-         \ifdimgreater{\ht\@titlebox}{28bp}{\vspace*{3.2bp}}{\vspace*{8.2bp}}%
+         \ifdimgreater{\ht\@titlebox}{28bp}{\vspace*{3.2bp}}{\vspace*{8.2bp}}%TODO: Fix it
          %\vspace{\dimexpr 1.5\baselineskip - \dp\@titlebox\relax}%
          \prevdepth0pt% \vskip 2\baselineskip
          \ifx\@subtitle\@empty%
          \else%
             \vskip 2\baselineskip
-            {\vspace*{-20bp}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%
-            %\vspace{\dimexpr 0.484848\baselineskip - \dp\@subtitlebox\relax}%
+            {%\vspace*{-\dp\@titlebox}%
+             \vspace*{-20bp}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%  
+             %\vspace*{\dimexpr -20bp+\dp\@subtitlebox\relax}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%
             \vspace*{9.2bp}%
          \fi%
          \prevdepth0pt% 
@@ -836,8 +837,8 @@ brill]
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
-\NewEnviron{Dictionary}%
-   {}[\directlua{sortGlossary()}\input{dictionaryconv}]%
+\NewEnviron{Dictionary}[1][Av]%
+   {\def\@dictlanguage{#1}}[\directlua{sortGlossary()}\input{dictionaryconv}]%
 % For the dictionary
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
@@ -924,7 +925,15 @@ brill]
       \unskip\nobreakspace|\nobreakspace%
    \fi%
    \ifstrempty{#1}{}{\ifstr{#1}{0}{\theattestation.}{#1.}}%
-   \nobreakspace\textit{#2}\ #3}%
+   \nobreakspace
+   \IfStrEqCase{\@dictlanguage}{%
+      {Av}{\textit{#2}}%
+      {MP}{\textlangle{}#2\textrangle{}}%
+      {Guj}{\textit{#2}}%
+   }[\textit{#2}]%
+   \ #3%
+}%
+
 \newcommand{\Pos}[1]{#1}
 
 \ifltxcounter{numberofglossaries}%
