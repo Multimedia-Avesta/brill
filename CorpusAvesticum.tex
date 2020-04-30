@@ -889,7 +889,7 @@ brill]
    columnsep=4mm,%
    options={--noheadings --config muya}
    ]%
-\newcommand{\Lemma}[1]{\item[#1]}
+\newcommand{\Lemma}[2][]{\item[#2]\ifstrempty{#1}{}{\ \textlangle{}#1\textrangle{}}}
 %\newcommand{\cnt}{}
 %\NewEnviron{Lemma}[1]{%
 %   \@addtosequenceofletters{#1}
