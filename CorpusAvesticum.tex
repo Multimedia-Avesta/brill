@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/04/30 v0.32.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/02 v0.32.1 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -890,7 +890,8 @@ brill]
    columnsep=4mm,%
    options={--noheadings --config muya}
    ]%
-\newcommand{\Lemma}[2][]{\item[#2]\ifstrempty{#1}{}{\ \textlangle{}#1\textrangle{}}}
+\newcommand*{\Lemma}[2][]{\item[#2]}
+\newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 %\newcommand{\cnt}{}
 %\NewEnviron{Lemma}[1]{%
 %   \@addtosequenceofletters{#1}
@@ -924,7 +925,7 @@ brill]
    \else%
       \unskip\nobreakspace|\nobreakspace%
    \fi%
-   \ifstrempty{#1}{}{\ifstr{#1}{0}{\theattestation.}{#1.}}%
+   \ifstrempty{#1}{}{\Ifstr{#1}{0}{\theattestation.}{#1.}}%
    \nobreakspace
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%

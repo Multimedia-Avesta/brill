@@ -1,4 +1,4 @@
--- 2020/04/05 v0.30.0
+-- 2020/05/02 v0.32.1
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -226,9 +226,14 @@ function sortGlossary()
                else
                   sublemmacontent = sublemmacontent .. "\n" .. str
                end               
-            else
+            else -- it can only be a lemma entry, but which one
                --texio.write_nl("Check line within dictionary")
-               lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+               lemma_oarg, lemma, text = string.match(str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$") --$
+               if not lemma_oarg or lemma_oarg == '' then
+                  lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+               else
+                  text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
+               end
                if lemma and lemma ~= '' then
    --            texio.write_nl("Found new lemma " .. lemma)            
                -- we found a new lemma
