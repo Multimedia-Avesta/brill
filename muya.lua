@@ -232,7 +232,7 @@ function sortGlossary()
                if not lemma_oarg or lemma_oarg == '' then
                   lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
                else
-                  text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
+                  text = "\\@Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
                end
                if lemma and lemma ~= '' then
    --            texio.write_nl("Found new lemma " .. lemma)            
