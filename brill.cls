@@ -280,6 +280,8 @@
          {\ClassWarning{brill}{Could not find configuration file 
          ``CorpusAvesticum.tex''!}%
          }%
+% Now all glossaries have been defined. We can call \cs{makeglossaries}      
+   \makeglossaries
 }
 \fi%
 \RequirePackage{multicol}
@@ -1206,7 +1208,7 @@
       {%
        \vtop to\dimexpr\vsize+\baselineskip{
          \hrule
-         \leaders\vbox to\baselineskip{\hrule width\hsize\vfill}\vfill
+         \leaders\vbox to 13.2bp{\hrule width\hsize\vfill}\vfill
        }%
       }%
   }%
@@ -1314,7 +1316,6 @@
 }
 \setglossarystyle{brill}
 \renewcommand{\glossarypreamble}{\small}
-\makeglossaries
 
 \setabbreviationstyle{short-nolong}
 \renewcommand{\glsnamefont}[1]{\normalfont\mdseries #1}

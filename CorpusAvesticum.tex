@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/05/02 v0.32.1 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/02 v0.33.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -587,6 +587,145 @@ brill]
     \expandafter\newcommand\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
 }
 
+% We need a second abbreviation list for the apparatus criticus
+\newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the apparatus criticus}
+
+% We define macros to be used (only) within the apparatus criticus
+% We need a special macro for hanging text based on \cs{newline} calls in the export
+\newcommand{\appcrnewline}{\par\noindent\hangindent\parindent\hangafter=1\relax}
+% We need to know whether we have the first reading
+\newif\if@firstrdg
+
+% The main macro steps the counter for the \enquote{footnotes} and starts a list
+\newcommand{\app}[1]{%
+   \refstepcounter{appcrfootnote}%
+   \unskip\textsuperscript{\theappcrfootnote}%
+   \@firstrdgtrue%
+   \gappto{\@appcr}{\item }#1%
+}
+% We define a macro for ritual directions
+\newcommand{\rd}[1]{%TODO: Spacing
+   \par\vspace{.5\baselineskip}%
+   \begingroup%
+   %\let\newline\appcrnewline%
+   \tolerance=1%
+   \emergencystretch=\maxdimen%
+   \hyphenpenalty=10000%
+   \hbadness=10000%
+   \noindent% 
+   \hangindent\parindent\hangafter=1\relax%
+   #1\par\nobreak\vspace{.5\baselineskip}\noindent%
+   \endgroup%
+   \hangindent\parindent\hangafter=1\relax%
+   \ignorespaces%
+}
+% We need to know, whether it's the first witness (sub)class call
+\newif\if@firstwitclass
+\newif\if@firstwitsubclass
+\newif\if@subreading
+% We define a macro for the readings. As this macro can have two optional 
+% arguments, we read the first and remember whether it is empty or not
+\newcommand{\rdg}[1][]{%
+   \ifstrempty{#1}{\@subreadingfalse}{\@subreadingtrue}%
+   % Call main macro
+   \@rdg
+}
+% #1: Abbreviation for subreading
+% #2: Witnesses
+% #3: Reading
+\newcommand{\@rdg}[3][]{%
+   % If it is not the first reading, add a \cs{par} to the output
+   \if@firstrdg\@firstrdgfalse\else\gappto{\@appcr}{\par}\fi%
+   % If it is a subreading (non-empty first opt. argument) then start a 
+   % nested list (either with label or without depending on second 
+   % optional argument)
+   \if@subreading
+      \ifstrempty{#1}%
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]}}%
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]#1.\hspace{0.5em}}}%
+   \fi%
+   \@firstwitclasstrue%
+   \@firstwitsubclasstrue%
+   % Add reading to apparatus variable
+   \gappto{\@appcr}{\textit{#3}\ \begingroup\frenchspacing}%
+   % Evaluate witnesses 
+   #2%
+   \gappto{\@appcr}{\endgroup}%
+   % Close nested list if necessary
+   \if@subreading
+      \gappto{\@appcr}{\end{appcrenum}}%
+   \fi%
+}
+% Write witness to apparatus
+\newcommand{\wit}[1]{\gappto{\@appcr}{#1 }}
+ 
+\newcommand{\witclass}[1]{%
+   % If this is not the first witness class call, insert punctuation
+   \if@firstwitclass%
+      \@firstwitclassfalse%
+   \else%
+      \@firstwitsubclasstrue\gappto{\@appcr}{\unskip;\ }%
+   \fi%
+   % Evaluate witness class entries
+   #1%
+}
+
+\newcommand{\witsubclass}[1]{%
+   % If this is not the first witness class call, insert punctuation
+   \if@firstwitsubclass%
+      \@firstwitsubclassfalse%
+   \else%
+      \gappto{\@appcr}{\unskip,\ }%
+   \fi%
+   %  Evaluate witness subclass entries
+   #1%
+}
+
+% We manually count the words/footnotes in our editorial texts based 
+% on \cs{app} calls
+\newcounter{appcrfootnote}
+\newcounter{nextappcrfootnote}
+% We define a list of two levels
+\newlist{appcrenum}{enumerate}{2}
+\setlist{font=\usekomafont{footnotelabel}\scriptsize, nosep, align=left}
+\setlist[appcrenum, 1]{label=\arabic*, leftmargin=*}
+\setlist[appcrenum, 2]{label=\relax, left=\parindent}
+
+% Each stanza starts a new mini sections and resets the \enquote{footnote} counter
+\newenvironment{stanza}[1]{%
+   \minisec{#1}%
+   \setcounter{appcrfootnote}{0}%
+   % The apparatus is stored in a variable
+   \gdef\@appcr{}%
+   \hyphenpenalty=10000%
+   \let\newline\appcrnewline%
+   \hangindent\parindent\hangafter=1\relax%
+}{%
+   \par%
+   % If the apparatus is not empty, output it in two columns
+   \ifdefempty{\@appcr}{}{%
+      \begin{multicols}{2}%
+         \begin{appcrenum}\scriptsize\@appcr\end{appcrenum}
+      \end{multicols}%   
+   }%
+}
+
+\newcommand*{\editedtext}[1]{%
+   % we get the current value of appcrfootnote and add 1 -> this would
+   % be the next footnote number
+   \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
+   \stepcounter{nextappcrfootnote}%
+   % We test for specific texts and write them as they are.
+   % All others get additional superscript numbers after each word.    
+   \Ifstr{#1}{(date‚ dedication of day and month)}%
+      {#1}%
+      {{\itshape\StrSubstitute{#1}{ }{\textsuperscript{\upshape\thenextappcrfootnote} }}}%
+}
+
+% We need a macro for text portions within the Avestan (italic) text.
+% In the XML these are <foreign> elements
+\newcommand{\foreign}[1]{\textup{#1}}
+%%%
 \newbook{A}
 \newbook{AAM}
 %\newcommand*{\A}[1]{\gls{A}\nobreakspace{}#1}% Afrinagan
@@ -838,7 +977,14 @@ brill]
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
 \NewEnviron{Dictionary}[1][Av]%
-   {\def\@dictlanguage{#1}}[\directlua{sortGlossary()}\input{dictionaryconv}]%
+   {\def\@dictlanguage{#1}}%
+   [{%
+      \IfStrEqCase{\@dictlanguage}{%
+         {Av}{\directlua{sortGlossary("Av")}}%
+         {Guj}{\directlua{sortGlossary("Guj")}}%
+         {MP}{}
+      }[]
+    }\input{dictionaryconv}]%
 % For the dictionary
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
@@ -988,16 +1134,18 @@ brill]
 }%
 %\newcolumntype{W}{>{\collectcell\testme}p{\widestabbreviationac}<{\endcollectcell}}
 %\tabucolumn W
-\newenvironment{abbreviationsac}
-   {\begin{longtabu} to \textwidth{%
-      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
-   {\end{longtabu}}      
+\newcommand{\newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}}
+%\newenvironment{abbreviationsac}
+%   {\begin{longtabu} to \textwidth{%
+%      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
+%   {\end{longtabu}}      
 
 \newcommand{\printabbreviationsac}{%
-   \addchap{Abbreviations for the apparatus criticus}
-   \begin{abbreviationsac}
-   \InputIfFileExists{\@abbreviationsacfile}{}{}%
-   \end{abbreviationsac}
+%   \addchap{Abbreviations for the apparatus criticus}
+%   \begin{abbreviationsac}
+%   \InputIfFileExists{\@abbreviationsacfile}{}{}%
+%   \end{abbreviationsac}
+   \printabbreviations[type=appcrit]%
 }
 
 \AtEndPreamble{%
@@ -1005,6 +1153,8 @@ brill]
       {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
       {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
        Please use \string\SetAbbreviationsFile\space}}%
+   \InputIfFileExists{\@abbreviationsacfile}%
+   {}{}    
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
