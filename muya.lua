@@ -43,8 +43,12 @@ function sortGlossary(l)
    -- tests the functions above
    local file = status.filename
    local outfile = 'dictionaryconv.tex'
-   glosslang = l
-   texio.write_nl("Found sorting language: " .. l)
+   if l == nil or l == '' then
+      texio.write_nl("Glossary language must not be empty")
+   else
+      glosslang = l
+      texio.write_nl("Found sorting language: " .. glosslang)
+   end
    if not file_exists(file) then return {} end
    
    local lines = lines_from(file)
@@ -237,7 +241,7 @@ function sortGlossary(l)
                if not lemma_oarg or lemma_oarg == '' then
                   lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
                else
-                  text = "\\@Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
+                  text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
                end
                if lemma and lemma ~= '' then
    --            texio.write_nl("Found new lemma " .. lemma)            
@@ -259,7 +263,7 @@ function sortGlossary(l)
          end
       end
    end
-   elseif glosslang == "Av" then
+   elseif glosslang == "Av" or glosslang == "MP" then
    for k,v in pairs(lines) do
    -- get line k and process it
       local str = lines[k]
@@ -309,7 +313,7 @@ function sortGlossary(l)
             if not lemma_oarg or lemma_oarg == '' then
                lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
             else
-               text = "\\@Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
+               text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
             end
             if lemma and lemma ~= '' then
                --            texio.write_nl("Found new lemma " .. lemma)            
@@ -327,6 +331,8 @@ function sortGlossary(l)
          end
       end
    end
+   else
+      texio.write_nl("Could not find a sort method for " .. glosslang)
    end
    f:close()
 end

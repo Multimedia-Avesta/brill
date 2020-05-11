@@ -197,11 +197,12 @@
 [%
    Extension      = .TTF,%
    UprightFont    = *,%
+   Scale          = MatchLowercase,%
 ]%
-\newcommand{\textavestan}[1]{\bgroup\textdir TRT\avestanfont #1\egroup}
-\newcommand{\textgujarati}[1]{\bgroup\gujaratifont #1\egroup}
-\newcommand{\textarabic}[1]{\bgroup\arabicfont #1\egroup}
-\newcommand{\textpahlavi}[1]{\bgroup\textdir TRT\pahlavifont #1\egroup}
+\newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
+\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\arabicfont #1\egroup}
+\newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
 \newrobustcmd*{\texttracking}[1]{{\trackingfont #1}}%
 \newrobustcmd*{\texttrackingL}[1]{\ifhmode\unskip\fi{\trackingfont\ #1}}%
 \newrobustcmd*{\texttrackingR}[1]{{\trackingfont #1\ }\ignorespaces}%

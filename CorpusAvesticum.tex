@@ -977,21 +977,24 @@ brill]
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 
 \NewEnviron{Dictionary}[1][Av]%
-   {\def\@dictlanguage{#1}}%
+   {%
+      \stepcounter{numberofglossaries}%
+      \def\@dictlanguage{#1}%
+   }%
    [{%
       \IfStrEqCase{\@dictlanguage}{%
          {Av}{\directlua{sortGlossary("Av")}}%
          {Guj}{\directlua{sortGlossary("Guj")}}%
-         {MP}{}
+         {MP}{\directlua{sortGlossary("MP")}}%
       }[]
-    }\input{dictionaryconv}]%
+    }%
+      \input{dictionaryconv}]%
 % For the dictionary
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
    leftmargin=*,%
    font=\normalfont\bfseries\itshape%
 }
-%\newenvironment{Dictionary}{}{}
 \newlist{Meanings}{enumerate*}{1}
 \setlist[Meanings]{label=\arabic*.,mode=unboxed}
 %
@@ -1037,14 +1040,7 @@ brill]
    options={--noheadings --config muya}
    ]%
 \newcommand*{\Lemma}[2][]{\item[#2]}
-\newcommand*{\@Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
-%\newcommand{\cnt}{}
-%\NewEnviron{Lemma}[1]{%
-%   \@addtosequenceofletters{#1}
-%   \renewcommand{\cnt}{}%
-%   \gappto\cnt{\BODY}%
-%}[\index[dictionary]{\cnt}]
-
+\newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
 
 \newcommand{\AirWb}[1]{\textit{AirWb}\nobreakspace{}#1}
@@ -1087,11 +1083,12 @@ brill]
    {}%
    {\newcounter{numberofglossaries}}%
 \AtBeginDocument{\setcounter{numberofglossaries}{0}}
+\newcounter{@numberofglossaries}
 \newcommand{\Sequenceofletters}{%
    \par\noindent
    Sequence of letters:\\%
-   \stepcounter{numberofglossaries}%
-   \csuse{@sequenceofletters\thenumberofglossaries}%
+   \setcounter{@numberofglossaries}{\numexpr\value{numberofglossaries}+1\relax}
+   \csuse{@sequenceofletters\the@numberofglossaries}%
    \par\vspace{\baselineskip}\noindent}
 
 \newdimen\widestabbreviationac
