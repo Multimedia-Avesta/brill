@@ -39,11 +39,12 @@ function lines_from(file)
   return lines
 end
 
-function sortGlossary()
+function sortGlossary(l)
    -- tests the functions above
    local file = status.filename
    local outfile = 'dictionaryconv.tex'
-   
+   glosslang = l
+   texio.write_nl("Found sorting language: " .. l)
    if not file_exists(file) then return {} end
    
    local lines = lines_from(file)
@@ -77,6 +78,10 @@ function sortGlossary()
    local hash = {}
    local res = {}
    
+   -- we define a loop routine for each possible language
+   
+   -- Gujarati
+   if glosslang == "Guj" then
    for k,v in pairs(lines) do
       -- get line k and process it
       local str = lines[k]
@@ -254,6 +259,75 @@ function sortGlossary()
          end
       end
    end
+   elseif glosslang == "Av" then
+   for k,v in pairs(lines) do
+   -- get line k and process it
+      local str = lines[k]
+   
+      if string.match(str, "^%s*\\begin{Dictionary}") then
+         f:write('\\begin{ModDictionary}', "\n")
+         inDictionary = true
+      elseif string.match(str, "^%s*\\end{Dictionary}") then
+         -- we reached the end of the dictionary
+         -- write last lemma to file
+         if prevlemma and prevlemma ~= '' then
+            result[prevlemma] = lemmacontent
+         end
+         -- start sorting process
+         newkeys = sortLemma(result)
+         -- use the keys to retrieve the values in the sorted order
+         for _, k in ipairs(newkeys) do
+            f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
+            -- get the first letter of the lemma
+            local first = ustring.sub(removesortid(k),1,1)
+            --texio.write_nl(first)
+            -- check whether the letter is already known and not -
+            if not hash[first] and first ~= "-" then
+               res[#res+1] = first 
+               hash[first] = true
+            end
+         end
+         -- if lines follow they should be processed as well
+         f:write('\n\\end{ModDictionary}', "\n")
+         local sequenceofletters = ""
+         for k,v in pairs(res) do
+            if sequenceofletters == "" then
+               sequenceofletters = v
+            else
+               sequenceofletters = sequenceofletters .. ", " .. v
+            end
+         end
+         tex.sprint([[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
+         {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]])
+         tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]])
+         inDictionary = false
+      else
+         if inDictionary == false then
+         else -- it can only be a lemma entry, but which one
+            --texio.write_nl("Check line within dictionary")
+            lemma_oarg, lemma, text = string.match(str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$") --$
+            if not lemma_oarg or lemma_oarg == '' then
+               lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+            else
+               text = "\\@Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
+            end
+            if lemma and lemma ~= '' then
+               --            texio.write_nl("Found new lemma " .. lemma)            
+               -- we found a new lemma
+               -- write previous lemma (if any) to table
+               if prevlemma and prevlemma ~= '' then
+                  result[prevlemma] = lemmacontent
+               end
+               -- remember new lemma as prevlemma for next entry
+               prevlemma = lemma
+               lemmacontent = text
+            else
+               lemmacontent = lemmacontent .. "\n" .. str
+            end
+         end
+      end
+   end
+   end
    f:close()
 end
 
@@ -275,8 +349,9 @@ function sortLemma (t)
 end
 
 function compare (a,b)
-   -- before sorting, we remove dashes at the end and we remove sort ids
-   local s1 = string.gsub(a, '^-?(.+)-?$', '%1')--$
+   -- before sorting, we remove dashes from the beginning and from the end ...
+   local s1 = string.gsub(a, '^%-?(.+)%-?$', '%1')--$
+   -- ... and we remove sort ids
    s1 = string.gsub(s1, '^¹(.+)$', '%11')
    s1 = string.gsub(s1, '^²(.+)$', '%12')
    s1 = string.gsub(s1, '^³(.+)$', '%13')
@@ -292,7 +367,7 @@ function compare (a,b)
    s1 = ustring.gsub(s1, 'ṣ', 'ṣ')
    s1 = ustring.gsub(s1, 'ṭ', 'ṭ')
          
-   local s2 = string.gsub(b, '^-?(.+)-?$', '%1')--$
+   local s2 = string.gsub(b, '^%-?(.+)%-?$', '%1')--$
    s2 = string.gsub(s2, '^¹(.+)$', '%11')
    s2 = string.gsub(s2, '^²(.+)$', '%12')
    s2 = string.gsub(s2, '^³(.+)$', '%13')   
@@ -317,7 +392,7 @@ function compare (a,b)
    -- as long as both strings have equal characters (and are both not empty)
    -- get the next sorting letter and compare them
       while s1 ~= '' and s2 ~= '' do
-         --texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
+         texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
          --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
@@ -340,30 +415,53 @@ function compare (a,b)
 end
 
 function sortletter (s)
-   local gujorder = {["a"] = 1, ["ā"] = 2, ["i"] = 3, ["ī"] = 4,["u"] = 5,
-   ["ū"] = 6, ["r̥"] = 7, ["e"] = 8, ["o"] = 9, ["ṃ"] = 10, ["k"] = 11, 
-   ["kh"] = 12, ["g"] = 13, ["gh"] = 14, ["ṅ"] = 15, ["c"] = 16, ["ch"] = 17,
-   ["j"] = 18, ["jh"] = 19, ["z"] = 20, ["ñ"] = 21, ["ṭ"] = 22, ["ṭh"] = 23,
-   ["ḍ"] = 24, ["ḍh"] = 25, ["ṇ"] = 26, ["t"] = 27, ["th"] = 28, ["d"] = 29, 
-   ["dh"] = 30, ["n"] = 31, ["p"] = 32, ["ph"] = 33, ["f"] = 34, ["b"] = 35,
-   ["bh"] = 36, ["m"] = 37, ["y"] = 38, ["r"] = 39, ["l"] = 40, ["v"] = 41,
-   ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46, ["1"] = 47, 
-   ["2"] = 48, ["3"] = 49, [" "] = 50}   
+   local sortorder
+   if glosslang == 'Guj' then -- Gujarati
+      sortorder = {["a"] = 1, ["ā"] = 2, ["i"] = 3, ["ī"] = 4,["u"] = 5,
+      ["ū"] = 6, ["r̥"] = 7, ["e"] = 8, ["o"] = 9, ["ṃ"] = 10, ["k"] = 11, 
+      ["kh"] = 12, ["g"] = 13, ["gh"] = 14, ["ṅ"] = 15, ["c"] = 16, ["ch"] = 17,
+      ["j"] = 18, ["jh"] = 19, ["z"] = 20, ["ñ"] = 21, ["ṭ"] = 22, ["ṭh"] = 23,
+      ["ḍ"] = 24, ["ḍh"] = 25, ["ṇ"] = 26, ["t"] = 27, ["th"] = 28, ["d"] = 29, 
+      ["dh"] = 30, ["n"] = 31, ["p"] = 32, ["ph"] = 33, ["f"] = 34, ["b"] = 35,
+      ["bh"] = 36, ["m"] = 37, ["y"] = 38, ["r"] = 39, ["l"] = 40, ["v"] = 41,
+      ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46, ["1"] = 47, 
+      ["2"] = 48, ["3"] = 49, [" "] = 50}   
+   elseif glosslang == 'MP' then -- Middle Persian (Pahlavi)  
+      sortorder = {["a"] = 1, ["ā"] = 2, ["b"] = 3, ["c"] = 4, ["d"] = 5,
+      ["e"] = 6, ["ē"] = 7, ["f"] = 8, ["g"] = 9, ["γ"] = 10, ["h"] = 11,
+      ["i"] = 12, ["ī"] = 13, ["j"] = 14, ["k"] = 15, ["l"] = 16, ["m"] = 17,
+      ["n"] = 18, ["o"] = 19, ["ō"] = 20, ["p"] = 21, ["r"] = 22, ["s"] = 23,
+      ["š"] = 24, ["t"] = 25, ["u"] = 26, ["ū"] = 27, ["w"] = 28, ["x"] = 29,
+      ["y"] = 30, ["z"] = 31, ["ž"] = 32, ["1"] = 33, ["2"] = 34, ["3"] = 35,
+      [" "] = 36}
+   elseif glosslang == 'Av' then -- Avestan, standard case
+      sortorder = {["a"] = 1, ["ā"] = 2, ["ā̊ "] = 3, ["ą"] = 4, ["b"] = 5,
+      ["β"] = 6, ["c"] = 7, ["d"] = 8, ["δ"] = 9, ["e"] = 10, ["ē"] = 11, 
+      ["ə"] = 12, ["ə̄"] = 13, ["f"] = 14, ["g"] = 15, ["γ"] = 16, ["h"] = 17,
+      ["i"] = 18, ["ī"] = 19, ["j"] = 20, ["k"] = 21, ["m"] = 22, ["n"] = 23,
+      ["ń"] = 24, ["ṇ"] = 25, ["ŋ"] = 26, ["ŋ́"] = 27, ["ŋv"] = 28, ["o"] = 29,
+      ["ō"] = 30, ["p"] = 31, ["r"] = 32, ["s"] = 33, ["š"] = 34, ["š́ "] = 35,
+      ["ṣ̌ "] = 36,["t"] = 37, ["t̰"] = 38, ["θ"] = 39, ["u"] = 40, ["ū"] = 41,
+      ["v"] = 42, ["x"] = 43, ["x́"] = 44, ["xv"] = 45, ["y"] = 46, ["z"] = 47,
+      ["ž"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
+   else 
+      texio.write_nl("Unknown language for glossary sorting")
+   end
    local sortletter = ''
    
    -- If s is at last two characters long, we check, whether the first two 
    -- characters form a valid sorting letter (according to our scheme)
    if ustring.len(s) > 1 then
       sortletter = ustring.sub(s,1,2)
-      if gujorder[sortletter] == nil then
+      if sortorder[sortletter] == nil then
          sortletter = ustring.sub(s,1,1)
       end
    else -- otherwise just take the first character and check
       sortletter = ustring.sub(s,1,1)   
    end
    --texio.write_nl(s .. ' ' .. sortletter .. ' ' .. ustring.len(sortletter))
-   if gujorder[sortletter] then
-      return gujorder[sortletter], ustring.sub(s, ustring.len(sortletter) + 1)
+   if sortorder[sortletter] then
+      return sortorder[sortletter], ustring.sub(s, ustring.len(sortletter) + 1)
    else -- if there is a letter we don't know, insert at the very end
       texio.write_nl("Unknown letter " .. sortletter)
       return 99, ustring.sub(s, ustring.len(sortletter) + 1)
