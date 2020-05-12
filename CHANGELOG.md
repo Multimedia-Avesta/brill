@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Sorting orders for Avestan and Middle-Persian
+- Ignore `.`, `()`, and `-` for sorting
+- Macros for apparatus criticus
+
+### Fixed
+- Spacing in Glossary
+- Output of "Sequence of letters" in special situations
+
 ## [0.32.1] - 2020-05-02
 
 ### Fixed
