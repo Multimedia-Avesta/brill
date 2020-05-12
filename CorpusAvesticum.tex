@@ -1019,17 +1019,17 @@ brill]
 \newcommand{\Meaning}[2][]{\item #2\ifstrempty{#1}{}{\ (#1)}}
 \def\Sublemma{\@ifstar\@Sublemma\@@Sublemma}
 \newcommand*{\@Sublemma}[1]{%
-   \unskip\nobreakspace|\nobreakspace{}{\bfseries\itshape #1}}
+   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
 \newcommand*{\@@Sublemma}[1]{\item[#1]\@firstattestationtrue}
 %
 \def\Subsublemma{\@ifstar\@Subsublemma\@@Subsublemma}
 \newcommand*{\@Subsublemma}[1]{%
-   \unskip\nobreakspace|\nobreakspace{}{\bfseries\itshape #1}}
+   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
 \newcommand*{\@@Subsublemma}[1]{\item[#1]\@firstattestationtrue}
 %
 \def\Subsubsublemma{\@ifstar\@Subsubsublemma\@@Subsubsublemma}
 \newcommand*{\@Subsubsublemma}[1]{%
-   \unskip\nobreakspace|\nobreakspace{}{\bfseries\itshape #1}}
+   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
 \newcommand*{\@@Subsubsublemma}[1]{\item[#1]\@firstattestationtrue}
 
 \makeindex[%
@@ -1065,10 +1065,10 @@ brill]
    \if@firstattestation
       \@firstattestationfalse%
    \else%
-      \unskip\nobreakspace|\nobreakspace%
+      \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}\ignorespaces%
    \fi%
    \ifstrempty{#1}{}{\Ifstr{#1}{0}{\theattestation.}{#1.}}%
-   \nobreakspace
+   \unskip\nobreak\hspace{\fontdimen2\font}%
    \begin{hyphenrules}{nohyphenation}%
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%
