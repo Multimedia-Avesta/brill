@@ -237,9 +237,11 @@
 \RequirePackage{luatexbase}
 \RequirePackage[%
    final,%
+   babel,%
    tracking=smallcaps,%
    expansion=alltext,%
-   protrusion=true%
+   protrusion=true,%
+   verbose=true%
    ]{microtype}%
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[english]{selnolig}
