@@ -1069,11 +1069,13 @@ brill]
    \fi%
    \ifstrempty{#1}{}{\Ifstr{#1}{0}{\theattestation.}{#1.}}%
    \nobreakspace
+   \begin{hyphenrules}{nohyphenation}%
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%
       {MP}{\textlangle{}#2\textrangle{}}%
       {Guj}{\textit{#2}}%
    }[\textit{#2}]%
+   \end{hyphenrules}%
    \ #3%
 }%
 

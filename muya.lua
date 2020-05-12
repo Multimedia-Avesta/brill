@@ -337,11 +337,40 @@ function sortGlossary(l)
    f:close()
 end
 
+-- We remove the sortid after the comparison
 function removesortid (s)
    local snew = s
    snew = string.gsub(snew, '^¹(.+)$', '%1')
    snew = string.gsub(snew, '^²(.+)$', '%1')
    snew = string.gsub(snew, '^³(.+)$', '%1')
+   return snew
+end
+
+
+function removespecialchars (s)
+   local snew = s
+   -- We replace/remove some characters not to be considered for sorting
+   --snew = string.gsub(snew, '^%-?(.+)%-?$', '%1')--$
+   snew = string.gsub(snew, '%-', '')
+   snew = string.gsub(snew, '%.', '')
+   snew = string.gsub(snew, '%(', '')
+   snew = string.gsub(snew, '%)', '')
+   snew = string.gsub(snew, '%s-…%s-', ' ')
+   -- ... and we move sort ids to the very end
+   snew = string.gsub(snew, '^¹(.+)$', '%11')
+   snew = string.gsub(snew, '^²(.+)$', '%12')
+   snew = string.gsub(snew, '^³(.+)$', '%13')
+   -- we change special chars to match Unicode characters
+   --   s1 = ustring.gsub(s1, 'é', 'é')
+   snew = ustring.gsub(snew, 'ḍ', 'ḍ')
+   --   s1 = ustring.gsub(s1, 'ḳ', 'ḳ')
+   snew = ustring.gsub(snew, 'ḷ', 'ḷ')   
+   snew = ustring.gsub(snew, 'ṃ', 'ṃ')      
+   snew = ustring.gsub(snew, 'ṇ', 'ṇ')
+   --   s1 = ustring.gsub(s1, 'ọ', 'ọ')
+   snew = ustring.gsub(snew, 'ś', 'ś')
+   snew = ustring.gsub(snew, 'ṣ', 'ṣ')
+   snew = ustring.gsub(snew, 'ṭ', 'ṭ')
    return snew
 end
 
@@ -356,38 +385,8 @@ end
 
 function compare (a,b)
    -- before sorting, we remove dashes from the beginning and from the end ...
-   local s1 = string.gsub(a, '^%-?(.+)%-?$', '%1')--$
-   -- ... and we remove sort ids
-   s1 = string.gsub(s1, '^¹(.+)$', '%11')
-   s1 = string.gsub(s1, '^²(.+)$', '%12')
-   s1 = string.gsub(s1, '^³(.+)$', '%13')
-   s1 = string.gsub(s1, '%s-…%s-', ' ')
---   s1 = ustring.gsub(s1, 'é', 'é')
-   s1 = ustring.gsub(s1, 'ḍ', 'ḍ')
---   s1 = ustring.gsub(s1, 'ḳ', 'ḳ')
-   s1 = ustring.gsub(s1, 'ḷ', 'ḷ')   
-   s1 = ustring.gsub(s1, 'ṃ', 'ṃ')      
-   s1 = ustring.gsub(s1, 'ṇ', 'ṇ')
---   s1 = ustring.gsub(s1, 'ọ', 'ọ')
-   s1 = ustring.gsub(s1, 'ś', 'ś')
-   s1 = ustring.gsub(s1, 'ṣ', 'ṣ')
-   s1 = ustring.gsub(s1, 'ṭ', 'ṭ')
-         
-   local s2 = string.gsub(b, '^%-?(.+)%-?$', '%1')--$
-   s2 = string.gsub(s2, '^¹(.+)$', '%11')
-   s2 = string.gsub(s2, '^²(.+)$', '%12')
-   s2 = string.gsub(s2, '^³(.+)$', '%13')   
-   s2 = string.gsub(s2, '%s-…%s-', ' ')
-   s2 = ustring.gsub(s2, 'ḍ', 'ḍ')
---   s2 = ustring.gsub(s2, 'é', 'é')
---   s2 = ustring.gsub(s2, 'ḳ', 'ḳ')
-   s2 = ustring.gsub(s2, 'ḷ', 'ḷ')   
-   s2 = ustring.gsub(s2, 'ṃ', 'ṃ')   
-   s2 = ustring.gsub(s2, 'ṇ', 'ṇ')
---   s2 = ustring.gsub(s2, 'ọ', 'ọ')   
-   s2 = ustring.gsub(s2, 'ś', 'ś')
-   s2 = ustring.gsub(s2, 'ṣ', 'ṣ')
-   s2 = ustring.gsub(s2, 'ṭ', 'ṭ')
+   local s1 = removespecialchars(a)
+   local s2 = removespecialchars(b)
       
    -- the comparison returns a sort order so1 and so2
    local so1, so2
