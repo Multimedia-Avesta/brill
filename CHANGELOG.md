@@ -10,7 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Sorting orders for Avestan and Middle-Persian
 - Ignore `.`, `()`, and `-` for sorting
 - Macros for apparatus criticus
+- Macros for hanging text within `\blocktranslation` (\#8955)
 
+### Changed
+- Text in `\blocktranslation` is now set hanging when `\newline` is used (\#8955)
 ### Fixed
 - Spacing in Glossary
 - Output of "Sequence of letters" in special situations

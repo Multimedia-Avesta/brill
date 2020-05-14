@@ -1380,8 +1380,17 @@
    \end{addmargin}%
    \par\nopagebreak\vspace{\baselineskip}%
 }
-\newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
 
+\newcommand{\linebreakwithindent}{\par\hangindent=1em\hangafter=1\relax}
+\newcommand{\blocktransnewline}{%
+   \immediate\write\@auxout{%
+      \csgdef{blocktrans\currvalblocktrans}{}}%
+   \linebreakwithindent%
+}
+\newcounter{blocktrans}
+
+\newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
+% Starred version
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
    \if@splitsplittranslation%
@@ -1421,33 +1430,38 @@
    \fi%
    \par\vspace{\baselineskip}%
 }%
-
+% Normal version
 \newcommand{\@@blocktranslation}[3]{%
+   \refstepcounter{blocktrans}%
+   \xdef\currvalblocktrans{\theblocktrans}%
+   \let\newline\blocktransnewline%
    \begin{displayquote}%
       \ifstrempty{#1}%
-         {\ifstrempty{#2}%
-            {\noindent #3}%
-            {%
-               #2%
-               \ifstrempty{#3}{}{%
-                  \par\vspace{\baselineskip}\noindent%
-                  #3%
-               }%
+      {\ifstrempty{#2}%
+         {\noindent #3}%
+         {%
+            #2%
+            \ifstrempty{#3}{}{%
+               \par\vspace{\baselineskip}\noindent%
+               #3%
             }%
          }%
+      }%
+      {%
+         \ifstrempty{#2}%
+         {\ifstrempty{#3}{}{\noindent #3}}%
          {%
-            \ifstrempty{#2}%
-               {\ifstrempty{#3}{}{\noindent #3}}%
-               {%
-                  {\ItalicsOrNot{#1}#2}%
-                  \ifstrempty{#3}%
-                     {}%
-                     {%
-                        \par\vspace{\baselineskip}\noindent%
-                        #3%
-                     }%
-               }%
+            {\ItalicsOrNot{#1}#2}%
+            \ifstrempty{#3}%
+            {}%
+            {%
+               \ifcsdef{blocktrans\currvalblocktrans}%
+               {\linebreakwithindent\vspace{\baselineskip}}%
+               {\par\vspace{\baselineskip}\noindent}%
+               #3%
+            }%
          }%
+      }%
    \end{displayquote}%
 }%
 
