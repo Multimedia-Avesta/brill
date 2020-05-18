@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/05/02 v0.32.1 A template for Brill publications]
+\ProvidesClass{brill}[2020/05/14 v0.33.0 A template for Brill publications]
 \newif\if@corpusavesticum
 \DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
 \DeclareOption{localbibfile}{\ClassWarning{brill}{%
@@ -85,6 +85,8 @@
        \itemsep \parsep}%
      \belowdisplayskip \abovedisplayskip
    }%
+   \def\scriptsize{\@setfontsize\scriptsize{8bp}{9.5bp}}
+   \def\tiny{\@setfontsize\tiny{6bp}{7bp}}
    \def\large{\@setfontsize\large{14bp}{14bp}}%
    \def\LARGE{\@setfontsize\LARGE{17bp}{20bp}}%
 \else
@@ -118,6 +120,8 @@
        \itemsep \parsep}%
      \belowdisplayskip \abovedisplayskip
    }%
+   \def\scriptsize{\@setfontsize\scriptsize{8bp}{9.5bp}}%
+   \def\tiny{\@setfontsize\tiny{6bp}{7bp}}%
    \def\large{\@setfontsize\large{13bp}{13bp}}%
    \def\LARGE{\@setfontsize\LARGE{16bp}{20bp}}%
 \fi%
@@ -1232,6 +1236,7 @@
    \let\\\space
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
+\RequirePackage{ellipsis}
 \ifboolexpr{ not bool {@printversion} and bool {@gitver} }%
    {%
       \RequirePackage[noheader]{gitver}%

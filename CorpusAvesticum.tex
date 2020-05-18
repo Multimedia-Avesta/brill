@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/05/02 v0.33.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/14 v0.33.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -8,6 +8,11 @@ brill]
 %\def\collectcell@intabu#1#2\tabu@cellleft{#2\tabu@cellleft\collectcell@notabu{#1}}
 %\def\collectcell{\tabu@ifenvir\collectcell@intabu\collectcell@notabu}
 \RequirePackage{newunicodechar}
+\if@printversion
+   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
+\else
+   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
+\fi%
 \directlua{require("muya")}
 \if@countwords
    \directlua{dofile(kpse.find_file"word_count.lua")}
@@ -588,8 +593,36 @@ brill]
 }
 
 % We need a second abbreviation list for the apparatus criticus
+%\glsaddstoragekey{font}{}{\entryfont}
+%\glssetcategoryattribute{appcritfixed}{textformat}{abbrevacfont}
+\glssetcategoryattribute{abbreviations}{font}{abbrevac}
+\renewcommand*{\glsxtrregularfont}[1]{%
+   \glsifattribute{\glslabel}{font}{abbrevac}{\textsf{#1}}{#1}}
 \newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the apparatus criticus}
+%\renewcommand*{\acronymfont}[1]{{\entryfont{\glslabel}##1}}%
+%\renewcommand*{\acronymentry}[1]{{\entryfont{##1}\glsentryshort{##1}}}%
+%\renewcommand*{\acronymfont}[1]{{\entryfont{\glslabel}#1}}%
+%\newcommand*{\abbrevacfont}[1]{\textup{#1}}
+%\newrobustcmd{\abbrevacfont}[1]{%
+%   {%
+%      \def\glsxtrabbreviationfont##1{\GlsXtrExpandedFmt{\textup}{##1}}%
+%      \def\glsxtrregularfont##1{\GlsXtrExpandedFmt{\textup}{##1}}%
+%      #1%
+%   }%
+%}
+\def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
+\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,font=abbrevacfont,#1]{#2}{#3}{#4}\AtEndDocument{\glsadd{#2}}}
+\newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}}
 
+%\newenvironment{abbreviationsac}
+%   {\begin{longtabu} to \textwidth{%
+%      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
+%   {\end{longtabu}}      
+
+\newcommand{\printabbreviationsac}{%
+   \printabbreviations[type=appcrit]%
+}
+%\AtEndDocument{\glsaddall[category=fixed]}
 % We define macros to be used (only) within the apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcommand{\appcrnewline}{\par\noindent\hangindent\parindent\hangafter=1\relax}
@@ -642,7 +675,7 @@ brill]
    \if@subreading
       \ifstrempty{#1}%
          {\gappto{\@appcr}{\begin{appcrenum}\item[]}}%
-         {\gappto{\@appcr}{\begin{appcrenum}\item[]#1.\hspace{0.5em}}}%
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]#1\hspace{0.5em}}}%
    \fi%
    \@firstwitclasstrue%
    \@firstwitsubclasstrue%
@@ -687,9 +720,21 @@ brill]
 \newcounter{nextappcrfootnote}
 % We define a list of two levels
 \newlist{appcrenum}{enumerate}{2}
-\setlist{font=\usekomafont{footnotelabel}\scriptsize, nosep, align=left}
-\setlist[appcrenum, 1]{label=\arabic*, leftmargin=*}
-\setlist[appcrenum, 2]{label=\relax, left=\parindent}
+\newcommand*{\appcrenumlabelfont}{\addfontfeatures{Numbers={Tabular,Lining}}\scriptsize}
+\setlist{font=\appcrenumlabelfont,align=left}
+%\setlist[appcrenum, 1]{label=\arabic*,leftmargin=*,itemsep=.5\baselineskip,parsep=0pt}
+\setlist[appcrenum,1]{%
+   label=\arabic*,%
+   leftmargin=*,%
+   labelwidth=\normalparindent,%
+   labelsep=\normalparindent,%
+   itemindent=*,%
+   itemsep=.25\baselineskip,%
+   parsep=0pt,%
+   listparindent=\normalparindent,%
+   first=\DrawEnumitemLabel%
+}
+\setlist[appcrenum,2]{label=\relax,left=2\parindent,nosep}
 
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
@@ -699,6 +744,7 @@ brill]
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
    \let\newline\appcrnewline%
+   %\renewcommand{\glstextformat}[1]{\textup{#1}}%
    \hangindent\parindent\hangafter=1\relax%
 }{%
    \par%
@@ -717,7 +763,7 @@ brill]
    \stepcounter{nextappcrfootnote}%
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
-   \Ifstr{#1}{(date‚ dedication of day and month)}%
+   \Ifstr{#1}{(date, dedication of day and month)}%
       {#1}%
       {{\itshape\StrSubstitute{#1}{ }{\textsuperscript{\upshape\thenextappcrfootnote} }}}%
 }
@@ -1133,19 +1179,6 @@ brill]
 }%
 %\newcolumntype{W}{>{\collectcell\testme}p{\widestabbreviationac}<{\endcollectcell}}
 %\tabucolumn W
-\newcommand{\newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}}
-%\newenvironment{abbreviationsac}
-%   {\begin{longtabu} to \textwidth{%
-%      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
-%   {\end{longtabu}}      
-
-\newcommand{\printabbreviationsac}{%
-%   \addchap{Abbreviations for the apparatus criticus}
-%   \begin{abbreviationsac}
-%   \InputIfFileExists{\@abbreviationsacfile}{}{}%
-%   \end{abbreviationsac}
-   \printabbreviations[type=appcrit]%
-}
 
 \AtEndPreamble{%
    \InputIfFileExists{\@abbreviationsfile}%
