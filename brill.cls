@@ -85,8 +85,8 @@
        \itemsep \parsep}%
      \belowdisplayskip \abovedisplayskip
    }%
-   \def\scriptsize{\@setfontsize\scriptsize{8bp}{9.5bp}}
-   \def\tiny{\@setfontsize\tiny{6bp}{7bp}}
+   \def\scriptsize{\@setfontsize\scriptsize{8bp}{9.5bp}}%
+   \def\tiny{\@setfontsize\tiny{6bp}{7bp}}%
    \def\large{\@setfontsize\large{14bp}{14bp}}%
    \def\LARGE{\@setfontsize\LARGE{17bp}{20bp}}%
 \else
@@ -753,12 +753,12 @@
 \newcommand\tocpagenumberbox[1]{\mbox{#1}}%
 \RedeclareSectionCommands[%
    tocraggedpagenumber,%
-   toclinefill=\tocpageseparator,
-   tocpagenumberbox=\tocpagenumberbox,
+   toclinefill=\tocpageseparator,%
+   tocpagenumberbox=\tocpagenumberbox,%
    %%beforeskip=0pt
    ]{part,chapter,section,subsection,subsubsection}
 \RedeclareSectionCommands[%
-   tocpagenumberbox={\@gobble}
+   tocpagenumberbox={\@gobble}%
    ]{part}
 %   tocbreakafternumber=true,
 %   tocentryformat=\large\bfseries\scshape
@@ -1527,6 +1527,7 @@
       }[\fakesuperscript{#1}]%
    }%
 }
+\robustify{\textsuperscript}  
    
 \appto{\backmatter}{%
    \cleardoubleoddemptypage

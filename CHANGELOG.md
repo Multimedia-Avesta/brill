@@ -503,20 +503,23 @@ environment in order to use inline enumerated list
 - Redefinition of macro for `addendum+pubstate`
 - Running headers for non-numbered chapters
 
-
-
 ## [0.4.0] - 2018-08-31
 
-    Add new file muya.dbx for data model
-    Add field "iraniandate"
-    Add rules for manipulating bibliography data
-Fix handling of "forthcoming". Same place as year and no more output at the end.
+### Added
+- Add new file muya.dbx for data model
+- Add field "iraniandate"
+- Add rules for manipulating bibliography data
+
+### Fixed
+- Fix handling of "forthcoming". Same place as year and no more output at the end.
 
 ## [0.3.0] - 2018-07-17
 
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.33.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.33.0
 [0.32.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.32.1
 [0.32.0]:

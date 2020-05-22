@@ -593,9 +593,9 @@ brill]
 % We need a second abbreviation list for the apparatus criticus
 %\glsaddstoragekey{font}{}{\entryfont}
 %\glssetcategoryattribute{appcritfixed}{textformat}{abbrevacfont}
-\glssetcategoryattribute{general}{font}{abbrevac}
-\renewcommand*{\glsxtrregularfont}[1]{%
-   \glsifattribute{\glslabel}{font}{abbrevac}{\textsf{#1}}{#1}}
+%\glssetcategoryattribute{general}{font}{abbrevac}
+%\renewcommand*{\glsxtrregularfont}[1]{%
+%   \glsifattribute{\glslabel}{font}{abbrevac}{\textsf{#1}}{#1}}
 \newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the apparatus criticus}
 %\renewcommand*{\acronymfont}[1]{{\entryfont{\glslabel}##1}}%
 %\renewcommand*{\acronymentry}[1]{{\entryfont{##1}\glsentryshort{##1}}}%
@@ -609,7 +609,7 @@ brill]
 %   }%
 %}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
-\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,font=abbrevacfont,#1]{#2}{#3}{#4}\AtEndDocument{\glsadd{#2}}}
+\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}\AtEndDocument{\glsadd{#2}}}
 \newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}}
 
 %\newenvironment{abbreviationsac}
@@ -885,9 +885,6 @@ brill]
 \newbook{YAv}
 \newbook{YF}
 \newbook{Yt}
-%\newbook{YiR}
-%\newbook{YVr}
-%\newbook{Ygah}
 \newbook{ZWY}
 
 \newcommand*{\aee}{ə\char"0304\relax}
