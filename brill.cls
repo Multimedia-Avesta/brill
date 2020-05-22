@@ -174,6 +174,15 @@
    BoldItalicFont = *BoldItalic,%
    Scale          = MatchLowercase,% 
 ]% 
+\newfontfamily{\freesans}{FreeSans}%
+[%
+Extension      = .otf,%
+UprightFont    = *,%
+BoldFont       = *Bold,%
+ItalicFont     = *Oblique,%
+BoldItalicFont = *BoldOblique,%
+Scale          = MatchLowercase,% 
+]% 
 \newfontfamily{\avestanfont}{NotoSansAvestan}%
 [%
    Extension      = .ttf,%
@@ -202,6 +211,13 @@
    Extension      = .TTF,%
    UprightFont    = *,%
    Scale          = MatchLowercase,%
+]%
+\newfontfamily{\syriacfont}{NotoSansSyriacEastern}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   Scale          = MatchLowercase,%
+   Script         = Syriac,%
 ]%
 \newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
@@ -1498,7 +1514,21 @@
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
    \endgroup%
-}   
+}
+
+\renewcommand*{\textsuperscript}[1]{%
+   \Ifisinteger{#1}%
+   {\realsuperscript{#1}}%
+   {%
+      \IfStrEqCase{#1}{%
+         {+}{\realsuperscript{+}}%
+         {=}{\realsuperscript{=}}%
+         {(}{\realsuperscript{(}}%
+         {)}{\realsuperscript{)}}%
+      }[\fakesuperscript{#1}]%
+   }%
+}
+   
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
    \begingroup%

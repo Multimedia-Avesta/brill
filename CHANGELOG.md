@@ -12,9 +12,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Macros for apparatus criticus
 - Macros for hanging text within `\blocktranslation` (\#8955)
 - Support for package `fixme`
+- New language `Parth` for Parthian (\#9211)
 
 ### Changed
 - Text in `\blocktranslation` is now set hanging when `\newline` is used (\#8955)
+- Remove languages `IParth` and `MParth`
+- Redefine `\textsuperscript` to avoid problems with diacritics and other glyphs (\#9212)
 
 ### Fixed
 - Spacing in Glossary
