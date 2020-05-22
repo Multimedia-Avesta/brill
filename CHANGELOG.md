@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.33.0] - 2020-05-22
+
 ### Added
 - Sorting orders for Avestan and Middle-Persian
 - Ignore `.`, `()`, and `-` for sorting the glossaries
