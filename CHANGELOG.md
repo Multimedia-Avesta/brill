@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Sorting orders for Avestan and Middle-Persian
 - Ignore `.`, `()`, and `-` for sorting the glossaries
-- Macros for apparatus criticus
+- Macros for apparatus criticus (\#9188)
 - Macros for hanging text within `\blocktranslation` (\#8955)
 - Support for package `fixme`
 - New language `Parth` for Parthian (\#9211)

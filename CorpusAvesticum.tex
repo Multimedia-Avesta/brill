@@ -721,59 +721,19 @@ brill]
 \newlist{appcrenum}{enumerate}{2}
 \newcommand*{\appcrenumlabelfont}{\addfontfeatures{Numbers={Tabular,Lining}}\scriptsize}
 \setlist{font=\appcrenumlabelfont,align=left}
-%\setlist[appcrenum, 1]{label=\arabic*,leftmargin=*,itemsep=.5\baselineskip,parsep=0pt}
-%\setlist[appcrenum,1]{%
-%   label=\arabic*,%
-%   leftmargin=*,%
-%   labelwidth=\normalparindent,%
-%   labelsep=\normalparindent,%
-%   itemindent=*,%
-%   listparindent=\normalparindent,%
-%   itemsep=.25\baselineskip,%
-%   parsep=0pt,%
-%   first=\DrawEnumitemLabel%
-%}
-% Second variant
-%\setlist[appcrenum,1]{%
-%   label=\arabic*,%
-%   labelsep=5pt,
-%   labelindent=0.5\parindent,
-%   itemindent=-5pt,%
-%   leftmargin=*,
-%   before=\setlength{\listparindent}{-5pt},
-%   itemsep=.25\baselineskip,%
-%   parsep=0pt,%
-%}
 \setlist[appcrenum,1]{%
    label=\arabic*,%
    leftmargin=*,%
-   %labelwidth=0.5\normalparindent,%
    widest=88,%
    itemsep=.25\baselineskip,%
-   parsep=0pt,%
-%   labelsep=5pt,
-%   labelindent=0.5\parindent,
-%   itemindent=-5pt,%
-%   leftmargin=*,
-%   before=\setlength{\listparindent}{-5pt},
-%   itemsep=.25\baselineskip,%
-%   parsep=0pt,%
+   parsep=0pt%
 }
 
-%\setlist[appcrenum,2]{%
-%   label=\relax,%
-%   left=.5\normalparindent,%
-%   labelwidth=.5\normalparindent,%
-%   labelsep=.5\normalparindent,%
-%   itemindent=*,%\normalparindent,%
-%   nosep}
 \setlist[appcrenum,2]{%
    label=\relax,%
    left=.5\normalparindent,%
-   %labelwidth=.5\normalparindent,%
-   %labelsep=.5\normalparindent,%
-   %itemindent=*,%\normalparindent,%
-   nosep}
+   nosep%
+}
 
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
