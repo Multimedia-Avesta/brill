@@ -8,11 +8,11 @@ brill]
 %\def\collectcell@intabu#1#2\tabu@cellleft{#2\tabu@cellleft\collectcell@notabu{#1}}
 %\def\collectcell{\tabu@ifenvir\collectcell@intabu\collectcell@notabu}
 \RequirePackage{newunicodechar}
-\if@printversion
-   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
-\else
-   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
-\fi%
+%\if@printversion
+%   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
+%\else
+%   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
+%\fi%
 \directlua{require("muya")}
 \if@countwords
    \directlua{dofile(kpse.find_file"word_count.lua")}
@@ -1205,32 +1205,7 @@ brill]
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{{\itshape #1}}
-%\let\@ORIGrealsuperscript\realsuperscript
-%\let\@ORIGfakesuperscript\fakesuperscript
-%\renewcommand{\realsuperscript}[1]{%
-%   \IfStrEqCase{#1}{%
-%      {?}{\@ORIGfakesuperscript{#1}}%
-%   }[\@ORIGrealsuperscript{#1}]%
-%}
-%\newcommand*{\realsuperscriptUP}[1]{%
-%   \IfStrEqCase{#1}{%
-%      {?}{\@ORIGfakesuperscript{?}}%
-%   }[\textup{\@ORIGrealsuperscript{#1}}]%
-%}
-%\let\fakesuperscript\realsuperscriptUP
-
-%\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}#1}%
-%   {%
-%      \IfStrEqCase{#1}{%
-%         {?}{\selectfont#1}%
-%      }[\addfontfeature{VerticalPosition=Superior}#1]%
-%   }%
-%   {\ClassInfo{brill}{`\realsuperscript` successfully patched}}%
-%   {\ClassWarning{brill}{Patching of `\realsuperscript` failed}}
-%\patchcmd{\fakesuperscript}{\selectfont}{\upshape\selectfont}%
-%   {\ClassInfo{brill}{`\fakesuperscript` successfully patched}}%
-%   {\ClassWarning{brill}{Patching of `\fakesuperscript` failed}}
-
+%
 \if@PhD
    \newcommand{\declarationPhD}{%
       \cleardoubleemptypage

@@ -1207,6 +1207,12 @@
    \listoffigures
    \listoftables
 }
+%TODO: This should probably go into the config file. Take care of loading order.
+\if@printversion
+   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
+\else
+   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
+\fi%
 \RequirePackage[imakeidx]{xindex}
 \indexsetup{%
    headers={\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}},
