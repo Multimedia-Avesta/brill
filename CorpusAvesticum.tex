@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/05/22 v0.33.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/25 v0.33.1 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -631,7 +631,7 @@ brill]
 % The main macro steps the counter for the \enquote{footnotes} and starts a list
 \newcommand{\app}[1]{%
    \refstepcounter{appcrfootnote}%
-   \unskip\textsuperscript{\theappcrfootnote}%
+   \unskip\realsuperscript{\theappcrfootnote}%
    \@firstrdgtrue%
    \gappto{\@appcr}{\item }#1%
 }
@@ -764,7 +764,7 @@ brill]
    % All others get additional superscript numbers after each word.    
    \Ifstr{#1}{(date, dedication of day and month)}%
       {#1}%
-      {{\itshape\StrSubstitute{#1}{ }{\textsuperscript{\upshape\thenextappcrfootnote} }}}%
+      {{\itshape\StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }}}%
 }
 
 % We need a macro for text portions within the Avestan (italic) text.
@@ -1001,7 +1001,7 @@ brill]
 \newcommand{\Rd}[1]{#1}
 %%%
 \newif\if@usechapterref
-\newcommand*{\Chapterref}[1]{\if@usechapterref\textsuperscript{\ref{#1}}\fi}
+\newcommand*{\Chapterref}[1]{\if@usechapterref\realsuperscript{\ref{#1}}\fi}
 \let\chapterref\Chapterref
 \newcommand*{\@abbreviationsfile}{../muya.common/abbreviations.tex}
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
@@ -1201,7 +1201,7 @@ brill]
 }%
 
 \newcommand*{\supth}{\textsuperscript{th}\xspace}
-\newcommand*{\uncertain}[1]{#1\textsuperscript*{\textup{?}}}
+\newcommand*{\uncertain}[1]{#1\textsuperscript{\textup{?}}}
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{{\itshape #1}}
