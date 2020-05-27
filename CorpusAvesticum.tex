@@ -64,6 +64,21 @@ brill]
    \let\logwordcount\relax
 \fi%
 
+\renewrobustcmd*{\textsuperscript}[1]{%
+   %   \edef\@tempsup{#1}%
+   \Ifisinteger{#1}%
+   {\realsuperscript{#1}}%
+   {%
+      \IfStrEqCase{#1}{%
+         {+}{\realsuperscript{+}}%
+         {=}{\realsuperscript{=}}%
+         {(}{\realsuperscript{(}}%
+         {)}{\realsuperscript{)}}%
+         %         {th}{\realsuperscript{th}}%
+      }[\fakesuperscript{#1}]%
+   }%
+}
+
 \newsavebox\@titlebox
 \newsavebox\@subtitlebox
 \newlength{\@titleboxht}
@@ -1200,8 +1215,8 @@ brill]
       }%  
 }%
 
-\newcommand*{\supth}{\textsuperscript{th}\xspace}
-\newcommand*{\uncertain}[1]{#1\textsuperscript{\textup{?}}}
+\DeclareRobustCommand*{\supth}{\textsuperscript{th}\xspace}
+\DeclareRobustCommand*{\uncertain}[1]{#1\fakesuperscript{\textup{?}}}
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{{\itshape #1}}

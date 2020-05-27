@@ -1521,20 +1521,6 @@
    \endgroup%
 }
 
-\renewcommand*{\textsuperscript}[1]{%TODO: \textsuperscript*
-   \Ifisinteger{#1}%
-   {\realsuperscript{#1}}%
-   {%
-      \IfStrEqCase{#1}{%
-         {+}{\realsuperscript{+}}%
-         {=}{\realsuperscript{=}}%
-         {(}{\realsuperscript{(}}%
-         {)}{\realsuperscript{)}}%
-      }[\fakesuperscript{#1}]%
-   }%
-}
-\robustify{\textsuperscript}  
-   
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
    \begingroup%
