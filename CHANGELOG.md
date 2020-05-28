@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Macro `\Importstanzas{FILENAME}` to read and store each stanza in a separate macro (\#9233)
+
+### Fixed
+- Abbreviations for apparatus criticus are now set upright instead of italics (\#9147)
+- No hyphenation at dashes in the apparatus criticus (\#9229)
+
 ## [0.33.2] - 2020-05-27
 
 ### Fixed

@@ -1,4 +1,4 @@
--- 2020/05/22 v0.33.0
+-- 2020/05/27 v0.34.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -504,4 +504,40 @@ function upright_punctuation(head)
        end
     end
     return head
+end
+
+function read_stanzas_from_file(f)
+   if not file_exists(f) then return {} end   
+   local outfile = 'stanzas.tex'
+   local lines = lines_from(f)
+   local stanzanr = ''
+   local stanzastart = ''
+   local stanzaend = ''
+   local book = ''
+   local buf = {}
+   
+   for k,v in pairs(lines) do
+      -- get line k and process it
+      local str = lines[k]
+   
+      -- Check, whether a new stanza starts
+      if string.match(str, "^\\begin{stanza}{.-}$") then
+         --texio.write_nl(str .. "\n")
+         book, stanzanr = string.match(str, "^\\begin{stanza}{\\(.-){(.-)}}$")
+         buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. "}{%\n" .. str .. "\n"
+      elseif string.match(str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$") then
+         stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
+         buf[k] = stanzaend .. "\n\\end{stanza}}\n\\csgdef{stanza-" .. 
+            book .. stanzanr .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}\n" .. stanzastart .. "\n"
+      elseif string.match(str, "^.-\\end{stanza}$") then
+         --stanzaend = string.match(str, "^(.-)\\end{stanza}$")
+         buf[k] = str .. "}"
+      else
+         buf[k] = str .. "\n"
+      end
+   end
+   local final_string = table.concat( buf )
+   local g = assert(io.open(outfile, "w+"))
+   g:write(final_string)
+   g:close()
 end

@@ -602,7 +602,7 @@ brill]
 %%% We define a ``meta macro'' to define all book macros in the same way
 \def\newbook{\@dblarg\@newbook}
 \def\@newbook[#1]#2{%
-    \expandafter\newcommand\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
+   \expandafter\newcommand\csname #2\endcsname[1]{\gls{#1}\nobreak\hspace{\fontdimen2\font}##1}%
 }
 
 % We need a second abbreviation list for the apparatus criticus
@@ -624,8 +624,8 @@ brill]
 %   }%
 %}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
-\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}\AtEndDocument{\glsadd{#2}}}
-\newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}}
+\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\AtEndDocument{\glsadd{#2}}}
+\newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
 
 %\newenvironment{abbreviationsac}
 %   {\begin{longtabu} to \textwidth{%
@@ -751,14 +751,24 @@ brill]
 }
 
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
+%\NewEnviron{stanza}[1]{%
+%   TEST
+%   \xdef\stanza-#1{%
+%      \unexpanded\expandafter{\@stanzastart{#1}}%
+%      \unexpanded\expandafter{\BODY}%
+%      \unexpanded\expandafter{\@stanzaend}%
+%   }%
+%   \ClassInfo{brill}{Stanza `#1` successfully read!}%
+%}
+
 \newenvironment{stanza}[1]{%
-   \minisec{#1}%
+   \minisec{\Av{\passage{#1}}}%
    \setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
+   \exhyphenpenalty=10000%
    \let\newline\appcrnewline%
-   %\renewcommand{\glstextformat}[1]{\textup{#1}}%
    \hangindent\parindent\hangafter=1\relax%
 }{%
    \par%
@@ -768,6 +778,18 @@ brill]
          \begin{appcrenum}\scriptsize\@appcr\end{appcrenum}
       \end{multicols}%   
    }%
+}
+
+\newif\if@importstanza
+\newcommand{\Importstanzas}[1]{%
+   \directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}%
+   \input{stanzas.tex}
+}
+
+\newcommand{\Getstanza}[1]{%
+   \ifcsdef{stanza-#1}%
+      {\csuse{stanza-#1}}%
+      {\ClassError{brill}{Stanza `#1` could not be read}{There is no macro for stanza `#1`}}%
 }
 
 \newcommand*{\editedtext}[1]{%
