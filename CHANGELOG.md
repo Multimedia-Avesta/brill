@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Macro `\Importstanzas{FILENAME}` to read and store each stanza in a separate macro (\#9233)
+- Each stanza is added to the Index of Passages (\#9234)
 
 ### Fixed
 - Abbreviations for apparatus criticus are now set upright instead of italics (\#9147)
