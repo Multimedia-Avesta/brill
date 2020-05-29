@@ -773,14 +773,14 @@ brill]
 }
 
 \newcommand{\Importstanzas}[1]{%
-   %\@onlypreamble
-   \directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}%
+   \@onlypreamble
+   \AtEndPreamble{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}%
 }
 
-%\AtEndPreamble{%
-%   \InputIfFileExists{./stanzas.tex}%
-%      {\ClassInfo{brill}{}}{\ClassInfo{brill}{}}%
-%}
+\AfterEndPreamble{%
+   \InputIfFileExists{./stanzas.tex}%
+      {\ClassInfo{brill}{}}{\ClassInfo{brill}{}}%
+}
 
 \newcommand{\Getstanza}[1]{%
    \ifcsdef{stanza-#1}%
