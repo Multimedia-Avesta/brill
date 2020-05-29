@@ -774,12 +774,15 @@ brill]
 
 \newcommand{\Importstanzas}[1]{%
    \@onlypreamble
-   \AtEndPreamble{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}%
+   \IfFileExists{#1}%
+      {\AtEndPreamble{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}}%
+      {\ClassError{brill}{File `#1` could not be found!}{}}%
 }
 
 \AfterEndPreamble{%
    \InputIfFileExists{./stanzas.tex}%
-      {\ClassInfo{brill}{}}{\ClassInfo{brill}{}}%
+      {\ClassInfo{brill}{Stanza macros successfully loaded!}}%
+      {\ClassInfo{brill}{There is no file stanzas.tex}}%
 }
 
 \newcommand{\Getstanza}[1]{%
