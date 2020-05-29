@@ -652,17 +652,19 @@ brill]
 }
 % We define a macro for ritual directions
 \newcommand{\rd}[1]{%TODO: Spacing
-   \par\vspace{.5\baselineskip}%
-   \begingroup%
-   %\let\newline\appcrnewline%
-   \tolerance=1%
-   \emergencystretch=\maxdimen%
-   \hyphenpenalty=10000%
-   \hbadness=10000%
-   \noindent% 
-   \hangindent\parindent\hangafter=1\relax%
-   #1\par\nobreak\vspace{.5\baselineskip}\noindent%
-   \endgroup%
+   \if@editedtextonly\else
+      \par\vspace{.5\baselineskip}%
+      \begingroup%
+      %\let\newline\appcrnewline%
+      \tolerance=1%
+      \emergencystretch=\maxdimen%
+      \hyphenpenalty=10000%
+      \hbadness=10000%
+      \noindent% 
+      \hangindent\parindent\hangafter=1\relax%
+      #1\par\nobreak\vspace{.5\baselineskip}\noindent%
+      \endgroup%
+   \fi%
    \hangindent\parindent\hangafter=1\relax%
    \ignorespaces%
 }
@@ -751,16 +753,6 @@ brill]
 }
 
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
-%\NewEnviron{stanza}[1]{%
-%   TEST
-%   \xdef\stanza-#1{%
-%      \unexpanded\expandafter{\@stanzastart{#1}}%
-%      \unexpanded\expandafter{\BODY}%
-%      \unexpanded\expandafter{\@stanzaend}%
-%   }%
-%   \ClassInfo{brill}{Stanza `#1` successfully read!}%
-%}
-
 \newenvironment{stanza}[1]{%
    \minisec{\Av{\passage{#1}}}%
    \setcounter{appcrfootnote}{0}%
@@ -780,11 +772,15 @@ brill]
    }%
 }
 
-\newif\if@importstanza
 \newcommand{\Importstanzas}[1]{%
+   %\@onlypreamble
    \directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}%
-   \input{stanzas.tex}
 }
+
+%\AtEndPreamble{%
+%   \InputIfFileExists{./stanzas.tex}%
+%      {\ClassInfo{brill}{}}{\ClassInfo{brill}{}}%
+%}
 
 \newcommand{\Getstanza}[1]{%
    \ifcsdef{stanza-#1}%
@@ -792,16 +788,35 @@ brill]
       {\ClassError{brill}{Stanza `#1` could not be read}{There is no macro for stanza `#1`}}%
 }
 
+\newif\if@editedtextonly
+\def\GetstanzaTextonly{\@ifstar{\@editedtextonlytrue\@GetstanzaTextonly}{\@editedtextonlyfalse\@GetstanzaTextonly}}
+\newcommand{\@GetstanzaTextonly}[1]{%
+   \ifcsdef{stanza-#1}%
+      {%
+         \begingroup%
+            \let\app\@gobble%
+            \csuse{stanza-#1}%
+         \endgroup%
+      }%
+      {\ClassError{brill}{Stanza `#1` could not be read}{There is no macro for stanza `#1`}}%
+}
+
 \newcommand*{\editedtext}[1]{%
-   % we get the current value of appcrfootnote and add 1 -> this would
-   % be the next footnote number
-   \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
-   \stepcounter{nextappcrfootnote}%
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
    \Ifstr{#1}{(date, dedication of day and month)}%
       {#1}%
-      {{\itshape\StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }}}%
+      {%
+         \ifx\app\@gobble
+            {\itshape #1}%
+         \else
+            % we get the current value of appcrfootnote and add 1 -> this would
+            % be the next footnote number
+            \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
+            \stepcounter{nextappcrfootnote}%
+            {\itshape\StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }}%
+         \fi%
+      }%
 }
 
 % We need a macro for text portions within the Avestan (italic) text.
