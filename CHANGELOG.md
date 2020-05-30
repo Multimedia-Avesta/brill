@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
+
 ## [0.35.0] - 2020-05-30
 
 ### Added
-- New macro `\Importstanzas*{FILENAME}`: internal references get suffix `-transcript`
+- New macro `\Importstanzas*{FILENAME}`: internal references get suffix `-transcript` (\#9233)
 
 ### Changed
 - Macro `\Importstanzas` gets suffix `-translit` for internal references

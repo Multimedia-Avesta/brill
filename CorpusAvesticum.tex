@@ -633,8 +633,11 @@ brill]
 %   {\end{longtabu}}      
 
 \newcommand{\printabbreviationsac}{%
+   \begingroup%
    \renewcommand*{\glsgroupskip}{}%
+   \renewcommand{\glossarysection}[2][]{}%
    \printabbreviations[type=appcrit]%
+   \endgroup%
 }
 %\AtEndDocument{\glsaddall[category=fixed]}
 % We define macros to be used (only) within the apparatus criticus
