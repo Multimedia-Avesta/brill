@@ -419,16 +419,16 @@
 \renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
 %\renewcommand*{\addparttocentry}[2]{%
 %   \addtocentrydefault{part}{\hspace*{12mm}\partname~#1}{#2}}%
-\DeclareRobustCommand*\DefLowercaseString{%
-  \gdef\LowercaseString
-}
+%\DeclareRobustCommand*\DefLowercaseString{%
+%  \gdef\LowercaseString
+%}
  
 \renewcommand*{\addparttocentry}[2]{%
-   \MakeLowercase{\DefLowercaseString{\partformat}}
+%   \MakeLowercase{\DefLowercaseString{\partformat}}
    \addtocentrydefault{part}{}{%
       \hspace*{12mm}%
       \large\bfseries%
-      \scshape\LowercaseString%
+      \scshape\partformat%
       \newline%
       \upshape\itshape #2%
    }%
@@ -497,8 +497,9 @@
       beforeskip=-2\baselineskip,%
       afterskip=1\baselineskip,%
       font={\normalsize\bfseries},%
+      tocdynnumwidth = on,%
       tocnumwidth=8mm,%
-      tocindent=\dimexpr\@tocstartindent\relax%
+%      tocindent=\dimexpr\@tocstartindent\relax%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
    
@@ -506,16 +507,18 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\normalsize\bfseries},%
+      tocdynnumwidth=on,%
       tocnumwidth=8mm,%
-      tocindent=\dimexpr\@tocstartindent+8mm\relax%
+%      tocindent=\dimexpr\@tocstartindent+8mm\relax%
    ]{subsection}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\normalsize\bfseries},%
+      tocdynnumwidth = on,%
       tocnumwidth=8mm,%
-      tocindent=\dimexpr\@tocstartindent+16mm\relax%
+%      tocindent=\dimexpr\@tocstartindent+16mm\relax%
    ]{subsubsection}
    
    \ProvideSectionCommand[%
@@ -526,8 +529,9 @@
       indent=0pt,%
       level=4,%
       tocindent=0pt,%%%TODO
-      tocnumwidth=6\parindent,%
-      tocstyle=section,%
+      tocdynnumwidth = on,%
+      tocnumwidth=8mm,%
+      tocstyle=tocline,%
       counterwithin=subsubsection%
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
@@ -540,8 +544,8 @@
       indent=0pt,%
       level=5,%
       tocindent=0pt,%%%TODO
-      tocnumwidth=7\parindent,%
-      tocstyle=section,%
+      tocnumwidth=8mm,%
+      tocstyle=tocline,%
       counterwithin=subthreesection%
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
@@ -555,7 +559,7 @@
       level=6,%
       tocindent=0pt,%%%TODO
       tocnumwidth=8\parindent,%
-      tocstyle=section,%
+      tocstyle=tocline,%
       counterwithin=subfoursection%
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
@@ -567,7 +571,7 @@
       indent=0pt,%
       level=7,%
       tocindent=0pt,%%%TODO
-      tocnumwidth=9\parindent,%
+%      tocnumwidth=8mm,%
       counterwithin=subfivesection%
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
@@ -579,8 +583,13 @@
       indent=0pt,%
       level=8,%
       tocindent=0pt,%%%TODO
-      tocnumwidth=10\parindent%
+%      tocnumwidth=10\parindent%
    ]{subparagraph}
+%
+   \RedeclareSectionCommands[tocdynnumwidth]{%
+      section,subsection,subsubsection,subthreesection,%
+      subfoursection,subfivesection,paragraph,subparagraph%
+   }   
 \else%
    \RedeclareSectionCommand[%
       beforeskip=-2\baselineskip,%
