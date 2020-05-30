@@ -537,7 +537,12 @@ function read_stanzas_from_file(f)
       end
    end
    local final_string = table.concat( buf )
-   local g = assert(io.open(outfile, "w+"))
+   local g = assert(io.open(outfile, "a"))
    g:write(final_string)
    g:close()
+end
+
+function create_stanzafile()
+   local file = assert(io.open("./stanzas.tex", "w"))
+   file:close()
 end

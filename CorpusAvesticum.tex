@@ -219,12 +219,12 @@ brill]
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
    {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%             
 \newcommand{\printindexes}{%
-   \begingroup
+   \begingroup%
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent}%
-      \printindex[words]
-      \printindex[passages]
-   \endgroup
-   \printindex[namesandsubjects]
+      \printindex[words]%
+      \printindex[passages]%
+   \endgroup%
+   \printindex[namesandsubjects]%
 }
 \makeindex[%
    name=words,%
@@ -772,18 +772,29 @@ brill]
    }%
 }
 
-\newcommand{\@stanzafiles}{}
-\newcommand{\Importstanzas}[1]{%
-   \@onlypreamble
+\newif\if@firstimportstanzas
+\@firstimportstanzastrue
+\newcommand*{\Importstanzas}[1]{%
+   % This macro should only be called in the preamble of a document
+   %\@onlypreamble
+   % If this is the first call of the macro, then create the output file.
+   % An exisiting file from a previous run are currently overwritten.
+   % TODO: Compare file dates to decide, whether to reread a file
+   \if@firstimportstanzas
+      \directlua{create_stanzafile()}%
+      \@firstimportstanzasfalse%
+   \fi%
+   % Delay call until \begin{document} (if file exists)
    \IfFileExists{#1}%
-      {\AtBeginDocument{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}}%
+      {\AtBeginDocument{\directlua{read_stanzas_from_file("\luaescapestring{\detokenize{#1}}")}}}%
       {\ClassError{brill}{File `#1` could not be found!}{}}%
 }
 
+% After all other \AtBeginDocument code we read the stanzas.tex file (if it exists)
 \AfterEndPreamble{%
    \InputIfFileExists{./stanzas.tex}%
       {\ClassInfo{brill}{Stanza macros successfully loaded from `stanzas.tex`!}}%
-      {\ClassInfo{brill}{There is no file `stanzas.tex`}}%
+      {\ClassInfo{brill}{There is no file `stanzas.tex`. No stanzas read!}}%
 }
 
 \newcommand{\Getstanza}[1]{%
@@ -1255,11 +1266,6 @@ brill]
       }%
       {\ClassInfo{brill}{Could not find hyphenations exceptions file 
          ``\@hyphexceptionsfile''!}%
-      }%
-   \ifdefempty{\@stanzafiles}%
-      {\ClassInfo{brill}{Could not find !}}%      
-      {\@stanzafiles%
-         \ClassInfo{brill}{Successfully loaded }%
       }%
 }%
 
