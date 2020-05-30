@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/05/27 v0.33.2 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/30 v0.34.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -772,17 +772,18 @@ brill]
    }%
 }
 
+\newcommand{\@stanzafiles}{}
 \newcommand{\Importstanzas}[1]{%
    \@onlypreamble
    \IfFileExists{#1}%
-      {\AtEndPreamble{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}}%
+      {\AtBeginDocument{\directlua{read_stanzas_from_file("\luaescapestring{\unexpanded{#1}}")}}}%
       {\ClassError{brill}{File `#1` could not be found!}{}}%
 }
 
 \AfterEndPreamble{%
    \InputIfFileExists{./stanzas.tex}%
-      {\ClassInfo{brill}{Stanza macros successfully loaded!}}%
-      {\ClassInfo{brill}{There is no file stanzas.tex}}%
+      {\ClassInfo{brill}{Stanza macros successfully loaded from `stanzas.tex`!}}%
+      {\ClassInfo{brill}{There is no file `stanzas.tex`}}%
 }
 
 \newcommand{\Getstanza}[1]{%
@@ -1060,12 +1061,12 @@ brill]
 \let\chapterref\Chapterref
 \newcommand*{\@abbreviationsfile}{../muya.common/abbreviations.tex}
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
+\newcommand*{\@abbreviationsacfile}{../muya.common/abbreviations_ac.tex}
+\newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
 %%\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
 %%\newcommand*{\SetBibliographyFile}[1]{\renewcommand*{\@bibliographyfile}{#1}}
-\newcommand*{\@abbreviationsacfile}{../muya.common/abbreviations_ac.tex}
-\newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
 \newcommand*{\@hyphexceptionsfile}{../muya.common/hyphenation-exceptions.tex}
 \newcommand*{\SetHyphexceptionsFile}[1]{\renewcommand*{\@hyphexceptionsfile}{#1}}
 \newcommand*{\@titlelogofile}{../muya.common/BRILL.pdf}
@@ -1237,7 +1238,9 @@ brill]
       {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
        Please use \string\SetAbbreviationsFile\space}}%
    \InputIfFileExists{\@abbreviationsacfile}%
-   {}{}    
+      {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully loaded!}}%
+      {\ClassWarning{brill}{No abbreviation file for apparatus criticus found!\MessageBreak
+       Please use \string\SetAbbreviationsacFile\space}}%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
@@ -1252,7 +1255,12 @@ brill]
       }%
       {\ClassInfo{brill}{Could not find hyphenations exceptions file 
          ``\@hyphexceptionsfile''!}%
-      }%  
+      }%
+   \ifdefempty{\@stanzafiles}%
+      {\ClassInfo{brill}{Could not find !}}%      
+      {\@stanzafiles%
+         \ClassInfo{brill}{Successfully loaded }%
+      }%
 }%
 
 \DeclareRobustCommand*{\supth}{\textsuperscript{th}\xspace}
