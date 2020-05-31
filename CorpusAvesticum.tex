@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/05/30 v0.34.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/05/30 v0.35.0 Configuration file for
 brill]
 \RequirePackage{xstring}
 \RequirePackage{xspace}
@@ -633,8 +633,11 @@ brill]
 %   {\end{longtabu}}      
 
 \newcommand{\printabbreviationsac}{%
+   \begingroup%
    \renewcommand*{\glsgroupskip}{}%
+   \renewcommand{\glossarysection}[2][]{}%
    \printabbreviations[type=appcrit]%
+   \endgroup%
 }
 %\AtEndDocument{\glsaddall[category=fixed]}
 % We define macros to be used (only) within the apparatus criticus
@@ -774,7 +777,8 @@ brill]
 
 \newif\if@firstimportstanzas
 \@firstimportstanzastrue
-\newcommand*{\Importstanzas}[1]{%
+\def\Importstanzas{\@ifstar{\@Importstanzas[-transcript]}{\@Importstanzas}}
+\newcommand*{\@Importstanzas}[2][]{%
    % This macro should only be called in the preamble of a document
    %\@onlypreamble
    % If this is the first call of the macro, then create the output file.
@@ -785,9 +789,9 @@ brill]
       \@firstimportstanzasfalse%
    \fi%
    % Delay call until \begin{document} (if file exists)
-   \IfFileExists{#1}%
-      {\AtBeginDocument{\directlua{read_stanzas_from_file("\luaescapestring{\detokenize{#1}}")}}}%
-      {\ClassError{brill}{File `#1` could not be found!}{}}%
+   \IfFileExists{#2}%
+      {\AtBeginDocument{\directlua{read_stanzas_from_file("\luaescapestring{\detokenize{#2}}","\luaescapestring{\detokenize{#1}}")}}}%
+      {\ClassError{brill}{File `#2` could not be found!}{}}%
 }
 
 % After all other \AtBeginDocument code we read the stanzas.tex file (if it exists)

@@ -1,4 +1,4 @@
--- 2020/05/30 v0.34.0
+-- 2020/05/30 v0.35.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -506,7 +506,7 @@ function upright_punctuation(head)
     return head
 end
 
-function read_stanzas_from_file(f)
+function read_stanzas_from_file(f, suffix)
    if not file_exists(f) then return {} end   
    local outfile = 'stanzas.tex'
    local lines = lines_from(f)
@@ -524,13 +524,12 @@ function read_stanzas_from_file(f)
       if string.match(str, "^\\begin{stanza}{.-}$") then
          --texio.write_nl(str .. "\n")
          book, stanzanr = string.match(str, "^\\begin{stanza}{\\(.-){(.-)}}$")
-         buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. "}{%\n" .. str .. "\n"
+         buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "\n"
       elseif string.match(str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$") then
          stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
          buf[k] = stanzaend .. "\n\\end{stanza}}\n\\csgdef{stanza-" .. 
-            book .. stanzanr .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}\n" .. stanzastart .. "\n"
+            book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}\n" .. stanzastart .. "\n"
       elseif string.match(str, "^.-\\end{stanza}$") then
-         --stanzaend = string.match(str, "^(.-)\\end{stanza}$")
          buf[k] = str .. "}"
       else
          buf[k] = str .. "\n"

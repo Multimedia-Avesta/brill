@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
+
+## [0.35.0] - 2020-05-30
+
+### Added
+- New macro `\Importstanzas*{FILENAME}`: internal references get suffix `-transcript` (\#9233)
+
+### Changed
+- Macro `\Importstanzas` gets suffix `-translit` for internal references
+
 ## [0.34.0] - 2020-05-30
 
 ### Added
@@ -538,6 +549,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.35.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.35.0
 [0.34.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.34.0
 [0.33.2]:
