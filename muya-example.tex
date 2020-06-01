@@ -1,0 +1,410 @@
+% !TeX program    = lualatex
+% !BIB TS-program = biber
+% !TeX spellcheck = en_GB
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PLEASE SAVE THIS FILE UNDER ANOTHER NAME BEFORE EDITING (FILE->SAVE AS)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\listfiles
+%\PassOptionsToPackage{showframe}{geometry}
+\documentclass[CorpusAvesticum,enumenclparen,nogitver,PhD]{brill}
+%\directlua{
+%fonts.handlers.otf.addfeature {
+%   name = "threedots",
+%   type = "substitution",
+%   prepend = true,
+%   data = {
+%%      ["֒"] = "a",
+%      [uni0745] = "a",
+%   }
+%   }
+%}
+%\directlua {
+%   fonts.handlers.otf.addfeature {
+%      name = "supkern",
+%      type = "kern",
+%      data = {
+%         ["ī"] = {
+%            ["one.sups"] = 100,%
+%            ["two.sups"] = 100,%
+%            ["four.sups"] = 100,%
+%         },
+%         ["š"] = {%
+%            ["one.sups"] = 100,%
+%            ["two.sups"] = 100,%
+%            ["four.sups"] = 100,%
+%         },
+%      },
+%   }
+%}
+
+%\usepackage[single]{accents}
+
+%\usepackage{blindtext}
+%\Newtranslation[Hier steht eine RD]{Y3.2}{Das ist ein\newline Übersetzung}
+\addbibresource{../../muya.common/zoteroexport.bib}
+%\usepackage{gitver}
+%\cfoot{\versionBox{}}
+%\newcommand\starred[1]{{\freesans\accentset{\symbol{"0745}}{#1}}}
+%\newabbreviation{OssDT}{Oss.~DT.\@}{Digoron Ossetic}
+%\patchcmd{\realsuperscript}{VerticalPosition=Superior}{VerticalPosition=Superior,RawFeature=+supkern}{\ClassInfo{brill}{Success}}{\ClassError{brill}{Fail}}
+\setcounter{tocdepth}{6}
+\begin{document}
+%\frontmatter
+%\title{sa dsa asd ada sdas dasd asd}
+%%\subtitle{dfdfdfdf}
+%\author{dfsdfsdfsfs}
+%\maketitle
+\tableofcontents
+\mainmatter
+\part{Minor Appendices}
+\include{../../muya.peschl/Appendix_db}
+
+\end{document}
+
+
+
+%\editedtext{\XVE{}arəϑəm}
+%\itshape
+%š\textsuperscript{1} š\textsuperscript{2} š\textsuperscript{3} š\textsuperscript{4} š\textsuperscript{5} š\textsuperscript{6}
+
+%š\realsuperscript{\textup{14}}
+
+{\addfontfeature{RawFeature=+supkern;+sups}š\textup{14}}
+
+{\addfontfeature{RawFeature=+sups}š\textup{14}}
+
+{\addfontfeature{RawFeature=+supkern;+sups}ī\upshape 14}
+
+{\addfontfeature{RawFeature=+sups}ī\textup{14}}
+
+
+%{\addfontfeature{VerticalPosition=Superior}š1}
+
+\chapter{Test}
+
+\section{Test}
+
+\subsection{Test}
+\index{Test}\textup{Test}\index{Test}%
+\Av{\passage{Test}}
+\Guj{\passage{Test}}
+\minisec{\Av{\passage{Test}}}
+\minisec{\Av{\passage{\Y{68.24}}}}
+\subsection{A\textsuperscript{6}}
+\section{\Av{\XVE} vs. \Av{x}}
+
+A\textsuperscript{\thechapter} A\textsuperscript{1} A\realsuperscript{1}
+
+A\uncertain{Test}
+
+A\supth B A\fakesuperscript{th} B A\realsuperscript{th} B
+\end{document}
+\begin{brilltable}[
+   caption = {The transcription of \Av{ī} and \Av{ū}},
+   label = {table:transcriptioniu},
+   fontsize = {\small},
+   headers      = {ms.  & parts of Yasna covered  & degree of distinction \\},
+   ]{llL}
+   5 & all parts & one sign, thus no distinction \\
+   10 & 3-8, 28-30 & one sign, thus no distinction \\
+   15 & 3, 28-30, 62-65 & one sign, thus no distinction \\
+   20 & 3, 28-30, 62-65 & at least two distinct signs, but no meaningful distribution \\
+   29 & 3, 28, 58-65 & one sign, thus no distinction \\
+   2005 & 28-30 & at least three distinct signs, but no systematic distribution \\
+   2007 & 3, 9-13, 28-30, 58-72 & traces of a distinction, with at least three distinct signs use; yet no systematic distribution (at least in \Y{28-30}) \\
+   2010 & 3, 28-30, 62-65 & at least two distinct signs, but distribution unclear \\
+   4000\textsuperscript{\gls{prm}} & 10-13, 28-30, 58-65 & at least three distinct signs, though partly confused; distinguished in the transcription, even where confused \\
+   4010 & 3, 12-13, 28-30, 62-72 & at least three distinct signs, distribution partly meaningful, but in \Y{28-30} rather arbitrary \\
+   4040 & 3, 28-30 & one sign, thus no distinction \\
+   4060 & 3, 28-30 & one sign, thus no distinction \\
+   4161 & 3, 28-30 & one sign, thus no distinction \\
+   5020 & 3-8, 12-13, 28-30, 58-60 & at least three distinct signs, apparently arbitrary, but perhaps retaining traces of an original distinction; still not distinguished in the transcription \\
+   5102 & 3, 28-30 & one sign, thus no distinction \\
+\end{brilltable}
+
+Summing up the information provided in table \ref{table:transcriptioniu}, it was eventually only ms. 4000 whose distribution between two or more variant signs seemed meaningful enough to warrant a distinction also in the transcription. Everywhere else all signs have been transcribed as \Av{ī}, as that is the sound they stood for in the eyes of the scribes.
+
+\section{\Av{\XVE} vs. \Av{x́}}
+
+\subsection{A}
+
+\subsection{\Av{\XVE} vs. \Av{x́}}
+\label{sec:xvex}
+
+An issue which the transcriber faces in certain manuscripts is their tendency to confuse the letters \textavestan{\AvXVE} (\Av{\XVE}) and \textavestan{\AvXYE} (\Av{x́}). With regard to some of these manuscripts, a decision needs to be taken as to whether there is still a remnant of a systematic distinction between the two signs (and, by implication, the sounds they represent) or whether they represented randomly used alternate signs. The following are the characters in question and their main variants as used across the manuscript tradition: 
+%{\freesans Aš\symbol{"0745}šB}
+%
+%{\freesans\addfontfeatures{RawFeature=+supkern}As\symbol{"0745}B}
+%
+%\starred{š}
+%A\textsuperscript{a}\realsuperscript{1}\textsuperscript{1}\fakesuperscript{1}\textsuperscript{Ḫ}\textsuperscript{+}\realsuperscript{+}\textsuperscript{*}\realsuperscript{*}\textsuperscript{Ḫ}\textsuperscript{†}B
+%
+%\textcite{josephsonConstructionBeMiddle2006}
+%\gls{OssDT}
+%\gls{OssD}
+
+Das hier ist ein Test\fxnote{Hier fehlt was}
+%{%\setlength{\parindent}{0pt}
+%\begin{displayquote}
+%%\begingroup
+%Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 1 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4%\par\endgroup
+%\end{displayquote}
+% 
+%\linebreakwithindent Avestan line 1 Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4
+
+%%\blocktranslation{Av}{\linebreakwithindent Avestan line 1 Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1 \linebreakwithindent Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 \linebreakwithindent Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 \linebreakwithindent Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4}{\linebreakwithindent Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 \linebreakwithindent Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 \linebreakwithindent Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 \linebreakwithindent Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4}
+
+\blocktranslation{Av}{Avestan line 1 Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1 \newline Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 \newline Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 \newline Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4}{Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 \newline Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 \newline Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 \newline Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4}
+
+\blocktranslation{Av}{Avestan line 1 Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1Avestan line 1 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 2 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 3 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4 Avestan line 4}{Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 1 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 2 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3 Translation line 3  Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4 Translation line 4}
+%}
+%\include{dictionary}
+%\printabbreviations
+%\let\textsuperscript\muyatextsuperscript
+\printbibliography
+\end{document}
+
+
+%\frontmatter
+%\extratitle{My testst}
+%\title{The Yasna through its Gujarati ritual directions}
+%\subtitle{An Experiment}
+%\author{Martin Sievers\and Ddfd dfdf}
+%\dedication{For my parents}
+%\maketitle
+%\tableofcontents
+%%\startwordcount
+\mainmatter
+\gettranslation{Y8.1}
+A
+
+\gettranslation*{Y8.1}
+%\end{document}
+\blocktranslation{Guj}{ORIG}{TRANS}
+B
+
+C
+\blocktranslation{}{}{TRANS}
+D
+\chapter{Foreword}
+Test\footnote{Test dsd sdsd sd sd }
+\cite{klingenschmittFarhangiOimEdition1968}
+%\printbibliography
+%\end{document}
+\Av{ϑβahmī xrat\uncertain{ā̊} apə̄məm}
+{\itshape
+Test\textsuperscript*{?} test\textsuperscript{12} test\textsuperscript{?}
+}
+This a test
+\vspace*{\baselineskip}
+
+Hier weiter
+
+This a test
+\bigskip
+
+Hier weiter
+
+
+\mainmatter
+\chapter{Test}
+
+\section{Test}\label{sec:test}
+See \cref{sec:test}
+
+\subsection{Test}\label{subsec:test}
+See Section \ref{subsec:test}
+
+%\begin{pages}
+%   \begin{Leftside}
+%      \pstart\blindtext[21]\pend
+%   \end{Leftside}
+%   \begin{Rightside}
+%     \pstart\blindtext[22]\pend
+%   \end{Rightside}
+%\end{pages}
+%\Pages
+\chapter{Preface}
+%\setcounter{footnote}{98}
+%Test\footnote{Test}
+
+%Test\footnote{Test}
+
+
+\textarabic{ڳ}
+\listoffigurestables
+\declarationPhD
+\mainmatter
+\introduction{Title of introduction}
+\citeyear{geldnerAvestaHeiligenBuecher1886}
+\cite{vongallGlobusOderDiskus1984}
+
+\citeyear{geldnerAkaoFseratuYasna1885}
+
+A\footnote{Test}
+
+A\parencite{geldnerAvestaHeiligenBuecher1886}
+
+A\posscitet{geldnerAvestaHeiligenBuecher1886}
+
+A\textcite{geldnerAvestaHeiligenBuecher1886}
+
+
+\cite{geldnerAkaoFseratuYasna1885}
+
+\Av{Ein Test\footnote{Eine Fußnote}, ob das klappt} und dann weiter
+
+ (MP \Phl{parāhōm})
+
+Test for \Phl{text}, s or 
+
+Test for \Phl{text}: s or 
+
+Test for \Av{text}s or 
+
+\Phl{transcription}{transliteration} or 
+
+\Phl[translation]{transcription}{transliteration} or 
+
+A \Phl[translation]{}{test} or 
+
+\Phl*{transcription}{transliteration} or 
+
+\Phl[r]{transcription}{transliteration} and 
+
+\Phl[r][]{transcription}{transliteration} and 
+
+\Phl[r][translation]{transcription}{transliteration}
+
+\Sogd{transcription}{phonemic analysis} AB
+   
+\Sogd[meaning]{transcription}{phonemic analysis} AB   
+   
+\Sogd{transcription}{} AB   
+
+\Bactr{transcription}{} AB  
+
+\Bactr[meaning]{transcription}{phonemic analysis} AB   
+%\printbibliography
+%\end{document}
+%\begin{origtext}
+%αμην αμην λεγω υμιν\app{\rdg{\wit{L253-M3D13a}}{ειπεν ο κυριος τοις εαυτου 
+%μαθηταις εγω 
+%ειμι η θυρα των προβατων}\rdg{\wit{L141-M9D21b}\wit{L1075-M9D21b}}{ειπεν ο 
+%κυριος}}
+%εκεινος\app{\rdg{2680}{ουτος}\rdg{\wit{0141}\wit{821}\wit{1071}\wit{1242*}\wit{1321}\wit{2561}\wit{2713}}{om}}
+%\end{origtext}
+%
+%This is Pahlavi: \textpahlavi{@}, aber auch \textavestan{\AvAA \AvA}
+%\begin{alphenumerate}
+%\item Test
+%\item Test
+%\end{alphenumerate}
+%
+%\begin{enumerate}
+%\item Test
+%\item Test
+%\end{enumerate}
+%\part{Marx's Theory of the Genesis of Money\\(An Interview Conducted by 
+%N.N.)}
+%\chapter{Theory of the Value Form and Theory of the Exchange Process}
+%\section{Citations}
+%\subsection{Test}\label{sec:test2}
+%\subsubsection{Test}\label{sec:test}
+%\subthreesection{Test}
+%This is a \cref{sec:test}
+%A ⟨Test⟩ and a \textlangle{}Affe\textrangle{} and a 
+%\symbol{"27E8}Test\symbol{"27E9} a
+%
+%\cite[Cf.][23-45]{}
+%
+%
+%\cite[23-45]{kellens_etudes_2011}
+%
+%\textcite[23-45]{kellens_etudes_2011}
+%
+%\cites[23\psqq]{kellens_etudes_2011}[17]{redard_etudes_2013}{andres-toledo_ceremonies_2015}
+%
+%This is a Test\footnote{\blindtext}
+%
+%\chapter{Tables}
+%Brill tables:
+%\begin{brilltable}[%
+%   caption={This is not necessarily short text describing the table},
+%   label={tab:test},
+%   headers={Column A & Column B\\},
+%   placement={ht}
+%]{RR}
+%12 & 12\\
+%24 & 23\\
+%\end{brilltable}
+%
+%When can use the standard \texttt{\textbackslash ref} macro to get 
+%table~\ref{tab:test} or we can use the \textsf{cleveref} package with its 
+%macros: \cref{tab:test}.
+%
+%
+%\section{Footnotes}
+%This is a Test\footnote{\blindtext\par Some more text} or just 
+%this\footnote{blindtext}
+%
+%\begin{quote}
+%\blindtext
+%\end{quote}
+%
+%This is a Test.
+%\begin{quote}[An important source]
+%\blindtext
+%\end{quote}
+%
+%This is a Test.
+%\begin{quote}
+%\blindtext
+%\end{quote}
+%
+%\section{Lists}
+%This is a numbered list:
+%\begin{enumerate}
+%\item \blindtext
+%\item \blindtext
+%\end{enumerate}
+%
+%and this  is an unnumbered list:
+%This is a numbered list:
+%\begin{itemize}
+%\item \blindtext
+%\begin{itemize}
+%\item TEst
+%\end{itemize}
+%\item \blindtext
+%\end{itemize}
+%
+%A Test
+%\sigbreakvarone
+%More text
+%
+%\section{Test}
+%Some text
+%\subsection{More Text}
+%\subsubsection{More and more text}
+%\subthreesection{You guess}
+%\subfoursection{You guess}
+%\subfivesection{You guess}
+%\paragraph{You guess}
+%\subparagraph{You guess}
+%
+%\setcounter{chapter}{10}
+%\chapter{A last one}
+%\blindtext
+%
+\gls{ptcp}
+\gls{lac}
+%\nocite{*}% JUST FOR TESTING; outputs all Zotero items
+\stopwordcount
+\backmatter
+\printabbreviations
+\printabbreviationsac
+\printbibliography
+%\currentwordcount
+%\logwordcount
+\end{document}

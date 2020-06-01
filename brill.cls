@@ -419,12 +419,8 @@
 \renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
 %\renewcommand*{\addparttocentry}[2]{%
 %   \addtocentrydefault{part}{\hspace*{12mm}\partname~#1}{#2}}%
-%\DeclareRobustCommand*\DefLowercaseString{%
-%  \gdef\LowercaseString
-%}
  
 \renewcommand*{\addparttocentry}[2]{%
-%   \MakeLowercase{\DefLowercaseString{\partformat}}
    \addtocentrydefault{part}{}{%
       \hspace*{12mm}%
       \large\bfseries%
@@ -497,9 +493,8 @@
       beforeskip=-2\baselineskip,%
       afterskip=1\baselineskip,%
       font={\normalsize\bfseries},%
-      tocdynnumwidth = on,%
       tocnumwidth=8mm,%
-%      tocindent=\dimexpr\@tocstartindent\relax%
+      tocindent=\dimexpr\@tocstartindent\relax%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
    
@@ -507,18 +502,16 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\normalsize\bfseries},%
-      tocdynnumwidth=on,%
       tocnumwidth=8mm,%
-%      tocindent=\dimexpr\@tocstartindent+8mm\relax%
+      tocindent=\dimexpr\@tocstartindent+8mm\relax%
    ]{subsection}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\normalsize\bfseries},%
-      tocdynnumwidth = on,%
-      tocnumwidth=8mm,%
-%      tocindent=\dimexpr\@tocstartindent+16mm\relax%
+      tocnumwidth=12mm,%
+      tocindent=\dimexpr\@tocstartindent+16mm\relax%
    ]{subsubsection}
    
    \ProvideSectionCommand[%
@@ -528,10 +521,9 @@
       font={\normalsize\bfseries},%
       indent=0pt,%
       level=4,%
-      tocindent=0pt,%%%TODO
-      tocdynnumwidth = on,%
-      tocnumwidth=8mm,%
-      tocstyle=tocline,%
+      tocnumwidth=12mm,%
+      tocindent=\dimexpr\@tocstartindent+28mm\relax,%
+      tocstyle=section,%
       counterwithin=subsubsection%
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
@@ -543,9 +535,9 @@
       font={\small\bfseries},%
       indent=0pt,%
       level=5,%
-      tocindent=0pt,%%%TODO
-      tocnumwidth=8mm,%
-      tocstyle=tocline,%
+      tocindent=\dimexpr\@tocstartindent+40mm\relax,%
+      tocnumwidth=16mm,%
+      tocstyle=section,%
       counterwithin=subthreesection%
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
@@ -557,8 +549,8 @@
       font={\small\bfseries},%
       indent=0pt,%
       level=6,%
-      tocindent=0pt,%%%TODO
-      tocnumwidth=8\parindent,%
+      tocindent=\dimexpr\@tocstartindent+56mm\relax,%
+      tocnumwidth=16mm,%
       tocstyle=tocline,%
       counterwithin=subfoursection%
    ]{subfivesection}
@@ -1422,6 +1414,7 @@
       \csgdef{blocktrans\currvalblocktrans}{}}%
    \linebreakwithindent%
 }
+
 \newcounter{blocktrans}
 
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
@@ -1472,31 +1465,31 @@
    \let\newline\blocktransnewline%
    \begin{displayquote}%
       \ifstrempty{#1}%
-      {\ifstrempty{#2}%
-         {\noindent #3}%
-         {%
-            #2%
-            \ifstrempty{#3}{}{%
-               \par\vspace{\baselineskip}\noindent%
-               #3%
-            }%
-         }%
-      }%
-      {%
-         \ifstrempty{#2}%
-         {\ifstrempty{#3}{}{\noindent #3}}%
-         {%
-            {\ItalicsOrNot{#1}#2}%
-            \ifstrempty{#3}%
-            {}%
+         {\ifstrempty{#2}%
+            {\noindent #3}%
             {%
-               \ifcsdef{blocktrans\currvalblocktrans}%
-               {\linebreakwithindent\vspace{\baselineskip}}%
-               {\par\vspace{\baselineskip}\noindent}%
-               #3%
+               #2%
+               \ifstrempty{#3}{}{%
+                  \par\vspace{\baselineskip}\noindent%
+                  #3%
+               }%
             }%
          }%
-      }%
+         {%
+            \ifstrempty{#2}%
+            {\ifstrempty{#3}{}{\noindent #3}}%
+            {%
+               {\ItalicsOrNot{#1}#2}%
+               \ifstrempty{#3}%
+                  {}%
+                  {%
+                     \ifcsdef{blocktrans\currvalblocktrans}%
+                        {\linebreakwithindent\vspace{\baselineskip}}%
+                        {\par\vspace{\baselineskip}\noindent}%
+                     #3%
+                  }%
+            }%
+         }%
    \end{displayquote}%
 }%
 

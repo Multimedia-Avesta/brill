@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
+- Adjust number width and indentions in TOC for PhD mode
 
 ## [0.35.0] - 2020-05-30
 
