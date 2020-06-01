@@ -10,6 +10,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
 - Adjust number width and indentions in TOC for PhD mode
 
+### Fixed
+- Bug in `\newline` redefinition for `\blocktranslation` caused problems with `\part` entries; made it local
+
 ## [0.35.0] - 2020-05-30
 
 ### Added

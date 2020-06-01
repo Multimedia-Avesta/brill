@@ -48,6 +48,8 @@
 %\newabbreviation{OssDT}{Oss.~DT.\@}{Digoron Ossetic}
 %\patchcmd{\realsuperscript}{VerticalPosition=Superior}{VerticalPosition=Superior,RawFeature=+supkern}{\ClassInfo{brill}{Success}}{\ClassError{brill}{Fail}}
 \setcounter{tocdepth}{6}
+\SetAbbreviationsFile{../../muya.common/abbreviations.tex}
+\SetAbbreviationsacFile{../../muya.common/abbreviations_ac.tex}
 \begin{document}
 %\frontmatter
 %\title{sa dsa asd ada sdas dasd asd}
@@ -56,9 +58,13 @@
 %\maketitle
 \tableofcontents
 \mainmatter
+%\input{latex-apparatus_Y30_26-5-20.txt}
 \part{Minor Appendices}
-\include{../../muya.peschl/Appendix_db}
-
+test
+\blocktranslation{Av}{ABC}{DEF}
+%\include{Appendix_db}
+%\include{Appendix_locsg-of-ustems}
+\part{Test}
 \end{document}
 
 
@@ -79,7 +85,7 @@
 
 
 %{\addfontfeature{VerticalPosition=Superior}š1}
-
+\part{Test}
 \chapter{Test}
 
 \section{Test}

@@ -1462,8 +1462,8 @@
 \newcommand{\@@blocktranslation}[3]{%
    \refstepcounter{blocktrans}%
    \xdef\currvalblocktrans{\theblocktrans}%
-   \let\newline\blocktransnewline%
    \begin{displayquote}%
+      \let\newline\blocktransnewline%
       \ifstrempty{#1}%
          {\ifstrempty{#2}%
             {\noindent #3}%
