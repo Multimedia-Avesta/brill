@@ -6,13 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Rename `\Gah` to `\G` (\#9271)
+
 ## [0.36.0] - 2020-06-02
 
 ### Added
 - Book names `BUK`, `SA` and `SBM`(\#9271)
 
 ### Changed
-- `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
+- Remove title from `\printabbreviationsac`
 - Adjust number width and indentions in TOC for PhD mode
 
 ### Fixed
