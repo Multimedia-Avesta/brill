@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Book names `BUK`, `SA` and `SBM`(\#9271)
+
 ### Changed
 - `\printabbreviationsac`List of abbreviations for apparatus criticus are now set without title
 - Adjust number width and indentions in TOC for PhD mode
