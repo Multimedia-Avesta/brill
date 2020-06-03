@@ -10,6 +10,7 @@
 \DeclareStringOption{series}
 \DeclareStringOption[dot]{enumsep}[dot]
 \DeclareStringOption[dot]{alphenumsep}[dot]
+\DeclareStringOption[3]{tocdepth}[3]
 %%%
 \DeclareBoolOption[false]{showgrid}
 \DeclareBoolOption[false]{gitver}
@@ -531,7 +532,7 @@
       tocindent=\dimexpr\@tocstartindent\relax%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
-   
+
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
@@ -561,6 +562,7 @@
       counterwithin=subsubsection%
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
+   \@namedef{subthreesectiontocdepth}{4}
    
    \ProvideSectionCommand[%
       style=section,%
@@ -575,7 +577,8 @@
       counterwithin=subthreesection%
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
-   
+   \@namedef{subfoursectiontocdepth}{5}
+
    \ProvideSectionCommand[%
       style=section,%
       beforeskip=-1\baselineskip,%
@@ -589,6 +592,7 @@
       counterwithin=subfoursection%
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
+   \@namedef{subfivesectiontocdepth}{6}
    
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
@@ -601,7 +605,8 @@
       counterwithin=subfivesection%
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
-   
+   \@namedef{paragraphtocdepth}{7}   
+
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
@@ -611,11 +616,12 @@
       tocindent=0pt,%%%TODO
 %      tocnumwidth=10\parindent%
    ]{subparagraph}
+   \@namedef{subparagraphsectiontocdepth}{8}
 %
-   \RedeclareSectionCommands[tocdynnumwidth]{%
-      section,subsection,subsubsection,subthreesection,%
-      subfoursection,subfivesection,paragraph,subparagraph%
-   }   
+%   \RedeclareSectionCommands[tocdynnumwidth]{%
+%      section,subsection,subsubsection,subthreesection,%
+%      subfoursection,subfivesection,paragraph,subparagraph%
+%   }   
 \else%
    \RedeclareSectionCommand[%
       beforeskip=-2\baselineskip,%
@@ -657,7 +663,8 @@
       counterwithin=subsubsection%
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
-%
+   \@namedef{subthreesectiontocdepth}{4}
+
    \ProvideSectionCommand[%
       style=section,%
       beforeskip=-1\baselineskip,%
@@ -671,7 +678,8 @@
       counterwithin=subthreesection%
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
-%
+   \@namedef{subfoursectiontocdepth}{5}
+   
    \ProvideSectionCommand[%
       style=section,%
       beforeskip=-1\baselineskip,%
@@ -685,7 +693,8 @@
       counterwithin=subfoursection%
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
-   %
+   \@namedef{subfivesectiontocdepth}{6}
+
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -697,7 +706,8 @@
       counterwithin=subfivesection%
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
-   %
+   \@namedef{paragraphsectiontocdepth}{7}
+
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -707,7 +717,7 @@
       tocindent=0pt,%%%TODO
       tocnumwidth=10\parindent%
    ]{subparagraph}
-   %%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
+   \@namedef{subparagraphsectiontocdepth}{8}
 \fi%
 \ifbrill@PhD
    \renewcommand{\sectionlinesformat}[4]{%
@@ -838,7 +848,23 @@
 \newcommand*{\pagenumbertocfont}[1]{%
    \Ifisinteger{#1}{#1}{\scshape #1}}
 \setcounter{secnumdepth}{8}
-\setcounter{tocdepth}{3}
+\Ifisinteger{\brill@tocdepth}
+   {%
+      \setcounter{tocdepth}{\brill@tocdepth}%
+      \ClassInfo{brill}{Setting tocdepth to `\brill@tocdepth}%   
+   }%
+   {%
+      \expandafter\ifcsdef{\brill@tocdepth tocdepth}%
+         {%
+            \setcounter{tocdepth}{\expandafter\csname\brill@tocdepth tocdepth\endcsname}%
+            \ClassInfo{brill}{Setting tocdepth to `\expandafter\csname\brill@tocdepth tocdepth\endcsname`}%   
+         }%
+         {%
+            \ClassWarning{brill}{Value `\brill@tocdepth` unknown for option tocdepth!}%
+            \setcounter{tocdepth}{3}%
+            \ClassInfo{brill}{Setting tocdepth to standard value 3}%
+         }%
+   }%   
 \setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=10000}
 \setkomafont{subtitle}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
 \setkomafont{dedication}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
@@ -1261,19 +1287,19 @@
 \renewcommand*\indexspace{\par\vskip\baselineskip\relax}%
 
 \ifbrill@showgrid
-\RequirePackage{atbegshi,picture,xcolor}
-\AtBeginShipout{%
-  \AtBeginShipoutUpperLeft{%
-    \color{red}%
-    \put(\dimexpr 1in+\oddsidemargin,
-         -\dimexpr 1in+\topmargin+\headheight+\headsep+\topskip)%
-      {%
-       \vtop to\dimexpr\vsize+\baselineskip{
-         \hrule
-         \leaders\vbox to 13.2bp{\hrule width\hsize\vfill}\vfill
-       }%
-      }%
-  }%
+   \RequirePackage{atbegshi,picture,xcolor}
+   \AtBeginShipout{%
+     \AtBeginShipoutUpperLeft{%
+       \color{red}%
+       \put(\dimexpr 1in+\oddsidemargin,
+            -\dimexpr 1in+\topmargin+\headheight+\headsep+\topskip)%
+         {%
+          \vtop to\dimexpr\vsize+\baselineskip{
+            \hrule
+            \leaders\vbox to 13.2bp{\hrule width\hsize\vfill}\vfill
+          }%
+         }%
+     }%
 }
 \fi%
 
