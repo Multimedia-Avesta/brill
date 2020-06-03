@@ -1,6 +1,5 @@
 \ProvidesFile{CorpusAvesticum.tex}[2020/06/02 v0.36.0 Configuration file for
 brill]
-\RequirePackage{xstring}
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
 \RequirePackage{collcell}
@@ -14,7 +13,7 @@ brill]
 %   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
 %\fi%
 \directlua{require("muya")}
-\if@countwords
+\ifbrill@countwords
    \directlua{dofile(kpse.find_file"word_count.lua")}
    \def\setwordthreshold#1{%
       \directlua{packagedata.word_count.set_threshold(\number#1)}%
@@ -1283,7 +1282,7 @@ brill]
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{{\itshape #1}}
 %
-\if@PhD
+\ifbrill@PhD
    \newcommand{\declarationPhD}{%
       \cleardoubleemptypage
       \minisec{Declaration for SOAS PhD thesis}

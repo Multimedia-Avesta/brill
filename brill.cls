@@ -1,45 +1,79 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{brill}[2020/06/02 v0.36.0 A template for Brill publications]
-\newif\if@corpusavesticum
-\DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
-\DeclareOption{localbibfile}{\ClassWarning{brill}{%
-   The option `localbibfile` is no longer supported.\MessageBreak
-   Please use \string\addbibresource{}\space directly.}}      
-\newif{\if@showgrid}
-\DeclareOption{showgrid}{\@showgridtrue}
-\newif\if@enumspace
-\DeclareOption{enumspace}{\@enumspacetrue}
-\newif\if@enumparen
-\DeclareOption{enumparen}{\@enumparentrue}
-\newif\if@enumenclparen
-\DeclareOption{enumenclparen}{\@enumenclparentrue}
-\newif\if@enumdot
-\DeclareOption{enumdot}{\@enumdottrue}
-%%%
-\newif\if@alphenumspace
-\DeclareOption{alphenumspace}{\@alphenumspacetrue}
-\newif\if@alphenumparen
-\DeclareOption{alphenumparen}{\@alphenumparentrue}
-\newif\if@alphenumenclparen
-\DeclareOption{alphenumenclparen}{\@alphenumenclparentrue}
-\newif\if@alphenumdot
-\DeclareOption{alphenumdot}{\@alphenumdottrue}
-\newif\if@PhD
-\DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
-\newif\if@countwords
-\DeclareOption{countwords}{\@countwordstrue}
-\newif\if@colourlinks
-\DeclareOption{printversion}{\@printversiontrue}
-\newif\if@printversion
-\DeclareOption{colorlinks}{\@colourlinkstrue}
-\DeclareOption{colourlinks}{\@colourlinkstrue}
-\newif\if@gitver
-\@gitvertrue
-\DeclareOption{nogitver}{\@gitverfalse}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
-\ProcessOptions*\relax
 \RequirePackage{iftex}
+\RequirePackage{kvoptions}
+\SetupKeyvalOptions {
+   family  = brill,
+   prefix  = brill@,
+   setkeys = \kvsetkeys
+}
+\DeclareStringOption{series}
+\DeclareStringOption[dot]{enumsep}[dot]
+\DeclareStringOption[dot]{alphenumsep}[dot]
+%%%
+\DeclareBoolOption[false]{showgrid}
+\DeclareBoolOption[false]{gitver}
+\DeclareComplementaryOption{nogitver}{gitver}
+\DeclareBoolOption[false]{PhD}
+\DeclareBoolOption[false]{countwords}
+\DeclareBoolOption[false]{printversion}
+\DeclareBoolOption[false]{colorlinks}
+%%
+
+\DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
+\DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
+\DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
+\DeclareVoidOption{enumparen}{\setkeys{brill}{enumsep=paren}}
+\DeclareVoidOption{enumspace}{\setkeys{brill}{enumsep=space}}
+\DeclareVoidOption{alphenumdot}{\setkeys{brill}{alphenumsep=dot}}
+\DeclareVoidOption{alphenumenclparen}{\setkeys{brill}{alphenumsep=enclparen}}
+\DeclareVoidOption{alphenumparen}{\setkeys{brill}{alphenumsep=paren}}
+\DeclareVoidOption{alphenumspace}{\setkeys{brill}{alphenumsep=space}}
+\DeclareVoidOption{colourlinks}{\setkeys{brill}{colorlinks=true}}
+
+%\newif\if@corpusavesticum
+%\DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
+%\DeclareOption{localbibfile}{\ClassWarning{brill}{%
+%   The option `localbibfile` is no longer supported.\MessageBreak
+%   Please use \string\addbibresource{}\space directly.}}      
+%\newif\if@enumspace
+%\DeclareOption{enumspace}{\@enumspacetrue}
+%\newif\if@enumparen
+%\DeclareOption{enumparen}{\@enumparentrue}
+%\newif\if@enumenclparen
+%\DeclareOption{enumenclparen}{\@enumenclparentrue}
+%\newif\if@enumdot
+%\DeclareOption{enumdot}{\@enumdottrue}
+%%%
+%\newif\if@alphenumspace
+%\DeclareOption{alphenumspace}{\@alphenumspacetrue}
+%\newif\if@alphenumparen
+%\DeclareOption{alphenumparen}{\@alphenumparentrue}
+%\newif\if@alphenumenclparen
+%\DeclareOption{alphenumenclparen}{\@alphenumenclparentrue}
+%\newif\if@alphenumdot
+%\DeclareOption{alphenumdot}{\@alphenumdottrue}
+%\newif\if@PhD
+%\DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
+%\newif\if@countwords
+%\DeclareOption{countwords}{\@countwordstrue}
+%\newif\if@colourlinks
+%\DeclareOption{printversion}{\@printversiontrue}
+%\newif\if@printversion
+%\DeclareOption{colorlinks}{\@colourlinkstrue}
+%\DeclareOption{colourlinks}{\@colourlinkstrue}
+%\newif\if@gitver
+%\@gitvertrue
+%\DeclareOption{nogitver}{\@gitverfalse}
+%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
+%\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
+\DeclareDefaultOption{%
+   \expandafter\PassOptionsToClass\expandafter\CurrentOption{scrbook}%
+}
+\ProcessKeyvalOptions*
+\ifbrill@PhD
+   \PassOptionsToClass{twoside=false}{scrbook}
+\fi%   
 \RequireLuaTeX
 \LoadClass[%
    parskip=never,%
@@ -48,13 +82,12 @@
    captions=bottombeside,%
    captions=rightbeside,%
    chapterprefix,%
-   %headings=optiontohead,
    listof=leveldown,%
    open=any,%
    toc=bibliography,%
    toc=numberline,%
 ]{scrbook}[2018/03/30]
-\if@PhD
+\ifbrill@PhD
    \def\normalsize{%
      \@setfontsize\normalsize{12bp}{18bp}%
      \abovedisplayskip 10\p@ \@plus2\p@ \@minus5\p@
@@ -232,7 +265,7 @@
 }%   
 \RequirePackage{realscripts}
 %
-\if@PhD
+\ifbrill@PhD
    \RequirePackage{geometry}
    \geometry{%
       a4paper,twoside=false,includehead,%
@@ -249,7 +282,7 @@
       inner=20truemm,outer=20truemm,%
       lines=40%
    }
-   \if@printversion\else
+   \ifbrill@printversion\else
       \RequirePackage[a4,center,frame]{crop}
    \fi%
 \fi%
@@ -293,20 +326,21 @@
 \ohead{\pagemark}
 \pagestyle{scrheadings}
 %
-\if@corpusavesticum
-   \AtEndOfClass{%
-      \InputIfFileExists{CorpusAvesticum.tex}%
-         {\ClassInfo{brill}{Successfully loaded configuration file 
-         ``CorpusAvesticum.tex''}%
+\AtEndOfClass{%
+   \ifx\brill@series\@empty
+      \ClassWarning{brill}{No series option found.}%
+   \else
+      \InputIfFileExists{\brill@series.tex}%
+         {\ClassInfo{brill}{Successfully loaded configuration file for series
+         ``\brill@series''}%
          }%
-         {\ClassWarning{brill}{Could not find configuration file 
-         ``CorpusAvesticum.tex''!}%
-         }%
-% Now all glossaries have been defined. We can call \cs{makeglossaries}      
-% TODO: Call macro for _all_ configs; use config option or similar
+         {\ClassWarning{brill}{Could not load file `\brill@series`.tex}}%
+   \fi%
+   % Now all glossaries have been defined. We can call \cs{makeglossaries}      
+   % TODO: Call macro for _all_ configs; use config option or similar
    \makeglossaries
 }
-\fi%
+\RequirePackage{xstring}
 \RequirePackage{multicol}
 \AtBeginEnvironment{multicols}{\raggedright}
 \setlength{\columnsep}{4mm}
@@ -488,7 +522,7 @@
 }%   
 
 % We use different set-ups for headings depending on PhD or not
-\if@PhD
+\ifbrill@PhD
    \RedeclareSectionCommand[%
       beforeskip=-2\baselineskip,%
       afterskip=1\baselineskip,%
@@ -675,7 +709,7 @@
    ]{subparagraph}
    %%%\renewcommand{\theparagraph}{\thesubsixsection.\arabic{paragraph}}
 \fi%
-\if@PhD
+\ifbrill@PhD
    \renewcommand{\sectionlinesformat}[4]{%
       \Ifnumbered{#1}
       {%
@@ -828,27 +862,27 @@
 \setlist{labelsep=*,align=left,nosep}
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
 \setlist[enumerate,1]{leftmargin=2\parindent}
-\if@enumspace
-   \setlist[enumerate]{label=\arabic*}
-\fi%
-\if@enumparen
-   \setlist[enumerate]{label=\arabic*)}
-\fi%
-\if@enumenclparen
-   \setlist[enumerate]{label=(\arabic*)}
-\fi%
+\IfStrEqCase{\brill@enumsep}{%
+   {dot}{}%
+   {.}{}%
+   {space}{\setlist[enumerate]{label=\arabic*}}%
+   {paren}{\setlist[enumerate]{label=\arabic*)}}%
+   {)}{\setlist[enumerate]{label=\arabic*)}}%
+   {enclparen}{\setlist[enumerate]{label=(\arabic*)}}
+   {()}{\setlist[enumerate]{label=(\arabic*)}}%
+   }[\ClassWarning{brill}{Value `\brill@enumsep` is unknown for option enumsep!}]%
 %%%
 \newlist{alphenumerate}{enumerate}{2}
 \setlist[alphenumerate,1]{leftmargin=2\parindent,label=\alph*.}
-\if@alphenumspace
-   \setlist[alphenumerate]{label=\alph*}
-\fi%
-\if@alphenumparen
-   \setlist[alphenumerate]{label=\alph*)}
-\fi%
-\if@alphenumenclparen
-   \setlist[alphenumerate]{label=(\alph*)}
-\fi%
+\IfStrEqCase{\brill@alphenumsep}{%
+   {dot}{}%
+   {.}{}%
+   {space}{\setlist[enumerate]{label=\alph*}}%
+   {paren}{\setlist[enumerate]{label=\alph*)}}%
+   {)}{\setlist[enumerate]{label=\alph*)}}%
+   {enclparen}{\setlist[enumerate]{label=(\alph*)}}
+   {()}{\setlist[enumerate]{label=(\alph*)}}%
+}[\ClassWarning{brill}{Value `\brill@alphenumsep` is unknown for option alphenumsep!}]%
 %%\setlist[itemize,2]{leftmargin=\parindent,label=\textendash}
 \newlist{enuminline}{enumerate*}{1}
 \setlist[enuminline]{label=(\alph*),font=\upshape\bfseries,mode=unboxed}
@@ -892,7 +926,6 @@
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
 \RequirePackage{pdflscape}
-\RequirePackage{keyval}
 \RequirePackage{environ}
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
@@ -1209,7 +1242,7 @@
    \listoftables
 }
 %TODO: This should probably go into the config file. Take care of loading order.
-\if@printversion
+\ifbrill@printversion
    \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 \else
    \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
@@ -1227,7 +1260,7 @@
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \renewcommand*\indexspace{\par\vskip\baselineskip\relax}%
 
-\if@showgrid
+\ifbrill@showgrid
 \RequirePackage{atbegshi,picture,xcolor}
 \AtBeginShipout{%
   \AtBeginShipoutUpperLeft{%
@@ -1247,7 +1280,7 @@
 \RequirePackage{shellesc} %TODO: Check whether still needed
 \RequirePackage{url}
 \urlstyle{same}
-\if@colourlinks
+\ifbrill@colorlinks
    \RequirePackage[unicode,colorlinks=true,allcolors=blue]{hyperref}
 \else
    \RequirePackage[unicode,colorlinks=true,allcolors=black]{hyperref}
@@ -1259,13 +1292,13 @@
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
 \RequirePackage{ellipsis}
-\ifboolexpr{ not bool {@printversion} and bool {@gitver} }%
+\ifboolexpr{ not bool {brill@printversion} and bool {brill@gitver} }%
    {%
       \RequirePackage[noheader]{gitver}%
       \cfoot*{\versionBox{}}%
    }%
    {}%
-\ifboolexpr{ not bool {@PhD} and bool {@printversion} }%
+\ifboolexpr{ not bool {brill@PhD} and bool {brill@printversion} }%
    {\RequirePackage[x-1a1]{pdfx}}%
    {}%
 \RequirePackage[%

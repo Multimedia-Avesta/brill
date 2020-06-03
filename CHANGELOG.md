@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Rename `\Gah` to `\G` (\#9271)
+- Class options are now all key-value options. All existing option still work.
+- `nogitver` (`gitver=false`) is now the default
 
 ## [0.36.0] - 2020-06-02
 
