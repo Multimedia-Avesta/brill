@@ -851,20 +851,29 @@
 \Ifisinteger{\brill@tocdepth}
    {%
       \setcounter{tocdepth}{\brill@tocdepth}%
-      \ClassInfo{brill}{Setting tocdepth to `\brill@tocdepth}%   
+      \ClassInfoNoLine{brill}{Setting tocdepth to `\brill@tocdepth}%   
    }%
    {%
       \expandafter\ifcsdef{\brill@tocdepth tocdepth}%
          {%
             \setcounter{tocdepth}{\expandafter\csname\brill@tocdepth tocdepth\endcsname}%
-            \ClassInfo{brill}{Setting tocdepth to `\expandafter\csname\brill@tocdepth tocdepth\endcsname`}%   
+            \ClassInfoNoLine{brill}{Setting tocdepth to `\expandafter\csname\brill@tocdepth tocdepth\endcsname`}%   
          }%
          {%
-            \ClassWarning{brill}{Value `\brill@tocdepth` unknown for option tocdepth!}%
+            \ClassWarningNoLine{brill}{Value `\brill@tocdepth` unknown for option tocdepth!}%
             \setcounter{tocdepth}{3}%
-            \ClassInfo{brill}{Setting tocdepth to standard value 3}%
+            \ClassInfoNoLine{brill}{Setting tocdepth to standard value 3}%
          }%
-   }%   
+   }%  
+\AfterTOCHead[toc]{\zlabel{tocstart}}
+\appto\tableofcontents{\zlabel{tocend}\@checktocextent}
+\newcommand*{\@checktocextent}{\ifnumgreater{\zref@extract{tocend}{abspage}-\zref@extract{tocstart}{abspage}}{4}%
+   {\ClassWarningNoLine{brill}{The TOC consists of more than four pages.\MessageBreak%
+         Unless this is confirmed by Brill, you should try\MessageBreak%
+         to reduze the extent by setting the tocdepth option}}%
+   {\ClassInfoNoLine{brill}{The TOC consists of four pages or less. That's fine.}}%
+}
+ 
 \setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=10000}
 \setkomafont{subtitle}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
 \setkomafont{dedication}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}

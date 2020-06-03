@@ -6,9 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Class option `tocdepth` to set the corresponding counter
+- Check, whether TOC consists of more than four pages
+
 ### Changed
 - Rename `\Gah` to `\G` (\#9271)
-- Class options are now all key-value options. All existing option still work.
+- All class options are now key-value options; old options remain valid
 - `nogitver` (`gitver=false`) is now the default
 
 ## [0.36.0] - 2020-06-02
