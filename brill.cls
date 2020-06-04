@@ -32,42 +32,6 @@
 \DeclareVoidOption{alphenumspace}{\setkeys{brill}{alphenumsep=space}}
 \DeclareVoidOption{colourlinks}{\setkeys{brill}{colorlinks=true}}
 
-%\newif\if@corpusavesticum
-%\DeclareOption{CorpusAvesticum}{\@corpusavesticumtrue}%
-%\DeclareOption{localbibfile}{\ClassWarning{brill}{%
-%   The option `localbibfile` is no longer supported.\MessageBreak
-%   Please use \string\addbibresource{}\space directly.}}      
-%\newif\if@enumspace
-%\DeclareOption{enumspace}{\@enumspacetrue}
-%\newif\if@enumparen
-%\DeclareOption{enumparen}{\@enumparentrue}
-%\newif\if@enumenclparen
-%\DeclareOption{enumenclparen}{\@enumenclparentrue}
-%\newif\if@enumdot
-%\DeclareOption{enumdot}{\@enumdottrue}
-%%%
-%\newif\if@alphenumspace
-%\DeclareOption{alphenumspace}{\@alphenumspacetrue}
-%\newif\if@alphenumparen
-%\DeclareOption{alphenumparen}{\@alphenumparentrue}
-%\newif\if@alphenumenclparen
-%\DeclareOption{alphenumenclparen}{\@alphenumenclparentrue}
-%\newif\if@alphenumdot
-%\DeclareOption{alphenumdot}{\@alphenumdottrue}
-%\newif\if@PhD
-%\DeclareOption{PhD}{\PassOptionsToClass{twoside=false}{scrbook}\@PhDtrue}
-%\newif\if@countwords
-%\DeclareOption{countwords}{\@countwordstrue}
-%\newif\if@colourlinks
-%\DeclareOption{printversion}{\@printversiontrue}
-%\newif\if@printversion
-%\DeclareOption{colorlinks}{\@colourlinkstrue}
-%\DeclareOption{colourlinks}{\@colourlinkstrue}
-%\newif\if@gitver
-%\@gitvertrue
-%\DeclareOption{nogitver}{\@gitverfalse}
-%\DeclareOption*{\PassOptionsToClass{\CurrentOption}{scrbook}}
-%\ExecuteOptions{CorpusAvesticum,enumdot,alphenumdot}
 \DeclareDefaultOption{%
    \expandafter\PassOptionsToClass\expandafter\CurrentOption{scrbook}%
 }
@@ -719,6 +683,7 @@
    ]{subparagraph}
    \@namedef{subparagraphsectiontocdepth}{8}
 \fi%
+\@namedef{maxtocdepth}{8}
 \ifbrill@PhD
    \renewcommand{\sectionlinesformat}[4]{%
       \Ifnumbered{#1}
