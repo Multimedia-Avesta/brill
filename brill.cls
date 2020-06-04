@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/06/02 v0.36.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/06/04 v0.40.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {

@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.40.0] - 2020-06-03
+
 ### Added
 - Class option `tocdepth` to set the corresponding counter
 - Check, whether TOC consists of more than four pages
@@ -567,6 +569,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.40.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.40.0
 [0.36.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.36.0
 [0.35.0]:
