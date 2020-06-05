@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,tocdepth=max]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -52,7 +52,16 @@
 \SetAbbreviationsacFile{../../muya.common/abbreviations_ac.tex}
 \DeclareTextCommand{\G}{TU}[1]{GEHT{#1}}% U+030F
 \begin{document}
-\startwordcount
+\gls{Av}{Av.\@}{Avestan}
+\gls{AWN}
+\gls{AY}
+\gls{Bactr}
+\gls{BCE}
+\gls{Bd}
+\gls{BSogd}
+\gls{BUK}
+\gls{ca}
+
 %\frontmatter
 %\title{sa dsa asd ada sdas dasd asd}
 %%\subtitle{dfdfdfdf}
@@ -62,9 +71,10 @@
 \mainmatter
 %\input{latex-apparatus_Y30_26-5-20.txt}
 %\part{Minor Appendices}
-test \H{3.1} vs. \G{3.1}
+%test \H{3.1} vs. \G{3.1}
 
-\chapter{Ein TEst mit \G{3.1} und so weiter}
+\addchap{Abbreviations for Apparatus Criticus}
+\printabbreviationsac
 %\begin{enumerate}
 %   \item Test
 %\end{enumerate}
@@ -96,7 +106,8 @@ test \H{3.1} vs. \G{3.1}
 %
 %{\addfontfeature{RawFeature=+sups}ī\textup{14}}
 %
-
+\printabbreviations
+\end{document}
 %{\addfontfeature{VerticalPosition=Superior}š1}
 \part{Test}
 \chapter{Test}

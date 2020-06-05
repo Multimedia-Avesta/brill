@@ -412,7 +412,7 @@
 ]{part}
 
 \renewcommand{\partlineswithprefixformat}[3]{%
-   \MakeLowercase{#2}\enspace#3%
+   #2\enspace#3%
 }
 \renewcommand*{\thepart}{\arabic{part}}
 \renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
@@ -428,36 +428,39 @@
       \upshape\itshape #2%
    }%
 }
-\newlength{\@chapterheight}
-\patchcmd[]{\scr@@makechapterhead}{\chapterheadstartvskip}{%
-   \settoheight{\@chapterheight}{%
-      \parbox[b]{\textwidth}{%
-         \normalfont\usekomafont{disposition}{%
-            \usekomafont{chapter}{%
-               #2%
-            }%
-         }%
-      }%
-   }%
-   \ifdimless{\@chapterheight}{15pt}{%
-      \setlength{\@addchapterheight}{0bp}%
-   }{%
-      \setlength{\@addchapterheight}{6.4bp}%
-   }%
-   \chapterheadstartvskip%
-}{}{}%
+%\newlength{\@chapterheight}
+%\patchcmd[]{\scr@@makechapterhead}{\chapterheadendvskip}{%
+%%   \settoheight{\@chapterheight}{%
+%%      \parbox[b]{\textwidth}{%
+%%         \normalfont\usekomafont{disposition}{%
+%%            \usekomafont{chapter}{%
+%%               #2%
+%%            }%
+%%         }%
+%%      }%
+%%   }%
+%%   \ifdimless{\@chapterheight}{15pt}{%
+%%      \setlength{\@addchapterheight}{0bp}%
+%%   }{%
+%%      \setlength{\@addchapterheight}{6.4bp}%
+%%   }%
+%   \par\kern-\prevdepth\vspace{0pt}%
+%   \chapterheadendvskip%
+%}{}{}%
 
 \newlength{\@addchaptertocskip}
-\newlength{\@addchapterheight}
+%\newlength{\@addchapterheight}
+%\setlength{\@addchapterheight}{0pt}
 \RedeclareSectionCommand[%
-   beforeskip=-1sp,%
-   afterskip={\dimexpr 2\baselineskip+\@addchapterheight\relax},%
-   innerskip=.5\baselineskip,%
-   font={\LARGE\bfseries},%
-   prefixfont={\normalfont\normalsize\mdseries\addfontfeatures{Numbers=Lining}\scshape},%
-   tocnumwidth=\dimexpr\@tocstartindent\relax,%
-   tocindent=0pt,%
-   tocbeforeskip=\dimexpr\@addchaptertocskip\relax,%
+   beforeskip    = -1sp,%
+%   afterskip={\dimexpr 2\baselineskip+\@addchapterheight\relax},%
+   afterskip     = 2\baselineskip,%
+   innerskip     = 0.5\baselineskip,%
+   font          = \LARGE\bfseries,%
+   prefixfont    = \normalfont\normalsize\mdseries\addfontfeatures{Numbers=Lining}\scshape,%
+   tocnumwidth   = \dimexpr\@tocstartindent\relax,%
+   tocindent     = 0pt,%
+   tocbeforeskip = \dimexpr\@addchaptertocskip\relax,%
 ]{chapter}
 
 \renewcommand*{\chapterformat}{%
@@ -1028,7 +1031,7 @@
                      \endfirsthead
                      \caption*{%
                         \usekomafont{captionlabel}%
-                        \MakeLowercase{\tablename}~\thetable:~%
+                        \tablename~\thetable:~%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1045,7 +1048,7 @@
                      \endfirsthead
                      \caption*{%
                         \usekomafont{captionlabel}%
-                        \MakeLowercase{\tablename}~\thetable:~%
+                        \tablename~\thetable:~%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1228,8 +1231,8 @@
          {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
       \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
 }%
-\renewcommand*{\figureformat}{\MakeLowercase{\figurename}~\thefigure}
-\renewcommand*{\tableformat}{\MakeLowercase{\tablename}~\thetable}
+\renewcommand*{\figureformat}{\figurename~\thefigure}
+\renewcommand*{\tableformat}{\tablename~\thetable}
 \renewcaptionname{british}{\listtablename}{Tables}
 \renewcaptionname{british}{\listfigurename}{Figures}
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
@@ -1360,8 +1363,8 @@
    \renewcommand*{\glsgroupheading}[1]{}%
    \renewcommand{\glossentry}[2]{%
       \@checkforwidestabbreviation{##1}%
-      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}} &
-      \glossentrydesc{##1}\glspostdescription\space ##2%
+      \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}\strut &
+      \glossentrydesc{##1}\glspostdescription\space ##2\strut%
       \tabularnewline%
    }%
    \renewcommand{\subglossentry}[3]{%

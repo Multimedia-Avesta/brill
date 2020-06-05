@@ -635,6 +635,10 @@ brill]
    \begingroup%
    \renewcommand*{\glsgroupskip}{}%
    \renewcommand{\glossarysection}[2][]{}%
+   \renewcommand{\glossarypreamble}{\vspace*{-\baselineskip}\vspace*{-\parskip}\small}%
+   \ifbrill@PhD
+      \renewcommand*{\arraystretch}{1.4}%
+   \fi%
    \printabbreviations[type=appcrit]%
    \endgroup%
 }
