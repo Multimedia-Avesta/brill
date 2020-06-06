@@ -124,33 +124,26 @@ brill]
       \fi%
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
       {\centering
-         %\lineskiplimit=-\maxdimen%
-         %\usebox{\@titlebox}%
-         {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
-%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\smash\parbox[t]{\textwidth}{\@title}}}%
-%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
-%        {\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}%
-         %\vspace*{33bp}%
-         %\ifdimgreater{\@titleskipdiff - \@titleboxht}{0pt}%
-         %   {\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%aufgerundet
-         %   {\vspace{\baselineskip}\vspace{\dimexpr\@titleskipdiff - \@titleboxht\relax}}%abgerundet
-         \ifdimgreater{\ht\@titlebox}{28bp}{\vspace*{3.2bp}}{\vspace*{8.2bp}}%TODO: Fix it
-         %\vspace{\dimexpr 1.5\baselineskip - \dp\@titlebox\relax}%
-         \prevdepth0pt% \vskip 2\baselineskip
+         {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\strut\@title\strut\par\kern-\prevdepth}}%
          \ifx\@subtitle\@empty%
          \else%
-            \vskip 2\baselineskip
-            {%\vspace*{-\dp\@titlebox}%
-             \vspace*{-20bp}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%  
-             %\vspace*{\dimexpr -20bp+\dp\@subtitlebox\relax}\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}%
-            \vspace*{9.2bp}%
+            \vskip 3\baselineskip%
+            {%
+               \vspace{-2bp}%
+               \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\strut\@subtitle\strut\par\kern-\prevdepth}%
+            }%  
          \fi%
-         \prevdepth0pt% 
-         \vskip 3\baselineskip
-        {\normalsize\itshape By\par}
-        \vskip 2\baselineskip
-        \vspace*{-17bp}%
-        {\fontsize{14bp}{17bp}\selectfont\@author\par}%
+         \vskip 3\baselineskip%
+        {%
+           \vspace{3bp}%
+           \normalsize\itshape\strut By\par%
+           \kern-\prevdepth%
+        }%
+        \vskip 1\baselineskip%
+        {%
+           \fontsize{14bp}{17bp}\selectfont\strut\@author\strut\par%
+           \kern-\prevdepth%
+        }%
         \vfill
         \IfFileExists{\@titlelogofile}%
            {\includegraphics[scale=0.8]{\@titlelogofile}\par\vspace*{\baselineskip}}%
