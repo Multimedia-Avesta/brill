@@ -763,7 +763,9 @@ brill]
 
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
-   \minisec{\Av{\passage{#1}}}%
+   \iftoggle{@stanzabooktoindex}%
+      {\@stanzaheading{\Av{\passage{#1}}}}%
+      {\@stanzaheading{#1}}%
    \setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
@@ -807,23 +809,35 @@ brill]
       {\ClassInfo{brill}{There is no file `stanzas.tex`. No stanzas read!}}%
 }
 
-\newcommand{\Getstanza}[1]{%
-   \ifcsdef{stanza-#1}%
-      {\csuse{stanza-#1}}%
-      {\ClassError{brill}{Stanza `#1` could not be read}{There is no macro for stanza `#1`}}%
+% We define key-value options for \GetStanza
+
+\newcommand*{\@defaultstanzaheading}{\minisec}
+\newcommand*{\SetDefaultStanzaheading}[1]{\renewcommand*{\@defaultstanzaheading}{#1}}
+\newcommand*{\@stanzaheading}{}
+\newtoggle{@stanzabooktoindex}
+\settoggle{@stanzabooktoindex}{true}
+\newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
+\define@key{stanza}{heading}{\renewcommand*{\@stanzaheading}{#1}}
+\define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
+\newcommand{\Getstanza}[2][]{%
+   \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
+   \ifcsdef{stanza-#2}%
+      {\csuse{stanza-#2}}%
+      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 \newif\if@editedtextonly
 \def\GetstanzaTextonly{\@ifstar{\@editedtextonlytrue\@GetstanzaTextonly}{\@editedtextonlyfalse\@GetstanzaTextonly}}
-\newcommand{\@GetstanzaTextonly}[1]{%
-   \ifcsdef{stanza-#1}%
+\newcommand{\@GetstanzaTextonly}[2][]{%
+   \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
+   \ifcsdef{stanza-#2}%
       {%
          \begingroup%
             \let\app\@gobble%
-            \csuse{stanza-#1}%
+            \csuse{stanza-#2}%
          \endgroup%
       }%
-      {\ClassError{brill}{Stanza `#1` could not be read}{There is no macro for stanza `#1`}}%
+      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 \newcommand*{\editedtext}[1]{%

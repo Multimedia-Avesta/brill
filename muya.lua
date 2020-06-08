@@ -513,17 +513,17 @@ function read_stanzas_from_file(f, suffix)
    local stanzanr = ''
    local stanzastart = ''
    local stanzaend = ''
+   local text = ''
    local book = ''
    local buf = {}
    
    for k,v in pairs(lines) do
       -- get line k and process it
       local str = lines[k]
-   
+      --texio.write_nl(str .. "\n")
       -- Check, whether a new stanza starts
-      if string.match(str, "^\\begin{stanza}{.-}$") then
-         --texio.write_nl(str .. "\n")
-         book, stanzanr = string.match(str, "^\\begin{stanza}{\\(.-){(.-)}}$")
+      if string.match(str, "^\\begin{stanza}{.-}") then
+         book, stanzanr, text = string.match(str, "^\\begin{stanza}{\\(.-){(.-)}}")
          buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "\n"
       elseif string.match(str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$") then
          stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")

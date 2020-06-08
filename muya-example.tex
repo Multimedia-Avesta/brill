@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid,colorlinks=true]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -51,6 +51,10 @@
 \SetAbbreviationsFile{../../muya.common/abbreviations.tex}
 \SetAbbreviationsacFile{../../muya.common/abbreviations_ac.tex}
 \SetTitleLogoFile{../../muya.common/BRILL.pdf}
+\Importstanzas{latex-apparatus_Y30_26-5-20.txt}
+\SetDefaultStanzaheading{\addsec}
+\SetDefaultStanzabooktoindex{false}
+
 \begin{document}
 %\gls{Av}{Av.\@}{Avestan}
 %\gls{AWN}
@@ -63,13 +67,15 @@
 %\gls{ca}
 
 \frontmatter
-\title{sa dsa asd ada fgfgfg fg f gf gfg fgfg fgfgf g}
-\subtitle{ddddddd dfd fdf ffdfdfdffd fdfdff dfdfdd ffdfdfd fd ffdfdfd fdf d fd}
-\author{dfsdfsdfsfs}
-\maketitle
-%\tableofcontents
+%\title{sa dsa asd ada fgfgfg fg f gf gfg fgfg fgfgf g}
+%\subtitle{ddddddd dfd fdf ffdfdfdffd fdfdff dfdfdd ffdfdfd fd ffdfdfd fdf d fd}
+%\author{dfsdfsdfsfs}
+%\maketitle
+%%\tableofcontents
 \mainmatter
-%\input{latex-apparatus_Y30_26-5-20.txt}
+
+\Getstanza{Y30.3}
+\Getstanza{Y30.2}
 %\part{Minor Appendices}
 %test \H{3.1} vs. \G{3.1}
 
@@ -107,6 +113,7 @@
 %{\addfontfeature{RawFeature=+sups}ī\textup{14}}
 %
 \printabbreviations
+\printindexes
 \end{document}
 %{\addfontfeature{VerticalPosition=Superior}š1}
 \part{Test}

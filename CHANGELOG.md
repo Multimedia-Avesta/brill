@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Key-value options `heading` and `booktoindex` for `Getstanza`
+- Macros `\SetDefaultStanzaheading` and `\SetDefaultStanzabooktoindex`
+
+### Fixed
+- Spacing on title pages
+
 ## [0.40.0] - 2020-06-03
 
 ### Added
