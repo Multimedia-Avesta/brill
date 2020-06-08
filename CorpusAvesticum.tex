@@ -80,8 +80,8 @@ brill]
 
 \newsavebox\@titlebox
 \newsavebox\@subtitlebox
-\newlength{\@titleboxht}
 \newlength{\@titleskip}
+\newlength{\@subtitleskip}
 \renewcommand*{\maketitle}[1][1]{%
    \InputIfFileExists{titlepages.tex}%
       {\ClassInfo{brill}{Information for title pages successfully loaded}}%
@@ -100,13 +100,14 @@ brill]
       \let\@oldmakefnmark\@makefnmark
       \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
       %%% Calculate title size
-      \savebox{\@titlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\par}}}%
-      \savebox{\@subtitlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\par}}}%
-      %\setlength{\@titleboxht}{\ht\@titlebox}%
-      %\addtolength{\@titleboxht}{\dp\@titlebox}%
-      %\numdef{\@titleskip}{\dimexpr\@titleboxht / \baselineskip}%
-      %\dimdef{\@titleskipdiff}{\@titleskip\baselineskip}
-      %\dimdef{\@@titleskipdiff}{\@titleskipdiff - \@titleboxht}
+      \savebox{\@titlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\strut\par\kern-\prevdepth}}}%
+      \savebox{\@subtitlebox}{\parbox[b]{\textwidth}{\centering\usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\strut\par\kern-\prevdepth}}}%
+      \ifdimless{\ht\@titlebox}{30bp}{\setlength{\@titleskip}{0pt}}{%
+         \ifdimless{\ht\@titlebox}{60bp}{\setlength{\@titleskip}{6.6bp}}{\setlength{\@titleskip}{0pt}}%
+      }
+      \ifdimless{\ht\@subtitlebox}{20bp}{\setlength{\@titleskip}{0pt}}{%
+         \ifdimless{\ht\@subtitlebox}{40bp}{\setlength{\@titleskip}{6.8bp}}{\setlength{\@titleskip}{12.8bp}}%
+      }
       \ifx\@extratitle\@empty
         \ifx\@frontispiece\@empty
         \else
@@ -124,14 +125,16 @@ brill]
       \fi%
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
       {\centering
-         {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\strut\@title\strut\par\kern-\prevdepth}}%
+         {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\strut\par\kern-\prevdepth}}%
+         \vskip\@titleskip%
          \ifx\@subtitle\@empty%
          \else%
             \vskip 3\baselineskip%
             {%
                \vspace{-2bp}%
                \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\strut\@subtitle\strut\par\kern-\prevdepth}%
-            }%  
+            }%
+            \vskip\@subtitleskip%  
          \fi%
          \vskip 3\baselineskip%
         {%
