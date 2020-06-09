@@ -608,44 +608,31 @@ brill]
 }
 
 % We need a second abbreviation list for the apparatus criticus
-%\glsaddstoragekey{font}{}{\entryfont}
-%\glssetcategoryattribute{appcritfixed}{textformat}{abbrevacfont}
-%\glssetcategoryattribute{general}{font}{abbrevac}
-%\renewcommand*{\glsxtrregularfont}[1]{%
-%   \glsifattribute{\glslabel}{font}{abbrevac}{\textsf{#1}}{#1}}
-\newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the apparatus criticus}
-%\renewcommand*{\acronymfont}[1]{{\entryfont{\glslabel}##1}}%
-%\renewcommand*{\acronymentry}[1]{{\entryfont{##1}\glsentryshort{##1}}}%
-%\renewcommand*{\acronymfont}[1]{{\entryfont{\glslabel}#1}}%
-%\newcommand*{\abbrevacfont}[1]{\textup{#1}}
-%\newrobustcmd{\abbrevacfont}[1]{%
-%   {%
-%      \def\glsxtrabbreviationfont##1{\GlsXtrExpandedFmt{\textup}{##1}}%
-%      \def\glsxtrregularfont##1{\GlsXtrExpandedFmt{\textup}{##1}}%
-%      #1%
-%   }%
-%}
+\newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the Apparatus Criticus}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
 \newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\AtEndDocument{\glsadd{#2}}}
 \newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
-
-%\newenvironment{abbreviationsac}
-%   {\begin{longtabu} to \textwidth{%
-%      @{}p{3cm}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
-%   {\end{longtabu}}      
-
-\newcommand{\printabbreviationsac}{%
+\def\printabbreviationsac{\@ifstar\@printabbreviationsac\@@printabbreviationsac}
+\newcommand{\@printabbreviationsac}{%
+   \begingroup%
+      \renewcommand*{\glsgroupskip}{}%
+      \ifbrill@PhD
+         \renewcommand*{\arraystretch}{1.4}%
+      \fi%
+      \renewcommand{\glossarysection}[2][]{}%
+      \printabbreviations[type=appcrit]%
+   \endgroup%
+}
+\newcommand{\@@printabbreviationsac}[1][]{%
    \begingroup%
    \renewcommand*{\glsgroupskip}{}%
-   \renewcommand{\glossarysection}[2][]{}%
-   \renewcommand{\glossarypreamble}{\vspace*{-\baselineskip}\vspace*{-\parskip}\small}%
    \ifbrill@PhD
       \renewcommand*{\arraystretch}{1.4}%
    \fi%
-   \printabbreviations[type=appcrit]%
+   \printabbreviations[type=appcrit,#1]%
    \endgroup%
 }
-%\AtEndDocument{\glsaddall[category=fixed]}
+%
 % We define macros to be used (only) within the apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcommand{\appcrnewline}{\par\noindent\hangindent\parindent\hangafter=1\relax}

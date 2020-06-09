@@ -6,12 +6,22 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.41.0] . 2020-06-09
+
 ### Added
-- Key-value options `heading` and `booktoindex` for `Getstanza`
-- Macros `\SetDefaultStanzaheading` and `\SetDefaultStanzabooktoindex`
+- Key-value options `heading` and `booktoindex` for `Getstanza` (\#9311)
+- Macros `\SetDefaultStanzaheading` and `\SetDefaultStanzabooktoindex` (\#9311)
+- `\printabbreviationsac*` for list without header
+- Optional argument for `\printabbreviationsac` for setting another title
+
+### Changed
+- `\printabbreviationsac` prints header again
+- Set `\arraystretch` to 1.4 for `\printabbreviationsac` in PhD mode (\#9307)
 
 ### Fixed
 - Spacing on title pages
+- Chapters inside `backmatter` start on a left- or right-hand page, whichever is available (Brill, p. 20)
+- Spacing within `Abbreviations` lists
 
 ## [0.40.0] - 2020-06-03
 

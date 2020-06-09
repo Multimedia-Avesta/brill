@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid,colorlinks=true]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=true,showgrid,colorlinks=true]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -71,15 +71,15 @@
 %\subtitle{ddddddd dfd fdf ffdfdfdffd fdfdff dfdfdd ffdfdfd fd ffdfdfd fdf d fd}
 %\author{dfsdfsdfsfs}
 %\maketitle
-%%\tableofcontents
+\tableofcontents
 \mainmatter
 
 \Getstanza{Y30.3}
-\Getstanza{Y30.2}
+%\Getstanza{Y30.2}
 %\part{Minor Appendices}
 %test \H{3.1} vs. \G{3.1}
 
-\addchap{Abbreviations for Apparatus Criticus}
+%\addchap{Abbreviations for Apparatus Criticus}
 \printabbreviationsac
 %\begin{enumerate}
 %   \item Test
@@ -111,9 +111,10 @@
 %{\addfontfeature{RawFeature=+supkern;+sups}ī\upshape 14}
 %
 %{\addfontfeature{RawFeature=+sups}ī\textup{14}}
-%
+\backmatter
+%\addchap{Abbreviations for Appa}
 \printabbreviations
-\printindexes
+%\printindexes
 \end{document}
 %{\addfontfeature{VerticalPosition=Superior}š1}
 \part{Test}

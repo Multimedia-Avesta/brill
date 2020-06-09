@@ -1313,7 +1313,7 @@
    nosuper,%
    automake=immediate,
    xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
-%%\RequirePackage{glossary-longbooktabs}
+%
 \newdimen\widestabbreviation
 \setlength{\widestabbreviation}{0pt}
 
@@ -1353,11 +1353,16 @@
          }%
       }%
 }%
-
+\newlength{\@pdepth}
+\settodepth{\@pdepth}{\usekomafont{chapter}p}
 \newglossarystyle{brill}{%
    \renewenvironment{theglossary}%
-      {\begin{longtabu} to%
-       \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}}%
+      {%
+         \setlength{\LTpre}{0pt}%
+         \setlength{\LTpost}{0pt}%
+         \begin{longtabu} to%
+            \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+      }%
       {\end{longtabu}}%
    \renewcommand*{\glossaryheader}{}%
    \renewcommand*{\glsgroupheading}[1]{}%
@@ -1381,7 +1386,7 @@
    \fi%
 }
 \setglossarystyle{brill}
-\renewcommand{\glossarypreamble}{\small}
+\renewcommand{\glossarypreamble}{\kern-\prevdepth\vskip\@pdepth\small}%
 
 \setabbreviationstyle{short-nolong}
 \renewcommand{\glsnamefont}[1]{\normalfont\mdseries #1}
@@ -1391,7 +1396,6 @@
 \crefname{subfoursection}{section}{sections}
 \crefname{subfivesection}{section}{sections}
 
-%%\renewcaptionname{british}{\acronymname}{Abbreviations}
 \appto\captionsbritish{%
    \renewcommand*{\abbreviationsname}{Abbreviations}%
 }
@@ -1561,6 +1565,7 @@
 
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
+   \KOMAoptions{open=any}%
    \begingroup%
       \let\origwrite\write
       \def\write{\immediate\origwrite}%
