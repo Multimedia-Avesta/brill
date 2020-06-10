@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.42.0] - 2020-06-10
+
+### Added
+- Key-value options `add` and `remove` for `\printabbreviationsac` (\#9280)
+
+### Changed
+- Default heading for list of abbreviations in the apparatus criticus
+
 ## [0.41.0] - 2020-06-09
 
 ### Added
@@ -587,6 +595,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.42.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.42.0
 [0.41.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.41.0
 [0.40.0]:

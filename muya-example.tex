@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid=false,colorlinks=true]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid=true,colorlinks=true]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -78,8 +78,9 @@
 %\part{Minor Appendices}
 %test \H{3.1} vs. \G{3.1}
 
-\addchap{Abbreviations for Apparatus Criticus}
+\chapter*{Abbreviations for Apparatus Criticus}
 %\glsunset{abbreviation}
+%\printabbreviationsac[remove={restorer,altread},add={abbreviation},title={Test y}]
 \printabbreviationsac*
 %\begin{enumerate}
 %   \item Test

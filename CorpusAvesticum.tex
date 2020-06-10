@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/06/09 v0.41.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/06/10 v0.42.0 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -610,11 +610,47 @@ brill]
 % We need a second abbreviation list for the apparatus criticus
 \newglossary{appcrit}{appcritin}{appcritout}{Sigla and Abbreviations Used in the Critical Apparatus}
 \newcommand*{\@listabbreviationsac}{}
+\newcommand*{\@listabbreviationsacadd}{}
+\newcommand*{\@listabbreviationsacremove}{}
+\newcommand*{\@additemtoacaddlist}[1]{\listgadd{\@listabbreviationsacadd}{#1}}
+\newcommand*{\@additemtoacremovelist}[1]{\listgadd{\@listabbreviationsacremove}{#1}}
+\newcommand*{\@removeitemfromaclist}[1]{\listgremove{\@listabbreviationsac}{#1}}
+\define@key{ac}{add}{\forcsvlist{\@additemtoacaddlist}{#1}}
+\define@key{ac}{remove}{\forcsvlist{\@additemtoacremovelist}{#1}}
+\newcommand*{\actitle}{Sigla and Abbreviations Used in the Critical Apparatus}
+\define@key{ac}{title}{\renewcommand*{\actitle}{#1}}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
 \newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\listgadd{\@listabbreviationsac}{#2}}
 \newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
 \def\printabbreviationsac{\@ifstar\@printabbreviationsac\@@printabbreviationsac}
-\newcommand{\@printabbreviationsac}{%
+\newcommand{\@printabbreviationsac}[1][]{%
+   \setkeys{ac}{#1}%
+   % If the list of items to be removed is empty, do nothing. 
+   % Otherwise go through the list and remove all list items from the overall
+   % list.
+   \ifdefempty{\@listabbreviationsacremove}%
+      {% Now check, whether add option was given as well
+         \ifdefempty{\@listabbreviationsacadd}%
+            {% No additions, no removals. Add all entries to the abbreviation list
+               \forlistloop{\glsadd}{\@listabbreviationsac}%
+            }%
+            {%
+               % Clear list
+%%%               \renewcommand*{\@listabbreviationsac}{}%
+               % Add only specific entries
+               \forlistloop{\glsadd}{\@listabbreviationsacadd}%
+            }%
+      }%
+      {%
+         \ifdefempty{\@listabbreviationsacadd}%
+            {}%
+            {%
+               \ClassWarning{brill}{Key-value options `add` and `remove` can not be used together!\MessageBreak
+               `add` option is ignored!}%
+            }%
+         \forlistloop{\@removeitemfromaclist}{\@listabbreviationsacremove}%
+         \forlistloop{\glsadd}{\@listabbreviationsac}%
+      }%
    \begingroup%
       \renewcommand*{\glsgroupskip}{}%
       \renewcommand{\glossarypreamble}{\small}%
@@ -622,17 +658,41 @@ brill]
          \renewcommand*{\arraystretch}{1.4}%
       \fi%
       \renewcommand{\glossarysection}[2][]{}%
-      \forlistloop{\glsadd}{\@listabbreviationsac}%
       \printabbreviations[type=appcrit]%
    \endgroup%
 }
 \newcommand{\@@printabbreviationsac}[1][]{%
+   \setkeys{ac}{#1}%
+   % Same as above
+   \ifdefempty{\@listabbreviationsacremove}%
+   {% Now check, whether add option was given as well
+      \ifdefempty{\@listabbreviationsacadd}%
+      {% No additions, no removals. Add all entries to the abbreviation list
+         \forlistloop{\glsadd}{\@listabbreviationsac}%
+      }%
+      {%
+         % Clear list
+         %%%               \renewcommand*{\@listabbreviationsac}{}%
+         % Add only specific entries
+         \forlistloop{\glsadd}{\@listabbreviationsacadd}%
+      }%
+   }%
+   {%
+      \ifdefempty{\@listabbreviationsacadd}%
+         {}%
+         {%
+            \ClassWarning{brill}{Key-value options `add` and `remove` can not be used together!\MessageBreak
+               `add` option is ignored!}%
+         }%
+      \forlistloop{\@removeitemfromaclist}{\@listabbreviationsacremove}%
+      \forlistloop{\glsadd}{\@listabbreviationsac}%
+   }%
    \begingroup%
    \renewcommand*{\glsgroupskip}{}%
    \ifbrill@PhD
       \renewcommand*{\arraystretch}{1.4}%
    \fi%
-   \printabbreviations[type=appcrit,#1]%
+   \printabbreviations[type=appcrit,title={\actitle}]%
    \endgroup%
 }
 %
