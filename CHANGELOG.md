@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.41.0] . 2020-06-09
+## [0.41.0] - 2020-06-09
 
 ### Added
 - Key-value options `heading` and `booktoindex` for `Getstanza` (\#9311)
@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Spacing on title pages
 - Chapters inside `backmatter` start on a left- or right-hand page, whichever is available (Brill, p. 20)
 - Spacing within `Abbreviations` lists
+- Set width of box of subreadings to `1.5\parindent` to have enough space for `opr.`
 
 ## [0.40.0] - 2020-06-03
 
@@ -586,6 +587,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.41.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.41.0
 [0.40.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.40.0
 [0.36.0]:

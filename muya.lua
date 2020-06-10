@@ -1,4 +1,4 @@
--- 2020/05/30 v0.35.0
+-- 2020/06/09 v0.41.0
 local ustring = require( 'ustring' )
 
 function modifySorting()

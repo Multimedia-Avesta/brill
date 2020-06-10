@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/06/04 v0.40.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/06/09 v0.41.0 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -687,7 +687,7 @@ brill]
    \if@subreading
       \ifstrempty{#1}%
          {\gappto{\@appcr}{\begin{appcrenum}\item[]}}%
-         {\gappto{\@appcr}{\begin{appcrenum}\item[]\makebox[\normalparindent][l]{#1}}}%#1\hspace{0.5em}}}
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]\makebox[1.5\normalparindent][l]{#1}}}%
    \fi%
    \@firstwitclasstrue%
    \@firstwitsubclasstrue%

@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=true,showgrid,colorlinks=true]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid=false,colorlinks=true]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -51,9 +51,9 @@
 \SetAbbreviationsFile{../../muya.common/abbreviations.tex}
 \SetAbbreviationsacFile{../../muya.common/abbreviations_ac.tex}
 \SetTitleLogoFile{../../muya.common/BRILL.pdf}
-\Importstanzas{latex-apparatus_Y30_26-5-20.txt}
-\SetDefaultStanzaheading{\addsec}
-\SetDefaultStanzabooktoindex{false}
+\Importstanzas{../../muya.redard/muyaSrosDron/latex-apparatus_Y3-8.txt}
+%\SetDefaultStanzaheading{\addsec}
+%\SetDefaultStanzabooktoindex{false}
 
 \begin{document}
 %\gls{Av}{Av.\@}{Avestan}
@@ -73,14 +73,13 @@
 %\maketitle
 \tableofcontents
 \mainmatter
-
-\Getstanza{Y30.3}
+\Getstanza{Y3.3}
 %\Getstanza{Y30.2}
 %\part{Minor Appendices}
 %test \H{3.1} vs. \G{3.1}
 
 %\addchap{Abbreviations for Apparatus Criticus}
-\printabbreviationsac
+\printabbreviationsac[]
 %\begin{enumerate}
 %   \item Test
 %\end{enumerate}
