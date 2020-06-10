@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.41.0] - 2020-06-09
 
 ### Added
-- Key-value options `heading` and `booktoindex` for `Getstanza` (\#9311)
+- Key-value options `heading` and `booktoindex` for `\Getstanza` (\#9311)
 - Macros `\SetDefaultStanzaheading` and `\SetDefaultStanzabooktoindex` (\#9311)
 - `\printabbreviationsac*` for list without header
 - Optional argument for `\printabbreviationsac` for setting another title
@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Spacing on title pages
 - Chapters inside `backmatter` start on a left- or right-hand page, whichever is available (Brill, p. 20)
 - Spacing within `Abbreviations` lists
-- Set width of box of subreadings to `1.5\parindent` to have enough space for `opr.`
+- Set width of box for subreadings to `1.5\parindent` to have enough space for `opr.` (\#9323)
 
 ## [0.40.0] - 2020-06-03
 
