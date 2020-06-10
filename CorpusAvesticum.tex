@@ -608,18 +608,21 @@ brill]
 }
 
 % We need a second abbreviation list for the apparatus criticus
-\newglossary{appcrit}{appcritin}{appcritout}{Abbreviations for the Apparatus Criticus}
+\newglossary{appcrit}{appcritin}{appcritout}{Sigla and Abbreviations Used in the Critical Apparatus}
+\newcommand*{\@listabbreviationsac}{}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
-\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\AtEndDocument{\glsadd{#2}}}
+\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\listgadd{\@listabbreviationsac}{#2}}
 \newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
 \def\printabbreviationsac{\@ifstar\@printabbreviationsac\@@printabbreviationsac}
 \newcommand{\@printabbreviationsac}{%
    \begingroup%
       \renewcommand*{\glsgroupskip}{}%
+      \renewcommand{\glossarypreamble}{\small}%
       \ifbrill@PhD
          \renewcommand*{\arraystretch}{1.4}%
       \fi%
       \renewcommand{\glossarysection}[2][]{}%
+      \forlistloop{\glsadd}{\@listabbreviationsac}%
       \printabbreviations[type=appcrit]%
    \endgroup%
 }
