@@ -1430,13 +1430,13 @@
 \renewenvironment{quote}%
    {%
     \par\vspace{\baselineskip}%
-    \addmargin[2\parindent]{0pt}%
+    \ifcsdef{blocktrans\@currvalblocktrans}%
+      {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
+      {\addmargin[2\parindent]{0pt}}%
     \ignorespaces%
     \aftergroup\useignorespacesandallpars%
-%    \ifstrempty{#1}{}{\def\@source{#1}}
    }%
    {%
-%    \ifdef{\@source}{\\*\hspace*{2\parindent}\@source}{}%
     \endaddmargin%
     \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
@@ -1448,11 +1448,11 @@
    \par\nopagebreak\vspace{\baselineskip}%
 }
 
-\newcommand{\linebreakwithindent}{\par\hangindent=1em\hangafter=1\relax}
-\newcommand{\blocktransnewline}{%
+\newcommand{\@linebreakwithindent}{\par\hangindent=\normalparindent\hangafter=1\relax}
+\newcommand{\@blocktransnewline}{%
    \immediate\write\@auxout{%
-      \csgdef{blocktrans\currvalblocktrans}{}}%
-   \linebreakwithindent%
+      \csgdef{blocktrans\@currvalblocktrans}{}}%
+   \@linebreakwithindent%
 }
 
 \newcounter{blocktrans}
@@ -1501,9 +1501,10 @@
 % Normal version
 \newcommand{\@@blocktranslation}[3]{%
    \refstepcounter{blocktrans}%
-   \xdef\currvalblocktrans{\theblocktrans}%
+   \xdef\@currvalblocktrans{\theblocktrans}%
    \begin{displayquote}%
-      \let\newline\blocktransnewline%
+      \let\newline\@blocktransnewline%
+      \let\\\@blocktransnewline%
       \ifstrempty{#1}%
          {\ifstrempty{#2}%
             {\noindent #3}%
@@ -1523,8 +1524,8 @@
                \ifstrempty{#3}%
                   {}%
                   {%
-                     \ifcsdef{blocktrans\currvalblocktrans}%
-                        {\linebreakwithindent\vspace{\baselineskip}}%
+                     \ifcsdef{blocktrans\@currvalblocktrans}%
+                        {\@linebreakwithindent\vspace{\baselineskip}}%
                         {\par\vspace{\baselineskip}\noindent}%
                      #3%
                   }%

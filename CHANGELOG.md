@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Hanging text for `\Gettranslation` (\#9337)
+
+### Fixed
+- Hanging text for `\blocktranslation` was broken (\#8955)
+
 ## [0.42.0] - 2020-06-10
 
 ### Added

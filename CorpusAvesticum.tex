@@ -1121,25 +1121,50 @@ brill]
    \ifstrempty{#1}{}{\csgdef{rd-#2}{#1}}%
 }
 \let\newtranslation\Newtranslation
+\newcommand{\@gettransnewline}{%
+   \immediate\write\@auxout{%
+      \csgdef{gettrans\@currvalgettrans}{}}%
+   \@linebreakwithindent%
+}
+
+\newcounter{gettrans}
+
 \def\Gettranslation{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{%
-   \bgroup%
-   \let\RDTrans\@gobble%
-   \csuse{translation-#1}%
-   \egroup%
+   \begingroup%
+      \setlength{\parindent}{0pt}%
+      \let\@normalcr\@linebreakwithindent%
+      \let\RDTrans\@gobble%
+      \par\noindent%
+      \csuse{translation-#1}%
+      \@linebreakwithindent%
+   \endgroup%
 }
 \newcommand{\@@Gettranslation}[2][]{%
-   \IfStrEqCase{#1}{%
-      {t}{%
-            \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
-            \csuse{translation-#2}%
-         }%
-      {m}{}%
-      {b}{%
-            \csuse{translation-#2}%
-            \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
-         }%
-   }[\csuse{translation-#2}]%
+   \refstepcounter{gettrans}%
+   \xdef\@currvalgettrans{\thegettrans}%
+   \begingroup%
+      \let\newline\@gettransnewline%
+      \let\\\@gettransnewline%
+      \setlength{\parindent}{0pt}%
+      \par\noindent%
+      \IfStrEqCase{#1}{%
+         {t}{%
+               \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+               \csuse{translation-#2}%
+            }%
+         {m}{}%
+         {b}{%
+               \csuse{translation-#2}%
+               \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
+            }%
+      }[\ifcsdef{gettrans\@currvalgettrans}%
+         {\@linebreakwithindent\vspace{\baselineskip}}%
+         {\par\vspace{\baselineskip}\noindent}%
+         \csuse{translation-#2}%
+         \@linebreakwithindent%
+       ]%
+   \endgroup%
 }
 \let\gettranslation\Gettranslation
 \newcommand{\AvTr}[1]{#1}
