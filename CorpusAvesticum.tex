@@ -811,10 +811,18 @@ brill]
    nosep%
 }
 
+\let\@ORIGminisec\minisec
+\long\def\minisec{\@minisec}
+\newcommand{\@minisec}[2][]{\@ORIGminisec{#2}}
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
    \iftoggle{@stanzabooktoindex}%
-      {\@stanzaheading{\Av{\passage{#1}}}}%
+      {%
+         %\long\def\@temph{\minisec}%
+         %\Ifstr{\@stanzaheading}{\@temph}%
+         %   {\minisec{\Av{\passage{#1}}}}%
+            \@stanzaheading[#1]{\Av{\passage{#1}}}%
+      }%
       {\@stanzaheading{#1}}%
    \setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
@@ -861,13 +869,13 @@ brill]
 
 % We define key-value options for \GetStanza
 
-\newcommand*{\@defaultstanzaheading}{\minisec}
-\newcommand*{\SetDefaultStanzaheading}[1]{\renewcommand*{\@defaultstanzaheading}{#1}}
-\newcommand*{\@stanzaheading}{}
+\newcommand{\@defaultstanzaheading}{\minisec}
+\newcommand{\SetDefaultStanzaheading}[1]{\renewcommand{\@defaultstanzaheading}{#1}}
+\newcommand{\@stanzaheading}{}
 \newtoggle{@stanzabooktoindex}
 \settoggle{@stanzabooktoindex}{true}
 \newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
-\define@key{stanza}{heading}{\renewcommand*{\@stanzaheading}{#1}}
+\define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
 \define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
 \newcommand{\Getstanza}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%

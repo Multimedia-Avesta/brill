@@ -48,7 +48,7 @@
    captions=rightbeside,%
    chapterprefix,%
    listof=leveldown,%
-   open=any,%
+   open=any,%TODO: right?
    toc=bibliography,%
    toc=numberline,%
 ]{scrbook}[2018/03/30]
