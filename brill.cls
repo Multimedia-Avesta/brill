@@ -1425,20 +1425,30 @@
     {}%
 }
 
-%\let\quote\@undefined
-%\let\endquote\@undefined
 \renewenvironment{quote}%
    {%
     \par\vspace{\baselineskip}%
-    \ifcsdef{blocktrans\@currvalblocktrans}%
-      {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
-      {\addmargin[2\parindent]{0pt}}%
+    \addmargin[2\parindent]{0pt}%
     \ignorespaces%
     \aftergroup\useignorespacesandallpars%
    }%
    {%
     \endaddmargin%
     \par\vspace{\baselineskip}\noindent\ignorespaces%
+   }%
+
+\newenvironment{@btquote}%
+   {%
+      \par\vspace{\baselineskip}%
+      \ifcsdef{blocktrans\@currvalblocktrans}%
+         {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
+         {\addmargin[2\parindent]{0pt}}%
+      \ignorespaces%
+      \aftergroup\useignorespacesandallpars%
+   }%
+   {%
+      \endaddmargin%
+      \par\vspace{\baselineskip}\noindent\ignorespaces%
    }%
 
 \newcommand{\beforeblocktranslation}[1]{%
@@ -1502,7 +1512,7 @@
 \newcommand{\@@blocktranslation}[3]{%
    \refstepcounter{blocktrans}%
    \xdef\@currvalblocktrans{\theblocktrans}%
-   \begin{displayquote}%
+   \begin{@btquote}%
       \let\newline\@blocktransnewline%
       \let\\\@blocktransnewline%
       \ifstrempty{#1}%
@@ -1511,7 +1521,7 @@
             {%
                #2%
                \ifstrempty{#3}{}{%
-                  \par\vspace{\baselineskip}\noindent%
+                  \par\nopagebreak\vspace{\baselineskip}\noindent%
                   #3%
                }%
             }%
@@ -1525,13 +1535,13 @@
                   {}%
                   {%
                      \ifcsdef{blocktrans\@currvalblocktrans}%
-                        {\@linebreakwithindent\vspace{\baselineskip}}%
-                        {\par\vspace{\baselineskip}\noindent}%
+                        {\@linebreakwithindent\nopagebreak\vspace{\baselineskip}}%
+                        {\par\nopagebreak\vspace{\baselineskip}\noindent}%
                      #3%
                   }%
             }%
          }%
-   \end{displayquote}%
+   \end{@btquote}%
 }%
 
 \newif\if@splittranslation
