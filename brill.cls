@@ -153,13 +153,13 @@
 %   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
 %   {}%
 %   {\ClassWarning{brill}{Patch of realsuperscript failed}}
-\defaultfontfeatures{Ligatures={TeX,Common,NoRare}}
+\defaultfontfeatures{Ligatures={TeX}}
 % Uses proportional oldstyle numbers by default
 %\setmainfont{Brill}[RawFeature={+ktest+thetasubst},SmallCapsFeatures = {RawFeature=+c2sc}]
-\setmainfont{Brill}[SmallCapsFeatures = {RawFeature=+c2sc}]
+\setmainfont{Brill}[Ligatures={Common,NoRare},SmallCapsFeatures = {RawFeature=+c2sc}]
 \newfontfamily{\trackingfont}{Brill}
 [%
-   Ligatures      = {NoCommon},%
+   Ligatures      = {NoCommon,NoRare},%
    WordSpace      = {1.35,1.45,1.55},%
    LetterSpace    = 12.5,%
 ]%
@@ -170,7 +170,8 @@
    BoldFont       = *Bold,%
    ItalicFont     = *Italic,%
    BoldItalicFont = *BoldItalic,%
-   Scale          = MatchLowercase,% 
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
 ]% 
 \newfontfamily{\freesans}{FreeSans}%
 [%
@@ -179,7 +180,8 @@
    BoldFont       = *Bold,%
    ItalicFont     = *Oblique,%
    BoldItalicFont = *BoldOblique,%
-   Scale          = MatchLowercase,% 
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
 ]% 
 \newfontfamily{\avestanfont}{NotoSansAvestan}%
 [%
@@ -187,6 +189,7 @@
    UprightFont    = *-Regular,%
    Scale          = MatchLowercase,%
    Script         = Avestan,%
+   Ligatures      = {Common},%
 ]%
 \newfontfamily{\gujaratifont}{NotoSerifGujarati}%
 [%
@@ -203,6 +206,7 @@
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
    Script         = Arabic,%
+   Ligatures      = {Common},%
 ]%
 \newfontfamily{\pahlavifont}{KHUSRO__}%
 [%
