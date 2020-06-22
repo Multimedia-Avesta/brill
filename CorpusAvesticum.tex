@@ -228,27 +228,54 @@ brill]
    \endgroup%
    \printindex[namesandsubjects]%
 }
-\makeindex[%
-   name=words,%
-   title={Index of Words},%
-   columns=2,%
-   columnsep=4mm,%
-   options={--noheadings --config muya}
+\ifbrill@PhD
+   \makeindex[%
+      name=words,%
+      title={Index of Words},%
+      columns=3,%
+      columnsep=4mm,%
+      options={--noheadings --config muya}
    ]%
-\makeindex[%
-   name=passages,%
-   title={Index of Passages},%
-   columns=2,%
-   columnsep=4mm,%
-   options={--noheadings --config muyaPassages}
+   \makeindex[%
+      name=passages,%
+      title={Index of Passages},%
+      columns=3,%
+      columnsep=4mm,%
+      options={--noheadings --config muyaPassages}
    ]%
-\makeindex[%
-   name=namesandsubjects,%
-   title={Index of Names and Subjects},%
-   columns=2,%
-   columnsep=4mm,%
-   options={--noheadings --config brill}
+   \makeindex[%
+      name=namesandsubjects,%
+      title={Index of Names and Subjects},%
+      columns=3,%
+      columnsep=4mm,%
+      options={--noheadings --config brill}
    ]%
+\else
+   \makeindex[%
+      name=words,%
+      title={Index of Words},%
+      columns=2,%
+      columnsep=4mm,%
+      options={--noheadings --config muya}
+      ]%
+   \makeindex[%
+      name=passages,%
+      title={Index of Passages},%
+      columns=2,%
+      columnsep=4mm,%
+      options={--noheadings --config muyaPassages}
+      ]%
+   \makeindex[%
+      name=namesandsubjects,%
+      title={Index of Names and Subjects},%
+      columns=2,%
+      columnsep=4mm,%
+      options={--noheadings --config brill}
+      ]%
+\fi%   
+
+\newcommand{\indexheaderfont}[1]{{\LARGE\bfseries #1}}
+   
 \protected\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
@@ -710,14 +737,20 @@ brill]
    \gappto{\@appcr}{\item }#1%
 }
 % We define a macro for ritual directions
-\newcommand{\rd}[1]{%TODO: Spacing
+% The normal macro starts with a newline and some spacing while the starred
+% variant starts rightaway.
+\newif\if@startwithnewline
+\@startwithnewlinetrue
+\def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
+\newcommand{\@rd}[1]{%TODO: Spacing
    \if@editedtextonly\else
-      \par\vspace{.5\baselineskip}%
+      \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
       \begingroup%
       %\let\newline\appcrnewline%
       \tolerance=1%
       \emergencystretch=\maxdimen%
       \hyphenpenalty=10000%
+      %\exhyphenpenalty=10000%
       \hbadness=10000%
       \noindent% 
       \hangindent\parindent\hangafter=1\relax%
@@ -791,7 +824,9 @@ brill]
 
 % We manually count the words/footnotes in our editorial texts based 
 % on \cs{app} calls
-\newcounter{appcrfootnote}
+\newcounter{stanza}
+\newcounter{appcrfootnote}[stanza]
+\renewcommand{\theHappcrfootnote}{\thestanza.\arabic{appcrfootnote}}
 \newcounter{nextappcrfootnote}
 % We define a list of two levels
 \newlist{appcrenum}{enumerate}{2}
@@ -816,6 +851,7 @@ brill]
 \newcommand{\@minisec}[2][]{\@ORIGminisec{#2}}
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
+   \stepcounter{stanza}%
    \iftoggle{@stanzabooktoindex}%
       {%
          %\long\def\@temph{\minisec}%
@@ -824,7 +860,7 @@ brill]
             \@stanzaheading[#1]{\Av{\passage{#1}}}%
       }%
       {\@stanzaheading{#1}}%
-   \setcounter{appcrfootnote}{0}%
+   %\setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
@@ -918,7 +954,13 @@ brill]
 
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
-\newcommand{\foreign}[2][]{\textup{#2}}
+\newcommand{\foreign}[2][]{%
+   \IfStrEqCase{#1}{%
+      {pal-Phlv}{\Phl{#2}}%
+      {fa}{\MP{#2}}%TODO: Correct language?
+%      {}{}
+   }[\textup{#2}]%
+}
 %%%
 \newbook{A}
 \newbook{AAM}
@@ -1252,13 +1294,13 @@ brill]
    \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
 \newcommand*{\@@Subsubsublemma}[1]{\item[#1]\@firstattestationtrue}
 
-\makeindex[%
-   name=dictionary,%
-   title={Index of Words},%
-   columns=2,%
-   columnsep=4mm,%
-   options={--noheadings --config muya}
-   ]%
+%\makeindex[%
+%   name=dictionary,%
+%   title={Index of Words},%
+%   columns=2,%
+%   columnsep=4mm,%
+%   options={--noheadings --config muya}
+%   ]%
 \newcommand*{\Lemma}[2][]{\item[#2]}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
