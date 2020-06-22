@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.44.0] - 2020-06-19
+
+### Added
+- Support for `\rd*` (no newline) (\#9327)
+
+### Fixed
+- `\Getstanza` no longer writes TOC entries with index macros
+- `Ligatures` option for `fontspec` modified to get rid of font warnings
+
 ## [0.43.0] - 2020-06-17
 
 ### Added
@@ -606,6 +615,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.44.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.44.0
 [0.43.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.43.0
 [0.42.0]:

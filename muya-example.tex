@@ -6,7 +6,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \listfiles
 %\PassOptionsToPackage{showframe}{geometry}
-\documentclass[series=CorpusAvesticum,gitver=true,PhD=false,showgrid=true,colorlinks=true]{brill}
+\documentclass[series=CorpusAvesticum,gitver=true,PhD=true,showgrid=false,colorlinks=true]{brill}
 %\directlua{
 %fonts.handlers.otf.addfeature {
 %   name = "threedots",
@@ -52,7 +52,7 @@
 \SetAbbreviationsacFile{../../muya.common/abbreviations_ac.tex}
 \SetTranslationsFile{../../muya.common/translations.tex}
 \SetTitleLogoFile{../../muya.common/BRILL.pdf}
-\Importstanzas{../../muya.redard/muyaSrosDron/latex-apparatus_Y3-8.txt}
+%\Importstanzas{../../muya.redard/muyaSrosDron/latex-apparatus_Y3-8.txt}
 %\SetDefaultStanzaheading{\addsec}
 %\SetDefaultStanzabooktoindex{false}
 
@@ -75,7 +75,8 @@
 \tableofcontents
 \mainmatter
 %\Gettranslation{Y3.1}
-\Getstanza{Y3.2}
+%\Getstanza{Y3.2}
+\cite{sundermannJungfrauGutenTaten1992} and \cite{schwartzGathicCompositionalHistory2003} and \cite{byrdPhonologyProtoIndoEuropean2017}
 %\part{Minor Appendices}
 %test \H{3.1} vs. \G{3.1}
 
@@ -119,6 +120,7 @@ Test
 %{\addfontfeature{RawFeature=+sups}ī\textup{14}}
 \backmatter
 %\addchap{Abbreviations for Appa}
+\printbibliography
 \printabbreviations
 \printindexes
 \end{document}

@@ -7,6 +7,7 @@
 }
 \DeclareLanguageMapping{british}{british-muya}
 \DeclareFieldFormat[thesis]{type}{\ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
+\DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
 
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
@@ -21,13 +22,15 @@
          ]%
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\.\.\.},%
-               replace=\regexp{\\ldots\{\}}]%$%
+               replace=\regexp{\\ldots\{\}}%
+         ]%
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\s+/\s+},%
                replace=\regexp{\\,\\slash\\hskip0.16667em}%
+         ]%
          \step[fieldsource=\regexp{$MAPLOOP},%
                match=\regexp{\s+-\s+},%
-               replace=\regexp{\x20--\x20}]%          
+               replace=\regexp{\x20--\x20}%          
          ]%
       }%
 %      
@@ -229,6 +232,94 @@
 %%% Automatic Sentence case for _no_ language at all
 \DeclareCaseLangs{}
 
+\DeclareBibliographyDriver{inproceedings}{%
+   \usebibmacro{bibindex}%
+   \usebibmacro{begentry}%
+   \iffieldundef{issn}
+      {\usebibmacro{author/translator+others}%
+      \setunit{\labelnamepunct}\newblock
+      \usebibmacro{title}%
+      \newunit
+      \printlist{language}%
+      \newunit\newblock
+      \usebibmacro{byauthor}%
+      \newunit\newblock
+      \usebibmacro{in:}%
+      \ifnameundef{editor}
+         {\setunit{\addspace}}
+         {\usebibmacro{byeditor+others}\setunit{\addcomma\space}}
+      \usebibmacro{maintitle+booktitle}%
+      \setunit{\addcomma\space}
+      \printfield{edition}%
+      \setunit{\addcomma\space}
+      \iffieldundef{maintitle}
+         {%
+            \printfield{volume}%
+            \printfield{part}%
+         \iffieldundef{volumes}%
+            {}%
+            {\addspace\bibstring{ofseries}\space%
+            \printfield{volumes}}%
+         }%
+         {}%
+      %\setunit{\addcomma\space}
+%      \printfield{volumes}%
+      \setunit{\addspace}%
+      \usebibmacro{series+number}%
+      \setunit{\addcomma\space}
+      \usebibmacro{chapter+pages}%
+      \newunit\newblock
+      \printfield{note}%
+      \newunit\newblock
+      \usebibmacro{publisher+location+date}%
+      \newunit\newblock
+      \iftoggle{bbx:isbn}
+         {\printfield{isbn}}
+         {}%
+      \newunit\newblock
+      \usebibmacro{doi+eprint+url}%
+      \newunit\newblock
+      \usebibmacro{addendum+pubstate}%
+      \setunit{\bibpagerefpunct}\newblock
+      \usebibmacro{pageref}%
+      \newunit\newblock
+      \iftoggle{bbx:related}
+         {\usebibmacro{related:init}%
+         \usebibmacro{related}}
+         {}}
+   {\usebibmacro{author/translator+others}%
+   \setunit{\labelnamepunct}\newblock
+   \usebibmacro{title}%
+   \newunit
+   \printlist{language}%
+   \newunit\newblock
+   \usebibmacro{byauthor}%
+   \newunit\newblock
+   \usebibmacro{bytranslator+others}%
+   \newunit\newblock
+   \printfield{version}%
+   \newunit\newblock
+   \usebibmacro{unified:proc-as-article:maintitle+booktitle}%
+   \usebibmacro{unified:proc-as-article:volume+number+eid}
+   \newunit\newblock%                           \newblock ensures period before pages
+   \usebibmacro{note+pages}%
+   \newunit\newblock
+   \iftoggle{bbx:isbn}
+      {\printfield{issn}}
+      {}%
+   \newunit\newblock
+   \usebibmacro{doi+eprint+url}%
+   \newunit\newblock
+   \usebibmacro{addendum+pubstate}%
+   \setunit{\bibpagerefpunct}\newblock
+   \usebibmacro{pageref}%
+   \newunit\newblock
+   \iftoggle{bbx:related}
+      {\usebibmacro{related:init}%
+      \usebibmacro{related}}
+      {}}
+   \usebibmacro{finentry}}
+
 \DeclareBibliographyDriver{unpublished}{%
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
@@ -326,6 +417,48 @@
    }%
 }%
 
+\renewbibmacro*{byeditor+others}{%
+   \ifnameundef{editor}
+      {}
+      {\printnames[byeditor]{editor}%
+      \setunit{\addspace}%
+      \printtext[parens]{\usebibmacro{editor+othersstrg}}%  putting (ed.) or (eds.) after editors of books
+      \clearname{editor}%
+      \setunit{\addcomma\space}}%was: \newunit
+   \usebibmacro{byeditorx}%
+   \usebibmacro{bytranslator+others}}
+
+\newbibmacro*{byeditorx}{%
+   \ifnameundef{editora}
+      {}
+      {\usebibmacro{bytypestrg}{editora}{editor}%
+      \setunit{\addspace}%
+      \printnames[byeditora]{editora}%
+      \setunit{\addcomma\space}}%was: \newunit
+   \ifnameundef{editorb}
+      {}
+      {\usebibmacro{bytypestrg}{editorb}{editor}%
+      \setunit{\addspace}%
+      \printnames[byeditorb]{editorb}%
+      \setunit{\addcomma\space}}%was: \newunit
+   \ifnameundef{editorc}
+      {}
+      {\usebibmacro{bytypestrg}{editorc}{editor}%
+      \setunit{\addspace}%
+      \printnames[byeditorc]{editorc}%
+      \setunit{\addcomma\space}}%was: \newunit
+}
+
+\newbibmacro*{bytranslator+others}{%
+   \ifnameundef{translator}
+      {}
+      {\usebibmacro{bytranslator+othersstrg}%
+      \setunit{\addspace}%
+      \printnames[bytranslator]{translator}%
+      \clearname{translator}%
+      \setunit{\addcomma\space}}%was: \newunit
+   \usebibmacro{withothers}}
+
 \renewbibmacro*{date+extradate}{%
     \iffieldundef{pubstate}
       {%
@@ -378,28 +511,4 @@
    \field{pubstate}
    \literal{nodate}
 }
-%%\defbibenvironment{bibliography}
-%%  {\list{}{%
-%%     \setlength{\topsep}{0pt}
-%%     \setlength{\partopsep}{0pt}
-%%     \leftmargin\bibhang
-%%     \itemindent-\leftmargin
-%%     \itemsep\bibitemsep
-%%     \parsep\bibparsep}}
-%%  {\endlist}
-%%  {\item}
-%%\setlength{\bibitemsep}%
-%%   {.5\baselineskip plus .25\baselineskip minus .1\baselineskip}
-%%\setlength{\bibhang}{4mm}
-%%%\renewcommand{\bibfont}{\normalfont\small}
-%%\defbibheading{bibliography}[\bibname]{%
-%%    \addchap{#1}}%
-%%%    \end{macrocode}
-%%% Alle Einträge zusammenhalten
-%%%    \begin{macrocode}
-\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
-%%%    \end{macrocode}
-%%% Überschrift für das Literaturverzeichnis ändern
-%%%    \begin{macrocode}
-%%\renewcaptionname{ngerman}{\bibname}{Quelleneditionen und Literatur}
 \endinput
