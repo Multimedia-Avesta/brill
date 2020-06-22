@@ -10,7 +10,7 @@
 
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
-      \map[foreach={title,booktitle,note}]{%
+      \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{”|“},%
                replace=\regexp{\x22}%
@@ -25,6 +25,9 @@
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\s+/\s+},%
                replace=\regexp{\\,\\slash\\hskip0.16667em}%
+         \step[fieldsource=\regexp{$MAPLOOP},%
+               match=\regexp{\s+-\s+},%
+               replace=\regexp{\x20--\x20}]%          
          ]%
       }%
 %      
