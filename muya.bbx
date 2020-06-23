@@ -6,6 +6,8 @@
    autolang=hyphen
 }
 \DeclareLanguageMapping{british}{british-muya}
+%\AtBeginBibliography{\frenchsetup{AutoSpacePunctuation=false}}
+
 \DeclareFieldFormat[thesis]{type}{\ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
 
@@ -428,7 +430,7 @@
    \usebibmacro{byeditorx}%
    \usebibmacro{bytranslator+others}}
 
-\newbibmacro*{byeditorx}{%
+\renewbibmacro*{byeditorx}{%
    \ifnameundef{editora}
       {}
       {\usebibmacro{bytypestrg}{editora}{editor}%
@@ -449,7 +451,7 @@
       \setunit{\addcomma\space}}%was: \newunit
 }
 
-\newbibmacro*{bytranslator+others}{%
+\renewbibmacro*{bytranslator+others}{%
    \ifnameundef{translator}
       {}
       {\usebibmacro{bytranslator+othersstrg}%
@@ -501,6 +503,17 @@
       }%
     }%
 }  
+
+\renewbibmacro*{publisher+location+date}{%
+   \iffieldequalstr{langid}{french}{\NoAutoSpacing}{}%
+   \printlist{location}%
+   \iflistundef{publisher}
+      {\setunit*{\addcomma\space}}
+      {\setunit*{\addcolon\space}}%
+   \printlist{publisher}%
+   \setunit*{\addcomma\space}%
+   \usebibmacro{date}%
+\newunit}
 
 \DeclareLabeldate{%
    \field{date}

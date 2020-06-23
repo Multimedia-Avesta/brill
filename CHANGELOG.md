@@ -6,10 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.44.0] - 2020-06-19
+## [0.44.0] - 2020-06-23
 
 ### Added
 - Support for `\rd*` (no newline) (\#9327)
+
+### Changed
+- Bibliography output (\#9380, \#9381, \#9382, \#9384)
 
 ### Fixed
 - `\Getstanza` no longer writes TOC entries with index macros

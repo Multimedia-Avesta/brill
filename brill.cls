@@ -128,7 +128,6 @@
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
 \RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
-%\frenchsetup{AutoSpacePunctuation=false}
 %\directlua{
 %   fonts.handlers.otf.addfeature {
 %      name = "thetasubst",
