@@ -1,4 +1,4 @@
-\ProvidesFile{muya.dbx}[2020/03/11 v0.27.0 biblatex datamodel style]
+\ProvidesFile{muya.dbx}[2020/06/24 v0.44.0 biblatex datamodel style]
 \DeclareDatamodelFields[type=field,datatype=literal]{preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}
 \DeclareDatamodelFields[type=list,datatype=name]{director}
