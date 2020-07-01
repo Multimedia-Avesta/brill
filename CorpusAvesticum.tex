@@ -292,6 +292,7 @@ brill]
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
+%\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
    \index[passages]{\indexlanguage!#1}\textup{#2}\index[passages]{\indexlanguage!#1}%
 }%
@@ -563,7 +564,7 @@ brill]
    \def\indexlanguage{Sogdian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \ifstrempty{#2}
-      {/#3/}%
+      {\ifstrempty{#3}{}{/#3/}}%
       {%
          \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
          \ifstrempty{#3}{}{\ /#3/}%
