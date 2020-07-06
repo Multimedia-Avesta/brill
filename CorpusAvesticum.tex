@@ -83,6 +83,49 @@ brill]
 \newlength{\@titleskip}
 \newlength{\@subtitleskipbefore}
 \newlength{\@subtitleskipafter}
+\ifbrill@PhD
+\renewcommand*{\maketitle}[1][1]{%
+   \begin{titlepage}
+   \setcounter{page}{%
+      #1%
+   }%
+   \let\titlepage@restore\relax
+   %\let\footnotesize\small
+   \let\footnoterule\relax
+   \let\footnote\thanks
+   \renewcommand*\thefootnote{\@fnsymbol\c@footnote}%
+   \let\@oldmakefnmark\@makefnmark
+   \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
+   \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
+   {\centering
+      {\usekomafont{title}\Large\@title\par}
+      \ifx\@subtitle\@empty
+      \vskip 3\baselineskip
+      \else
+         \vskip 2\baselineskip
+         {\usekomafont{subtitle}\large\@subtitle\par}
+         \vskip 3\baselineskip
+      \fi%
+      {\usekomafont{author}\@author\par}
+      \vskip 3\baselineskip
+      Thesis submitted for the degree of PhD\\
+      \@date\par
+      \vfill
+      SOAS, University of London\par
+   }%
+   \next@tdpage
+   \@declarationPhD
+   \ifx\@abstract\@empty
+   \else%
+      \next@tdpage%
+      \addchap{\abstractname}%
+      \@abstract%
+   \fi%   
+   \end{titlepage}
+   \setcounter{footnote}{0}%
+   \global\let\and\relax
+}
+\else
 \renewcommand*{\maketitle}[1][1]{%
    \InputIfFileExists{titlepages.tex}%
       {\ClassInfo{brill}{Information for title pages successfully loaded}}%
@@ -150,7 +193,7 @@ brill]
            \kern-\prevdepth%
         }%
         \vskip 1\baselineskip%
-        {%
+%        {%
            \fontsize{14bp}{17bp}\selectfont\@author\strut\par%
            \kern-\prevdepth%
         }%
@@ -160,22 +203,20 @@ brill]
            {}
         {\normalsize\scshape LEIDEN\ |\ BOSTON\par}%
       }%
-      \ifbrill@PhD\else
-         \next@tpage
-         \begin{addmargin}[-11mm]{-4mm}
-         \begin{minipage}[t]{100mm}
-            \footnotesize%
-            \raggedright%
-            \@uppertitleback%
-         \end{minipage}%
-         \vfill
-         \begin{minipage}[b]{130mm}%
-            \footnotesize%
-            \raggedright%
-            \@lowertitleback%
-         \end{minipage}%
-         \end{addmargin}\removelastskip%
-      \fi%
+      \next@tpage
+      \begin{addmargin}[-11mm]{-4mm}
+      \begin{minipage}[t]{100mm}
+         \footnotesize%
+         \raggedright%
+         \@uppertitleback%
+      \end{minipage}%
+      \vfill
+      \begin{minipage}[b]{130mm}%
+         \footnotesize%
+         \raggedright%
+         \@lowertitleback%
+      \end{minipage}%
+      \end{addmargin}\removelastskip%
       \ifx\@dedication\@empty
       \else
         \next@tdpage\null\vfill
@@ -190,8 +231,8 @@ brill]
    \end{titlepage}
    \setcounter{footnote}{0}%
    \global\let\and\relax
-}
-%\LuaCodeDebugOn
+}%
+\fi%
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%
    {\immediate\closeout\csname #1@idxfile\endcsname
@@ -1429,9 +1470,11 @@ brill]
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{{\itshape #1}}
 %
+\let\@abstract\@empty%
 \ifbrill@PhD
-   \newcommand{\declarationPhD}{%
-      \cleardoubleemptypage
+   \newcommand{\abstract}[1]{\renewcommand{\@abstract}{#1}}%
+   \newcommand{\declarationPhD}[1]{\renewcommand{\@declarationPhD}{#1}}%
+   \newcommand{\@declarationPhD}{%
       \minisec{Declaration for SOAS PhD thesis}
    \noindent I have read and understood Regulation 21 of the General and 
    Admissions Regulations for students of the SOAS, University of London 
@@ -1444,7 +1487,8 @@ brill]
    \noindent Signed: \rule{4cm}{0.4pt} \hfill Date: \rule{4cm}{0.4pt}%
    }
 \else
-   \let\declarationPhD\relax
+   \let\declarationPhD\@gobble
+   \let\abstract\@gobble
 \fi%
 \pdfstringdefDisableCommands{%
    \renewcommand*{\@@Av}[2][]{#2}%
