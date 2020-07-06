@@ -1478,7 +1478,8 @@
    \if@splitsplittranslation%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
-         {\hyphenpenalty=10000\begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {\hyphenpenalty=10000\exhyphenpenalty=10000%
+          \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
       \if@splittranslation%
          \vspace{\baselineskip}\noindent%
       \else%
@@ -1512,36 +1513,43 @@
    \fi%
    \par\vspace{\baselineskip}%
 }%
-% Normal version
-\newcommand{\@@blocktranslation}[3]{%
+\def\@tabarray@array@new{%
+   \@ifnextchar[{\@@array}{\expandafter\@@array\expandafter[\array@default]}%
+}%
+\def\array@default{c}
+\let\@tabarray\@tabarray@array@new
+% Normal version: \blocktranslation[title]{language}{origtext}{translation}
+\newcommand{\@@blocktranslation}[4][]{%
+   \def\array@default{b}%
+   \ifstrempty{#1}{}{\par\noindent #1\par\nobreak}%
    \refstepcounter{blocktrans}%
    \xdef\@currvalblocktrans{\theblocktrans}%
    \begin{@btquote}%
       \let\newline\@blocktransnewline%
       \let\\\@blocktransnewline%
-      \ifstrempty{#1}%
-         {\ifstrempty{#2}%
-            {\noindent #3}%
+      \ifstrempty{#2}%
+         {\ifstrempty{#3}%
+            {\noindent #4}%
             {%
-               #2%
-               \ifstrempty{#3}{}{%
+               #3%
+               \ifstrempty{#4}{}{%
                   \par\nopagebreak\vspace{\baselineskip}\noindent%
-                  #3%
+                  #4%
                }%
             }%
          }%
          {%
-            \ifstrempty{#2}%
-            {\ifstrempty{#3}{}{\noindent #3}}%
+            \ifstrempty{#3}%
+            {\ifstrempty{#4}{}{\noindent #4}}%
             {%
-               {\ItalicsOrNot{#1}#2}%
-               \ifstrempty{#3}%
+               {\ItalicsOrNot{#2}#3}%
+               \ifstrempty{#4}%
                   {}%
                   {%
                      \ifcsdef{blocktrans\@currvalblocktrans}%
                         {\@linebreakwithindent\nopagebreak\vspace{\baselineskip}}%
                         {\par\nopagebreak\vspace{\baselineskip}\noindent}%
-                     #3%
+                     #4%
                   }%
             }%
          }%

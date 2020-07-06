@@ -6,6 +6,17 @@ function modifySorting()
    local g = io.open("passages-mod.idx", "w+")
    local content = f:read("*all")
    f:seek('set')
+   -- for starred index macros like \Passages*
+   content = string.gsub(content, 
+   "@\\textup%s*{\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)%.(%d+)}",
+   function(a,b,c) return string.format(
+   "%s%03d.%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%d.%d}", a, b, c, a, b, c) end)
+   -- look for books with %d
+   content = string.gsub(content, 
+   "@\\textup%s*{\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)}",
+   function(a,b) return string.format(
+   "%s%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%d}", a, b, a, b) end)
+   -- now for unstarred variant
    -- first look for books with %d.%d
    content = string.gsub(content, 
       "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)%.(%d+)",

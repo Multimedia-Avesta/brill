@@ -298,7 +298,7 @@
 
 \renewbibmacro*{byeditor+others}{%
   \ifnameundef{editor}
-    {}
+    {\setunit{\addcomma\space}}%
     {\printnames[byeditor]{editor}%
      \setunit{\addspace}%
      \printtext[parens]{\usebibmacro{editor+othersstrg}}%  putting (ed.) or (eds.) after editors of books
