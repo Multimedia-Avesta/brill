@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.45.0] - 2020-07-07
+
+### Added
+- Optional argument of `\blocktranslation` is used for a title (\#9453)
+- Title page(s) for PhD mode (\#9379)
+- Support for language setting per field (title and booktitle) (\#9381)
+
+### Fixed
+- `\passage*` now works correctly (\#9454)
+
 ## [0.44.0] - 2020-06-23
 
 ### Added
@@ -618,6 +628,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.45.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.45.0
 [0.44.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.44.0
 [0.43.0]:

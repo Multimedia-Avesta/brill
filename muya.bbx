@@ -1,4 +1,4 @@
-\ProvidesFile{muya.bbx}[2020/06/24 v0.44.0 biblatex bibliography style]
+\ProvidesFile{muya.bbx}[2020/07/07 v0.45.0 biblatex bibliography style]
 \RequireBibliographyStyle{biblatex-sp-unified}
 \ExecuteBibliographyOptions{%
    datecirca=true,
@@ -6,7 +6,6 @@
    autolang=hyphen
 }
 \DeclareLanguageMapping{british}{british-muya}
-%\AtBeginBibliography{\frenchsetup{AutoSpacePunctuation=false}}
 
 \DeclareFieldFormat[thesis]{type}{\ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
@@ -28,9 +27,9 @@
          ]%
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\s+/\s+},%
-               replace=\regexp{\\,\\slash\\hskip0.16667em}%
+               replace=\regexp{\\,\\slash\\hskip0.16667em }%
          ]%
-         \step[fieldsource=\regexp{$MAPLOOP},%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20--\x20}%          
          ]%
@@ -51,10 +50,19 @@
          \step[fieldset=langid,null]%
       }%
 %      
+      \map[overwrite,foreach={booktitle,title}]{%
+         \step[fieldsource=keyword,%
+               match=\regexp{lang-$MAPLOOP=(.+),?},final]%$
+         \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.+)§§§(.+)},%
+               replace=\regexp{\\foreignlanguage\{$2\}\{$1\}}]%            
+      }%
+%        
       \map[overwrite]{
          \step[fieldsource=location,
                match=\regexp{\A\{(.+)\}\Z},
-               replace=$1]%
+               replace=$1]%$
          \step[fieldsource=location,%
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20and\x20}]             
@@ -62,7 +70,7 @@
       \map[overwrite]{
          \step[fieldsource=publisher,
                match=\regexp{\A\{(.+)\}\Z},
-               replace=$1]%
+               replace=$1]%$
          \step[fieldsource=publisher,%
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20and\x20}]
@@ -70,6 +78,8 @@
 %        
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=langid,final]%
+         \step[fieldsource=keyword,%
+               notmatch=\regexp{lang-$MAPLOOP=(.+),?},final]%$
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\x22.*?\x22},final]
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
