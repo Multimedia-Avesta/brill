@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/07/07 v0.45.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/07/08 v0.46.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -1443,7 +1443,11 @@
 
 \newenvironment{@btquote}%
    {%
-      \par\vspace{\baselineskip}%
+      \if@btquotetitle
+         \par\nopagebreak\vspace{\baselineskip}%
+      \else
+         \par\vspace{\baselineskip}%
+      \fi%
       \ifcsdef{blocktrans\@currvalblocktrans}%
          {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
          {\addmargin[2\parindent]{0pt}}%
@@ -1519,11 +1523,14 @@
 \def\array@default{c}
 \let\@tabarray\@tabarray@array@new
 % Normal version: \blocktranslation[title]{language}{origtext}{translation}
+\newif\if@btquotetitle
 \newcommand{\@@blocktranslation}[4][]{%
    \def\array@default{b}%
-   \ifstrempty{#1}{}{\par\noindent #1\par\nobreak}%
    \refstepcounter{blocktrans}%
    \xdef\@currvalblocktrans{\theblocktrans}%
+   \ifstrempty{#1}%
+      {\@btquotetitlefalse}%
+      {\par\vspace{\baselineskip}\noindent #1\par\nopagebreak\@btquotetitletrue}%
    \begin{@btquote}%
       \let\newline\@blocktransnewline%
       \let\\\@blocktransnewline%
