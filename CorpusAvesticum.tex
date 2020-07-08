@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/07/07 v0.45.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/07/08 v0.46.0 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -98,19 +98,20 @@ brill]
    \renewcommand*{\@makefnmark}{\rlap\@oldmakefnmark}%
    \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
    {\centering
-      {\usekomafont{title}\Large\@title\par}
+      {\usekomafont{title}\LARGE\@title\par}
       \ifx\@subtitle\@empty
       \vskip 3\baselineskip
       \else
          \vskip 2\baselineskip
-         {\usekomafont{subtitle}\large\@subtitle\par}
+         {\usekomafont{subtitle}\Large\@subtitle\par}
          \vskip 3\baselineskip
       \fi%
       {\usekomafont{author}\@author\par}
       \vskip 3\baselineskip
-      Thesis submitted for the degree of PhD\\
+      \ifx\@degree\@empty\else\@degree\\\fi%
       \@date\par
       \vfill
+      \ifx\@department\@empty\else\@department\\\fi%
       SOAS, University of London\par
    }%
    \next@tdpage
@@ -1472,6 +1473,10 @@ brill]
 %
 \let\@abstract\@empty%
 \ifbrill@PhD
+   \newcommand{\@degree}{}%
+   \newcommand{\degree}[1]{\renewcommand{\@degree}{#1}}
+   \newcommand{\department}[1]{\renewcommand{\@department}{#1}}
+   \newcommand{\@department}{}%
    \newcommand{\abstract}[1]{\renewcommand{\@abstract}{#1}}%
    \newcommand{\declarationPhD}[1]{\renewcommand{\@declarationPhD}{#1}}%
    \newcommand{\@declarationPhD}{%
