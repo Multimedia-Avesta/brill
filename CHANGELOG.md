@@ -1,10 +1,23 @@
-# Changelog
+ # Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.46.0] - 2020-07-09
+
+### Added
+- New macros `\department` and `\degree` for title page
+
+### Changed
+- Layout of title page
+- Add spacing before title of block translation
+
+### Fixed
+- Regular expressions in muya.lua
+- Avoid page break after title of block translation
 
 ## [0.45.0] - 2020-07-07
 
@@ -628,6 +641,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.46.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.46.0
 [0.45.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.45.0
 [0.44.0]:

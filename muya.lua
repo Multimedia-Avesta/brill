@@ -1,4 +1,4 @@
--- 2020/06/24 v0.44.0
+-- 2020/07/09 v0.46.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -7,29 +7,43 @@ function modifySorting()
    local content = f:read("*all")
    f:seek('set')
    -- for starred index macros like \Passages*
+   -- TODO: What about letters within the passage id?
    content = string.gsub(content, 
-   "@\\textup%s*{\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)%.(%d+)}",
-   function(a,b,c) return string.format(
-   "%s%03d.%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%d.%d}", a, b, c, a, b, c) end)
-   -- look for books with %d
-   content = string.gsub(content, 
-   "@\\textup%s*{\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)}",
-   function(a,b) return string.format(
-   "%s%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%d}", a, b, a, b) end)
+      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)@\\textup%s*{.+}|", 
+      function(a,b) return get_sortentry_star(a,b) end)
    -- now for unstarred variant
-   -- first look for books with %d.%d
-   content = string.gsub(content, 
-      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)%.(%d+)",
-      function(a,b,c) return string.format(
-         "%s%03d.%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}%d.%d", a, b, c, a, b, c) end)
-   -- look for books with %d
-   content = string.gsub(content, 
-      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}(%d+)",
-      function(a,b) return string.format(
-         "%s%03d@%s\\nobreak\\hspace{\\fontdimen 2\\font}%d", a, b, a, b) end)
+   content = string.gsub(content,
+      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
+      function(a,b) return get_sortentry(a,b) end)
    g:write(content)
    f:close()
    g:close()
+end
+
+function get_sortentry(a,b)
+   -- we have to analyse b to get a correct sort string
+   local res = ""
+   for v, w in string.gmatch(b, "(%d+)([%-%.])") do
+      res = res .. string.format("%03d%s",v,w)
+   end
+   for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
+      texio.write_nl(last)
+      --res = res .. string.format("%03d", last)
+      res = res .. last
+   end
+   return string.format("%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b)
+end
+
+function get_sortentry_star(a,b)
+   -- we have to analyse b to get a correct sort string
+   local res = ""
+   for v,w in string.gmatch(b, "(%d+)([%-%.])") do
+      res = res .. string.format("%03d%s",v,w)
+   end
+   for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
+      res = res .. string.format("%03d", last)
+   end
+   return string.format("%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b)
 end
 
 -- see if the file exists
