@@ -27,7 +27,6 @@ function get_sortentry(a,b)
       res = res .. string.format("%03d%s",v,w)
    end
    for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
-      texio.write_nl(last)
       --res = res .. string.format("%03d", last)
       res = res .. last
    end

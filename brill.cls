@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/07/09 v0.46.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/07/09 v0.46.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -1445,8 +1445,9 @@
    {%
       \if@btquotetitle
          \par\nopagebreak\vspace{\baselineskip}%
+         \@beginparpenalty=10000%
       \else
-         \par\vspace{\baselineskip}%
+         \par\addvspace{\baselineskip}%
       \fi%
       \ifcsdef{blocktrans\@currvalblocktrans}%
          {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
@@ -1456,7 +1457,7 @@
    }%
    {%
       \endaddmargin%
-      \par\vspace{\baselineskip}\noindent\ignorespaces%
+      \par\addvspace{\baselineskip}%\noindent\ignorespaces%
    }%
 
 \newcommand{\beforeblocktranslation}[1]{%
@@ -1530,7 +1531,9 @@
    \xdef\@currvalblocktrans{\theblocktrans}%
    \ifstrempty{#1}%
       {\@btquotetitlefalse}%
-      {\par\vspace{\baselineskip}\noindent #1\par\nopagebreak\@btquotetitletrue}%
+      {\@btquotetitletrue%
+       \par\addvspace{\baselineskip}\noindent #1\par\nopagebreak%
+      }%
    \begin{@btquote}%
       \let\newline\@blocktransnewline%
       \let\\\@blocktransnewline%

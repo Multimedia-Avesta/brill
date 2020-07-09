@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.46.1] - 2020-07-09
+
+### Fixed
+- Spacing for consecutive `\blocktranslation` calls
+- Avoid page break after title of `\blocktranslation`
+
 ## [0.46.0] - 2020-07-09
 
 ### Added
@@ -641,6 +647,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.46.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.46.1
 [0.46.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.46.0
 [0.45.0]:
