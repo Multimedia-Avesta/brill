@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/07/09 v0.46.1 A template for Brill publications]
+\ProvidesClass{brill}[2020/07/13 v0.47.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -128,6 +128,17 @@
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
 \RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
+%%% We define some babel shortcuts, which are available for ngerman for British as well.
+\initiate@active@char{"}
+\addto\extrasbritish{\languageshorthands{british}\bbl@activate{"}}
+\addto\noextrasbritish{\bbl@deactivate{"}}
+\declare@shorthand{british}{"-}{\nobreak\-\bbl@allowhyphens}
+\declare@shorthand{british}{"|}{%
+   \textormath{\penalty\@M\discretionary{-}{}{\kern.03em}%
+      \allowhyphens}{}}
+\declare@shorthand{british}{""}{\hskip\z@skip}
+\declare@shorthand{british}{"~}{\textormath{\leavevmode\hbox{-}}{-}}
+\declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
 %\directlua{
 %   fonts.handlers.otf.addfeature {
 %      name = "thetasubst",
@@ -785,6 +796,18 @@
 %%   toconstartlowerlevel=\vspace{\baselineskip}]{chapter}
 %\RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
 
+\renewcommand*{\@saddsec}[1]{%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \section*{#1}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+   \addsecmark{}%
+}
+
 \newcommand{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
 \newcommand*{\@addsubsec}{}
 \def\@addsubsec[#1]#2{%
@@ -798,7 +821,15 @@
   \reserved@a
 }
 \newcommand*{\@saddsubsec}[1]{%
-  \subsection*{#1}\addsecmark{}%
+  \edef\reserved@a{%
+     \unexpanded{%
+        \subsection*{#1}%
+        \c@secnumdepth=
+     }\the\c@secnumdepth\relax
+  }%
+  \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+  \reserved@a
+  \addsecmark{}%
 }
 %
 \newcommand{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
@@ -814,7 +845,15 @@
   \reserved@a
 }
 \newcommand*{\@saddsubsubsec}[1]{%
-  \subsubsection*{#1}\addsecmark{}%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \subsubsection*{#1}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+   \addsecmark{}%
 }
 %
 \newcommand*{\pagenumbertocfont}[1]{%

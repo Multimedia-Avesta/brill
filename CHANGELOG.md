@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.47.0] - 2020-07-13
+
+### Added
+- `babel` shorthands for `ngerman` now also work for `british` (e.g. `"~`, `""` `"=`) (\#9501)
+
+### Fixed
+- Remove indention from starred `add...sec` variants  (\#9497)
+
 ## [0.46.1] - 2020-07-09
 
 ### Fixed
@@ -647,6 +655,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.47.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.47.0
 [0.46.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.46.1
 [0.46.0]:
