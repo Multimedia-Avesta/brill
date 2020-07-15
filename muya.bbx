@@ -14,7 +14,7 @@
    \maps[datatype=bibtex]{%
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=\regexp{$MAPLOOP},%$
-               match=\regexp{”|“},%
+               match=\regexp{”|“|„|«|»},%
                replace=\regexp{\x22}%
          ]%
          \step[fieldsource=\regexp{$MAPLOOP},%$
@@ -49,11 +49,16 @@
                notmatch=\regexp{\A(british|french|italian|ngerman|spanish)\Z},final]%
          \step[fieldset=langid,null]%
       }%
-%      
+% set booktitle field to specific language if it differs from the langid     
       \map[overwrite,foreach={booktitle,title}]{%
          \step[fieldsource=keyword,%
                match=\regexp{lang-$MAPLOOP=(.+),?},final]%$
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$
+         % Map english to british
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+            match=\regexp{(.+)§§§english},%
+            replace=\regexp{\\foreignlanguage\{british\}\{$1\}}]%$final?
+         % look for other languages        
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.+)§§§(.+)},%
                replace=\regexp{\\foreignlanguage\{$2\}\{$1\}}]%            
@@ -75,7 +80,7 @@
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20and\x20}]
       }%
-%        
+%     Use specific quotes in booktitle if language differs from main language
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=langid,final]%
          \step[fieldsource=keyword,%
@@ -86,14 +91,50 @@
          \step[fieldsource=langid]%
          \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
          \step[fieldsource=\regexp{$MAPLOOP},%$
-               match=\regexp{(.*)\x22(.*?)\x22(.*)§§§(.+)},%
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
                replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%
       }%
+% Use quotation marks based on langid
+      \map[overwrite,foreach={title,booktitle,note}]{%
+         \step[fieldsource=langid,final]%
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},final]%
+         \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
+         \step[fieldsource=langid]%
+         \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
+               replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%
+   % we have to repeat that procedure for multiple occassions
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},final]%
+         \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
+         \step[fieldsource=langid]%
+         \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
+               replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%     
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},final]%
+         \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
+         \step[fieldsource=langid]%
+         \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
+               replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%                            
+      }%  
 %      
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=\regexp{$MAPLOOP},%$
-               match=\regexp{(.*)\x22(.*?)\x22(.*)},%
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},%
                replace=\regexp{$1\\enquote\{$2\}$3}]%$
+         % we repeat that step to get multiple quotation marks as well
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},%
+               replace=\regexp{$1\\enquote\{$2\}$3},final]%$
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.*?)\x22(.*?)\x22(.*)},%
+               replace=\regexp{$1\\enquote\{$2\}$3},final]%$               
       }%                        
 %            
       \map{%

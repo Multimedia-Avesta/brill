@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Fixed
+- Handling of quotation marks within bibliography
+
 ## [0.47.0] - 2020-07-13
 
 ### Added
