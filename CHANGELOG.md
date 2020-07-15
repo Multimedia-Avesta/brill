@@ -6,8 +6,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.48.0] - 2020-07-15
+
+### Added
+
+### Changed
+- `\declarationPhD` is only printed when not empty
+
 ### Fixed
-- Handling of quotation marks within bibliography
+- Handling of quotation marks within bibliography (\#9521)
 
 ## [0.47.0] - 2020-07-13
 
@@ -658,6 +665,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.48.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.48.0
 [0.47.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.47.0
 [0.46.1]:

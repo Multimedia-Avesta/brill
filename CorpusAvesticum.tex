@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/07/13 v0.47.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/07/15 v0.48.0 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -114,8 +114,10 @@ brill]
       \ifx\@department\@empty\else\@department\\\fi%
       SOAS, University of London\par
    }%
-   \next@tdpage
-   \@declarationPhD
+   \ifdefempty{\@declarationPhD}{}{%
+      \next@tdpage
+      \@declarationPhD
+   }%
    \ifx\@abstract\@empty
    \else%
       \next@tdpage%
