@@ -6,12 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Support for Devanagari Script by adding `Noto Serif Devanagari` in regular and bold face to the bundle (\#9527)
+- `\textsanskrit{...}` for using new font
+
 ## [0.48.0] - 2020-07-15
 
 ### Added
 
 ### Changed
-- `\declarationPhD` is only printed when not empty
+- `\@declarationPhD` is only printed when not empty -> `\declarationPhD{}` for removing it from the title pages (\#9379)
 
 ### Fixed
 - Handling of quotation marks within bibliography (\#9521)
@@ -27,21 +31,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.46.1] - 2020-07-09
 
 ### Fixed
-- Spacing for consecutive `\blocktranslation` calls
-- Avoid page break after title of `\blocktranslation`
+- Spacing for consecutive `\blocktranslation` calls (\#9453)
+- Avoid page break after title of `\blocktranslation` (\#9453)
 
 ## [0.46.0] - 2020-07-09
 
 ### Added
-- New macros `\department` and `\degree` for title page
+- New macros `\department` and `\degree` for title page (\#9379)
 
 ### Changed
-- Layout of title page
-- Add spacing before title of block translation
+- Layout of title page (\#9379)
+- Add spacing before title of block translation (\#9453)
 
 ### Fixed
 - Regular expressions in muya.lua
-- Avoid page break after title of block translation
+- Avoid page break after title of block translation (\#9453)
 
 ## [0.45.0] - 2020-07-07
 

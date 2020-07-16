@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/07/15 v0.48.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/07/16 v0.49.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -219,6 +219,14 @@
    Script         = Arabic,%
    Ligatures      = {Common},%
 ]%
+\newfontfamily{\sanskritfont}{NotoSerifDevanagari}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+   Script         = Devanagari,%
+]%
 \newfontfamily{\pahlavifont}{KHUSRO__}%
 [%
    Extension      = .TTF,%
@@ -232,10 +240,11 @@
 %   Scale          = MatchLowercase,%
 %   Script         = Syriac,%
 %]%
+\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\arabicfont #1\egroup}
 \newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\arabicfont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
+\newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
 \newrobustcmd*{\texttracking}[1]{{\trackingfont #1}}%
 \newrobustcmd*{\texttrackingL}[1]{\ifhmode\unskip\fi{\trackingfont\ #1}}%
 \newrobustcmd*{\texttrackingR}[1]{{\trackingfont #1\ }\ignorespaces}%
