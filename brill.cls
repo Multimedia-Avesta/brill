@@ -429,7 +429,7 @@
 
 \RedeclareSectionCommand[%
    innerskip=0pt,%
-   font={\LARGE\bfseries\itshape},%
+   font={\LARGE\bfseries\upshape\itshape},%
    prefixfont={\LARGE\bfseries\scshape},%
    tocnumwidth=0pt,%
    tocindent=0pt%
@@ -440,9 +440,6 @@
 }
 \renewcommand*{\thepart}{\arabic{part}}
 \renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
-%\renewcommand*{\addparttocentry}[2]{%
-%   \addtocentrydefault{part}{\hspace*{12mm}\partname~#1}{#2}}%
- 
 \renewcommand*{\addparttocentry}[2]{%
    \addtocentrydefault{part}{}{%
       \hspace*{12mm}%
