@@ -415,7 +415,7 @@
 
 \renewcommand*{\partheadstartvskip}{\null\vfill}
 \renewcommand*{\partheadmidvskip}{%
-   \par\nobreak\vskip 0pt%
+   \par\nobreak\vskip\baselineskip%0pt%
 }%
 \renewcommand*{\partheadendvskip}{%
    \par\nobreak\vskip -\baselineskip%
