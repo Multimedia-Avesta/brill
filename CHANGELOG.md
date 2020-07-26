@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.50.0] - 2020-07-26
+
+### Added
+- New macros `\editedtranslationtext` and `\editedcommentarytext`
+
+### Changed
+- Non-Latin script are now setup using the Harfbuzz Renderer
+
+### Fixed
+- Font setup for part headings
+- Spacing for part headings
+
+## [0.49.0] - 2020-07-16
+
 ### Added
 - Support for Devanagari Script by adding `Noto Serif Devanagari` in regular and bold face to the bundle (\#9527)
 - `\textsanskrit{...}` for using new font
@@ -669,6 +683,10 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.50.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.50.0
+[0.49.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.49.0
 [0.48.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.48.0
 [0.47.0]:
