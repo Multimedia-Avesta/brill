@@ -167,12 +167,17 @@
 \defaultfontfeatures{Ligatures={TeX}}
 % Uses proportional oldstyle numbers by default
 %\setmainfont{Brill}[RawFeature={+ktest+thetasubst},SmallCapsFeatures = {RawFeature=+c2sc}]
-\setmainfont{Brill}[Ligatures={Common,NoRare},SmallCapsFeatures = {RawFeature=+c2sc}]
+\setmainfont{Brill}[%
+   Ligatures         = {Common,NoRare},%
+   SmallCapsFeatures = {RawFeature=+c2sc},%
+   Renderer          = Node,%
+]
 \newfontfamily{\trackingfont}{Brill}
 [%
    Ligatures      = {NoCommon,NoRare},%
    WordSpace      = {1.35,1.45,1.55},%
    LetterSpace    = 12.5,%
+   Renderer       = Node,%
 ]%
 \newfontfamily{\freeserif}{FreeSerif}%
 [%
@@ -183,6 +188,7 @@
    BoldItalicFont = *BoldItalic,%
    Scale          = MatchLowercase,%
    Ligatures      = {Common},%
+   Renderer       = Node,%
 ]% 
 \newfontfamily{\freesans}{FreeSans}%
 [%
@@ -193,14 +199,16 @@
    BoldItalicFont = *BoldOblique,%
    Scale          = MatchLowercase,%
    Ligatures      = {Common},%
+   Renderer       = Node,%
 ]% 
 \newfontfamily{\avestanfont}{NotoSansAvestan}%
 [%
    Extension      = .ttf,%
    UprightFont    = *-Regular,%
    Scale          = MatchLowercase,%
-   Script         = Avestan,%
    Ligatures      = {Common},%
+   Renderer       = Harfbuzz,%
+   Script         = Avestan,%
 ]%
 \newfontfamily{\gujaratifont}{NotoSerifGujarati}%
 [%
@@ -208,6 +216,7 @@
    UprightFont    = *-Regular,%
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
    Script         = Gujarati,%
 ]%
 \newfontfamily{\arabicfont}{NotoNaskhArabic}%
@@ -216,8 +225,9 @@
    UprightFont    = *-Regular,%
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
-   Script         = Arabic,%
    Ligatures      = {Common},%
+   Renderer       = Harfbuzz,%
+   Script         = Arabic,%
 ]%
 \newfontfamily{\sanskritfont}{NotoSerifDevanagari}%
 [%
@@ -225,6 +235,7 @@
    UprightFont    = *-Regular,%
    BoldFont       = *-Bold,%
    Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
    Script         = Devanagari,%
 ]%
 \newfontfamily{\pahlavifont}{KHUSRO__}%
