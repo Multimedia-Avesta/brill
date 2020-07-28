@@ -139,6 +139,18 @@
 \declare@shorthand{british}{""}{\hskip\z@skip}
 \declare@shorthand{british}{"~}{\textormath{\leavevmode\hbox{-}}{-}}
 \declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
+\newenvironment{nohyphens}
+   {%\par\sloppy\exhyphenpenalty=\@M
+      \par\exhyphenpenalty=\@M
+      \@ifundefined{l@nohyphenation}
+      {\language=\@cclv}
+      {\hyphenrules{nohyphenation}}%
+   }%
+   {\par
+      \@ifundefined{l@nohyphenation}
+      {}
+      {\endhyphenrules}%
+   }%
 %\directlua{
 %   fonts.handlers.otf.addfeature {
 %      name = "thetasubst",
@@ -178,6 +190,18 @@
    WordSpace      = {1.35,1.45,1.55},%
    LetterSpace    = 12.5,%
    Renderer       = Node,%
+]%
+\newfontfamily{\morewordspacefont}{Brill}
+[%
+%   Ligatures      = {NoCommon,NoRare},%
+   WordSpace      = 2.0,%
+%   Renderer       = Node,%
+]%
+\newfontfamily{\punctuationfont}{Brill}
+[%
+%   Ligatures        = {NoCommon,NoRare},%
+   PunctuationSpace = 4.0,%
+%   Renderer         = Node,%
 ]%
 \newfontfamily{\freeserif}{FreeSerif}%
 [%

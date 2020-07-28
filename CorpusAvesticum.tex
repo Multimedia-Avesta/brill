@@ -121,7 +121,7 @@ brill]
    \ifx\@abstract\@empty
    \else%
       \next@tdpage%
-      \addchap{\abstractname}%
+      \@abstractheading%
       \@abstract%
    \fi%   
    \end{titlepage}
@@ -407,6 +407,7 @@ brill]
       {ZD}{\def\indexlanguage{Zoroastrian Dari}\itshape}%
    }[\def\indexlanguage{A@General}\upshape]%
    \hyphenpenalty=10000%
+   \exhyphenpenalty=10000%
 }
 %%% Define macros for languages
 \def\newlanguage{\@ifstar\@newlanguage\@@newlanguage}% 
@@ -414,19 +415,24 @@ brill]
    \expandafter\newcommand\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{####1}%
-      \begin{hyphenrules}{nohyphenation}##2\end{hyphenrules}%
+      \begin{nohyphens}##2\end{nohyphens}%
       \ifstrempty{##1}{}{\ \enquote{##1}}%
       \resetlanguage}
    \newenvironment{#1Block}{%
       \def\indexlanguage{#2}%
-      \renewcommand*{\idxentryfont}[1]{####1}\hyphenpenalty=10000\relax}%
-   {\resetlanguage}           
+      \renewcommand*{\idxentryfont}[1]{####1}%
+      \begin{nohyphens}%
+   }%
+   {%
+      \end{nohyphens}
+      \resetlanguage%
+   }%           
 }
 \newcommand{\@@newlanguage}[2]{%
    \expandafter\newcommand\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{\textit{####1}}%
-      \begin{hyphenrules}{nohyphenation}\emph{##2}\end{hyphenrules}%
+      \begin{nohyphens}\emph{##2}\end{nohyphens}%
       \ifstrempty{##1}{}{\ \enquote{##1}}%
       \resetlanguage} 
    \newenvironment{#1Block}{%
@@ -441,13 +447,13 @@ brill]
 \newcommand*{\@Av}[2][]{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \Word[#2]{\begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}}%
+   \Word[#2]{\begin{nohyphens}\emph{#2}\end{nohyphens}}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newcommand*{\@@Av}[2][]{%
    \def\indexlanguage{Avestan}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
+   \begin{nohyphens}\emph{#2}\end{nohyphens}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \let\Avst\Av
@@ -457,7 +463,7 @@ brill]
    \ifstrempty{#2}
       {/#3/}%
       {%
-         \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
+         \begin{nohyphens}#2\end{nohyphens}%
          \ifstrempty{#3}{}{\ /#3/}%
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -491,7 +497,7 @@ brill]
 \newcommand*{\@OP}[3][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
-   \begin{hyphenrules}{nohyphenation}\textit{#2}\end{hyphenrules}%
+   \begin{nohyphens}\textit{#2}\end{nohyphens}%
    \ifstrempty{#3}{}{\ [#3]}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage
@@ -499,7 +505,7 @@ brill]
 \newcommand*{\OPtlt}[2][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
+   \begin{nohyphens}#2\end{nohyphens}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
 \newlanguage{Oss}{Ossetic}
@@ -551,7 +557,7 @@ brill]
       \ifstrempty{#2}
          {\ifstrempty{#3}{}{#3}}%
          {%
-            \begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}%
+            \begin{nohyphens}#2\end{nohyphens}%
             \ifstrempty{#3}{}{\ #3}%
          }%
    \else%
@@ -560,7 +566,7 @@ brill]
             \textlangle{}#3\textrangle{}%
          }%
          {%
-            \begin{hyphenrules}{nohyphenation}\textit{#2}\end{hyphenrules}%
+            \begin{nohyphens}\textit{#2}\end{nohyphens}%
             \ifstrempty{#3}
                {}%
                {\ \textlangle{}#3\textrangle{}}%
@@ -575,10 +581,10 @@ brill]
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \ifstrempty{#3}
-      {\begin{hyphenrules}{nohyphenation}\textit{(#2)}\end{hyphenrules}}%
+      {\begin{nohyphens}\textit{(#2)}\end{nohyphens}}%
       {%
          \textlangle{}#3\textrangle{}%
-         \ifstrempty{#2}{}{\ \begin{hyphenrules}{nohyphenation}\textit{(#2)}\end{hyphenrules}}%   
+         \ifstrempty{#2}{}{\ \begin{nohyphens}\textit{(#2)}\end{nohyphens}}%   
       }%
    % We assume, that #2 and #3 are not both empty
    \ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -589,7 +595,7 @@ brill]
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   \ifstrempty{#2}{}{\begin{hyphenrules}{nohyphenation}#2\end{hyphenrules}}%
+   \ifstrempty{#2}{}{\begin{nohyphens}#2\end{nohyphens}}%
    \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
@@ -610,7 +616,7 @@ brill]
    \ifstrempty{#2}
       {\ifstrempty{#3}{}{/#3/}}%
       {%
-         \begin{hyphenrules}{nohyphenation}\emph{#2}\end{hyphenrules}%
+         \begin{nohyphens}\emph{#2}\end{nohyphens}%
          \ifstrempty{#3}{}{\ /#3/}%
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
@@ -632,23 +638,23 @@ brill]
 %%%
 \newenvironment{AvBlock}{%
    \def\indexlanguage{Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\AvstBlock\AvBlock
 \let\endAvstBlock\endAvBlock
 \newenvironment{BactrBlock}{%
    \def\indexlanguage{Bactrian}%
-   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
 \let\GujrBlock\GujBlock
 \let\endGujrBlock\endGujBlock
 \newenvironment{PhlBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\PhlvBlock\PhlBlock
 \let\endPhlvBlock\endPhlBlock
@@ -662,7 +668,7 @@ brill]
 \let\endSaBlock\endSkrBlock
 \newenvironment{SogdBlock}{%
    \def\indexlanguage{Sogdian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
@@ -996,8 +1002,8 @@ brill]
          \fi%
       }%
 }
-\newcommand{\editedtranslationtext}[1]{\begin{hyphenrules}{nohyphenation}\editedtext{#1}\end{hyphenrules}}
-\newcommand{\editedcommentarytext}[1]{\begin{hyphenrules}{nohyphenation}\editedtext{#1}\end{hyphenrules}}
+\newcommand{\editedtranslationtext}[1]{\begin{nohyphens}\editedtext{#1}\end{nohyphens}}
+\newcommand{\editedcommentarytext}[1]{\begin{nohyphens}\editedtext{#1}\end{nohyphens}}
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
 \newcommand{\foreign}[2][]{%
@@ -1377,13 +1383,13 @@ brill]
    \fi%
    \ifstrempty{#1}{}{\Ifstr{#1}{0}{\theattestation.}{#1.}}%
    \unskip\nobreak\hspace{\fontdimen2\font}%
-   \begin{hyphenrules}{nohyphenation}%
+   \begin{nohyphens}%
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%
       {MP}{\textlangle{}#2\textrangle{}}%
       {Guj}{\textit{#2}}%
    }[\textit{#2}]%
-   \end{hyphenrules}%
+   \end{nohyphens}%
    \ #3%
 }%
 
@@ -1480,7 +1486,13 @@ brill]
    \newcommand{\degree}[1]{\renewcommand{\@degree}{#1}}
    \newcommand{\department}[1]{\renewcommand{\@department}{#1}}
    \newcommand{\@department}{}%
-   \newcommand{\abstract}[1]{\renewcommand{\@abstract}{#1}}%
+   \def\abstract{\@ifstar%
+      {\def\@abstractheading{\chapter*{\abstractname}\markboth{\abstractname}{\abstractname}}%
+       \@@abstract}%   
+      {\def\@abstractheading{\addchap{\abstractname}}%
+       \@@abstract}%
+   }
+   \newcommand{\@@abstract}[1]{\renewcommand{\@abstract}{#1}}%
    \newcommand{\declarationPhD}[1]{\renewcommand{\@declarationPhD}{#1}}%
    \newcommand{\@declarationPhD}{%
       \minisec{Declaration for SOAS PhD thesis}
