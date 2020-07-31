@@ -1674,6 +1674,7 @@
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
    \endgroup%
+   \settoggle{chaptercount}{true}%
 }
 
 \appto{\backmatter}{%
@@ -1685,6 +1686,9 @@
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}%
    \endgroup%
+}
+\renewcommand{\appendixmore}{%
+   \part{Appendices}%
 }
 \setlength{\parindent}{4mm}
 
