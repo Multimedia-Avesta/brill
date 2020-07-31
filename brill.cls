@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/07/26 v0.50.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/01 v0.51.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -51,6 +51,7 @@
    open=any,%TODO: right?
    toc=bibliography,%
    toc=numberline,%
+   numbers=noenddot,%
 ]{scrbook}[2018/03/30]
 \ifbrill@PhD
    \def\normalsize{%
@@ -1674,7 +1675,6 @@
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
    \endgroup%
-   \settoggle{chaptercount}{true}%
 }
 
 \appto{\backmatter}{%
@@ -1687,14 +1687,20 @@
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}%
    \endgroup%
 }
-\renewcommand{\appendixmore}{%
+\newif\if@totalchapterwritten
+\preto{\appendix}{%
+   \immediate\write\@auxout%
+      {\string\numgdef{\string\totalchapters}{\thechapter}}%
+   \@totalchapterwrittentrue%
    \part{Appendices}%
 }
 \setlength{\parindent}{4mm}
 
 \AtEndDocument{%
-   \immediate\write\@auxout%
-      {\string\numgdef{\string\totalchapters}{\thechapter}}%
+   \if@totalchapterwritten\else
+      \immediate\write\@auxout%
+         {\string\numgdef{\string\totalchapters}{\thechapter}}%
+   \fi%
 }%
 \toks0{\ifvoid\footins\else\suppressfloats[b]\fi}
 \output\expandafter{\the\toks0\the\output}
