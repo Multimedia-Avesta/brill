@@ -987,14 +987,12 @@
 \newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
-%\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
-\RequirePackage{tabularx}
-\RequirePackage{xltabular}
-%\RequirePackage{tabu}
-%\RequirePackage[flushleft]{threeparttable}
+\RequirePackage{tabu}
+\RequirePackage[flushleft]{threeparttable}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1007,13 +1005,13 @@
 }{%
    \endorigtable
 }
-%\chardef\TPT@@@asteriskcatcode=\catcode`*
-%\catcode`*=11
-%\expandafter\patchcmd\csname\string\threeparttable\endcsname
-%  {\TPT@hookin{tabular}}
-%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-%  {}{}
-%\catcode`*=\TPT@@@asteriskcatcode
+\chardef\TPT@@@asteriskcatcode=\catcode`*
+\catcode`*=11
+\expandafter\patchcmd\csname\string\threeparttable\endcsname
+  {\TPT@hookin{tabular}}
+  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+  {}{}
+\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1096,8 +1094,8 @@
          {\rowcolors{1}{white}{black!10}}%
          {}%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{xltabular}{#2}}
-         {full}{\begin{xltabular}{\linewidth}{#2}}
+         {dynamic}{\begin{longtabu}{#2}}
+         {full}{\begin{longtabu} to \linewidth{#2}}
          {wide}{\begin{longtabu} to 130mm{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
