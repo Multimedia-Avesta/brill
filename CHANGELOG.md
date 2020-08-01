@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- New macro `\appendixend` to return to `backmatter` (\#9597)
+- New macro `\appendixstart` as synoynm to `\appendix` (\#9597)
+
+### Changed
+-
+
+### Fixed
+- Handling of empty fields for title page (\#9604)
+
 ## [0.50.0] - 2020-07-26
 
 ### Added

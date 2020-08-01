@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/01 v0.51.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/02 v0.51.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -37,7 +37,9 @@
 }
 \ProcessKeyvalOptions*
 \ifbrill@PhD
-   \PassOptionsToClass{twoside=false}{scrbook}
+   \PassOptionsToClass{twoside=false,appendixprefix=false}{scrbook}
+\else
+   \PassOptionsToClass{twoside,appendixprefix}{scrbook}
 \fi%   
 \RequireLuaTeX
 \LoadClass[%
@@ -1677,6 +1679,7 @@
    \endgroup%
 }
 
+\newif\if@totalchapterwritten
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
    \KOMAoptions{open=any}%
@@ -1686,14 +1689,32 @@
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}%
    \endgroup%
+   \if@totalchapterwritten\else
+      \immediate\write\@auxout%
+         {\string\numgdef{\string\totalchapters}{\thechapter}}%
+         \@totalchapterwrittentrue%
+   \fi%
 }
-\newif\if@totalchapterwritten
 \preto{\appendix}{%
-   \immediate\write\@auxout%
-      {\string\numgdef{\string\totalchapters}{\thechapter}}%
-   \@totalchapterwrittentrue%
-   \part{Appendices}%
+   \if@totalchapterwritten\else
+      \immediate\write\@auxout%
+         {\string\numgdef{\string\totalchapters}{\thechapter}}%
+      \@totalchapterwrittentrue%
+   \fi%
 }
+\appto{\appendix}{%
+   \@mainmattertrue
+   \ifbrill@PhD
+   \else
+      \renewcommand*{\thechapter}{\arabic{chapter}}%
+      \small%
+   \fi%
+}
+\newcommand*{\appendixstart}{\appendix}
+\newcommand*{\appendixend}{\@mainmatterfalse\normalsize}
+
+
+
 \setlength{\parindent}{4mm}
 
 \AtEndDocument{%
