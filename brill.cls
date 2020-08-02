@@ -987,12 +987,14 @@
 \newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
-\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+%\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
-\RequirePackage{tabu}
-\RequirePackage[flushleft]{threeparttable}
+%\RequirePackage{tabu}
+%\RequirePackage[flushleft]{threeparttable}
+\RequirePackage{tabularx}
+\RequirePackage{xltabular}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1005,13 +1007,13 @@
 }{%
    \endorigtable
 }
-\chardef\TPT@@@asteriskcatcode=\catcode`*
-\catcode`*=11
-\expandafter\patchcmd\csname\string\threeparttable\endcsname
-  {\TPT@hookin{tabular}}
-  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-  {}{}
-\catcode`*=\TPT@@@asteriskcatcode
+%\chardef\TPT@@@asteriskcatcode=\catcode`*
+%\catcode`*=11
+%\expandafter\patchcmd\csname\string\threeparttable\endcsname
+%  {\TPT@hookin{tabular}}
+%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+%  {}{}
+%\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1094,9 +1096,9 @@
          {\rowcolors{1}{white}{black!10}}%
          {}%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}{#2}}
-         {full}{\begin{longtabu} to \linewidth{#2}}
-         {wide}{\begin{longtabu} to 130mm{#2}}
+         {dynamic}{\begin{xltabular}{\linewidth}{#2}}
+         {full}{\begin{xltabular}{\linewidth}{#2}}
+         {wide}{\begin{xltabular}{130mm}{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
@@ -1149,7 +1151,7 @@
             }%
          \showrowcolors
          \BODY%
-      \end{longtabu}
+      \end{xltabular}
       \endgroup
       \iftoggle{@tablelandscape}{\endlandscape}{}
    }{%
@@ -1166,9 +1168,9 @@
             {\rowcolors{1}{white}{black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{#2}}
-            {full}{\begin{tabu} to \textwidth{#2}}
-            {wide}{\begin{tabu} to 130mm{#2}}
+            {dynamic}{\begin{tabularx}{}{#2}}
+            {full}{\begin{tabularx}{\textwidth}{#2}}
+            {wide}{\begin{tabularx}{130mm}{#2}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
             \hiderowcolors
@@ -1190,7 +1192,7 @@
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\bottomrule}{\lasthline}%
-         \end{tabu}
+         \end{tabularx}
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
@@ -1447,10 +1449,9 @@
       {%
          \setlength{\LTpre}{0pt}%
          \setlength{\LTpost}{0pt}%
-         \begin{longtabu} to%
-            \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+         \begin{xltabular}{\textwidth}{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
-      {\end{longtabu}}%
+      {\end{xltabular}}%
    \renewcommand*{\glossaryheader}{}%
    \renewcommand*{\glsgroupheading}[1]{}%
    \renewcommand{\glossentry}[2]{%
