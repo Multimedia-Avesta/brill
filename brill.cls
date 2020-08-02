@@ -144,12 +144,12 @@
 \declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
 \newenvironment{nohyphens}
    {%\par\sloppy\exhyphenpenalty=\@M
-      \par\exhyphenpenalty=\@M
+      \exhyphenpenalty=\@M
       \@ifundefined{l@nohyphenation}
       {\language=\@cclv}
       {\hyphenrules{nohyphenation}}%
    }%
-   {\par
+   {%\par
       \@ifundefined{l@nohyphenation}
       {}
       {\endhyphenrules}%
@@ -1707,7 +1707,7 @@
    \ifbrill@PhD
       \renewcommand{\chapterformat}{%
          \mbox{\chapapp{\nobreakspace}\thechapter\autodot\enskip}}%
-      \part{Appendices}
+      %\part{Appendices}
    \else
       \renewcommand*{\thechapter}{\arabic{chapter}}%
       \small%
@@ -1715,8 +1715,6 @@
 }
 \newcommand*{\appendixstart}{\appendix}
 \newcommand*{\appendixend}{\@mainmatterfalse\normalsize}
-
-
 
 \setlength{\parindent}{4mm}
 
