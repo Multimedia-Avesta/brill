@@ -278,7 +278,7 @@
 %   Scale          = MatchLowercase,%
 %   Script         = Syriac,%
 %]%
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\arabicfont #1\egroup}
+\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
 \newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
@@ -988,6 +988,7 @@
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
 %\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\TX@col@width+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
@@ -1076,6 +1077,7 @@
 }
 
 \newif\if@firstitem
+\newif\if@tabledynamic
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
@@ -1095,8 +1097,9 @@
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
          {}%
+      \@tabledynamicfalse%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{xltabular}{\linewidth}{#2}}
+         {dynamic}{\@tabledynamictrue\begin{longtable}{#2}}
          {full}{\begin{xltabular}{\linewidth}{#2}}
          {wide}{\begin{xltabular}{130mm}{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
@@ -1151,7 +1154,11 @@
             }%
          \showrowcolors
          \BODY%
-      \end{xltabular}
+      \if@tabledynamic
+         \end{longtable}
+      \else
+         \end{xltabular}
+      \fi%
       \endgroup
       \iftoggle{@tablelandscape}{\endlandscape}{}
    }{%
@@ -1167,10 +1174,11 @@
          \iftoggle{@tablebgscreen}
             {\rowcolors{1}{white}{black!10}}%
             {}%
+         \@tabledynamicfalse%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabularx}{}{#2}}
-            {full}{\begin{tabularx}{\textwidth}{#2}}
-            {wide}{\begin{tabularx}{130mm}{#2}}
+            {dynamic}{\@tabledynamictrue\begin{tabular}{#2}}
+            {full}{\tabularx{\textwidth}{#2}}
+            {wide}{\tabularx{130mm}{#2}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
             \hiderowcolors
@@ -1192,7 +1200,11 @@
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\bottomrule}{\lasthline}%
-         \end{tabularx}
+         \if@tabledynamic
+            \end{tabular}
+         \else
+            \endtabularx
+         \fi%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
