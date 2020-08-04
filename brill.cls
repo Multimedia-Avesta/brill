@@ -1720,11 +1720,12 @@
    \ifbrill@PhD
       \renewcommand{\chapterformat}{%
          \mbox{\chapapp{\nobreakspace}\thechapter\autodot\enskip}}%
-      \part{Appendices}
+      %\part{Appendices}
    \else
       \renewcommand*{\thechapter}{\arabic{chapter}}%
       \small%
    \fi%
+   \cleardoubleoddemptypage
 }
 \newcommand*{\appendixstart}{\appendix}
 \newcommand*{\appendixend}{\@mainmatterfalse\normalsize}
