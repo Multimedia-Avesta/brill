@@ -903,14 +903,14 @@ brill]
 % Each stanza starts a new mini sections and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
    \stepcounter{stanza}%
-   \iftoggle{@stanzabooktoindex}%
+   A\@stanzaheading B%
+   \Ifstr{\@stanzaheading}{none}%
+      {}%
       {%
-         %\long\def\@temph{\minisec}%
-         %\Ifstr{\@stanzaheading}{\@temph}%
-         %   {\minisec{\Av{\passage{#1}}}}%
-            \@stanzaheading[#1]{\Av{\passage{#1}}}%
+         \iftoggle{@stanzabooktoindex}%
+            {\@stanzaheading[#1]{\Av{\passage{#1}}}}%
+            {\@stanzaheading{#1}}%
       }%
-      {\@stanzaheading{#1}}%
    %\setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
@@ -954,7 +954,7 @@ brill]
       {\ClassInfo{brill}{There is no file `stanzas.tex`. No stanzas read!}}%
 }
 
-% We define key-value options for \GetStanza
+% We define key-value options for \Getstanza
 
 \newcommand{\@defaultstanzaheading}{\minisec}
 \newcommand{\SetDefaultStanzaheading}[1]{\renewcommand{\@defaultstanzaheading}{#1}}
