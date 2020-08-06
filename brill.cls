@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/02 v0.51.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/06 v0.51.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -279,7 +279,7 @@
 %   Script         = Syriac,%
 %]%
 \newcommand*{\nosmallcaps}{\addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\arabicfont #1\egroup}
+\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
 \newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
 \newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
