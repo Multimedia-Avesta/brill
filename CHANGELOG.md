@@ -6,15 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.51.0] - 2020-08-06
+
 ### Added
 - New macro `\appendixend` to return to `backmatter` (\#9597)
 - New macro `\appendixstart` as synoynm to `\appendix` (\#9597)
+- New macro `\nosmallcaps` to avoid usage of small caps within language macros (\#9607)
 
 ### Changed
--
+- Appendix handling in PhD mode (\#9597)
 
 ### Fixed
 - Handling of empty fields for title page (\#9604)
+- Right to left layout of Arabic text in macro `textarabic` (\#9609)
 
 ## [0.50.0] - 2020-07-26
 
@@ -22,10 +26,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - New macros `\editedtranslationtext` and `\editedcommentarytext`
 
 ### Changed
-- Non-Latin script are now setup using the Harfbuzz Renderer
+- Non-Latin scripts are now set-up using the `Harfbuzz` renderer (`fontspec` option)
 
 ### Fixed
-- Font setup for part headings
+- Font set-up for part headings
 - Spacing for part headings
 
 ## [0.49.0] - 2020-07-16
@@ -693,6 +697,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.51.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.51.0
 [0.50.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.50.0
 [0.49.0]:
