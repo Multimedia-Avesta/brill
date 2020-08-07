@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.52.0] - 2020-08-07
+
+### Added
+- New macro `\GetstanzaWithtranslation` (\#9612)
+
 ## [0.51.1] - 2020-08-07
 
 ### Changed
@@ -14,9 +19,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.51.0] - 2020-08-06
 
 ### Added
-- New macro `\appendixend` to return to `backmatter` (\#9597)
-- New macro `\appendixstart` as synoynm to `\appendix` (\#9597)
-- New macro `\nosmallcaps` to avoid usage of small caps within language macros (\#9607)
+- Macro `\appendixend` to return to `backmatter` (\#9597)
+- Macro `\appendixstart` as synoynm to `\appendix` (\#9597)
+- Macro `\nosmallcaps` to avoid usage of small caps within language macros (\#9607)
+- Environment `nohyphen` as extension to `babel`'s `nohyphenation` (`exhyphenpenalty` set to `10000`)
+- Macro `abstract*` for Abstract witout TOC entry (\#9579)
 
 ### Changed
 - Appendix handling in PhD mode (\#9597)
@@ -702,6 +709,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.52.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.52.0
 [0.51.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.51.1
 [0.51.0]:
