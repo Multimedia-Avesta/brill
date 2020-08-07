@@ -301,6 +301,7 @@
       top=20truemm,bottom=20truemm,%
       headsep=5truemm,%
       left=40truemm,right=20truemm,%
+      headheight=\baselineskip,
       heightrounded%
    }
 \else
@@ -989,12 +990,15 @@
 \newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
-\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+%\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\TX@col@width+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
-\RequirePackage{tabu}
-\RequirePackage[flushleft]{threeparttable}
+%\RequirePackage{tabu}
+%\RequirePackage[flushleft]{threeparttable}
+\RequirePackage{tabularx}
+\RequirePackage{xltabular}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1007,13 +1011,13 @@
 }{%
    \endorigtable
 }
-\chardef\TPT@@@asteriskcatcode=\catcode`*
-\catcode`*=11
-\expandafter\patchcmd\csname\string\threeparttable\endcsname
-  {\TPT@hookin{tabular}}
-  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-  {}{}
-\catcode`*=\TPT@@@asteriskcatcode
+%\chardef\TPT@@@asteriskcatcode=\catcode`*
+%\catcode`*=11
+%\expandafter\patchcmd\csname\string\threeparttable\endcsname
+%  {\TPT@hookin{tabular}}
+%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+%  {}{}
+%\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1076,6 +1080,7 @@
 }
 
 \newif\if@firstitem
+\newif\if@tabledynamic
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
@@ -1095,10 +1100,11 @@
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
          {}%
+      \@tabledynamicfalse%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}{#2}}
-         {full}{\begin{longtabu} to \linewidth{#2}}
-         {wide}{\begin{longtabu} to 130mm{#2}}
+         {dynamic}{\@tabledynamictrue\begin{longtable}{#2}}
+         {full}{\begin{xltabular}{\linewidth}{#2}}
+         {wide}{\begin{xltabular}{130mm}{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
@@ -1151,7 +1157,11 @@
             }%
          \showrowcolors
          \BODY%
-      \end{longtabu}
+      \if@tabledynamic
+         \end{longtable}
+      \else
+         \end{xltabular}
+      \fi%
       \endgroup
       \iftoggle{@tablelandscape}{\endlandscape}{}
    }{%
@@ -1167,10 +1177,11 @@
          \iftoggle{@tablebgscreen}
             {\rowcolors{1}{white}{black!10}}%
             {}%
+         \@tabledynamicfalse%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{#2}}
-            {full}{\begin{tabu} to \textwidth{#2}}
-            {wide}{\begin{tabu} to 130mm{#2}}
+            {dynamic}{\@tabledynamictrue\begin{tabular}{#2}}
+            {full}{\tabularx{\textwidth}{#2}}
+            {wide}{\tabularx{130mm}{#2}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
             \hiderowcolors
@@ -1192,7 +1203,11 @@
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\bottomrule}{\lasthline}%
-         \end{tabu}
+         \if@tabledynamic
+            \end{tabular}
+         \else
+            \endtabularx
+         \fi%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
@@ -1449,10 +1464,9 @@
       {%
          \setlength{\LTpre}{0pt}%
          \setlength{\LTpost}{0pt}%
-         \begin{longtabu} to%
-            \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+         \begin{xltabular}{\textwidth}{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
-      {\end{longtabu}}%
+      {\end{xltabular}}%
    \renewcommand*{\glossaryheader}{}%
    \renewcommand*{\glsgroupheading}[1]{}%
    \renewcommand{\glossentry}[2]{%
@@ -1711,6 +1725,7 @@
       \renewcommand*{\thechapter}{\arabic{chapter}}%
       \small%
    \fi%
+   \cleardoubleoddemptypage
 }
 \newcommand*{\appendixstart}{\appendix}
 \newcommand*{\appendixend}{\@mainmatterfalse\normalsize}

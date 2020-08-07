@@ -1,4 +1,4 @@
--- 2020/07/09 v0.46.0
+-- 2020/08/07 v0.52.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -568,4 +568,10 @@ end
 function create_stanzafile()
    local file = assert(io.open("./stanzas.tex", "w"))
    file:close()
+end
+
+function strtocs ( s )
+   local book, number = ''
+   book, number = string.match ( s, "^(%u+)(.+)$" )
+   tex.sprint ( "\\" .. book .. "{" .. number .. "}" )
 end
