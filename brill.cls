@@ -299,6 +299,7 @@
       top=20truemm,bottom=20truemm,%
       headsep=5truemm,%
       left=40truemm,right=20truemm,%
+      headheight=\baselineskip,
       heightrounded%
    }
 \else
