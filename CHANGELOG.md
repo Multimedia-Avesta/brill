@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - New macro `\GetstanzaWithtranslation` (\#9612)
 
+### Changed
+- Increase word spacing within `\Phltlt` (\#9577)
+
+### Fixed
+- Environment `nohyphens` did not work as expected. `\exhyphenpenalty=10000` is now set inside the `hyphenrules` environment (\#9578)
+
 ## [0.51.1] - 2020-08-07
 
 ### Changed

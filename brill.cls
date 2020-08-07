@@ -151,7 +151,6 @@
    {%
       \endhyphenrules%
    }%
-\newcommand*{\@morewordspace}{\spaceskip=2\fontdimen2\font plus 2\fontdimen3\font minus \fontdimen4\font}
 %\directlua{
 %   fonts.handlers.otf.addfeature {
 %      name = "thetasubst",
@@ -191,18 +190,6 @@
    WordSpace      = {1.35,1.45,1.55},%
    LetterSpace    = 12.5,%
    Renderer       = Node,%
-]%
-\newfontfamily{\morewordspacefont}{Brill}
-[%
-%   Ligatures      = {NoCommon,NoRare},%
-   WordSpace      = {2.5,1.2,0},%
-%   Renderer       = Node,%
-]%
-\newfontfamily{\punctuationfont}{Brill}
-[%
-%   Ligatures        = {NoCommon,NoRare},%
-   PunctuationSpace = 4.0,%
-%   Renderer         = Node,%
 ]%
 \newfontfamily{\freeserif}{FreeSerif}%
 [%
@@ -274,9 +261,11 @@
 %   Extension      = .ttf,%
 %   UprightFont    = *-Regular,%
 %   Scale          = MatchLowercase,%
+%   Renderer       = Harfbuzz,%
 %   Script         = Syriac,%
 %]%
-\newcommand*{\nosmallcaps}{\addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
+\newrobustcmd*{\nosmallcaps}{\addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
+\newcommand*{\@morewordspace}{\spaceskip=2\fontdimen2\font plus 2\fontdimen3\font minus \fontdimen4\font}
 \newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
 \newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
 \newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
