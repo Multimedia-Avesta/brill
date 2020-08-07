@@ -144,17 +144,14 @@
 \declare@shorthand{british}{"~}{\textormath{\leavevmode\hbox{-}}{-}}
 \declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
 \newenvironment{nohyphens}
-   {%\par\sloppy\exhyphenpenalty=\@M
-      \exhyphenpenalty=\@M
-      \@ifundefined{l@nohyphenation}
-      {\language=\@cclv}
-      {\hyphenrules{nohyphenation}}%
+   {%
+      \hyphenrules{nohyphenation}%
+      \exhyphenpenalty=10000%
    }%
-   {%\par
-      \@ifundefined{l@nohyphenation}
-      {}
-      {\endhyphenrules}%
+   {%
+      \endhyphenrules%
    }%
+\newcommand*{\@morewordspace}{\spaceskip=2\fontdimen2\font plus 2\fontdimen3\font minus \fontdimen4\font}
 %\directlua{
 %   fonts.handlers.otf.addfeature {
 %      name = "thetasubst",
@@ -198,7 +195,7 @@
 \newfontfamily{\morewordspacefont}{Brill}
 [%
 %   Ligatures      = {NoCommon,NoRare},%
-   WordSpace      = 2.0,%
+   WordSpace      = {2.5,1.2,0},%
 %   Renderer       = Node,%
 ]%
 \newfontfamily{\punctuationfont}{Brill}

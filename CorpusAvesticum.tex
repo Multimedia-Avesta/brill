@@ -599,7 +599,7 @@ brill]
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   \ifstrempty{#2}{}{\begin{nohyphens}\nosmallcaps #2\end{nohyphens}}%
+   \ifstrempty{#2}{}{\begin{nohyphens}\nosmallcaps\@morewordspace #2\end{nohyphens}}%
    \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
