@@ -18,7 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Handling of empty fields for title page (\#9604)
-- Right to left layout of Arabic text in macro `textarabic` (\#9609)
+- Right to left layout of Arabic text in macro `\textarabic` (\#9609)
 
 ## [0.50.0] - 2020-07-26
 

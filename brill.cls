@@ -37,9 +37,9 @@
 }
 \ProcessKeyvalOptions*
 \ifbrill@PhD
-   \PassOptionsToClass{twoside=false,appendixprefix=false}{scrbook}
+   \PassOptionsToClass{twoside=false}{scrbook}
 \else
-   \PassOptionsToClass{twoside,appendixprefix}{scrbook}
+   \PassOptionsToClass{twoside=true}{scrbook}
 \fi%   
 \RequireLuaTeX
 \LoadClass[%
@@ -48,6 +48,7 @@
    captions=tableabove,%
    captions=bottombeside,%
    captions=rightbeside,%
+   appendixprefix,%
    chapterprefix,%
    listof=leveldown,%
    open=any,%TODO: right?
@@ -1706,9 +1707,6 @@
 \appto{\appendix}{%
    \@mainmattertrue
    \ifbrill@PhD
-      \renewcommand{\chapterformat}{%
-         \mbox{\chapapp{\nobreakspace}\thechapter\autodot\enskip}}%
-      %\part{Appendices}
    \else
       \renewcommand*{\thechapter}{\arabic{chapter}}%
       \small%
