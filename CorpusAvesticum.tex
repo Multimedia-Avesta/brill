@@ -919,8 +919,11 @@ brill]
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
-   \let\newline\appcrnewline%
-   \hangindent\parindent\hangafter=1\relax%
+   \if@noindention
+   \else
+      \let\newline\appcrnewline%
+      \hangindent\parindent\hangafter=1\relax%
+   \fi%
 }{%
    \par%
    % If the apparatus is not empty, output it in two columns
@@ -993,9 +996,11 @@ brill]
 
 %%% We define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
 \newcommand{\bookstringtocs}[1]{\directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
-
+\newif\if@noindention
 \newcommand{\GetstanzaWithtranslation}[1]{%
+   \@noindentiontrue
    \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
+   \@noindentionfalse
 }
 
 \newcommand{\Newtranslation}[3][]{%
@@ -1015,11 +1020,17 @@ brill]
 \newcommand{\@Gettranslation}[1]{%
    \begingroup%
    \setlength{\parindent}{0pt}%
-   \let\@normalcr\@linebreakwithindent%
+   \if@noindention
+   \else
+      \let\@normalcr\@linebreakwithindent%
+   \fi%
    \let\RDTrans\@gobble%
    \par\noindent%
    \csuse{translation-#1}%
-   \@linebreakwithindent%
+   \if@noindention
+   \else
+      \@linebreakwithindent%
+   \fi%
    \endgroup%
 }
 \newcommand{\@@Gettranslation}[2][]{%
@@ -1040,11 +1051,12 @@ brill]
          \csuse{translation-#2}%
          \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
       }%
-   }[\ifcsdef{gettrans\@currvalgettrans}%
-   {\@linebreakwithindent\vspace{\baselineskip}}%
-   {\par\vspace{\baselineskip}\noindent}%
-   \csuse{translation-#2}%
-   \@linebreakwithindent%
+   }[%
+      \ifcsdef{gettrans\@currvalgettrans}%
+         {\@linebreakwithindent\vspace{\baselineskip}}%
+         {\par\vspace{\baselineskip}\noindent}%
+      \csuse{translation-#2}%
+      \@linebreakwithindent%
    ]%
    \endgroup%
 }

@@ -1552,7 +1552,7 @@
    \par\nopagebreak\vspace{\baselineskip}%
 }
 
-\newcommand{\@linebreakwithindent}{\par\hangindent=\normalparindent\hangafter=1\relax}
+\newcommand{\@linebreakwithindent}{\par\hangindent\normalparindent\hangafter=1\relax}
 \newcommand{\@blocktransnewline}{%
    \immediate\write\@auxout{%
       \csgdef{blocktrans\@currvalblocktrans}{}}%
