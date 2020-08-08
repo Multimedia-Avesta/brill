@@ -1532,5 +1532,9 @@ brill]
    \def\PY#1{PY~#1}%
    \def\Phl#1{Phl~#1}%
 }%
+
+\AtBeginDocument{\let\brill@saved@footnotetext\@footnotetext}
+\newcommand*{\Deactivatefootnotetext}{\let\@footnotetext=\@gobble}
+\newcommand*{\Activatefootnotetext}{\let\@footnotetext\brill@saved@footnotetext}
       
 \endinput
