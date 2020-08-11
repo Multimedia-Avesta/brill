@@ -379,6 +379,7 @@ function removespecialchars (s)
    snew = string.gsub(snew, '%.', '')
    snew = string.gsub(snew, '%(', '')
    snew = string.gsub(snew, '%)', '')
+   snew = string.gsub(snew, '°', '')
    snew = string.gsub(snew, '%s-…%s-', ' ')
    -- ... and we move sort ids to the very end
    snew = string.gsub(snew, '^¹(.+)$', '%11')
