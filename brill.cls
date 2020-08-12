@@ -131,7 +131,15 @@
 \normalsize%
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
-\RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
+\RequirePackage[%
+   dutch,%
+   french,%
+   italian,%
+   latin,%
+   ngerman,%
+   russian,%
+   spanish,%
+   main=british]{babel}
 %%% We define some babel shortcuts, which are available for ngerman for British as well.
 \initiate@active@char{"}
 \addto\extrasbritish{\languageshorthands{british}\bbl@activate{"}}
