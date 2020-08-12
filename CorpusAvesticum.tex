@@ -1321,7 +1321,8 @@ brill]
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
    leftmargin=*,%
-   font=\normalfont\bfseries\itshape%
+   labelsep=0pt,%
+   font=\normalfont\bfseries\itshape,%
 }
 \newlist{Meanings}{enumerate*}{1}
 \setlist[Meanings]{label=\arabic*.,mode=unboxed}
@@ -1367,7 +1368,7 @@ brill]
 %   columnsep=4mm,%
 %   options={--noheadings --config muya}
 %   ]%
-\newcommand*{\Lemma}[2][]{\item[#2]}
+\newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\ }}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
 

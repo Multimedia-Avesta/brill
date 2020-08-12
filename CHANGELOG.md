@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Macros `\Deactivatefootnotetext` and `\Activatefootnotetext` to temporaly turn off the output of footnote text and back on
+
 ## [0.52.1] - 2020-08-08
 
 ### Fixed
