@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/08/08 v0.52.1 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/08/12 v0.53.0 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -1293,6 +1293,8 @@ brill]
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
 \newcommand*{\@abbreviationsacfile}{../muya.common/abbreviations_ac.tex}
 \newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
+\newcommand*{\@transcriptionsfile}{../muya.common/transcriptions.tex}
+\newcommand*{\SetTranscriptionsFile}[1]{\renewcommand*{\@transcriptionsfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
 %%\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
@@ -1472,6 +1474,10 @@ brill]
       {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully loaded!}}%
       {\ClassWarning{brill}{No abbreviation file for apparatus criticus found!\MessageBreak
        Please use \string\SetAbbreviationsacFile\space}}%
+   \InputIfFileExists{\@transcriptionsfile}%
+      {\ClassInfo{brill}{Transcriptions successfully loaded!}}%
+      {\ClassWarning{brill}{No transcription file found!\MessageBreak
+       Please use \string\SetTranscriptionsFile\space}}%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
