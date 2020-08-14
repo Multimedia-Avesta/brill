@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/08/12 v0.53.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/08/14 v0.53.1 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -1331,19 +1331,26 @@ brill]
 %
 \newlist{Sublemmata}{description}{1}
 \setlist[Sublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
-   before={\def~{\textasciitilde}}%
+   before={\def~{\textasciitilde}}%,
 }
 \newlist{Subsublemmata}{description}{1}
 \setlist[Subsublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
    before={\def~{\textasciitilde}}%
 }
 \newlist{Subsubsublemmata}{description}{1}
+\setlist[Subsubsublemmata]{labelsep=.5em}
 \setlist[Subsubsublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
    before={\def~{\textasciitilde}}%
 }
@@ -1370,7 +1377,7 @@ brill]
 %   columnsep=4mm,%
 %   options={--noheadings --config muya}
 %   ]%
-\newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\ }}
+\newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\hspace{0.5em}}}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
 

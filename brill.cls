@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/12 v0.53.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/14 v0.53.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -1071,7 +1071,6 @@
 }
 
 \newif\if@firstitem
-\newif\if@tabledynamic
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
@@ -1091,7 +1090,6 @@
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
          {}%
-      \@tabledynamicfalse%
       \IfStrEqCase{\@tablewidth}{%
          {dynamic}{\begin{longtabu}{#2}}
          {full}{\begin{longtabu} to \linewidth{#2}}
@@ -1164,7 +1162,6 @@
          \iftoggle{@tablebgscreen}
             {\rowcolors{1}{white}{black!10}}%
             {}%
-         \@tabledynamicfalse%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{tabu}{#2}}
             {full}{\begin{tabu} to \textwidth{#2}}

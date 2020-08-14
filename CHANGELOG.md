@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.53.1] - 2020-08-14
+
+### Fixed
+- Spacing for glossary set to `0.5em` for `\Lemma`, `\Sublemma`, `\Subsublemma` and `\Subsubsublemma` (\#9712)
+
 ## [0.53.0] - 2020-08-12
 
 ### Added
@@ -733,6 +738,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.53.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.53.1
 [0.53.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.53.0
 [0.52.1]:
