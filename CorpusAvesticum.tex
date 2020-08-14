@@ -366,6 +366,8 @@ brill]
       {Grk}{\def\indexlanguage{Greek}\upshape}%
       {Guj}{\def\indexlanguage{Gujarati}\itshape}%
       {Hitt}{\def\indexlanguage{Hittite}\itshape}%
+      {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
+      {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {IMP}{\def\indexlanguage{Inscriptional Middle Persian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{Latin}\itshape}%
@@ -385,16 +387,15 @@ brill]
       {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
       {OssI}{\def\indexlanguage{Iron Ossetic}\itshape}%
       {Parth}{\def\indexlanguage{Parthian}\itshape}
+      {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {PDE}{\def\indexlanguage{Present-Day English}\itshape}%
       {PGmc}{\def\indexlanguage{Proto-Germanic}\itshape}%
       {Phl}{\def\indexlanguage{Pahlavi}\itshape}%
+      {Phltlt}{\def\indexlanguage{Pahlavi}\@morewordspace}%
       {PIE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
-      {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
-      {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {Pli}{\def\indexlanguage{PāỊi}\itshape}%
       {Pra}{\def\indexlanguage{Prakrit}\itshape}%
       {PrIIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
-      {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {PrIr}{\def\indexlanguage{Proto-Iranian}\itshape}%
       {Pz}{\def\indexlanguage{Pāzand}\itshape}%
       {Shugni}{\def\indexlanguage{Shugni}\itshape}%
@@ -405,7 +406,8 @@ brill]
       {Ved}{\def\indexlanguage{Vedic}\itshape}%
       {Yidgha}{\def\indexlanguage{Yidgha}\itshape}%
       {ZD}{\def\indexlanguage{Zoroastrian Dari}\itshape}%
-   }[\def\indexlanguage{A@General}\upshape]%
+   }[\ClassWarning{brill}{Language `#1` unknown. Using category `General`}%
+     \def\indexlanguage{A@General}\upshape]%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
 }
@@ -658,7 +660,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\PhlvBlock\PhlBlock
 \let\endPhlvBlock\endPhlBlock

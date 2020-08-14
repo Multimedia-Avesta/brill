@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Language `Phltlt` for Pahlavi transliterated text to be used e.g. in `\blocktranslation` to get more interword space (\#9715)
+
 ## [0.53.1] - 2020-08-14
 
 ### Fixed

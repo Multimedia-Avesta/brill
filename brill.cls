@@ -1632,7 +1632,7 @@
             \ifstrempty{#3}%
             {\ifstrempty{#4}{}{\noindent #4}}%
             {%
-               {\ItalicsOrNot{#2}#3}%
+               {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
                \ifstrempty{#4}%
                   {}%
                   {%
