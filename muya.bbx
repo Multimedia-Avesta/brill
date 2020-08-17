@@ -1,4 +1,4 @@
-\ProvidesFile{muya.bbx}[2020/07/15 v0.48.0 biblatex bibliography style]
+\ProvidesFile{muya.bbx}[2020/08/12 v0.53.0 biblatex bibliography style]
 \RequireBibliographyStyle{biblatex-sp-unified}
 \ExecuteBibliographyOptions{%
    datecirca=true,
@@ -46,7 +46,7 @@
 %      
       \map{%
          \step[fieldsource=langid,%
-               notmatch=\regexp{\A(british|french|italian|ngerman|spanish)\Z},final]%
+               notmatch=\regexp{\A(british|dutch|french|italian|latin|ngerman|russian|spanish)\Z},final]%
          \step[fieldset=langid,null]%
       }%
 % set booktitle field to specific language if it differs from the langid     

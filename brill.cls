@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/07 v0.52.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/14 v0.53.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -131,7 +131,15 @@
 \normalsize%
 \RequirePackage{luatex85}
 \RequirePackage{fontspec}
-\RequirePackage[french,ngerman,italian,spanish,main=british]{babel}
+\RequirePackage[%
+   dutch,%
+   french,%
+   italian,%
+   latin,%
+   ngerman,%
+   russian,%
+   spanish,%
+   main=british]{babel}
 %%% We define some babel shortcuts, which are available for ngerman for British as well.
 \initiate@active@char{"}
 \addto\extrasbritish{\languageshorthands{british}\bbl@activate{"}}
@@ -976,15 +984,12 @@
 \newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
-%\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
-\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\TX@col@width+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
-%\RequirePackage{tabu}
-%\RequirePackage[flushleft]{threeparttable}
-\RequirePackage{tabularx}
-\RequirePackage{xltabular}
+\RequirePackage{tabu}
+\RequirePackage[flushleft]{threeparttable}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -997,13 +1002,13 @@
 }{%
    \endorigtable
 }
-%\chardef\TPT@@@asteriskcatcode=\catcode`*
-%\catcode`*=11
-%\expandafter\patchcmd\csname\string\threeparttable\endcsname
-%  {\TPT@hookin{tabular}}
-%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-%  {}{}
-%\catcode`*=\TPT@@@asteriskcatcode
+\chardef\TPT@@@asteriskcatcode=\catcode`*
+\catcode`*=11
+\expandafter\patchcmd\csname\string\threeparttable\endcsname
+  {\TPT@hookin{tabular}}
+  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+  {}{}
+\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1066,7 +1071,6 @@
 }
 
 \newif\if@firstitem
-\newif\if@tabledynamic
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
       fontsize=\normalsize,%
@@ -1086,11 +1090,10 @@
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
          {}%
-      \@tabledynamicfalse%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\@tabledynamictrue\begin{longtable}{#2}}
-         {full}{\begin{xltabular}{\linewidth}{#2}}
-         {wide}{\begin{xltabular}{130mm}{#2}}
+         {dynamic}{\begin{longtabu}{#2}}
+         {full}{\begin{longtabu} to \linewidth{#2}}
+         {wide}{\begin{longtabu} to 130mm{#2}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
@@ -1143,11 +1146,7 @@
             }%
          \showrowcolors
          \BODY%
-      \if@tabledynamic
-         \end{longtable}
-      \else
-         \end{xltabular}
-      \fi%
+      \end{longtabu}
       \endgroup
       \iftoggle{@tablelandscape}{\endlandscape}{}
    }{%
@@ -1163,11 +1162,10 @@
          \iftoggle{@tablebgscreen}
             {\rowcolors{1}{white}{black!10}}%
             {}%
-         \@tabledynamicfalse%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\@tabledynamictrue\begin{tabular}{#2}}
-            {full}{\tabularx{\textwidth}{#2}}
-            {wide}{\tabularx{130mm}{#2}}
+            {dynamic}{\begin{tabu}{#2}}
+            {full}{\begin{tabu} to \textwidth{#2}}
+            {wide}{\begin{tabu} to 130mm{#2}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
             \hiderowcolors
@@ -1189,11 +1187,7 @@
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\bottomrule}{\lasthline}%
-         \if@tabledynamic
-            \end{tabular}
-         \else
-            \endtabularx
-         \fi%
+         \end{tabu}
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
@@ -1450,9 +1444,10 @@
       {%
          \setlength{\LTpre}{0pt}%
          \setlength{\LTpost}{0pt}%
-         \begin{xltabular}{\textwidth}{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+         \begin{longtabu} to%
+            \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
-      {\end{xltabular}}%
+      {\end{longtabu}}%
    \renewcommand*{\glossaryheader}{}%
    \renewcommand*{\glsgroupheading}[1]{}%
    \renewcommand{\glossentry}[2]{%
@@ -1637,7 +1632,7 @@
             \ifstrempty{#3}%
             {\ifstrempty{#4}{}{\noindent #4}}%
             {%
-               {\ItalicsOrNot{#2}#3}%
+               {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
                \ifstrempty{#4}%
                   {}%
                   {%

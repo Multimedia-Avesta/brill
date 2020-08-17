@@ -1,4 +1,4 @@
-\ProvidesFile{CorpusAvesticum.tex}[2020/08/07 v0.52.0 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/08/14 v0.53.1 Configuration file for
 brill]
 \RequirePackage{xspace}
 %\xspaceremoveexception{s}
@@ -366,6 +366,8 @@ brill]
       {Grk}{\def\indexlanguage{Greek}\upshape}%
       {Guj}{\def\indexlanguage{Gujarati}\itshape}%
       {Hitt}{\def\indexlanguage{Hittite}\itshape}%
+      {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
+      {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {IMP}{\def\indexlanguage{Inscriptional Middle Persian}\itshape}%
       {Khot}{\def\indexlanguage{Khotanese}\itshape}%
       {Lat}{\def\indexlanguage{Latin}\itshape}%
@@ -385,16 +387,15 @@ brill]
       {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
       {OssI}{\def\indexlanguage{Iron Ossetic}\itshape}%
       {Parth}{\def\indexlanguage{Parthian}\itshape}
+      {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {PDE}{\def\indexlanguage{Present-Day English}\itshape}%
       {PGmc}{\def\indexlanguage{Proto-Germanic}\itshape}%
       {Phl}{\def\indexlanguage{Pahlavi}\itshape}%
+      {Phltlt}{\def\indexlanguage{Pahlavi}\@morewordspace}%
       {PIE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
-      {IE}{\def\indexlanguage{Proto-Indo-European}\itshape}%
-      {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {Pli}{\def\indexlanguage{PāỊi}\itshape}%
       {Pra}{\def\indexlanguage{Prakrit}\itshape}%
       {PrIIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
-      {IIr}{\def\indexlanguage{Proto-Indo-Iranian}\itshape}%
       {PrIr}{\def\indexlanguage{Proto-Iranian}\itshape}%
       {Pz}{\def\indexlanguage{Pāzand}\itshape}%
       {Shugni}{\def\indexlanguage{Shugni}\itshape}%
@@ -405,7 +406,8 @@ brill]
       {Ved}{\def\indexlanguage{Vedic}\itshape}%
       {Yidgha}{\def\indexlanguage{Yidgha}\itshape}%
       {ZD}{\def\indexlanguage{Zoroastrian Dari}\itshape}%
-   }[\def\indexlanguage{A@General}\upshape]%
+   }[\ClassWarning{brill}{Language `#1` unknown. Using category `General`}%
+     \def\indexlanguage{A@General}\upshape]%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
 }
@@ -658,7 +660,7 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
    {\resetlanguage}
 \let\PhlvBlock\PhlBlock
 \let\endPhlvBlock\endPhlBlock
@@ -1305,6 +1307,8 @@ brill]
 \newcommand*{\SetAbbreviationsFile}[1]{\renewcommand*{\@abbreviationsfile}{#1}}
 \newcommand*{\@abbreviationsacfile}{../muya.common/abbreviations_ac.tex}
 \newcommand*{\SetAbbreviationsacFile}[1]{\renewcommand*{\@abbreviationsacfile}{#1}}
+\newcommand*{\@transcriptionsfile}{../muya.common/transcriptions.tex}
+\newcommand*{\SetTranscriptionsFile}[1]{\renewcommand*{\@transcriptionsfile}{#1}}
 \newcommand*{\@translationsfile}{../muya.common/translations.tex}
 \newcommand*{\SetTranslationsFile}[1]{\renewcommand*{\@translationsfile}{#1}}
 %%\newcommand*{\@bibliographyfile}{../muya.common/zotero.bib}
@@ -1333,26 +1337,34 @@ brill]
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
    leftmargin=*,%
-   font=\normalfont\bfseries\itshape%
+   labelsep=0pt,%
+   font=\normalfont\bfseries\itshape,%
 }
 \newlist{Meanings}{enumerate*}{1}
 \setlist[Meanings]{label=\arabic*.,mode=unboxed}
 %
 \newlist{Sublemmata}{description}{1}
 \setlist[Sublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
-   before={\def~{\textasciitilde}}%
+   before={\def~{\textasciitilde}}%,
 }
 \newlist{Subsublemmata}{description}{1}
 \setlist[Subsublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
    before={\def~{\textasciitilde}}%
 }
 \newlist{Subsubsublemmata}{description}{1}
+\setlist[Subsubsublemmata]{labelsep=.5em}
 \setlist[Subsubsublemmata]{%
-   left=2\parindent,%
+   leftmargin=*,%
+   labelindent=2\parindent,%
+   labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
    before={\def~{\textasciitilde}}%
 }
@@ -1379,7 +1391,7 @@ brill]
 %   columnsep=4mm,%
 %   options={--noheadings --config muya}
 %   ]%
-\newcommand*{\Lemma}[2][]{\item[#2]}
+\newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\hspace{0.5em}}}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
 
@@ -1483,6 +1495,10 @@ brill]
       {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully loaded!}}%
       {\ClassWarning{brill}{No abbreviation file for apparatus criticus found!\MessageBreak
        Please use \string\SetAbbreviationsacFile\space}}%
+   \InputIfFileExists{\@transcriptionsfile}%
+      {\ClassInfo{brill}{Transcriptions successfully loaded!}}%
+      {\ClassWarning{brill}{No transcription file found!\MessageBreak
+       Please use \string\SetTranscriptionsFile\space}}%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
@@ -1544,5 +1560,9 @@ brill]
    \def\PY#1{PY~#1}%
    \def\Phl#1{Phl~#1}%
 }%
+
+\AtBeginDocument{\let\brill@saved@footnotetext\@footnotetext}
+\newcommand*{\Deactivatefootnotetext}{\let\@footnotetext=\@gobble}
+\newcommand*{\Activatefootnotetext}{\let\@footnotetext\brill@saved@footnotetext}
       
 \endinput

@@ -1,10 +1,37 @@
- # Changelog
+# Changelog
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+### Added
+- Language `Phltlt` for Pahlavi transliterated text to be used e.g. in `\blocktranslation` to get more interword space (\#9715)
+- New files `LICENSE`, `README.md`, `INSTALL.md` and `CONTRIBUTING.md`
+
+## [0.53.1] - 2020-08-14
+
+### Fixed
+- Spacing for glossary set to `0.5em` for `\Lemma`, `\Sublemma`, `\Subsublemma` and `\Subsubsublemma` (\#9712)
+
+## [0.53.0] - 2020-08-12
+
+### Added
+- Macros `\Deactivatefootnotetext` and `\Activatefootnotetext` to temporaly turn off the output of footnote text and back on (\#9622)
+- Support for languages `dutch`, `latin` and `russian` (\#9696)
+- Support for `transcriptions.tex` (only reading, no macros yet)
+
+### Changed
+- No space after `\Lemma` when followed by a `,` (\#9663)
+
+### Fixed
+- `°` is now ignored when sorting the glossary (\#9695)
+
+## [0.52.1] - 2020-08-08
+
+### Fixed
+- Restore table handling (accidentally added to master branch)
 
 ## [0.52.0] - 2020-08-07
 
@@ -715,6 +742,12 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.53.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.53.1
+[0.53.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.53.0
+[0.52.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.52.1
 [0.52.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.52.0
 [0.51.1]:
