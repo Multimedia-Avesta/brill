@@ -397,6 +397,8 @@ function removespecialchars (s)
    snew = ustring.gsub(snew, 'š' ,'š')
    snew = ustring.gsub(snew, 'ṣ', 'ṣ')
    snew = ustring.gsub(snew, 'ṭ', 'ṭ')
+   snew = string.gsub(snew, '\\XVE', 'xv')
+   snew = string.gsub(snew, '\\NGVE', 'ŋv')
    return snew
 end
 
@@ -423,17 +425,17 @@ function compare (a,b)
    -- as long as both strings have equal characters (and are both not empty)
    -- get the next sorting letter and compare them
       while s1 ~= '' and s2 ~= '' do
-         texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
-         texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
+         --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
          --texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
          if so1 < so2 then
             return true
          elseif so1 > so2 then
             return false
          end
-         texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
+         --texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
       end
       if s1 == '' then
          return true
@@ -468,11 +470,14 @@ function sortletter (s)
    elseif glosslang == 'Av' then -- Avestan, standard case
       sortorder = {["a"] = 1, ["ā"] = 2, ["ā̊ "] = 3, ["ą"] = 4, ["b"] = 5,
       ["β"] = 6, ["c"] = 7, ["d"] = 8, ["δ"] = 9, ["e"] = 10, ["ē"] = 11, 
-      ["ə"] = 12, ["ə̄"] = 13, ["f"] = 14, ["g"] = 15, ["γ"] = 16, ["h"] = 17,
+      ["ǝ"] = 12, ["ǝ̄"] = 13, -- U+01DD 
+      ["ə"] = 12, ["ə̄"] = 13, -- U+0259
+      ["f"] = 14, ["g"] = 15, ["γ"] = 16, ["h"] = 17,
       ["i"] = 18, ["ī"] = 19, ["j"] = 20, ["k"] = 21, ["m"] = 22, ["n"] = 23,
       ["ń"] = 24, ["ṇ"] = 25, ["ŋ"] = 26, ["ŋ́"] = 27, ["ŋv"] = 28, ["o"] = 29,
       ["ō"] = 30, ["p"] = 31, ["r"] = 32, ["s"] = 33, ["š́ "] = 35,
-      ["ṣ̌"] = 36, ["š"] = 34, ["t"] = 37, ["t̰"] = 38, ["θ"] = 39, ["u"] = 40, ["ū"] = 41,
+      ["ṣ̌"] = 36, ["š"] = 34, ["t"] = 37, ["t̰"] = 38, ["ϑ"] = 39, ["θ"] = 39,
+      ["u"] = 40, ["ū"] = 41,
       ["v"] = 42, ["x"] = 43, ["x́"] = 44, ["xv"] = 45, ["y"] = 46, ["z"] = 47,
       ["ž"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
    else 
