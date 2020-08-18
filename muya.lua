@@ -394,6 +394,7 @@ function removespecialchars (s)
    snew = ustring.gsub(snew, 'ṇ', 'ṇ')
    --   s1 = ustring.gsub(s1, 'ọ', 'ọ')
    snew = ustring.gsub(snew, 'ś', 'ś')
+   snew = ustring.gsub(snew, 'š' ,'š')
    snew = ustring.gsub(snew, 'ṣ', 'ṣ')
    snew = ustring.gsub(snew, 'ṭ', 'ṭ')
    return snew
@@ -425,14 +426,14 @@ function compare (a,b)
          texio.write_nl('Vorher: ' .. s1 .. ' ' .. s2)
          so1, s1 = sortletter(s1)
          so2, s2 = sortletter(s2)
-         --texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
+         texio.write_nl('Sort order: ' .. so1 .. ' ' .. so2)
          --texio.write_nl('Rest: ' .. s1 .. ' ' .. s2)
          if so1 < so2 then
             return true
          elseif so1 > so2 then
             return false
          end
-         --texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
+         texio.write_nl('Nachher: ' .. s1 .. ' ' .. s2)
       end
       if s1 == '' then
          return true
@@ -470,8 +471,8 @@ function sortletter (s)
       ["ə"] = 12, ["ə̄"] = 13, ["f"] = 14, ["g"] = 15, ["γ"] = 16, ["h"] = 17,
       ["i"] = 18, ["ī"] = 19, ["j"] = 20, ["k"] = 21, ["m"] = 22, ["n"] = 23,
       ["ń"] = 24, ["ṇ"] = 25, ["ŋ"] = 26, ["ŋ́"] = 27, ["ŋv"] = 28, ["o"] = 29,
-      ["ō"] = 30, ["p"] = 31, ["r"] = 32, ["s"] = 33, ["š"] = 34, ["š́ "] = 35,
-      ["ṣ̌ "] = 36,["t"] = 37, ["t̰"] = 38, ["θ"] = 39, ["u"] = 40, ["ū"] = 41,
+      ["ō"] = 30, ["p"] = 31, ["r"] = 32, ["s"] = 33, ["š́ "] = 35,
+      ["ṣ̌"] = 36, ["š"] = 34, ["t"] = 37, ["t̰"] = 38, ["θ"] = 39, ["u"] = 40, ["ū"] = 41,
       ["v"] = 42, ["x"] = 43, ["x́"] = 44, ["xv"] = 45, ["y"] = 46, ["z"] = 47,
       ["ž"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
    else 
