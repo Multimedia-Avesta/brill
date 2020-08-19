@@ -921,9 +921,10 @@ brill]
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
-   \if@noindention
+   \if@stanza@in@blocktranslation
    \else
       \let\newline\appcrnewline%
+      \let\\\appcrnewline%
       \hangindent\parindent\hangafter=1\relax%
    \fi%
 }{%
@@ -972,6 +973,8 @@ brill]
 \newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
 \define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
 \define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
+
+% Define macro \Getstanza[heading]{reference}
 \newcommand{\Getstanza}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
    \ifcsdef{stanza-#2}%
@@ -996,72 +999,69 @@ brill]
       {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
-%%% We define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
+% Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
 \newcommand{\bookstringtocs}[1]{\directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
-\newif\if@noindention
+
+\newif\if@stanza@in@blocktranslation
+% Define a macro to output the stanza text and its translation as blocktranslation
+% #1 is the reference of a stanza, e.g. Y28.1
 \newcommand{\GetstanzaWithtranslation}[1]{%
-   \@noindentiontrue
+   \@stanza@in@blocktranslationtrue
+% Call the blocktranslation macro with appropriate arguments   
    \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
-   \@noindentionfalse
+   \@stanza@in@blocktranslationfalse
 }
 
+% Translation are stored in a common file translations.tex
+% Each translation is defined with \Newtranslation[ritual direction]{label}{translation}
+% translations and optional ritual direction are stored in a separate macro
 \newcommand{\Newtranslation}[3][]{%
    \csgdef{translation-#2}{#3}%
    \ifstrempty{#1}{}{\csgdef{rd-#2}{#1}}%
 }
+% For conveniance
 \let\newtranslation\Newtranslation
-\newcommand{\@gettransnewline}{%
-   \immediate\write\@auxout{%
-      \csgdef{gettrans\@currvalgettrans}{}}%
-   \@linebreakwithindent%
-}
-
-\newcounter{gettrans}
 
 \newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
-\newcommand{\@Gettranslation}[1]{%
-   \begingroup%
-   \setlength{\parindent}{0pt}%
-   \if@noindention
-   \else
-      \let\@normalcr\@linebreakwithindent%
-   \fi%
-   \let\RDTrans\@gobble%
-   \par\noindent%
-   \csuse{translation-#1}%
-   \if@noindention
-   \else
-      \@linebreakwithindent%
-   \fi%
-   \endgroup%
-}
+\newcommand{\@Gettranslation}[1]{\@@Gettranslation[none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
-   \refstepcounter{gettrans}%
-   \xdef\@currvalgettrans{\thegettrans}%
+   \refstepcounter{specialnewline}%
+   \xdef\@currvalspecialnewline{\thespecialnewline}%
    \begingroup%
-   \let\newline\@gettransnewline%
-   \let\\\@gettransnewline%
-   \setlength{\parindent}{0pt}%
-   \par\noindent%
-   \IfStrEqCase{#1}{%
-      {t}{%
-         \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+      \let\newline\@specialnewline%
+      \let\\\@specialnewline%
+      \setlength{\parindent}{0pt}%
+      \IfStrEqCase{#1}{%
+         {t}{%
+            \par\noindent%
+            \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+            \csuse{translation-#2}%
+         }%
+         {m}{}%
+         {b}{%
+            \par\noindent%
+            \csuse{translation-#2}%
+            \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
+         }%
+         {none}{%
+            \let\RDTrans\@gobble%
+            \ifcsdef{specialnewline\@currvalspecialnewline}%
+               {BBB\@linebreakwithindent}%
+               {\par\noindent}%
+            \csuse{translation-#2}%
+            \@linebreakwithindent%
+         }%
+      }[%
+         \ifcsdef{specialnewline\@currvalspecialnewline}%
+            {\@linebreakwithindent\vspace{\baselineskip}}%
+            {\par\vspace{\baselineskip}\noindent}%
          \csuse{translation-#2}%
-      }%
-      {m}{}%
-      {b}{%
-         \csuse{translation-#2}%
-         \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
-      }%
-   }[%
-      \ifcsdef{gettrans\@currvalgettrans}%
-         {\@linebreakwithindent\vspace{\baselineskip}}%
-         {\par\vspace{\baselineskip}\noindent}%
-      \csuse{translation-#2}%
-      \@linebreakwithindent%
-   ]%
+         \@linebreakwithindent%
+      ]%
    \endgroup%
 }
+
+% For conveniance
 \let\gettranslation\Gettranslation
 
 \newcommand*{\editedtext}[1]{%
@@ -1213,7 +1213,7 @@ brill]
 \newbook{Yt}
 \newbook{ZWY}
 
-\newcommand*{\aee}{ə\char"0304\relax}
+\newcommand*{\aee}{ǝ̄}
 \newcommand*{\XVE}{x\textsuperscript{v}}
 \newcommand*{\NGVE}{ŋ\textsuperscript{v}}
 

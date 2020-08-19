@@ -989,7 +989,7 @@
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \RequirePackage{tabu}
-\RequirePackage[flushleft]{threeparttable}
+%\RequirePackage[flushleft]{threeparttable}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1002,13 +1002,13 @@
 }{%
    \endorigtable
 }
-\chardef\TPT@@@asteriskcatcode=\catcode`*
-\catcode`*=11
-\expandafter\patchcmd\csname\string\threeparttable\endcsname
-  {\TPT@hookin{tabular}}
-  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-  {}{}
-\catcode`*=\TPT@@@asteriskcatcode
+%\chardef\TPT@@@asteriskcatcode=\catcode`*
+%\catcode`*=11
+%\expandafter\patchcmd\csname\string\threeparttable\endcsname
+%  {\TPT@hookin{tabular}}
+%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+%  {}{}
+%\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1524,12 +1524,12 @@
 \newenvironment{@btquote}%
    {%
       \if@btquotetitle
-         \par\nopagebreak\vspace{\baselineskip}%
+         \par\nopagebreak\vspace{\@btvspace}%
          \@beginparpenalty=10000%
       \else
-         \par\addvspace{\baselineskip}%
+         \par\addvspace{\@btvspace}%
       \fi%
-      \ifcsdef{blocktrans\@currvalblocktrans}%
+      \ifcsdef{specialnewline\@currvalspecialnewline}%
          {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
          {\addmargin[2\parindent]{0pt}}%
       \ignorespaces%
@@ -1537,7 +1537,7 @@
    }%
    {%
       \endaddmargin%
-      \par\addvspace{\baselineskip}%\noindent\ignorespaces%
+      \par\addvspace{\@btvspace}%\noindent\ignorespaces%
    }%
 
 \newcommand{\beforeblocktranslation}[1]{%
@@ -1547,15 +1547,17 @@
    \par\nopagebreak\vspace{\baselineskip}%
 }
 
+\newcounter{specialnewline}
 \newcommand{\@linebreakwithindent}{\par\hangindent\normalparindent\hangafter=1\relax}
-\newcommand{\@blocktransnewline}{%
+\newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%
-      \csgdef{blocktrans\@currvalblocktrans}{}}%
+      \csgdef{specialnewline\@currvalspecialnewline}{}}%
    \@linebreakwithindent%
 }
 
-\newcounter{blocktrans}
-
+\newlength{\@btvspace}
+\setlength{\@btvspace}{\baselineskip}
+\newcommand*{\Setbtvspace}[1]{\setlength{\@btvspace}{#1}}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
 % Starred version
 \newcommand{\@blocktranslation}[4][]{%
@@ -1566,7 +1568,7 @@
          {\hyphenpenalty=10000\exhyphenpenalty=10000%
           \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
       \if@splittranslation%
-         \vspace{\baselineskip}\noindent%
+         \vspace{\@btvspace}\noindent%
       \else%
          \noindent%
       \fi%
@@ -1585,7 +1587,7 @@
          }%
    \else%
       {\ifstrempty{#2}{#3}{{\ItalicsOrNot{#2}#3}}}%
-      \par\vspace{\baselineskip}\noindent%
+      \par\vspace{\@btvspace}\noindent%
       \ifstrempty{#4}{}{#4}%
       \ifstrempty{#1}%
          {}%
@@ -1596,34 +1598,44 @@
             \end{addmargin}%
          }%
    \fi%
-   \par\vspace{\baselineskip}%
+   \par\vspace{\@btvspace}%
 }%
 \def\@tabarray@array@new{%
    \@ifnextchar[{\@@array}{\expandafter\@@array\expandafter[\array@default]}%
 }%
 \def\array@default{c}
 \let\@tabarray\@tabarray@array@new
+
 % Normal version: \blocktranslation[title]{language}{origtext}{translation}
 \newif\if@btquotetitle
 \newcommand{\@@blocktranslation}[4][]{%
+% set vertical position of table cells   
    \def\array@default{b}%
-   \refstepcounter{blocktrans}%
-   \xdef\@currvalblocktrans{\theblocktrans}%
+% As we do not know at the beginning, whether the text contains any newline 
+% elements at all we increase a counter and store a unique macros in the 
+% aux file, which we can then evaluate. It needs at least two runs to work.
+   \refstepcounter{specialnewline}%
+   \xdef\@currvalspecialnewline{\thespecialnewline}%
+% If there is no title argument we don't want any extra spacing   
    \ifstrempty{#1}%
       {\@btquotetitlefalse}%
       {\@btquotetitletrue%
-       \par\addvspace{\baselineskip}\noindent #1\par\nopagebreak%
+       \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
       }%
+% We start the output using a custom variant of the quote environment   
    \begin{@btquote}%
-      \let\newline\@blocktransnewline%
-      \let\\\@blocktransnewline%
+% Define \newline and \\ to use a hanging indent _and_ to set a macro to 
+% remember, that a newline element was used.      
+      \let\newline\@specialnewline%
+      \let\\\@specialnewline%
+% Test for the language argument      
       \ifstrempty{#2}%
          {\ifstrempty{#3}%
             {\noindent #4}%
             {%
                #3%
                \ifstrempty{#4}{}{%
-                  \par\nopagebreak\vspace{\baselineskip}\noindent%
+                  \par\nopagebreak\vspace{\@btvspace}\noindent%
                   #4%
                }%
             }%
@@ -1636,9 +1648,13 @@
                \ifstrempty{#4}%
                   {}%
                   {%
-                     \ifcsdef{blocktrans\@currvalblocktrans}%
-                        {\@linebreakwithindent\nopagebreak\vspace{\baselineskip}}%
-                        {\par\nopagebreak\vspace{\baselineskip}\noindent}%
+% If argument #3 contains newline elements, the macro exists and we know, that 
+% we need to use hanging indentation for the translation as well. Otherwise we 
+% use a standard \par to end the text.
+                     \ifcsdef{specialnewline\@currvalspecialnewline}%
+                        {\@linebreakwithindent\nopagebreak\vspace{\@btvspace}}%
+                        {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+% Output translation argument                        
                      #4%
                   }%
             }%

@@ -399,6 +399,7 @@ function removespecialchars (s)
    snew = ustring.gsub(snew, 'ṭ', 'ṭ')
    snew = string.gsub(snew, '\\XVE', 'xv')
    snew = string.gsub(snew, '\\NGVE', 'ŋv')
+   snew = string.gsub(snew, '\\aee', 'ǝ̄')
    return snew
 end
 
