@@ -6,9 +6,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.54.0] - 2020-08-19
 ### Added
 - Language `Phltlt` for Pahlavi transliterated text to be used e.g. in `\blocktranslation` to get more interword space (\#9715)
 - New files `LICENSE`, `README.md`, `INSTALL.md` and `CONTRIBUTING.md`
+- Macro `\Setbtvspace{LENGTH}` for changing vertical spacing in `blocktranslation` (\#9584)
+
+### Changed
+- Within `blocktranslation` the vertical spacing is changed to `@btvspace` which is `\baselineskip` by default (\#9584)
+- `babel` shorthands are activated for input files `translations.tex`, `abbreviations.tex` and `abbreviations_ac.tex` (\#9732)
+
+### Fixed
+- Glossary sorting (\#9720,\#9723)
+- Indentation for `\GetstanzaWithtranslation` (\#9612)
 
 ## [0.53.1] - 2020-08-14
 
@@ -742,6 +752,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.54.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.54.0
 [0.53.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.53.1
 [0.53.0]:
