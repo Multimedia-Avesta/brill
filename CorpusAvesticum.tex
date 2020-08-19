@@ -921,7 +921,7 @@ brill]
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
-   \if@stanza@in@blocktranslation
+   \if@inblocktranslation
    \else
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
@@ -1002,14 +1002,12 @@ brill]
 % Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
 \newcommand{\bookstringtocs}[1]{\directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
 
-\newif\if@stanza@in@blocktranslation
+\newif\if@inblocktranslation
 % Define a macro to output the stanza text and its translation as blocktranslation
 % #1 is the reference of a stanza, e.g. Y28.1
 \newcommand{\GetstanzaWithtranslation}[1]{%
-   \@stanza@in@blocktranslationtrue
 % Call the blocktranslation macro with appropriate arguments   
    \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
-   \@stanza@in@blocktranslationfalse
 }
 
 % Translation are stored in a common file translations.tex
@@ -1026,7 +1024,7 @@ brill]
 \newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{\@@Gettranslation[none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
-   \if@stanza@in@blocktranslation
+   \if@inblocktranslation
    \else
       \refstepcounter{specialnewline}%
       \xdef\@currvalspecialnewline{\thespecialnewline}%
@@ -1034,7 +1032,10 @@ brill]
    \begingroup%
       \let\newline\@specialnewline%
       \let\\\@specialnewline%
-      \setlength{\parindent}{0pt}%
+      \if@inblocktranslation
+      \else
+         \setlength{\parindent}{0pt}%
+      \fi%
       \IfStrEqCase{#1}{%
          {t}{%
             \par\noindent%
@@ -1049,7 +1050,7 @@ brill]
          }%
          {none}{%
             \let\RDTrans\@gobble%
-            %\par\noindent%
+            %\par%
             %\if@stanza@in@blocktranslation
             %\else
             %\ifcsdef{specialnewline\@currvalspecialnewline}%

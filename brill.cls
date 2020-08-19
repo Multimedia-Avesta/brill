@@ -1626,6 +1626,7 @@
    \begin{@btquote}%
 % Define \newline and \\ to use a hanging indent _and_ to set a macro to 
 % remember, that a newline element was used.      
+      \@inblocktranslationtrue%
       \let\newline\@specialnewline%
       \let\\\@specialnewline%
 % Test for the language argument      
@@ -1635,7 +1636,9 @@
             {%
                #3%
                \ifstrempty{#4}{}{%
-                  \par\nopagebreak\vspace{\@btvspace}\noindent%
+                  \ifcsdef{specialnewline\@currvalspecialnewline}%
+                     {\par\nopagebreak\vspace{\@btvspace}}%
+                     {\par\nopagebreak\vspace{\@btvspace}\noindent}%
                   #4%
                }%
             }%
@@ -1652,7 +1655,7 @@
 % we need to use hanging indentation for the translation as well. Otherwise we 
 % use a standard \par to end the text.
                      \ifcsdef{specialnewline\@currvalspecialnewline}%
-                        {\@linebreakwithindent\nopagebreak\vspace{\@btvspace}}%
+                        {\par\nopagebreak\vspace{\@btvspace}}%
                         {\par\nopagebreak\vspace{\@btvspace}\noindent}%
 % Output translation argument                        
                      #4%
