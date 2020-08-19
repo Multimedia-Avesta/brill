@@ -1019,14 +1019,18 @@ brill]
    \csgdef{translation-#2}{#3}%
    \ifstrempty{#1}{}{\csgdef{rd-#2}{#1}}%
 }
+
 % For conveniance
 \let\newtranslation\Newtranslation
 
 \newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{\@@Gettranslation[none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
-   \refstepcounter{specialnewline}%
-   \xdef\@currvalspecialnewline{\thespecialnewline}%
+   \if@stanza@in@blocktranslation
+   \else
+      \refstepcounter{specialnewline}%
+      \xdef\@currvalspecialnewline{\thespecialnewline}%
+   \fi%
    \begingroup%
       \let\newline\@specialnewline%
       \let\\\@specialnewline%
@@ -1045,11 +1049,19 @@ brill]
          }%
          {none}{%
             \let\RDTrans\@gobble%
-            \ifcsdef{specialnewline\@currvalspecialnewline}%
-               {BBB\@linebreakwithindent}%
-               {\par\noindent}%
+            %\par\noindent%
+            %\if@stanza@in@blocktranslation
+            %\else
+            %\ifcsdef{specialnewline\@currvalspecialnewline}%
+            %   {\@linebreakwithindent}%
+            %   {\par\noindent}%
+            %\fi%
             \csuse{translation-#2}%
-            \@linebreakwithindent%
+            %\if@stanza@in@blocktranslation
+            %\else
+            %   \@linebreakwithindent%
+            %\fi%
+            \par%
          }%
       }[%
          \ifcsdef{specialnewline\@currvalspecialnewline}%
@@ -1487,6 +1499,7 @@ brill]
 %\tabucolumn W
 
 \AtEndPreamble{%
+   \shorthandon{"}
    \InputIfFileExists{\@abbreviationsfile}%
       {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
       {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
@@ -1495,14 +1508,15 @@ brill]
       {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully loaded!}}%
       {\ClassWarning{brill}{No abbreviation file for apparatus criticus found!\MessageBreak
        Please use \string\SetAbbreviationsacFile\space}}%
-   \InputIfFileExists{\@transcriptionsfile}%
-      {\ClassInfo{brill}{Transcriptions successfully loaded!}}%
-      {\ClassWarning{brill}{No transcription file found!\MessageBreak
-       Please use \string\SetTranscriptionsFile\space}}%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
       {\ClassWarning{brill}{No translation file found!\MessageBreak
        Please use \string\SetTranslationsFile\space}}%
+   \shorthandoff{"}
+   \InputIfFileExists{\@transcriptionsfile}%
+      {\ClassInfo{brill}{Transcriptions successfully loaded!}}%
+      {\ClassWarning{brill}{No transcription file found!\MessageBreak
+       Please use \string\SetTranscriptionsFile\space}}%
 %   \IfFileExists{\@bibliographyfile}%
 %      {\addbibresource{\@bibliographyfile}}%
 %      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
