@@ -50,7 +50,7 @@
          \step[fieldset=langid,null]%
       }%
 % set booktitle field to specific language if it differs from the langid     
-      \map[overwrite,foreach={booktitle,title}]{%
+      \map[overwrite,foreach={booktitle,series}]{%
          \step[fieldsource=keyword,%
                match=\regexp{lang-$MAPLOOP=(.+),?},final]%$
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$

@@ -1105,6 +1105,14 @@ brill]
 %      {}{}
    }[\textup{#2}]%
 }
+
+\newcommand{\Newtranscription}[3][]{%
+   \csgdef{transcription-#2}{#3}%
+   \ifstrempty{#1}{}{\csgdef{rd-#2}{#1}}%
+}
+
+% For conveniance
+\let\newtranscription\Newtranscription
 %%%
 \newbook{A}
 \newbook{AAM}
