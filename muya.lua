@@ -380,6 +380,7 @@ function removespecialchars (s)
    snew = string.gsub(snew, '%(', '')
    snew = string.gsub(snew, '%)', '')
    snew = string.gsub(snew, '°', '')
+   snew = string.gsub(snew, '%s-/%s-', ' ')
    snew = string.gsub(snew, '%s-…%s-', ' ')
    -- ... and we move sort ids to the very end
    snew = string.gsub(snew, '^¹(.+)$', '%11')
@@ -397,9 +398,13 @@ function removespecialchars (s)
    snew = ustring.gsub(snew, 'š' ,'š')
    snew = ustring.gsub(snew, 'ṣ', 'ṣ')
    snew = ustring.gsub(snew, 'ṭ', 'ṭ')
-   snew = string.gsub(snew, '\\XVE', 'xv')
-   snew = string.gsub(snew, '\\NGVE', 'ŋv')
-   snew = string.gsub(snew, '\\aee', 'ǝ̄')
+   snew = string.gsub(snew, '\\XVE ', 'xv')
+   snew = string.gsub(snew, '\\NGVE' , 'ŋv')
+   snew = string.gsub(snew, '\\aee ', 'ǝ̄')
+   snew = string.gsub(snew, '\\XVE\\{\\}', 'xv')
+   snew = string.gsub(snew, '\\NGVE\\{\\}', 'ŋv')
+   snew = string.gsub(snew, '\\aee\\{\\}', 'ǝ̄')
+   
    return snew
 end
 
@@ -420,7 +425,7 @@ function compare (a,b)
    -- the comparison returns a sort order so1 and so2
    local so1, so2
    
-   --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
+   texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
    -- if both strings are equal we stop processing
    if s1 ~= s2 then
    -- as long as both strings have equal characters (and are both not empty)
