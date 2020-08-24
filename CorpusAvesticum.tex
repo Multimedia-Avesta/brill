@@ -1113,6 +1113,15 @@ brill]
 
 % For conveniance
 \let\newtranscription\Newtranscription
+
+\newcommand{\Gettranscription}[2][]{%
+   %\ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+   \csuse{transcription-#2}%
+}
+
+% For conveniance
+\let\gettranscription\Gettranscription
+
 %%%
 \newbook{A}
 \newbook{AAM}
