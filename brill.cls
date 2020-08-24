@@ -199,86 +199,9 @@
    LetterSpace    = 12.5,%
    Renderer       = Node,%
 ]%
-\newfontfamily{\freeserif}{FreeSerif}%
-[%
-   Extension      = .otf,%
-   UprightFont    = *,%
-   BoldFont       = *Bold,%
-   ItalicFont     = *Italic,%
-   BoldItalicFont = *BoldItalic,%
-   Scale          = MatchLowercase,%
-   Ligatures      = {Common},%
-   Renderer       = Node,%
-]% 
-\newfontfamily{\freesans}{FreeSans}%
-[%
-   Extension      = .otf,%
-   UprightFont    = *,%
-   BoldFont       = *Bold,%
-   ItalicFont     = *Oblique,%
-   BoldItalicFont = *BoldOblique,%
-   Scale          = MatchLowercase,%
-   Ligatures      = {Common},%
-   Renderer       = Node,%
-]% 
-\newfontfamily{\avestanfont}{NotoSansAvestan}%
-[%
-   Extension      = .ttf,%
-   UprightFont    = *-Regular,%
-   Scale          = MatchLowercase,%
-   Ligatures      = {Common},%
-   Renderer       = Harfbuzz,%
-   Script         = Avestan,%
-]%
-\newfontfamily{\gujaratifont}{NotoSerifGujarati}%
-[%
-   Extension      = .ttf,%
-   UprightFont    = *-Regular,%
-   BoldFont       = *-Bold,%
-   Scale          = MatchLowercase,%
-   Renderer       = Harfbuzz,%
-   Script         = Gujarati,%
-]%
-\newfontfamily{\arabicfont}{NotoNaskhArabic}%
-[%
-   Extension      = .ttf,%
-   UprightFont    = *-Regular,%
-   BoldFont       = *-Bold,%
-   Scale          = MatchLowercase,%
-   Ligatures      = {Common},%
-   Renderer       = Harfbuzz,%
-   Script         = Arabic,%
-]%
-\newfontfamily{\sanskritfont}{NotoSerifDevanagari}%
-[%
-   Extension      = .ttf,%
-   UprightFont    = *-Regular,%
-   BoldFont       = *-Bold,%
-   Scale          = MatchLowercase,%
-   Renderer       = Harfbuzz,%
-   Script         = Devanagari,%
-]%
-\newfontfamily{\pahlavifont}{KHUSRO__}%
-[%
-   Extension      = .TTF,%
-   UprightFont    = *,%
-   Scale          = MatchLowercase,%
-]%
-%\newfontfamily{\syriacfont}{NotoSansSyriacEastern}%
-%[%
-%   Extension      = .ttf,%
-%   UprightFont    = *-Regular,%
-%   Scale          = MatchLowercase,%
-%   Renderer       = Harfbuzz,%
-%   Script         = Syriac,%
-%]%
+
 \newrobustcmd*{\nosmallcaps}{\addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
 \newcommand*{\@morewordspace}{\spaceskip=2\fontdimen2\font plus 2\fontdimen3\font minus \fontdimen4\font}
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
-\newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
-\newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
-\newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
-\newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
 \newrobustcmd*{\texttracking}[1]{{\trackingfont #1}}%
 \newrobustcmd*{\texttrackingL}[1]{\ifhmode\unskip\fi{\trackingfont\ #1}}%
 \newrobustcmd*{\texttrackingR}[1]{{\trackingfont #1\ }\ignorespaces}%

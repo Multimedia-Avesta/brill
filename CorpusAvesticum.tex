@@ -1,17 +1,176 @@
 \ProvidesFile{CorpusAvesticum.tex}[2020/08/19 v0.54.0 Configuration file for
 brill]
 \RequirePackage{xspace}
-%\xspaceremoveexception{s}
 \RequirePackage{collcell}
-%\let\collectcell@notabu\collectcell
-%\def\collectcell@intabu#1#2\tabu@cellleft{#2\tabu@cellleft\collectcell@notabu{#1}}
-%\def\collectcell{\tabu@ifenvir\collectcell@intabu\collectcell@notabu}
 \RequirePackage{newunicodechar}
 %\if@printversion
 %   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 %\else
 %   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
 %\fi%
+\newfontfamily{\freeserif}{FreeSerif}%
+[%
+   Extension      = .otf,%
+   UprightFont    = *,%
+   BoldFont       = *Bold,%
+   ItalicFont     = *Italic,%
+   BoldItalicFont = *BoldItalic,%
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
+   Renderer       = Node,%
+]% 
+\newfontfamily{\freesans}{FreeSans}%
+[%
+   Extension      = .otf,%
+   UprightFont    = *,%
+   BoldFont       = *Bold,%
+   ItalicFont     = *Oblique,%
+   BoldItalicFont = *BoldOblique,%
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
+   Renderer       = Node,%
+]% 
+\newfontfamily{\avestanfont}{NotoSansAvestan}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
+   Renderer       = Harfbuzz,%
+   Script         = Avestan,%
+]%
+\newfontfamily{\gujaratifont}{NotoSerifGujarati}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
+   Script         = Gujarati,%
+]%
+\newfontfamily{\arabicfont}{NotoNaskhArabic}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+   Ligatures      = {Common},%
+   Renderer       = Harfbuzz,%
+   Script         = Arabic,%
+]%
+\newfontfamily{\sanskritfont}{NotoSerifDevanagari}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Bold,%
+   Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
+   Script         = Devanagari,%
+]%
+\newfontfamily{\pahlavifont}{KHUSRO__}%
+[%
+   Extension      = .TTF,%
+   UprightFont    = *,%
+   Scale          = MatchLowercase,%
+]%
+%\newfontfamily{\syriacfont}{NotoSansSyriacEastern}%
+%[%
+%   Extension      = .ttf,%
+%   UprightFont    = *-Regular,%
+%   Scale          = MatchLowercase,%
+%   Renderer       = Harfbuzz,%
+%   Script         = Syriac,%
+%]%
+\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
+\newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
+\newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
+\newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
+
+\newcommand*{\aee}{ǝ̄}
+\newcommand*{\XVE}{x\textsuperscript{v}}
+\newcommand*{\NGVE}{ŋ\textsuperscript{v}}
+
+\newcommand*{\AvA}{\symbol{"10B00}}
+\newcommand*{\AvAA}{\symbol{"10B01}}
+\newcommand*{\AvAO}{\symbol{"10B02}}
+\newcommand*{\AvAAO}{\symbol{"10B03}}
+\newcommand*{\AvAN}{\symbol{"10B04}}
+\newcommand*{\AvAAN}{\symbol{"10B05}}
+\newcommand*{\AvAE}{\symbol{"10B06}}
+\newcommand*{\AvAEE}{\symbol{"10B07}}
+\newcommand*{\AvE}{\symbol{"10B08}}
+\newcommand*{\AvEE}{\symbol{"10B09}}
+\newcommand*{\AvO}{\symbol{"10B0A}}
+\newcommand*{\AvOO}{\symbol{"10B0B}}
+\newcommand*{\AvI}{\symbol{"10B0C}}
+\newcommand*{\AvII}{\symbol{"10B0D}}
+\newcommand*{\AvU}{\symbol{"10B0E}}
+\newcommand*{\AvUU}{\symbol{"10B0F}}
+\newcommand*{\AvKE}{\symbol{"10B10}}
+\newcommand*{\AvXE}{\symbol{"10B11}}
+\newcommand*{\AvXYE}{\symbol{"10B12}}
+\newcommand*{\AvXVE}{\symbol{"10B13}}
+\newcommand*{\AvGE}{\symbol{"10B14}}
+\newcommand*{\AvGGE}{\symbol{"10B15}}
+\newcommand*{\AvGHE}{\symbol{"10B16}}
+\newcommand*{\AvCE}{\symbol{"10B17}}
+\newcommand*{\AvJE}{\symbol{"10B18}}
+\newcommand*{\AvTE}{\symbol{"10B19}}
+\newcommand*{\AvTHE}{\symbol{"10B1A}}
+\newcommand*{\AvDE}{\symbol{"10B1B}}
+\newcommand*{\AvDHE}{\symbol{"10B1C}}
+\newcommand*{\AvTTE}{\symbol{"10B1D}}
+\newcommand*{\AvPE}{\symbol{"10B1E}}
+\newcommand*{\AvFE}{\symbol{"10B1F}}
+\newcommand*{\AvBE}{\symbol{"10B20}}
+\newcommand*{\AvBHE}{\symbol{"10B21}}
+\newcommand*{\AvNGE}{\symbol{"10B22}}
+\newcommand*{\AvNGYE}{\symbol{"10B23}}
+\newcommand*{\AvNGVE}{\symbol{"10B24}}
+\newcommand*{\AvNE}{\symbol{"10B25}}
+\newcommand*{\AvNYE}{\symbol{"10B26}}
+\newcommand*{\AvNNE}{\symbol{"10B27}}
+\newcommand*{\AvME}{\symbol{"10B28}}
+\newcommand*{\AvHME}{\symbol{"10B29}}
+\newcommand*{\AvYYE}{\symbol{"10B2A}}
+\newcommand*{\AvYE}{\symbol{"10B2B}}
+\newcommand*{\AvVE}{\symbol{"10B2C}}
+\newcommand*{\AvRE}{\symbol{"10B2D}}
+\newcommand*{\AvLE}{\symbol{"10B2E}}
+\newcommand*{\AvSE}{\symbol{"10B2F}}
+\newcommand*{\AvZE}{\symbol{"10B30}}
+\newcommand*{\AvSHE}{\symbol{"10B31}}
+\newcommand*{\AvZHE}{\symbol{"10B32}}
+\newcommand*{\AvSHYE}{\symbol{"10B33}}
+\newcommand*{\AvSSHE}{\symbol{"10B34}}
+\newcommand*{\AvHE}{\symbol{"10B35}}
+\newcommand*{\AvAbbrev}{\symbol{"10B39}}
+\newcommand*{\AvTTDOOD}{\symbol{"10B3A}}
+\newcommand*{\AvSTDOOD}{\symbol{"10B3B}}
+\newcommand*{\AvLTDOOD}{\symbol{"10B3C}}
+\newcommand*{\AvLODOTD}{\symbol{"10B3D}}
+\newcommand*{\AvLTROOR}{\symbol{"10B3E}}
+\newcommand*{\AvLOROTR}{\symbol{"10B3F}}
+%%% Special characters
+%\newunicodechar{←}{{\freeserif\symbol{"2190}}}
+%\newunicodechar{→}{{\freeserif\symbol{"2192}}}
+\newunicodechar{〈}{\textlangle}% map U+2329 to U+27E8
+\newunicodechar{〉}{\textrangle}% map U+232A to U+27E9
+\newunicodechar{●}{{\freeserif\symbol{"25CF}}}
+\newunicodechar{✓}{{\freeserif\symbol{"2713}}}
+\newunicodechar{θ}{ϑ}
+%\newunicodechar{݅ }{{\freesans\symbol{"0745}}}
+%%%
+\newcommand*{\blackcircle}{●}
+\renewcommand*{\checkmark}{✓}% from AMSmath
+\newcommand*{\leftwardsarrow}{←}
+\newcommand*{\rightwardsarrow}{→}
+\newcommand*{\sectionsign}{§}
+%%% remap from U+2329 to U+27E8 and from U+232A to U+27E9
+\renewcommand*{\textlangle}{⟨}% U+27E8
+\renewcommand*{\textrangle}{⟩}% U+27E9
+
 \directlua{require("muya")}
 \ifbrill@countwords
    \directlua{dofile(kpse.find_file"word_count.lua")}
@@ -1243,90 +1402,6 @@ brill]
 \newbook{YF}
 \newbook{Yt}
 \newbook{ZWY}
-
-\newcommand*{\aee}{ǝ̄}
-\newcommand*{\XVE}{x\textsuperscript{v}}
-\newcommand*{\NGVE}{ŋ\textsuperscript{v}}
-
-\newcommand*{\AvA}{\symbol{"10B00}}
-\newcommand*{\AvAA}{\symbol{"10B01}}
-\newcommand*{\AvAO}{\symbol{"10B02}}
-\newcommand*{\AvAAO}{\symbol{"10B03}}
-\newcommand*{\AvAN}{\symbol{"10B04}}
-\newcommand*{\AvAAN}{\symbol{"10B05}}
-\newcommand*{\AvAE}{\symbol{"10B06}}
-\newcommand*{\AvAEE}{\symbol{"10B07}}
-\newcommand*{\AvE}{\symbol{"10B08}}
-\newcommand*{\AvEE}{\symbol{"10B09}}
-\newcommand*{\AvO}{\symbol{"10B0A}}
-\newcommand*{\AvOO}{\symbol{"10B0B}}
-\newcommand*{\AvI}{\symbol{"10B0C}}
-\newcommand*{\AvII}{\symbol{"10B0D}}
-\newcommand*{\AvU}{\symbol{"10B0E}}
-\newcommand*{\AvUU}{\symbol{"10B0F}}
-\newcommand*{\AvKE}{\symbol{"10B10}}
-\newcommand*{\AvXE}{\symbol{"10B11}}
-\newcommand*{\AvXYE}{\symbol{"10B12}}
-\newcommand*{\AvXVE}{\symbol{"10B13}}
-\newcommand*{\AvGE}{\symbol{"10B14}}
-\newcommand*{\AvGGE}{\symbol{"10B15}}
-\newcommand*{\AvGHE}{\symbol{"10B16}}
-\newcommand*{\AvCE}{\symbol{"10B17}}
-\newcommand*{\AvJE}{\symbol{"10B18}}
-\newcommand*{\AvTE}{\symbol{"10B19}}
-\newcommand*{\AvTHE}{\symbol{"10B1A}}
-\newcommand*{\AvDE}{\symbol{"10B1B}}
-\newcommand*{\AvDHE}{\symbol{"10B1C}}
-\newcommand*{\AvTTE}{\symbol{"10B1D}}
-\newcommand*{\AvPE}{\symbol{"10B1E}}
-\newcommand*{\AvFE}{\symbol{"10B1F}}
-\newcommand*{\AvBE}{\symbol{"10B20}}
-\newcommand*{\AvBHE}{\symbol{"10B21}}
-\newcommand*{\AvNGE}{\symbol{"10B22}}
-\newcommand*{\AvNGYE}{\symbol{"10B23}}
-\newcommand*{\AvNGVE}{\symbol{"10B24}}
-\newcommand*{\AvNE}{\symbol{"10B25}}
-\newcommand*{\AvNYE}{\symbol{"10B26}}
-\newcommand*{\AvNNE}{\symbol{"10B27}}
-\newcommand*{\AvME}{\symbol{"10B28}}
-\newcommand*{\AvHME}{\symbol{"10B29}}
-\newcommand*{\AvYYE}{\symbol{"10B2A}}
-\newcommand*{\AvYE}{\symbol{"10B2B}}
-\newcommand*{\AvVE}{\symbol{"10B2C}}
-\newcommand*{\AvRE}{\symbol{"10B2D}}
-\newcommand*{\AvLE}{\symbol{"10B2E}}
-\newcommand*{\AvSE}{\symbol{"10B2F}}
-\newcommand*{\AvZE}{\symbol{"10B30}}
-\newcommand*{\AvSHE}{\symbol{"10B31}}
-\newcommand*{\AvZHE}{\symbol{"10B32}}
-\newcommand*{\AvSHYE}{\symbol{"10B33}}
-\newcommand*{\AvSSHE}{\symbol{"10B34}}
-\newcommand*{\AvHE}{\symbol{"10B35}}
-\newcommand*{\AvAbbrev}{\symbol{"10B39}}
-\newcommand*{\AvTTDOOD}{\symbol{"10B3A}}
-\newcommand*{\AvSTDOOD}{\symbol{"10B3B}}
-\newcommand*{\AvLTDOOD}{\symbol{"10B3C}}
-\newcommand*{\AvLODOTD}{\symbol{"10B3D}}
-\newcommand*{\AvLTROOR}{\symbol{"10B3E}}
-\newcommand*{\AvLOROTR}{\symbol{"10B3F}}
-%%% Special characters
-%\newunicodechar{←}{{\freeserif\symbol{"2190}}}
-%\newunicodechar{→}{{\freeserif\symbol{"2192}}}
-\newunicodechar{〈}{\textlangle}% map U+2329 to U+27E8
-\newunicodechar{〉}{\textrangle}% map U+232A to U+27E9
-\newunicodechar{●}{{\freeserif\symbol{"25CF}}}
-\newunicodechar{✓}{{\freeserif\symbol{"2713}}}
-\newunicodechar{θ}{ϑ}
-%\newunicodechar{݅ }{{\freesans\symbol{"0745}}}
-%%%
-\newcommand*{\blackcircle}{●}
-\renewcommand*{\checkmark}{✓}% from AMSmath
-\newcommand*{\leftwardsarrow}{←}
-\newcommand*{\rightwardsarrow}{→}
-\newcommand*{\sectionsign}{§}
-%%% remap from U+2329 to U+27E8 and from U+232A to U+27E9
-\renewcommand*{\textlangle}{⟨}% U+27E8
-\renewcommand*{\textrangle}{⟩}% U+27E9
 
 \newcommand{\AvTr}[1]{#1}
 \newcommand{\Rd}[1]{#1}
