@@ -244,6 +244,9 @@
                replace=\regexp{\\psq}]                  
       }%
 % We search for names with prefixes and apapt the sorting order
+% Copy the information of translator, editor and author into tempsortfield
+% In the end the name we need for sorting is in there. We store it for 
+% later usage.
       \map[overwrite=true]{%
          \step[fieldsource=translator]
          \step[fieldset=tempsortname, origfieldval]
@@ -252,11 +255,14 @@
          \step[fieldsource=author]
          \step[fieldset=tempsortname, origfieldval]
       }%
+% Search for name prefix construction and remove the prefix for sorting
+% the given name if "useprefix=true"    
       \map[overwrite=true]{%
          \step[fieldsource=tempsortname,%
                match=\regexp{(.+),\s+prefix=.+,\s+useprefix=true(.*)},%
                replace={$1$2}]%
       }%
+% Copy the stored sort name from above into the sort field
       \map[overwrite=false]{%
          \step[fieldsource=tempsortname]
          \step[fieldset=sortname,origfieldval]
