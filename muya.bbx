@@ -17,10 +17,10 @@
                match=\regexp{”|“|„|«|»},%
                replace=\regexp{\x22}%
          ]%
-         \step[fieldsource=\regexp{$MAPLOOP},%$
-               match={´},
-               replace={'}%
-         ]%
+%         \step[fieldsource=\regexp{$MAPLOOP},%$
+%               match={´},
+%               replace={'}%
+%         ]%
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\.\.\.},%
                replace=\regexp{\\ldots\{\}}%
@@ -49,41 +49,38 @@
                notmatch=\regexp{\A(british|dutch|french|italian|latin|ngerman|russian|spanish)\Z},final]%
          \step[fieldset=langid,null]%
       }%
-% set booktitle field to specific language if it differs from the langid     
+% set fields other than title to specific language if it differs from the langid (derived from title)    
       \map[overwrite,foreach={booktitle,series}]{%
-         \step[fieldsource=keyword,%
-               match=\regexp{lang-$MAPLOOP=(.+),?},final]%$
+         \step[fieldsource=keywords,%
+               match=\regexp{lang-$MAPLOOP=(english|dutch|french|italian|latin|german|russian|spanish)},final]%$
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$
          % Map english to british
          \step[fieldsource=\regexp{$MAPLOOP},%$
-            match=\regexp{(.+)§§§english},%
-            replace=\regexp{\\foreignlanguage\{british\}\{$1\}}]%$final?
+               match=\regexp{(.+)§§§english},%
+               replace=\regexp{\\foreignlanguage\{british\}\{$1\}}]%
+         % Map german to ngerman
+         \step[fieldsource=\regexp{$MAPLOOP},%$
+               match=\regexp{(.+)§§§german},%
+               replace=\regexp{\\foreignlanguage\{ngerman\}\{$1\}}]%            
          % look for other languages        
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.+)§§§(.+)},%
                replace=\regexp{\\foreignlanguage\{$2\}\{$1\}}]%            
       }%
-%        
-      \map[overwrite]{
-         \step[fieldsource=location,
+% Remove additional braces and replace " - " by " and " to get correct 
+% lists for location and publisher field     
+      \map[overwrite,foreach={location,publisher}]{
+         \step[fieldsource=$MAPLOOP,
                match=\regexp{\A\{(.+)\}\Z},
                replace=$1]%$
-         \step[fieldsource=location,%
+         \step[fieldsource=$MAPLOOP,%
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20and\x20}]             
-      }%
-      \map[overwrite]{
-         \step[fieldsource=publisher,
-               match=\regexp{\A\{(.+)\}\Z},
-               replace=$1]%$
-         \step[fieldsource=publisher,%
-               match=\regexp{\s+-\s+},%
-               replace=\regexp{\x20and\x20}]
-      }%
-%     Use specific quotes in booktitle if language differs from main language
+     }%
+% Use specific quotes in booktitle if language differs from main language
       \map[overwrite,foreach={title,booktitle,note}]{%
          \step[fieldsource=langid,final]%
-         \step[fieldsource=keyword,%
+         \step[fieldsource=keywords,%
                notmatch=\regexp{lang-$MAPLOOP=(.+),?},final]%$
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\x22.*?\x22},final]
@@ -105,7 +102,7 @@
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
                replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%
-   % we have to repeat that procedure for multiple occassions
+% we have to repeat that procedure for multiple occassions
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.*?)\x22(.*?)\x22(.*)},final]%
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§,append]%$
@@ -136,50 +133,54 @@
                match=\regexp{(.*?)\x22(.*?)\x22(.*)},%
                replace=\regexp{$1\\enquote\{$2\}$3},final]%$               
       }%                        
-%            
+% Move the director of a @movie entry to the author field           
       \map{%
          \pertype{movie}%
          \step[fieldsource=director,fieldtarget=author]%
       }%
-% 
+% Move an ISBN from the note field to the isbn field
       \map{%
          \step[fieldsource=note,match=\regexp{(97[8|9]-[-\d]{13})},final]%
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
          \step[fieldset=note,null]%
       }%
-%      
+% The same for old ISBN numbers      
       \map{%
          \step[fieldsource=note,match=\regexp{(\d[-\d]{13})},final]
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
          \step[fieldset=note,null]%
       }%
-%
+% Remove isbn and pagetotal field for @unpublished entries
       \map{%
          \pernottype{unpublished}%
          \step[fieldset=isbn,null]%
          \step[fieldset=pagetotal,null]%
       }%
-%      
+% Add the type information "Thesis" to all @thesis entries.
+% If type is given, it is _not_ overwritten
       \map[overwrite=false]{%
          \pertype{thesis}%
          \step[fieldset=type,fieldvalue={Thesis}]%
       }%
-%
+% Move the year information to date field
       \map{%
          \step[fieldsource=year,fieldtarget=date]%
       }%
-%
+% Move the address information to location field
       \map{%
-         \step[fieldsource=address,fieldtarget=location,final]%
+         \step[fieldsource=address,fieldtarget=location]%
       }%
-%
+% For date fields holding "forthcoming" set a field pubset and clean 
+% the date field. Set the sortyear to 9999 as well.
       \map{%
          \step[fieldsource=date,match=\regexp{\Aforthcoming\Z},final]%
          \step[fieldset=pubstate,origfieldval]%
          \step[fieldset=date,null]%
          \step[fieldset=sortyear,fieldvalue=9999]%
       }%
-% Split up date field
+% Split up date field holding additional information. Use a preorigdatefield 
+% and a postorigdatefield to store these information.
+% For date ranges
       \map[overwrite]{%
          \step[fieldsource=date,%
                match=\regexp{(.*)\s+\[(.*)\s*(\d{4}-\d{4})(.*)\]},final]%
@@ -188,6 +189,7 @@
          \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
          \step[fieldset=postorigdatetext,fieldvalue=\regexp{$4}]%$         
       }      
+% For single years      
       \map[overwrite]{%
          \step[fieldsource=date,%
                match=\regexp{(.*)\s+\[(.*)\s*(\d{4})(.*)\]},final]%
@@ -196,61 +198,43 @@
          \step[fieldset=origdate,fieldvalue=\regexp{$3}]%$
          \step[fieldset=postorigdatetext,fieldvalue=\regexp{$4}]%$
       }
-%circa dates
-      \map{%
-          \step[fieldsource=date,%
+% Use the correct input form for ca. dates.
+      \map[foreach={date,origdate}]{%
+          \step[fieldsource=$MAPLOOP,%
                 match=\regexp{^c\.a\.\s+(\d{4})},%
                 replace=\regexp{$1~}]%$
       }%
-      \map{%
-          \step[fieldsource=origdate,%
-                match=\regexp{^c\.a\.\s+(\d{4})},%
-                replace=\regexp{$1~}]%$
-      }%
-% Uncertain dates      
-      \map{%
-          \step[fieldsource=date,%
+% Use the correct input form for uncertain dates      
+      \map[foreach={date,origdate}]{%
+          \step[fieldsource=$MAPLOOP,%
                 match=\regexp{(.*)\s+\?+},%
                 replace=\regexp{$1?}]%$
       }%
-      \map{%
-          \step[fieldsource=origdate,%
-                match=\regexp{(.*)\s+\?+},%
-                replace=\regexp{$1?}]%$
-      }%      
-%date ranges
-      \map{%
-         \step[fieldsource=date,%
+% Use the correct input form for date ranges
+      \map[foreach={date,origdate}]{%
+         \step[fieldsource=$MAPLOOP,%
                match=\regexp{(\d{4})-(\d{4})},%
                replace=\regexp{$1/$2}]%
       }%
-      \map{%
-         \step[fieldsource=origdate,%
-               match=\regexp{(\d{4})-(\d{4})},%
-               replace=\regexp{$1/$2}]%
-      }%
-%
+% Split up title information into title and subtitle field using ":" as 
+% the delimiter
       \map[overwrite]{%
          \step[fieldsource=title,match=\regexp{(.*)\s+:\s+(.*)},final]%
          \step[fieldset=title,fieldvalue=\regexp{$1}]%$
          \step[fieldset=subtitle,fieldvalue=\regexp{$2}]%$
       }%  
-%
+% Normalise edition information
       \map[overwrite]{%
          \step[fieldsource=edition,
                match=\regexp{(\d+)[a-z]{2}\s+.*},
                replace=\regexp{$1}]%$
       }%
+% Move publisher information to organisation for @misc entries
       \map{%
          \pertype{misc}%
          \step[fieldsource=publisher,fieldtarget=organization]%
       }%
-      %%\map[foreach={title,booktitle,note}]{%
-      %%   
-      %%\step[fieldsource=langid,match=\regexp{(ngerman|french|italian)},final]%
-      %%   \step[fieldsource=\regexp{$MAPLOOP},%$
-      %%        match=\regexp{\x22(.*?)\x22},%
-%      
+% Replace page ranges by correct biblatex macros    
       \map{%
          \step[fieldsource=pages,%
                match=\regexp{ff\.},%
@@ -259,7 +243,7 @@
                match=\regexp{f\.},%
                replace=\regexp{\\psq}]                  
       }%
-      % We search for names with prefixes and apapt the sorting order
+% We search for names with prefixes and apapt the sorting order
       \map[overwrite=true]{%
          \step[fieldsource=translator]
          \step[fieldset=tempsortname, origfieldval]
