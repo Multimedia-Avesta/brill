@@ -978,7 +978,7 @@ brill]
 \newcommand{\Getstanza}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
    \ifcsdef{stanza-#2}%
-      {\csuse{stanza-#2}}%
+      {\addfontfeatures{RawFeature=-liga}\csuse{stanza-#2}}%
       {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
@@ -993,6 +993,7 @@ brill]
       {%
          \begingroup%
             \let\app\@gobble%
+            \addfontfeatures{RawFeature=-liga}%
             \csuse{stanza-#2}%
          \endgroup%
       }%

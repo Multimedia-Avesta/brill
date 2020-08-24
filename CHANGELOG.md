@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Quotation marks are no longer replaced (normalised), but kept as is
+
+### Added
+- Macros `\Newtranscription` and `Gettranscription` to support common `transcriptions.tex` file
+
+### Changed
+- Suppress usage of common Ligatures for `Getstanza` and `GetstanzaTextonly` (\#9731)
+
+### Fixed
+- Handling of `keywords` information regarding languages other than the one given in `langid`
+
 
 ## [0.54.0] - 2020-08-19
 ### Added
