@@ -1,3 +1,4 @@
+-- Based on Philipp Gesang's work at https://gist.github.com/phi-gamma/2622252
 -- 2020/02/11 v0.23.0
 packagedata            = packagedata or { } -- namespace proposal for packages
 local word_count       = { threshold = 3, }

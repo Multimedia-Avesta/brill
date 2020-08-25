@@ -1,3 +1,30 @@
+------------------------------------------------------------------------
+-- muya.lua
+-- Copyright 2018-2020 Martin Sievers
+--
+-- This work may be distributed and/or modified under the
+-- conditions of the LaTeX Project Public License, either version 1.3
+-- of this license or (at your option) any later version.
+-- The latest version of this license is in
+--   http://www.latex-project.org/lppl.txt
+-- and version 1.3 or later is part of all distributions of LaTeX
+-- version 2005/12/01 or later.
+--
+-- This work has the LPPL maintenance status `maintained'.
+-- 
+-- The Current Maintainer of this work is Martin Sievers
+--
+-- This work consists of the files 
+-- brill.cls
+-- CorpusAvesticum.tex
+-- muya.bbx
+-- muya.cbx
+-- muya.dbx
+-- muya.lua
+-- xindex-brill.lua
+-- xindex-muya.lua
+-- xindex-muyaPassages.lua
+--
 -- 2020/08/19 v0.54.0
 local ustring = require( 'ustring' )
 

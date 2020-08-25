@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Suppress usage of common Ligatures for `Getstanza` and `GetstanzaTextonly` (\#9731)
+- Update to latest version of style `biblatex-unified` (also on CTAN)
 
 ### Fixed
 - Handling of `keywords` information regarding languages other than the one given in `langid`
