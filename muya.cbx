@@ -28,7 +28,7 @@
 \RequireCitationStyle{unified}
 %%% We have to redefine some macros in order to have the labelendyear being used
 %%% for the different cite commands
-\renewbibmacro*{cite:labelyear+extradate}{%
+\renewbibmacro*{cite:labeldate+extradate}{%
    \iffieldundef{labelyear}
       {}
       {\iffieldundef{labelendyear}
@@ -47,7 +47,6 @@
 
 %%% \citeyear uses a different approach. Therefore we have to define this macro
 %%% separately.
-
 \DeclareCiteCommand{\citeyear}
    {\boolfalse{citetracker}%
    \boolfalse{pagetracker}%
@@ -80,6 +79,7 @@
    {\usebibmacro{postnote}}
 
 %%% Unfortunately the underlying sp-unified style redefines the postnote format in an old way
+%%% TODO: Not needed with the new biblatex-unified.cbx, but kept for sure.
 \DeclareFieldFormat{postnote}{\mknormrange{#1}}
 \DeclareFieldFormat{volcitepages}{\mknormrange{#1}}
 \DeclareFieldFormat{multipostnote}{\mknormrange{#1}}
