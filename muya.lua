@@ -25,25 +25,34 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2020/08/19 v0.54.0
+-- 2020/08/26 v0.55.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
-   local f = io.open("passages.idx", "r")
+   local match = ''
+   local n = 0
+-- local f = io.open("passages-test.idx", "r")
    local g = io.open("passages-mod.idx", "w+")
-   local content = f:read("*all")
-   f:seek('set')
+--   local content = f:read("*all")
+-- f:seek('set')
    -- for starred index macros like \Passages*
    -- TODO: What about letters within the passage id?
-   content = string.gsub(content, 
+   for line in io.lines ("passages.idx") do
+   --texio.write_nl("Vorher: " .. line)
+   match, n = string.gsub(line, 
       "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)@\\textup%s*{.+}|", 
       function(a,b) return get_sortentry_star(a,b) end)
+   if n == 0 then
    -- now for unstarred variant
-   content = string.gsub(content,
-      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
-      function(a,b) return get_sortentry(a,b) end)
-   g:write(content)
-   f:close()
+      match, n = string.gsub(line,
+         "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
+         function(a,b) return get_sortentry(a,b) end)
+   end
+   --texio.write_nl("Treffer: " .. n)
+   --texio.write_nl("Nachher: " .. match)
+   g:write(line .. "\n")
+--   f:close()
+   end
    g:close()
 end
 
@@ -63,8 +72,8 @@ end
 function get_sortentry_star(a,b)
    -- we have to analyse b to get a correct sort string
    local res = ""
-   for v,w in string.gmatch(b, "(%d+)([%-%.])") do
-      res = res .. string.format("%03d%s",v,w)
+   for v, w in string.gmatch(b, "(%d+)([%-%.])") do
+      res = res .. string.format("%03d%s", v, w)
    end
    for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
       res = res .. string.format("%03d", last)
