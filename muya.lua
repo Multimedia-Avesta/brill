@@ -308,6 +308,7 @@ function sortGlossary(l)
                -- we found a new lemma
                -- write previous lemma (if any) to table
                   if prevlemma and prevlemma ~= '' then
+                     lemmacontent = string.gsub(lemmacontent, '\n\n', '\n')
                      result[prevlemma] = lemmacontent
                   end
                -- remember new lemma as prevlemma for next entry
@@ -380,6 +381,7 @@ function sortGlossary(l)
                -- we found a new lemma
                -- write previous lemma (if any) to table
                if prevlemma and prevlemma ~= '' then
+                  lemmacontent = string.gsub(lemmacontent, '\n\n', '\n')
                   result[prevlemma] = lemmacontent
                end
                -- remember new lemma as prevlemma for next entry
@@ -405,7 +407,6 @@ function removesortid (s)
    snew = string.gsub(snew, '^³(.+)$', '%1')
    return snew
 end
-
 
 function removespecialchars (s)
    local snew = s
