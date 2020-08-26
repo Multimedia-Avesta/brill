@@ -965,9 +965,15 @@ brill]
    \endgroup%
 }
 %
-% We define macros to be used (only) within the apparatus criticus
+% We define macros to be used (only) within the stnazas/apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
-\newcommand{\appcrnewline}{\par\noindent\hangindent\parindent\hangafter=1\relax}
+\newcommand{\appcrnewline}{%
+   % Check whether we have to end a commentary passage
+   \if@iscommentarytext
+      \unskip)%
+      \global\@iscommentarytextfalse
+   \fi%
+   \par\noindent\hangindent\parindent\hangafter=1\relax}
 % We need to know whether we have the first reading
 \newif\if@firstrdg
 
@@ -975,11 +981,11 @@ brill]
 \newcommand{\app}[1]{%
    \refstepcounter{appcrfootnote}%
    \unskip\realsuperscript{\theappcrfootnote}%
-   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
-   \if@iscommentarytext
-      \unskip\textit{)}%
-      \@iscommentarytextfalse
-   \fi%
+%   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
+%   \if@iscommentarytext
+%      \unskip\textit{)}%
+%      \@iscommentarytextfalse
+%   \fi%
    \@firstrdgtrue%
    \gappto{\@appcr}{\item }#1%
 }
@@ -1298,12 +1304,15 @@ brill]
       \else
       % we get the current value of appcrfootnote and add 1 -> this would
       % be the next footnote number
-         \@iscommentarytexttrue
          \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
          \stepcounter{nextappcrfootnote}%
          {%
             \itshape%
-            (% opening parentheses, closing one after next \app
+            \if@iscommentarytext
+            \else
+               \global\@iscommentarytexttrue
+               (% opening parentheses, closing one after last \editedcommentarytext
+            \fi%
             \StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }%
          }%
       \fi%
