@@ -975,6 +975,11 @@ brill]
 \newcommand{\app}[1]{%
    \refstepcounter{appcrfootnote}%
    \unskip\realsuperscript{\theappcrfootnote}%
+   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
+   \if@iscommentarytext
+      \unskip\textit{)}%
+      \@iscommentarytextfalse
+   \fi%
    \@firstrdgtrue%
    \gappto{\@appcr}{\item }#1%
 }
@@ -1280,8 +1285,31 @@ brill]
          \fi%
       }%
 }
-\newcommand{\editedtranslationtext}[1]{\begin{nohyphens}\editedtext{#1}\end{nohyphens}}
-\newcommand{\editedcommentarytext}[1]{\begin{nohyphens}\editedtext{#1}\end{nohyphens}}
+\let\editedtranslationtext\editedtext
+\newif\if@iscommentarytext
+\newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
+   % We test for specific texts and write them as they are.
+   % All others get additional superscript numbers after each word.    
+   \Ifstr{#1}{(date, dedication of day and month)}%
+   {#1}%
+   {%
+      \ifx\app\@gobble
+         {\itshape (#1)}%
+      \else
+      % we get the current value of appcrfootnote and add 1 -> this would
+      % be the next footnote number
+         \@iscommentarytexttrue
+         \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
+         \stepcounter{nextappcrfootnote}%
+         {%
+            \itshape%
+            (% opening parentheses, closing one after next \app
+            \StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }%
+         }%
+      \fi%
+   }%
+}
+
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
 \newcommand{\foreign}[2][]{%

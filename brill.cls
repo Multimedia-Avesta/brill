@@ -180,7 +180,8 @@
 \newenvironment{nohyphens}
    {%
       \hyphenrules{nohyphenation}%
-      \exhyphenpenalty=10000%
+      \hyphenpenalty=\@M%
+      \exhyphenpenalty=\@M%
    }%
    {%
       \endhyphenrules%
