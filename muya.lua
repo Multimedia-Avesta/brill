@@ -601,8 +601,8 @@ function read_stanzas_from_file(f, suffix)
          buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "\n"
       elseif string.match(str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$") then
          stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
-         buf[k] = stanzaend .. "\n\\end{stanza}}\n\\csgdef{stanza-" .. 
-            book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}\n" .. stanzastart .. "\n"
+         buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
+            book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}%\n" .. stanzastart .. "\n"
       elseif string.match(str, "^.-\\end{stanza}$") then
          buf[k] = str .. "}"
       else
