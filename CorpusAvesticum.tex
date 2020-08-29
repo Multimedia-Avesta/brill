@@ -746,21 +746,21 @@ brill]
    \renewcommand*{\idxentryfont}[1]{\textit{##1}}%
    \if@PhlNoEmph%
       \ifstrempty{#2}
-         {\ifstrempty{#3}{}{#3}}%
+         {\ifstrempty{#3}{}{\begin{nohyphens}\nosmallcaps\@morewordspace #3\end{nohyphens}}}%
          {%
             \begin{nohyphens}\nosmallcaps #2\end{nohyphens}%
-            \ifstrempty{#3}{}{\ #3}%
+            \ifstrempty{#3}{}{\ \begin{nohyphens}\nosmallcaps\@morewordspace #3\end{nohyphens}}%
          }%
    \else%
       \ifstrempty{#2}
          {% We assume, that #2 and #3 are not both empty
-            \textlangle{}#3\textrangle{}%
+            \textlangle{}\begin{nohyphens}\nosmallcaps\@morewordspace #3\end{nohyphens}\textrangle{}%
          }%
          {%
             \begin{nohyphens}\nosmallcaps\textit{#2}\end{nohyphens}%
             \ifstrempty{#3}
                {}%
-               {\ \textlangle{}#3\textrangle{}}%
+               {\ \textlangle{}\begin{nohyphens}\nosmallcaps\@morewordspace #3\end{nohyphens}\textrangle{}}%
          }%
    \fi%
    % We assume, that #2 and #3 are not both empty
@@ -1117,11 +1117,11 @@ brill]
    \gdef\@appcr{}%
    \hyphenpenalty=10000%
    \exhyphenpenalty=10000%
-   \if@inblocktranslation
-   \else
+   \if@inblocktranslation%
+   \else%
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
-      \hangindent\parindent\hangafter=1\relax%
+      \par\hangindent\parindent\hangafter=1\noindent%
    \fi%
 }{%
    \par%
@@ -1499,6 +1499,7 @@ brill]
          {Av}{\directlua{sortGlossary("Av")}}%
          {Guj}{\directlua{sortGlossary("Guj")}}%
          {MP}{\directlua{sortGlossary("MP")}}%
+         {Skt}{\directlua{sortGlossary("Skt")}}%
       }[]
     }%
       \input{dictionaryconv}]%

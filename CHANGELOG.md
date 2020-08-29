@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 - Handling of `keywords` information regarding languages other than the one given in `langid`
-
+- Remove empty lines from modified dictionary to correct layout of inline list `Meanings` (\#9758)
 
 ## [0.54.0] - 2020-08-19
 ### Added
