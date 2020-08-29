@@ -9,14 +9,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 - Macros `\Newtranscription` and `Gettranscription` to support common `transcriptions.tex` file
+- Support for Sanskrit glossaries (\#9775)
 
 ### Changed
-- Suppress usage of common Ligatures for `Getstanza` and `GetstanzaTextonly` (\#9731)
+- Suppress usage of common ligatures for `\Getstanza` and `\GetstanzaTextonly` (\#9731)
 - Update to latest version of style `biblatex-unified` (also on CTAN)
+- More word space for `\Phl` and `\Phl*` (\#9777)
 
 ### Fixed
 - Handling of `keywords` information regarding languages other than the one given in `langid`
 - Remove empty lines from modified dictionary to correct layout of inline list `Meanings` (\#9758)
+- Correct indentation for `\GetstanzaTextonly*[heading=none]` (\#9762)
 
 ## [0.54.0] - 2020-08-19
 ### Added
