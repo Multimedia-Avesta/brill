@@ -324,7 +324,7 @@ function sortGlossary(l)
          end
       end
    end
-   elseif glosslang == "Av" or glosslang == "MP" then
+   elseif glosslang == "Av" or glosslang == "MP" or glosslang == "Skt" then
    for k,v in pairs(lines) do
    -- get line k and process it
       local str = lines[k]
@@ -523,6 +523,17 @@ function sortletter (s)
       ["u"] = 40, ["ū"] = 41,
       ["v"] = 42, ["x"] = 43, ["x́"] = 44, ["xv"] = 45, ["y"] = 46, ["z"] = 47,
       ["ž"] = 48, ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
+   elseif glosslang == 'Skt' then -- Sanskrit
+      sortorder = {["a"] = 1, ["ā"] = 2, ["i"] = 3, ["ī"] = 4, ["u"] = 5,
+      ["ū"] = 6, ["r̥"] = 7, ["r̥̄"] = 8, ["e"] = 9, ["ai"] = 10, ["o"] = 11, 
+      ["au"] = 12, ["ṃ"] = 13, ["ḥ"] = 14, ["k"] = 15, ["kh"] = 16, ["g"] = 17,
+      ["gh"] = 18, ["ṅ"] = 19, ["c"] = 20, ["ch"] = 21, ["j"] = 22, ["jh"] = 23,
+      ["ñ"] = 24, ["ṭ"] = 25, ["ṭh"] = 26, ["ḍ"] = 27, ["ḍh"] = 28, ["ṇ"] = 29,
+      ["t"] = 30, ["th"] = 31, ["d"] = 32, ["dh"] = 33, ["n"] = 35,
+      ["p"] = 36, ["ph"] = 34, ["b"] = 37, ["bh"] = 38, ["m"] = 39,
+      ["y"] = 40, ["r"] = 41,
+      ["l"] = 42, ["v"] = 43, ["ś"] = 44, ["ṣ"] = 45, ["s"] = 46, ["h"] = 47,
+      ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
    else 
       texio.write_nl("Unknown language for glossary sorting")
    end
