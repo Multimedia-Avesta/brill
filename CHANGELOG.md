@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 - Quotation marks are no longer replaced (normalised), but kept as is
 
+## [0.55.0] - 2020-08-30
 ### Added
 - Macros `\Newtranscription` and `Gettranscription` to support common `transcriptions.tex` file
 - Support for Sanskrit glossaries (\#9775)
@@ -767,6 +768,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.55.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.55.0
 [0.54.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.54.0
 [0.53.1]:
