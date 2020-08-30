@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-- Quotation marks are no longer replaced (normalised), but kept as is
+- Automatic replacement of quotation marks is now a `biblatex` option `autoquotationmarks`. Will be set to `false` for one of the next releases.
 
 ## [0.55.0] - 2020-08-30
 ### Added

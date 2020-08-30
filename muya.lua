@@ -462,7 +462,7 @@ function compare (a,b)
    -- the comparison returns a sort order so1 and so2
    local so1, so2
    
-   texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
+   --texio.write_nl('Compare ' .. s1 .. ' with ' .. s2)
    -- if both strings are equal we stop processing
    if s1 ~= s2 then
    -- as long as both strings have equal characters (and are both not empty)
