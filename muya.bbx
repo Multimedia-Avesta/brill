@@ -74,18 +74,18 @@
          \step[fieldset=langid,null]%
       }%
 % set fields other than title to specific language if it differs from the langid (derived from title)    
-      \map[overwrite,foreach={booktitle,series,journal,maintitle,volumetitle}]{%
+      \map[overwrite,foreach={booktitle,series,journal,maintitle,volumetitle,eventtitle}]{%
          \step[fieldsource=keywords,%
                match=\regexp{lang-$MAPLOOP=(english|dutch|french|italian|latin|german|russian|spanish)},final]%$
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$
          % Map english to british
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.+)§§§english},%
-               replace=\regexp{\\foreignlanguage\{british\}\{$1\}}]%
+               replace=\regexp{\\foreignlanguage\{british\}\{$1\}}]%final?
          % Map german to ngerman
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.+)§§§german},%
-               replace=\regexp{\\foreignlanguage\{ngerman\}\{$1\}}]%            
+               replace=\regexp{\\foreignlanguage\{ngerman\}\{$1\}}]%final?            
          % look for other languages        
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{(.+)§§§(.+)},%
