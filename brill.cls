@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/30 v0.55.0 A template for Brill publications]
+\ProvidesClass{brill}[2020/08/31 v0.56.0BETA A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -246,8 +246,13 @@
       headsep=5truemm,%
       left=40truemm,right=20truemm,%
       headheight=\baselineskip,
-      heightrounded%
+      heightrounded,%
    }
+   \setlength{\footnotesep}{\baselineskip}
+   \patchcmd[]{\footnoterule}%
+      {\kern 2.6\p@}%
+      {\kern \dimexpr 2.6\p@-\footnotesep+0.5\baselineskip\relax}%
+      {\ClassWarningNoLine{brill}{text}}{\ClassError{brill}{FEHLER}{}}
 \else
    \RequirePackage[driver=none]{geometry}
    \geometry{%
@@ -889,11 +894,6 @@
 \addtokomafont{footnotereference}{\upshape}%\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25pt]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
-%%%\deffootnote[1.25em]{1.25em}{1.25em}{\makebox[1.25em][r]{\thefootnotemark}\
-%% }
-%%\deffootnotemark{\thefootnotemark}
-
-%%%\recalctypearea
 
 \RequirePackage{enumitem}
 \setlist{labelsep=*,align=left,nosep}
