@@ -450,9 +450,12 @@ brill]
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
    {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%             
 \newcommand{\printindexes}{%
+   %\renewcommand*{\indexspace}{}%
+   %\let\indexspace\relax%
    \begingroup%
-      \renewcommand*{\subitem}{\par\hangindent 2\normalparindent}%
+      \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
       \printindex[words]%
+      %\renewcommand*{\@idxitem}{\removelastskip\par\vspace{\baselineskip}\hangindent 40\p@\relax}%
       \printindex[passages]%
    \endgroup%
    \printindex[namesandsubjects]%
@@ -463,21 +466,21 @@ brill]
       title={Index of Words},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config muya}
+      options={--noheadings --config muya}%
    ]%
    \makeindex[%
       name=passages,%
       title={Index of Passages},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config muyaPassages}
+      options={--noheadings --config muyaPassages}%
    ]%
    \makeindex[%
       name=namesandsubjects,%
       title={Index of Names and Subjects},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config brill}
+      options={--noheadings --config brill}%
    ]%
 \else
    \makeindex[%
@@ -485,21 +488,21 @@ brill]
       title={Index of Words},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config muya}
+      options={--noheadings --config muya}%
       ]%
    \makeindex[%
       name=passages,%
       title={Index of Passages},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config muyaPassages}
+      options={--noheadings --config muyaPassages}%
       ]%
    \makeindex[%
       name=namesandsubjects,%
       title={Index of Names and Subjects},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config brill}
+      options={--noheadings --config brill}%
       ]%
 \fi%   
 
@@ -612,7 +615,7 @@ brill]
       \nosmallcaps%   
    }%
    {%
-      \end{nohyphens}
+      \end{nohyphens}%
       \resetlanguage%
    }%           
 }
@@ -626,9 +629,9 @@ brill]
    \newenvironment{#1Block}{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{\textit{####1}}%
-      \begin{nohyphen}%
+      \begin{nohyphens}%
          \nosmallcaps\itshape}%
-   {\end{nohyphen}%
+   {\end{nohyphens}%
     \resetlanguage}              
 }
 
@@ -1554,13 +1557,6 @@ brill]
    \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
 \newcommand*{\@@Subsubsublemma}[1]{\item[#1]\@firstattestationtrue}
 
-%\makeindex[%
-%   name=dictionary,%
-%   title={Index of Words},%
-%   columns=2,%
-%   columnsep=4mm,%
-%   options={--noheadings --config muya}
-%   ]%
 \newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\hspace{0.5em}}}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
 \newcommand*{\Link}[1]{\unskip\nobreakspace\symbol{"2192}\,#1}
