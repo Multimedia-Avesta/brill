@@ -560,10 +560,10 @@ brill]
       {Lat}{\def\indexlanguage{Latin}\itshape}%
       {Lith}{\def\indexlanguage{Lithuanian}\itshape}%
       {Luw}{\def\indexlanguage{Luwian}\itshape}%
-      {MAv}{\def\indexlanguage{Middle Avestan}\itshape}
-      {MMP}{\def\indexlanguage{Manichaean Middle Persian}\itshape}
-      {MP}{\def\indexlanguage{Middle Persian (unspecified)}\itshape}
-      {Munji}{\def\indexlanguage{Munji}\itshape}
+      {MAv}{\def\indexlanguage{Middle Avestan}\itshape}%
+      {MMP}{\def\indexlanguage{Manichaean Middle Persian}\itshape}%
+      {MP}{\def\indexlanguage{Middle Persian (unspecified)}\itshape}%
+      {Munji}{\def\indexlanguage{Munji}\itshape}%
       {NP}{\def\indexlanguage{New Persian}\itshape}%
       {OAv}{\def\indexlanguage{Old Avestan}\itshape}
       {OE}{\def\indexlanguage{Old English}\itshape}%
@@ -573,7 +573,7 @@ brill]
       {Oss}{\def\indexlanguage{Ossetic}\itshape}%
       {OssD}{\def\indexlanguage{Digoron Ossetic}\itshape}%
       {OssI}{\def\indexlanguage{Iron Ossetic}\itshape}%
-      {Parth}{\def\indexlanguage{Parthian}\itshape}
+      {Parth}{\def\indexlanguage{Parthian}\itshape}%
       {Pashto}{\def\indexlanguage{Pashto}\itshape}%
       {PDE}{\def\indexlanguage{Present-Day English}\itshape}%
       {PGmc}{\def\indexlanguage{Proto-Germanic}\itshape}%
@@ -595,8 +595,8 @@ brill]
       {ZD}{\def\indexlanguage{Zoroastrian Dari}\itshape}%
    }[\ClassWarning{brill}{Language `#1` unknown. Using category `General`}%
      \def\indexlanguage{A@General}\upshape]%
-   \hyphenpenalty=10000%
-   \exhyphenpenalty=10000%
+   \hyphenpenalty=\@M%
+   \exhyphenpenalty=\@M%
 }
 %%% Define macros for languages
 \def\newlanguage{\@ifstar\@newlanguage\@@newlanguage}% 
