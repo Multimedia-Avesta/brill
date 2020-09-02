@@ -5,11 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Support for language settings for fields  `journal`, `series` and `publisher` (in addition to some title fields)
+`
+### Changed
 - Automatic replacement of quotation marks is now a `biblatex` option `autoquotationmarks`. Will be set to `false` for one of the next releases.
+- Each language header in the `Index of Passages` now starts after a vertical space (\#9779)
+- Spacing between footnotes set to `\baselineskip` for PhD mode (\#9789)
+
+### Fixed
+- Handling of commentary text (`\editedcommentarytext`) spanning multiple logical lines (\#9755)
+- Bug with `\blocktranslation`: Numbers at the beginning were taken as penalty values (\#9806)
+
 
 ## [0.55.0] - 2020-08-30
 ### Added
-- Macros `\Newtranscription` and `Gettranscription` to support common `transcriptions.tex` file
+- Macros `\Newtranscription` and `\Gettranscription` to support common `transcriptions.tex` file
 - Support for Sanskrit glossaries (\#9775)
 
 ### Changed

@@ -454,7 +454,7 @@ brill]
    \begingroup%
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
       \printindex[words]%
-      \renewcommand*{\@idxitem}{\par\vspace{\baselineskip}\hangindent 40\p@\relax}%
+      \renewcommand*{\@idxitem}{\par\nopagebreak\vspace{\baselineskip}\hangindent 40\p@\relax}%
       \printindex[passages]%
    \endgroup%
    \printindex[namesandsubjects]%
