@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/08/31 v0.56.0BETA A template for Brill publications]
+\ProvidesClass{brill}[2020/09/02 v0.56.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -965,6 +965,44 @@
 \RequirePackage{rotating}
 \RequirePackage{pdflscape}
 \RequirePackage{environ}
+% We define the `H` option as in the float.sty package
+\let\@float@Hx\@xfloat
+\def\@xfloat#1[{\@ifnextchar{H}{\@float@HH{#1}[}{\@float@Hx{#1}[}}
+\newsavebox\float@box
+\newif\if@flstyle
+\def\@float@HH#1[H]{%
+   \expandafter\let\csname end#1\endcsname\float@endH
+   \let\@currbox\float@box
+   \def\@captype{#1}\setbox\@floatcapt=\vbox{}%
+   \expandafter\ifx\csname fst@#1\endcsname\relax
+   \@flstylefalse\else\@flstyletrue\fi
+   \setbox\@currbox\color@vbox\normalcolor
+   \vbox\bgroup \hsize\columnwidth \@parboxrestore
+   \@floatboxreset \@setnobreak
+   \ignorespaces}
+\newtoks\@float@everytoks
+\let\@float@boxreset=\@floatboxreset
+\def\@floatboxreset{\@float@boxreset\the\@float@everytoks}
+\def\@float@setevery#1{\@float@everytoks=\@nameuse{@float@every@#1}}
+\newcommand\float@makebox[1]{%
+   \vbox{\hsize=#1 \@parboxrestore
+      \@fs@pre\@fs@iftopcapt
+      \ifvoid\@floatcapt\else\unvbox\@floatcapt\par\@fs@mid\fi
+      \unvbox\@currbox
+      \else\unvbox\@currbox
+      \ifvoid\@floatcapt\else\par\@fs@mid\unvbox\@floatcapt\fi
+      \fi\par\@fs@post\vskip\z@}}
+\newcommand\float@end{\@endfloatbox
+   \global\setbox\@currbox\float@makebox\columnwidth
+   \let\@endfloatbox\relax\end@float}
+\newcommand\float@endH{\@endfloatbox\vskip\intextsep
+   \if@flstyle\setbox\@currbox\float@makebox\columnwidth\fi
+   \box\@currbox\vskip\intextsep\relax}
+\newcommand\float@dblend{\@endfloatbox
+   \global\setbox\@currbox\float@makebox\textwidth
+   \let\@endfloatbox\relax\end@dblfloat}
+\newsavebox\@floatcapt
+%
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
 \newtoggle{@tablebooktabs}
