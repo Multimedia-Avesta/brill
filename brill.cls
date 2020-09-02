@@ -252,7 +252,8 @@
    \patchcmd[]{\footnoterule}%
       {\kern 2.6\p@}%
       {\kern \dimexpr 2.6\p@-\footnotesep+0.5\baselineskip\relax}%
-      {\ClassWarningNoLine{brill}{text}}{\ClassError{brill}{FEHLER}{}}
+      {\ClassWarningNoLine{brill}{Macro \string\footnoterule\space successfully patched}}%
+      {\ClassError{brill}{Error when trying to patch macro \string\footnoterule}{}}
 \else
    \RequirePackage[driver=none]{geometry}
    \geometry{%
@@ -881,9 +882,9 @@
    {\ClassInfoNoLine{brill}{The TOC consists of four pages or less. That's fine.}}%
 }
  
-\setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=10000}
-\setkomafont{subtitle}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
-\setkomafont{dedication}{\normalfont\normalcolor\itshape\hyphenpenalty=10000}
+\setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=\@M}
+\setkomafont{subtitle}{\normalfont\normalcolor\itshape\hyphenpenalty=\@M}
+\setkomafont{dedication}{\normalfont\normalcolor\itshape\hyphenpenalty=\@M}
 \setkomafont{disposition}{\normalcolor\normalfont}
 \setkomafont{pagehead}{\normalfont\small\scshape}
 \setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
@@ -1475,7 +1476,7 @@
    {%
       \if@btquotetitle
          \par\nopagebreak\vspace{\@btvspace}%
-         \@beginparpenalty=10000%
+         \@beginparpenalty=\@M%
       \else
          \par\addvspace{\@btvspace}%
       \fi%
@@ -1515,7 +1516,7 @@
    \if@splitsplittranslation%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
-         {\hyphenpenalty=10000\exhyphenpenalty=10000%
+         {\hyphenpenalty=\@M\exhyphenpenalty=\@M%
           \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
       \if@splittranslation%
          \vspace{\@btvspace}\noindent%
@@ -1569,8 +1570,9 @@
 % If there is no title argument we don't want any extra spacing   
    \ifstrempty{#1}%
       {\@btquotetitlefalse}%
-      {\@btquotetitletrue%
-       \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
+      {%
+         \@btquotetitletrue%
+         \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
       }%
 % We start the output using a custom variant of the quote environment   
    \begin{@btquote}%

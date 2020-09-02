@@ -39,19 +39,19 @@ function modifySorting()
    -- TODO: What about letters within the passage id?
    for line in io.lines ("passages.idx") do
    --texio.write_nl("Vorher: " .. line)
-   match, n = string.gsub(line, 
-      "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)@\\textup%s*{.+}|", 
-      function(a,b) return get_sortentry_star(a,b) end)
-   if n == 0 then
-   -- now for unstarred variant
-      match, n = string.gsub(line,
-         "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
-         function(a,b) return get_sortentry(a,b) end)
+      match, n = string.gsub(line, 
+         "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)@\\textup%s*{.+}|", 
+         function(a,b) return get_sortentry_star(a,b) end)
+      if n == 0 then
+      -- now for unstarred variant
+         match, n = string.gsub(line,
+            "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
+            function(a,b) return get_sortentry(a,b) end)
    end
    --texio.write_nl("Treffer: " .. n)
    --texio.write_nl("Nachher: " .. match)
    g:write(line .. "\n")
---   f:close()
+   --  f:close()
    end
    g:close()
 end

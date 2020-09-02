@@ -831,23 +831,23 @@ brill]
 %%%
 \newenvironment{AvBlock}{%
    \def\indexlanguage{Avestan}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
 \let\AvstBlock\AvBlock
 \let\endAvstBlock\endAvBlock
 \newenvironment{BactrBlock}{%
    \def\indexlanguage{Bactrian}%
-   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
 \let\GujrBlock\GujBlock
 \let\endGujrBlock\endGujBlock
 \newenvironment{PhlBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
 \newenvironment{PhltltBlock}{\def\indexlanguage{Pahlavi}%
-   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
 \let\PhlvBlock\PhlBlock
 \let\endPhlvBlock\endPhlBlock
@@ -861,7 +861,7 @@ brill]
 \let\endSaBlock\endSkrBlock
 \newenvironment{SogdBlock}{%
    \def\indexlanguage{Sogdian}%
-   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=10000\exhyphenpenalty=10000\relax}%
+   \renewcommand*{\idxentryfont}[1]{\textit{##1}}\itshape\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
 \let\VedSaBlock\VedBlock
 \let\endVedSaBlock\endVedBlock
@@ -1017,9 +1017,9 @@ brill]
       %\let\newline\appcrnewline%
       \tolerance=1%
       \emergencystretch=\maxdimen%
-      \hyphenpenalty=10000%
-      %\exhyphenpenalty=10000%
-      \hbadness=10000%
+      \hyphenpenalty=\@M%
+      %\exhyphenpenalty=\@M%
+      \hbadness=\@M%
       \noindent% 
       \hangindent\parindent\hangafter=1\relax%
       #1\par\nobreak\vspace{.5\baselineskip}\noindent%
@@ -1130,8 +1130,8 @@ brill]
    %\setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
-   \hyphenpenalty=10000%
-   \exhyphenpenalty=10000%
+   \hyphenpenalty=\@M%
+   \exhyphenpenalty=\@M%
    \if@inblocktranslation%
    \else%
       \let\newline\appcrnewline%
