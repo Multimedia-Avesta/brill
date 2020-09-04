@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.56.1] - 2020-09-03
+### Fixed
+- Correct number of columns for Index of Passages (modified for testing)
+
 ## [0.56.0] - 2020-09-02
 ### Added
 - Support for language settings for fields  `journal`, `series` and `publisher` (in addition to some title fields)
@@ -782,6 +786,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.56.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.56.1
 [0.56.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.56.0
 [0.55.0]:
