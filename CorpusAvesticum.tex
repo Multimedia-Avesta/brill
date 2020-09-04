@@ -24,7 +24,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{CorpusAvesticum.tex}[2020/09/03 v0.56.1 Configuration file for
+\ProvidesFile{CorpusAvesticum.tex}[2020/09/04 v0.56.2 Configuration file for
 brill]
 \RequirePackage{xspace}
 \RequirePackage{collcell}
@@ -693,8 +693,9 @@ brill]
    \begin{nohyphens}\nosmallcaps\textit{#2}\end{nohyphens}%
    \ifstrempty{#3}{}{\ [#3]}%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
-   \resetlanguage
-   \@ifnextchar ,{}{\@ifnextchar .{}{\ }}}
+   \resetlanguage%
+   \xspace%
+}
 \newcommand*{\OPtlt}[2][]{%
    \def\indexlanguage{Old Persian}%
    \renewcommand*{\idxentryfont}[1]{##1}%
