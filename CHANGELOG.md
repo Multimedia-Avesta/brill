@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Book name `DNa` (\#9878)
+
 ### Changed
 - More interword space for transliteration argument of `\Sogd` (\#9876)
 
