@@ -810,7 +810,7 @@ brill]
    \ifstrempty{#2}
       {\ifstrempty{#3}{}{/#3/}}%
       {%
-         \begin{nohyphens}\nosmallcaps\emph{#2}\end{nohyphens}%
+         \begin{nohyphens}\nosmallcaps\emph{\@morewordspace #2}\end{nohyphens}%
          \ifstrempty{#3}{}{\ /#3/}%
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%

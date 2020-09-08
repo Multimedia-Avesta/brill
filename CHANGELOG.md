@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- More interword space for transliteration argument of `\Sogd` (\#9876)
+
 ## [0.56.1] - 2020-09-03
 ### Fixed
 - Correct number of columns for Index of Passages (modified for testing)
