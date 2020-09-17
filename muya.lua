@@ -535,26 +535,26 @@ function sortletter (s)
       ["l"] = 42, ["v"] = 43, ["ś"] = 44, ["ṣ"] = 45, ["s"] = 46, ["h"] = 47,
       ["1"] = 49, ["2"] = 50, ["3"] = 51, [" "] = 52}      
    else 
-      texio.write_nl("Unknown language for glossary sorting")
+      texio.write_nl( "Unknown language for glossary sorting" )
    end
    local sortletter = ''
    
    -- If s is at last two characters long, we check, whether the first two 
    -- characters form a valid sorting letter (according to our scheme)
    if ustring.len(s) > 1 then
-      sortletter = ustring.sub(s,1,2)
+      sortletter = ustring.sub( s, 1, 2 )
       if sortorder[sortletter] == nil then
-         sortletter = ustring.sub(s,1,1)
+         sortletter = ustring.sub( s, 1, 1 )
       end
    else -- otherwise just take the first character and check
-      sortletter = ustring.sub(s,1,1)   
+      sortletter = ustring.sub( s, 1, 1 )   
    end
    --texio.write_nl(s .. ' ' .. sortletter .. ' ' .. ustring.len(sortletter))
    if sortorder[sortletter] then
-      return sortorder[sortletter], ustring.sub(s, ustring.len(sortletter) + 1)
+      return sortorder[sortletter], ustring.sub( s, ustring.len( sortletter ) + 1 )
    else -- if there is a letter we don't know, insert at the very end
-      texio.write_nl("Unknown letter " .. sortletter)
-      return 99, ustring.sub(s, ustring.len(sortletter) + 1)
+      texio.write_nl( "Unknown letter " .. sortletter )
+      return 99, ustring.sub( s, ustring.len(sortletter) + 1 )
    end
 end
 
@@ -592,7 +592,7 @@ function upright_punctuation(head)
 end
 
 function read_stanzas_from_file(f, suffix)
-   if not file_exists(f) then return {} end   
+   if not file_exists( f ) then return {} end   
    local outfile = 'stanzas.tex'
    local lines = lines_from(f)
    local stanzanr = ''
@@ -621,18 +621,47 @@ function read_stanzas_from_file(f, suffix)
       end
    end
    local final_string = table.concat( buf )
-   local g = assert(io.open(outfile, "a"))
-   g:write(final_string)
+   local g = assert( io.open( outfile, "a" ))
+   g:write( final_string )
    g:close()
 end
 
 function create_stanzafile()
-   local file = assert(io.open("./stanzas.tex", "w"))
+   local file = assert( io.open( "./stanzas.tex", "w" ))
    file:close()
 end
 
-function strtocs ( s )
+function strtocs( s )
    local book, number = ''
-   book, number = string.match ( s, "^(%u+)(.+)$" )
-   tex.sprint ( "\\" .. book .. "{" .. number .. "}" )
+   book, number = string.match( s, "^(%u+)(.+)$" )
+   tex.sprint( "\\" .. book .. "{" .. number .. "}" )
+end
+
+function read_transcriptions( f )
+   if not file_exists( f ) then return {} end 
+   local lines = lines_from(f)
+   local outfile = 'transcriptions-mod.tex'
+   local sec, thrd = ''
+   local newstr = ''
+   local buf = {}
+   local c = 0
+   -- Get third argument of \Newtranscription
+   texio.write_nl("TEST")
+   for k, v in pairs( lines ) do
+      -- get line k and process it
+      local str = lines[k]
+      -- get second and third argument
+      sec, thrd = string.match( str, "^\\Newtranscription{(.-)}{(.-)}" )
+      newstr = ''
+      c = 0
+      for i in string.gmatch( thrd, "%S+" ) do
+         c = c + 1
+         newstr = newstr .. "\\csgdef{" .. sec .. "-trans-" .. c .. "}{" .. i .. "}\n"
+      end
+      buf[k] = newstr
+   end
+   local final_string = table.concat( buf )
+   local g = assert( io.open( outfile, "w" ))
+   g:write( final_string )
+   g:close()
 end

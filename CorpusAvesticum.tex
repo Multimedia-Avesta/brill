@@ -993,7 +993,7 @@ brill]
 \newif\if@firstrdg
 
 % The main macro steps the counter for the \enquote{footnotes} and starts a list
-\newcommand{\app}[1]{%
+\newrobustcmd{\app}[1]{%
    \refstepcounter{appcrfootnote}%
    \unskip\realsuperscript{\theappcrfootnote}%
 %   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
@@ -1221,6 +1221,14 @@ brill]
 % Call the blocktranslation macro with appropriate arguments   
    \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
 }
+\newif\if@substforeign
+\newcounter{foreign@in@editedtext}
+\newcommand{\GetstanzaWithtranscription}[1]{%
+   \global\@substforeigntrue
+   \setcounter{foreign@in@editedtext}{0}%
+   \GetstanzaTextonly{#1}%
+   \global\@substforeignfalse
+}
 
 % Translation are stored in a common file translations.tex
 % Each translation is defined with \Newtranslation[ritual direction]{label}{translation}
@@ -1291,7 +1299,7 @@ brill]
 
 \newif\if@iscommentarytext
 \newif\if@iscontinuedcommentarytext
-\newcommand*{\editedtext}[1]{%
+\newrobustcmd*{\editedtext}[1]{%
    % We first check, whether we have to end a commentary passage
    \if@iscommentarytext
       \unskip\textrangle{} %
@@ -1355,12 +1363,17 @@ brill]
 
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
-\newcommand{\foreign}[2][]{%
-   \IfStrEqCase{#1}{%
-      {pal-Phlv}{\Phl{#2}}%
-      {fa}{\MP{#2}}%TODO: Correct language?
-%      {}{}
-   }[\textup{#2}]%
+
+\newrobustcmd*{\foreign}[2][]{%
+   \if@substforeign
+      \stepcounter{foreign@in@editedtext}%
+      \Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
+   \else
+      \IfStrEqCase{#1}{%
+         {pal-Phlv}{\Phl{#2}}%
+         {fa}{\MP{#2}}%TODO: Correct language?
+      }[\textup{#2}]%
+   \fi%
 }
 
 \newcommand{\Newtranscription}[3][]{%
@@ -1373,7 +1386,9 @@ brill]
 
 \newcommand{\Gettranscription}[2][]{%
    %\ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
-   \csuse{transcription-#2}%
+   \ifcsdef{#2}%
+      {\csuse{#2}}%
+      {\ClassError{brill}{Transcription `#2` not found}{}}%
 }
 
 % For convenience
@@ -1698,10 +1713,20 @@ brill]
       {\ClassWarning{brill}{No translation file found!\MessageBreak
        Please use \string\SetTranslationsFile\space}}%
    \shorthandoff{"}
-   \InputIfFileExists{\@transcriptionsfile}%
-      {\ClassInfo{brill}{Transcriptions successfully loaded!}}%
-      {\ClassWarning{brill}{No transcription file found!\MessageBreak
-       Please use \string\SetTranscriptionsFile\space}}%
+   \IfFileExists{\@transcriptionsfile}%
+      {%
+         \directlua{read_transcriptions("\luaescapestring{\@transcriptionsfile}")}%
+         \InputIfFileExists{transcriptions-mod.tex}%
+            {\ClassInfo{brill}{\ClassInfo{brill}{Transcriptions successfully loaded from `\@transcriptionsfile`!}}}
+            {%
+               \ClassWarning{brill}{No transcriptions file found!\MessageBreak
+               Please use \string\SetTranslationsFile\space}%
+            }%
+      }%
+      {%
+         \ClassWarning{brill}{No transcription file found!\MessageBreak
+         Please use \string\SetTranscriptionsFile\space}%
+      }%
 %   \IfFileExists{\@bibliographyfile}%
 %      {\addbibresource{\@bibliographyfile}}%
 %      {\ClassWarning{brill}{No bibliography file found!\MessageBreak
