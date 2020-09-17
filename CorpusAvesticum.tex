@@ -996,7 +996,7 @@ brill]
 % The main macro steps the counter for the \enquote{footnotes} and starts a list
 \newcommand{\app}[1]{%
    \refstepcounter{appcrfootnote}%
-   \unskip\realsuperscript{\theappcrfootnote}%
+   \unskip\kern0.05em\realsuperscript{\theappcrfootnote}%
 %   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
 %   \if@iscommentarytext
 %      \unskip\textit{)}%
@@ -1311,7 +1311,7 @@ brill]
             % be the next footnote number
             \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
             \stepcounter{nextappcrfootnote}%
-            {\itshape\StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }}%
+            {\itshape\StrSubstitute{#1}{ }{\kern0.05em\realsuperscript{\upshape\thenextappcrfootnote} }}%
          \fi%
       }%
 }

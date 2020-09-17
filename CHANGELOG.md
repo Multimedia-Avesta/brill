@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+- Kerning of 0.05em after `\editedtext`
+
 ### Added
 - Book name `DNa` (\#9878)
 
