@@ -6,8 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- Redefine `\mkccitation` for correct layout of citations after `\blockcquote`
+
 ### Changed
-- Kerning of 0.05em after `\editedtext`
+- Kerning of 0.05em after `\editedtext` (\#9215)
 
 ### Added
 - Book name `DNa` (\#9878)

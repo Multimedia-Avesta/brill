@@ -283,8 +283,8 @@
 \ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
 \ifundef{\Ifisinteger}{\let\Ifisinteger\ifisinteger}{}
 \RequirePackage[autostyle,english=british]{csquotes}
-%%\SetBlockThreshold{3}
 \renewcommand*{\mkcitation}[1]{\par\nopagebreak\hspace*{2\parindent}#1}
+\renewcommand*{\mkccitation}[1]{\par\nopagebreak\hspace*{2\parindent}#1}
 \RequirePackage[%
    backend=biber,%
    style=muya,%
