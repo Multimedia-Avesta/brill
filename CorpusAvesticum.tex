@@ -1226,6 +1226,12 @@ brill]
 \newcommand{\GetstanzaWithtranscription}[1]{%
    \global\@substforeigntrue
    \setcounter{foreign@in@editedtext}{0}%
+   \Getstanza{#1}%
+   \global\@substforeignfalse
+}
+\newcommand{\GetstanzaTextonlyWithtranscription}[1]{%
+   \global\@substforeigntrue
+   \setcounter{foreign@in@editedtext}{0}%
    \GetstanzaTextonly{#1}%
    \global\@substforeignfalse
 }
