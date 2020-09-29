@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.58.0] - 2020-09-29
 ### Added
-- Redefine `\mkccitation` for correct layout of citations after `\blockcquote`
+- Redefine `\mkccitation` for correct layout of citations after `\blockcquote` (\#9906)
 - Macros `GetstanzaWithtranscription` and `\GetstanzaTextonlyWithtranscription` to substitute edited text by text from `transcriptions.tex` (\#9621)
 
 ### Changed
