@@ -646,7 +646,6 @@ function read_transcriptions( f )
    local buf = {}
    local c = 0
    -- Get third argument of \Newtranscription
-   texio.write_nl("TEST")
    for k, v in pairs( lines ) do
       -- get line k and process it
       local str = lines[k]
