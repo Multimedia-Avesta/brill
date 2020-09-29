@@ -6,26 +6,32 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.57.0]
+## [0.58.0] - 2020-09-29
 ### Added
 - Redefine `\mkccitation` for correct layout of citations after `\blockcquote`
+- Macros `GetstanzaWithtranscription` and `\GetstanzaTextonlyWithtranscription` to substitute edited text by text from `transcriptions.tex` (\#9621)
 
 ### Changed
 - Kerning of 0.05em after `\editedtext` (\#9215)
 
+
+## [0.57.0] - 2020-09-13
 ### Added
 - Book name `DNa` (\#9878)
 
 ### Changed
 - More interword space for transliteration argument of `\Sogd` (\#9876)
 
+
 ## [0.56.2] - 2020-09-04
 ### Fixed
 - Use `\xspace` for `\OP*` (\#9854)
 
+
 ## [0.56.1] - 2020-09-03
 ### Fixed
 - Correct number of columns for Index of Passages (modified for testing)
+
 
 ## [0.56.0] - 2020-09-02
 ### Added
