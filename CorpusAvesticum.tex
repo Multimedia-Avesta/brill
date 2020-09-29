@@ -34,6 +34,61 @@ brill]
 %\else
 %   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
 %\fi%
+\directlua {
+   fonts.handlers.otf.addfeature {
+      name = "supsnumonly",
+      type = "substitution",
+      data = {
+         ["0"] = "⁰",
+         ["1"] = "¹",
+         ["2"] = "²",
+         ["3"] = "³",
+         ["4"] = "⁴",
+         ["5"] = "⁵",
+         ["6"] = "⁶",
+         ["7"] = "⁷",
+         ["8"] = "⁸",
+         ["9"] = "⁹",
+      },
+   }
+   fonts.handlers.otf.addfeature {
+      name = "supsaddkern",
+      type = "kern",
+      data = {
+         ["ī"] = {
+            ["¹"] = 500,%
+            ["1"] = 500,%
+            ["2"] = 500,%
+            ["three.sups"] = 500,%
+            ["four.sups"] = 500,%
+            ["five.sups"] = 500,%
+            ["six.sups"] = 500,%
+            ["seven.sups"] = 500,%
+            ["eight.sups"] = 500,%
+            ["nine.sups"] = 500,%
+         },
+         ["š"] = {%
+            ["¹"] = 500,%
+            ["two.sups"] = 500,%
+            ["three.sups"] = 500,%
+            ["four.sups"] = 500,%
+            ["five.sups"] = 500,%
+            ["six.sups"] = 500,%
+            ["seven.sups"] = 500,%
+            ["eight.sups"] = 500,%
+            ["nine.sups"] = 500,%
+         },
+      },
+   }
+}
+%\newfontfamily{\editedtextfont}{Brill}
+%[%
+%   Ligatures         = {Common,NoRare},%
+%   SmallCapsFeatures = {RawFeature=+c2sc},%
+%   Renderer          = Node,%
+%   RawFeature        = {+supsnumonly,+supsaddkern},%
+%]%
+
 \newfontfamily{\freeserif}{FreeSerif}%
 [%
    Extension      = .otf,%
@@ -1315,6 +1370,8 @@ brill]
    \global\@iscontinuedcommentarytextfalse%
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
+   \begingroup%
+   %\editedtextfont
    \Ifstr{#1}{(date, dedication of day and month)}%
       {#1}%
       {%
@@ -1325,9 +1382,15 @@ brill]
             % be the next footnote number
             \setcounter{nextappcrfootnote}{\value{appcrfootnote}}%
             \stepcounter{nextappcrfootnote}%
-            {\itshape\StrSubstitute{#1}{ }{\kern0.05em\realsuperscript{\upshape\thenextappcrfootnote} }}%
+            {%
+               \itshape%
+               \StrSubstitute{#1}{ }%
+                  {\kern0.05em%
+                   \realsuperscript{\upshape\thenextappcrfootnote} }%
+            }%
          \fi%
       }%
+   \endgroup%
 }
 \let\editedtranslationtext\editedtext
 

@@ -195,18 +195,6 @@
 %      },
 %   }
 %}
-%\directlua
-%{
-%   fonts.handlers.otf.addfeature 
-%   {
-%      name = "ktest",
-%      type = "kern",
-%      data = 
-%      {
-%         ["5"] = { [","] =  1000 },
-%      },
-%   }
-%}
 %\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}}%
 %   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
 %   {}%
