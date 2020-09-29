@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.57.0]
 ### Added
 - Redefine `\mkccitation` for correct layout of citations after `\blockcquote`
 
@@ -18,13 +19,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - More interword space for transliteration argument of `\Sogd` (\#9876)
 
+## [0.56.2] - 2020-09-04
+### Fixed
+- Use `\xspace` for `\OP*` (\#9854)
+
 ## [0.56.1] - 2020-09-03
 ### Fixed
 - Correct number of columns for Index of Passages (modified for testing)
 
 ## [0.56.0] - 2020-09-02
 ### Added
-- Support for language settings for fields  `journal`, `series` and `publisher` (in addition to some title fields)
+- Support for language settings for fields  `journaltitle`, `series` and `publisher` (in addition to some title fields)
 - Support for float placement `H` to be used with `brillfigure` and `brilltable` (\#9805)
 `
 ### Changed
@@ -798,6 +803,10 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.57.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.57.0
+[0.56.2]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.56.2
 [0.56.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.56.1
 [0.56.0]:
