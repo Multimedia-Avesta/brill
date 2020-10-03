@@ -1790,8 +1790,7 @@ brill]
          \InputIfFileExists{transcriptions-mod.tex}%
             {\ClassInfo{brill}{\ClassInfo{brill}{Transcriptions successfully loaded from `\@transcriptionsfile`!}}}
             {%
-               \ClassWarning{brill}{No transcriptions file found!\MessageBreak
-               Please use \string\SetTranslationsFile\space}%
+               \ClassWarning{brill}{Problem with loading transcriptions from `\@transcriptionsfile`\MessageBreak No transcriptions available}%
             }%
       }%
       {%

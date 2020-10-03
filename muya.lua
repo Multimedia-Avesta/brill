@@ -652,10 +652,12 @@ function read_transcriptions( f )
       -- get second and third argument
       sec, thrd = string.match( str, "^\\Newtranscription{(.-)}{(.-)}" )
       newstr = ''
-      c = 0
-      for i in string.gmatch( thrd, "%S+" ) do
-         c = c + 1
-         newstr = newstr .. "\\csgdef{" .. sec .. "-trans-" .. c .. "}{" .. i .. "}\n"
+      if sec ~= nil then -- ignore empty lines
+         c = 0
+         for i in string.gmatch( thrd, "%S+" ) do
+            c = c + 1
+            newstr = newstr .. "\\csgdef{" .. sec .. "-trans-" .. c .. "}{" .. i .. "}\n"
+         end
       end
       buf[k] = newstr
    end
