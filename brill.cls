@@ -272,16 +272,24 @@
 \ifundef{\Ifisinteger}{\let\Ifisinteger\ifisinteger}{}
 \RequirePackage[autostyle,english=british]{csquotes}
 \renewcommand*{\mkcitation}[1]{%
-   \par\nopagebreak%
-   \hspace*{2\parindent}%
-   \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}%
-   #1%
+   \ifblockquote
+      {%
+         \par\nopagebreak%
+         \hspace*{2\parindent}%
+         \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}%
+         #1%
+      }%
+      {\ (#1)}%   
 }
 \renewcommand*{\mkccitation}[1]{%
-   \par\nopagebreak%
-   \hspace*{2\parindent}%
-   \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}   
-   #1%
+   \ifblockquote
+      {%
+         \par\nopagebreak%
+         \hspace*{2\parindent}%
+         \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}   
+         #1%
+      }%
+      {\ (#1)}%
 }
 \RequirePackage[%
    backend=biber,%
