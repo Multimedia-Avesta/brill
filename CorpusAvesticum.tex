@@ -844,7 +844,7 @@ brill]
 \newcommand*{\Phltlt}[2][]{%
    \def\indexlanguage{Pahlavi}%
    \renewcommand*{\idxentryfont}[1]{##1}%
-   \ifstrempty{#2}{}{\begin{nohyphens}\nosmallcaps\@morewordspace #2\end{nohyphens}}%
+   \ifstrempty{#2}{}{\begin{nohyphens}\nosmallcaps\@morewordspace \textup{#2}\end{nohyphens}}%
    \ifstrempty{#1}{}{\unskip\ \enquote{#1}}%
    \resetlanguage}
 \let\Phlvtlt\Phltlt
@@ -1049,16 +1049,14 @@ brill]
 \newif\if@firstrdg
 
 % The main macro steps the counter for the \enquote{footnotes} and starts a list
+\newtoggle{@inapp}
 \newrobustcmd{\app}[1]{%
    \refstepcounter{appcrfootnote}%
    \unskip\kern0.05em\realsuperscript{\theappcrfootnote}%
-%   % If \app was called after \editedcommentarytext{}, then close the parentheses now.
-%   \if@iscommentarytext
-%      \unskip\textit{)}%
-%      \@iscommentarytextfalse
-%   \fi%
-   \@firstrdgtrue%
+   \@firstrdgtrue
+   \global\toggletrue{@inapp}%
    \gappto{\@appcr}{\item }#1%
+   \global\togglefalse{@inapp}%
 }
 % We define a macro for ritual directions
 % The normal macro starts with a newline and some spacing while the starred
@@ -1066,6 +1064,7 @@ brill]
 \newif\if@startwithnewline
 \@startwithnewlinetrue
 \def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
+%
 \newcommand{\@rd}[1]{%TODO: Spacing
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
@@ -1439,10 +1438,14 @@ brill]
       \stepcounter{foreign@in@editedtext}%
       \Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
    \else
-      \IfStrEqCase{#1}{%
-         {pal-Phlv}{\Phl{#2}}%
-         {fa}{\MP{#2}}%TODO: Correct language?
-      }[\textup{#2}]%
+      %\iftoggle{@inapp}
+      %   {\textup{#2}}%
+      %   {%
+            \IfStrEqCase{#1}{%
+               {pal-Phlv}{\Phltlt{#2}}%
+               {fa}{\MP{#2}}%TODO: Correct language?
+            }[\textup{#2}]%
+      %   }%
    \fi%
 }
 
