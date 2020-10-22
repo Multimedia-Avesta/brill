@@ -129,6 +129,9 @@ function sortGlossary(l)
    local sublemmacontent = ""      
    local subsublemmacontent = ""      
    local subsubsublemmacontent = ""         
+   local sublemmastar = false
+   local subsublemmastar = false
+   local subsubsublemmastar = false
    local result = {}
    local sl = {}
    local ssl = {}
@@ -141,74 +144,93 @@ function sortGlossary(l)
    local f = assert(io.open(outfile, "w+"))
    local hash = {}
    local res = {}
+
    
    -- we define a loop routine for each possible language
    
    -- Gujarati
    if glosslang == "Guj" then
-   for k,v in pairs(lines) do
+   for k,v in pairs( lines ) do
       -- get line k and process it
       local str = lines[k]
       
-      if string.match(str, "^%s*\\begin{Dictionary}") then
-         f:write('\\begin{ModDictionary}', "\n")
+      if string.match( str, "^%s*\\begin{Dictionary}" ) then
+         f:write( '\\begin{ModDictionary}', "\n" )
          inDictionary = true
-      elseif string.match(str, "^%s*\\begin{Sublemmata}") then
+      elseif string.match( str, "^%s*\\begin{Sublemmata}" ) then
          inSublemmata = true
          -- Write line to top-level structure
          lemmacontent = lemmacontent .. "\n\\begin{Sublemmata}"
          -- define an empty table for sublemmata environment
          sl = {}
-      elseif string.match(str, "^%s*\\begin{Subsublemmata}") then
+      elseif string.match( str, "^%s*\\begin{Subsublemmata}" ) then
          inSubsublemmata = true
          -- Write line to top-level structure
          sublemmacontent = sublemmacontent .. "\n\\begin{Subsublemmata}"
          -- define an empty table for sublemmata environment
          ssl = {}
-      elseif string.match(str, "^%s*\\begin{Subsubsublemmata}") then
+      elseif string.match( str, "^%s*\\begin{Subsubsublemmata}" ) then
          inSubsubsublemmata = true
          -- Write line to top-level structure
          subsublemmacontent = subsublemmacontent .. 
-         "\n\\begin{Subsubsublemmata}"
+            "\n\\begin{Subsubsublemmata}"
          -- define an empty table for sublemmata environment
          sssl = {}
-      elseif string.match(str, "^%s*\\end{Subsubsublemmata}") then
+      elseif string.match( str, "^%s*\\end{Subsubsublemmata}" ) then
          if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-            sssl[prevsubsubsublemma] = subsubsublemmacontent
+            sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent, 
+            ["star"] = subsubsublemmastar}
          end
-         newkeys = sortLemma(sssl)
+         newkeys = sortLemma( sssl )
          -- use the keys to retrieve the values in the sorted order
          -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
-            subsublemmacontent = subsublemmacontent .. '\n' .. 
-               '\\Subsubsublemma{' .. removesortid(k) .. '}' .. sssl[k]
+            if sssl[k]["star"] == true then
+               subsublemmacontent = subsublemmacontent .. '\n' .. 
+                  '\\Subsubsublemma*{' .. removesortid( k ) .. '}' .. sssl[k]["content"]
+            else
+               subsublemmacontent = subsublemmacontent .. '\n' .. 
+                  '\\Subsubsublemma{' .. removesortid( k ) .. '}' .. sssl[k]["content"]
+            end
          end
          subsublemmacontent = subsublemmacontent .. "\n\\end{Subsubsublemmata}"
          inSubsubsublemmata = false
-      elseif string.match(str, "^%s*\\end{Subsublemmata}") then
+      elseif string.match( str, "^%s*\\end{Subsublemmata}" ) then
          if prevsubsublemma and prevsubsublemma ~= '' then
-            ssl[prevsubsublemma] = subsublemmacontent
+            ssl[prevsubsublemma] = {["content"] = subsublemmacontent, 
+               ["star"] = subsublemmastar}
          end
          newkeys = sortLemma(ssl)
          -- use the keys to retrieve the values in the sorted order
          -- we write the sorted content to the top level structure
-         for _, k in ipairs(newkeys) do
-            sublemmacontent = sublemmacontent .. '\n' .. 
-               '\\Subsublemma{' .. removesortid(k) .. '}' .. ssl[k]
+         for _, k in ipairs( newkeys ) do
+            if ssl[k]["star"] == true then
+               sublemmacontent = sublemmacontent .. '\n' .. 
+               '\\Subsublemma*{' .. removesortid( k ) .. '}' .. ssl[k]["content"]
+            else
+               sublemmacontent = sublemmacontent .. '\n' .. 
+               '\\Subsublemma{' .. removesortid( k ) .. '}' .. ssl[k]["content"]
+            end
          end
          sublemmacontent = sublemmacontent .. "\n\\end{Subsublemmata}"
          inSubsublemmata = false
-      elseif string.match(str, "^%s*\\end{Sublemmata}") then
+      elseif string.match( str, "^%s*\\end{Sublemmata}" ) then
          --texio.write_nl("End sublemmata")
          if prevsublemma and prevsublemma ~= '' then
-            sl[prevsublemma] = sublemmacontent
+            sl[prevsublemma] = {["content"] = sublemmacontent, 
+            ["star"] = sublemmastar}
          end
          newkeys = sortLemma(sl)
          -- use the keys to retrieve the values in the sorted order
          -- we write the sorted content to the top level structure
          for _, k in ipairs(newkeys) do
-            lemmacontent = lemmacontent .. '\n' .. 
-               '\\Sublemma{' .. removesortid(k) .. '}' .. sl[k]
+            if sl[k]["star"] == true then
+               lemmacontent = lemmacontent .. '\n' .. 
+                  '\\Sublemma*{' .. removesortid( k ) .. '}' .. sl[k]["content"]
+            else
+               lemmacontent = lemmacontent .. '\n' .. 
+                  '\\Sublemma{' .. removesortid( k ) .. '}' .. sl[k]["content"]
+            end
          end
          lemmacontent = lemmacontent .. "\n\\end{Sublemmata}"
          inSublemmata = false
@@ -222,9 +244,9 @@ function sortGlossary(l)
          newkeys = sortLemma(result)
          -- use the keys to retrieve the values in the sorted order
          for _, k in ipairs(newkeys) do
-            f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
+            f:write( '\n\\Lemma{' .. removesortid( k ) .. '}' .. result[k] )
             -- get the first letter of the lemma
-            local first = ustring.sub(removesortid(k),1,1)
+            local first = ustring.sub( removesortid( k ), 1, 1 )
             --texio.write_nl(first)
             -- check whether the letter is already known and not -
             if not hash[first] and first ~= "-" then
@@ -233,7 +255,7 @@ function sortGlossary(l)
             end
          end
          -- if lines follow they should be processed as well
-         f:write('\n\\end{ModDictionary}', "\n")
+         f:write( '\n\\end{ModDictionary}', "\n" )
          local sequenceofletters = ""
          for k,v in pairs(res) do
             if sequenceofletters == "" then
@@ -251,25 +273,40 @@ function sortGlossary(l)
          else
             if inSubsubsublemmata == true then
                subsubsublemma, subsubsublemmatext = 
-                  string.match(str, "^%s*\\Subsubsublemma{(.-)}(.*)$")--$
+                  string.match( str, "^%s*\\Subsubsublemma{(.-)}(.*)$" )--$
                if subsubsublemma and subsubsublemma ~= '' then
                -- we found a new sublemma
                   if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-                     sssl[prevsubsubsublemma] = subsubsublemmacontent
+                     sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
+                     ["star"] = subsubsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsubsublemma = subsubsublemma
                   subsubsublemmacontent = subsubsublemmatext
                else
-                  subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
+                  subsubsublemma, subsubsublemmatext = 
+                  string.match( str, "^%s*\\Subsubsublemma%*{(.-)}(.*)$" )--$
+                  if subsubsublemma and subsubsublemma ~= '' then
+                  -- we found a new sublemma
+                     if prevsubsubsublemma and prevsubsubsublemma ~= '' then
+                        sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
+                        ["star"] = subsubsublemmastar}
+                     end
+                     -- remember new sublemma as prevsublemma for next entry
+                     prevsubsubsublemma = subsubsublemma
+                     subsubsublemmacontent = subsubsublemmatext
+                  else
+                     subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
+                  end
                end                                    
             elseif inSubsublemmata == true then
                subsublemma, subsublemmatext = 
-                  string.match(str, "^%s*\\Subsublemma{(.-)}(.*)$")--$
+                  string.match( str, "^%s*\\Subsublemma{(.-)}(.*)$" )--$
                if subsublemma and subsublemma ~= '' then
                -- we found a new sublemma
                   if prevsubsublemma and prevsubsublemma ~= '' then
-                     ssl[prevsubsublemma] = subsublemmacontent
+                     ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
+                     ["star"] = subsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsublemma = subsublemma
@@ -277,29 +314,63 @@ function sortGlossary(l)
                   prevsubsubsublemma = ''
                   subsubsublemmacontent = ''
                else
-                  subsublemmacontent = subsublemmacontent .. "\n" .. str
+                  subsublemma, subsublemmatext = 
+                  string.match( str, "^%s*\\Subsublemma%*{(.-)}(.*)$" )--$
+                  if subsublemma and subsublemma ~= '' then
+                  -- we found a new sublemma
+                     if prevsubsublemma and prevsubsublemma ~= '' then
+                        ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
+                        ["star"] = subsublemmastar}
+                     end
+                     -- remember new sublemma as prevsublemma for next entry
+                     prevsubsublemma = subsublemma
+                     subsublemmacontent = subsublemmatext
+                     prevsubsubsublemma = ''
+                     subsubsublemmacontent = ''
+                  else                  
+                     subsublemmacontent = subsublemmacontent .. "\n" .. str
+                  end
                end                           
             elseif inSublemmata == true then
                sublemma, sublemmatext = 
-                  string.match(str, "^%s*\\Sublemma{(.-)}(.*)$")--$
+                  string.match( str, "^%s*\\Sublemma{(.-)}(.*)$" )--$
                if sublemma and sublemma ~= '' then
                -- we found a new sublemma
+                  --texio.write_nl( "Found new sublemma: " .. sublemma )
                   if prevsublemma and prevsublemma ~= '' then
-                     sl[prevsublemma] = sublemmacontent
+                     sl[prevsublemma] = {["content"] = sublemmacontent,
+                     ["star"] = sublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsublemma = sublemma
                   sublemmacontent = sublemmatext
+                  sublemmastar = false
                   prevsubsublemma = ''
                   subsublemmacontent = '' 
                else
-                  sublemmacontent = sublemmacontent .. "\n" .. str
-               end               
+                  sublemma, sublemmatext = 
+                  string.match( str, "^%s*\\Sublemma%*{(.-)}(.*)$" )--$
+                  if sublemma and sublemma ~= '' then
+                     -- we found a new sublemma*
+                     texio.write_nl( "Found new sublemma*: " .. sublemma )
+                     if prevsublemma and prevsublemma ~= '' then
+                        sl[prevsublemma] = {["content"] = sublemmacontent, ["star"] = sublemmastar}
+                     end
+                     -- remember new sublemma as prevsublemma for next entry
+                     prevsublemma = sublemma
+                     sublemmacontent = sublemmatext
+                     sublemmastar = true
+                     prevsubsublemma = ''
+                     subsublemmacontent = '' 
+                  else
+                     sublemmacontent = sublemmacontent .. "\n" .. str
+                  end               
+               end
             else -- it can only be a lemma entry, but which one
                --texio.write_nl("Check line within dictionary")
-               lemma_oarg, lemma, text = string.match(str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$") --$
+               lemma_oarg, lemma, text = string.match( str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$" ) --$
                if not lemma_oarg or lemma_oarg == '' then
-                  lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+                  lemma, text = string.match( str, "^%s*\\Lemma{(.-)}(.*)$" ) --$
                else
                   text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
                end
@@ -308,7 +379,7 @@ function sortGlossary(l)
                -- we found a new lemma
                -- write previous lemma (if any) to table
                   if prevlemma and prevlemma ~= '' then
-                     lemmacontent = string.gsub(lemmacontent, '\n\n', '\n')
+                     lemmacontent = string.gsub( lemmacontent, '\n\n', '\n' )
                      result[prevlemma] = lemmacontent
                   end
                -- remember new lemma as prevlemma for next entry

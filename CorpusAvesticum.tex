@@ -451,12 +451,14 @@ brill]
       \begin{minipage}[t]{100mm}
          \footnotesize%
          \raggedright%
+         \hyphenpenalty=\@M%
          \@uppertitleback%
       \end{minipage}%
       \vfill
       \begin{minipage}[b]{130mm}%
          \footnotesize%
          \raggedright%
+         \hyphenpenalty=\@M%
          \@lowertitleback%
       \end{minipage}%
       \end{addmargin}\removelastskip%
@@ -1624,6 +1626,9 @@ brill]
     }%
       \input{dictionaryconv}]%
 % For the dictionary
+\newif\if@firstsublemma
+\newif\if@firstsubsublemma
+\newif\if@firstsubsubsublemma
 \newlist{ModDictionary}{description}{1}
 \setlist[ModDictionary]{%
    leftmargin=*,%
@@ -1639,7 +1644,7 @@ brill]
    labelindent=2\parindent,%
    labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
-   before={\def~{\textasciitilde}}%,
+   before={\def~{\textasciitilde}\@firstsublemmatrue}%,
 }
 \newlist{Subsublemmata}{description}{1}
 \setlist[Subsublemmata]{%
@@ -1647,7 +1652,7 @@ brill]
    labelindent=2\parindent,%
    labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
-   before={\def~{\textasciitilde}}%
+   before={\def~{\textasciitilde}\@firstsubsublemmatrue}%
 }
 \newlist{Subsubsublemmata}{description}{1}
 \setlist[Subsubsublemmata]{labelsep=.5em}
@@ -1656,23 +1661,53 @@ brill]
    labelindent=2\parindent,%
    labelsep=.5em,%
    font=\normalfont\bfseries\itshape,%
-   before={\def~{\textasciitilde}}%
+   before={\def~{\textasciitilde}\@firstsubsubsublemmatrue}%
 }
 \newcommand{\Meaning}[2][]{\item #2\ifstrempty{#1}{}{\ (#1)}}
 \def\Sublemma{\@ifstar\@Sublemma\@@Sublemma}
 \newcommand*{\@Sublemma}[1]{%
-   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
-\newcommand*{\@@Sublemma}[1]{\item[#1]\@firstattestationtrue}
+   \if@firstsublemma
+      \@@Sublemma{#1}%
+      \@firstsublemmafalse%
+   \else
+      \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}%
+   \fi%
+}
+\newcommand*{\@@Sublemma}[1]{%
+   \item[#1]%
+   \@firstattestationtrue%
+   \@firstsublemmafalse%
+}
 %
 \def\Subsublemma{\@ifstar\@Subsublemma\@@Subsublemma}
 \newcommand*{\@Subsublemma}[1]{%
-   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
-\newcommand*{\@@Subsublemma}[1]{\item[#1]\@firstattestationtrue}
+   \if@firstsubsublemma
+      \@@Subsublemma{#1}%
+      \@firstsubsublemmafalse%
+   \else
+      \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}%
+   \fi%
+}
+\newcommand*{\@@Subsublemma}[1]{%
+   \item[#1]%
+   \@firstattestationtrue%
+   \@firstsubsublemmafalse
+}
 %
 \def\Subsubsublemma{\@ifstar\@Subsubsublemma\@@Subsubsublemma}
 \newcommand*{\@Subsubsublemma}[1]{%
-   \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}}
-\newcommand*{\@@Subsubsublemma}[1]{\item[#1]\@firstattestationtrue}
+   \if@firstsubsubsublemma
+      \@@Subsubsublemma{#1}%
+      \@firstsubsubsublemmafalse
+   \else
+      \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}{\bfseries\itshape #1}%
+   \fi%
+}
+\newcommand*{\@@Subsubsublemma}[1]{%
+   \item[#1]%
+   \@firstattestationtrue%
+   \@firstsubsubsublemmafalse%
+}
 
 \newcommand*{\Lemma}[2][]{\item[#2]\@ifnextchar,{}{\hspace{0.5em}}}
 \newcommand*{\Lemmaoarg}[1]{\ifstrempty{#1}{}{\textlangle{}#1\textrangle{}}}
@@ -1858,5 +1893,9 @@ brill]
 \AtBeginDocument{\let\brill@saved@footnotetext\@footnotetext}
 \newcommand*{\Deactivatefootnotetext}{\let\@footnotetext=\@gobble}
 \newcommand*{\Activatefootnotetext}{\let\@footnotetext\brill@saved@footnotetext}
+
+\newcommand*{\fL}{\hskip0.16667em\relax}
+\renewcommand{\slash}{/\penalty\exhyphenpenalty\hspace{0pt}}
+\newcommand*{\nbthinslash}{\,\slash\fL{}}
       
 \endinput
