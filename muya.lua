@@ -50,7 +50,7 @@ function modifySorting()
    end
    --texio.write_nl("Treffer: " .. n)
    --texio.write_nl("Nachher: " .. match)
-   g:write(line .. "\n")
+   g:write(match .. "\n")
    --  f:close()
    end
    g:close()
