@@ -1054,9 +1054,9 @@ brill]
    \refstepcounter{appcrfootnote}%
    \unskip\kern0.05em\realsuperscript{\theappcrfootnote}%
    \@firstrdgtrue
-   \global\toggletrue{@inapp}%
+   \gappto{\@appcr}{\toggletrue{@inapp}}%
    \gappto{\@appcr}{\item }#1%
-   \global\togglefalse{@inapp}%
+   \gappto{\@appcr}{\togglefalse{@inapp}}%
 }
 % We define a macro for ritual directions
 % The normal macro starts with a newline and some spacing while the starred
@@ -1438,14 +1438,12 @@ brill]
       \stepcounter{foreign@in@editedtext}%
       \Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
    \else
-      %\iftoggle{@inapp}
-      %   {\textup{#2}}%
-      %   {%
-            \IfStrEqCase{#1}{%
-               {pal-Phlv}{\Phltlt{#2}}%
-               {fa}{\MP{#2}}%TODO: Correct language?
-            }[\textup{#2}]%
-      %   }%
+      \IfStrEqCase{#1}{%
+         {pal-Avst}{\iftoggle{@inapp}{\textit{#2}}{\textit{#2}}}%
+         {pal-Phlv}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
+         {fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
+         {ae-fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
+      }[\ClassWarning{brill}{Found unknown foreign language `#1`}\textup{#2}]%
    \fi%
 }
 
