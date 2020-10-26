@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.59.0] - 2020-10-26
+### Added
+- Macro `\appindent` (\#10067)
+
+### Fixed
+- Sorting for `\Sublemma*`, `\Subsublemma*` and `\Subsubsublemma*` in glossaries (Please note, that these macros have to start on a new line in the source file) (\#8770)
+- Handling of language arguments to `\foreign` (\#10007)
+
 ## [0.58.0] - 2020-09-29
 ### Added
 - Redefine `\mkccitation` for correct layout of citations after `\blockcquote` (\#9906)
@@ -809,6 +817,10 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.59.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.59.0
+[0.58.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.58.0
 [0.57.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.57.0
 [0.56.2]:
