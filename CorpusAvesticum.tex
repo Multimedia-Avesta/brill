@@ -1445,7 +1445,10 @@ brill]
          {pal-Phlv}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
          {fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
          {ae-fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
-      }[\ClassWarning{brill}{Found unknown foreign language `#1`}\textup{#2}]%
+      }[%
+         \ClassWarning{brill}{Found unknown foreign language `#1`\MessageBreak%
+            Result may not be as expected}%
+         \iftoggle{@inapp}{\textup{#2}}{\textit{#2}}]%
    \fi%
 }
 
