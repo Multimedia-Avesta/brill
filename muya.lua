@@ -352,7 +352,7 @@ function sortGlossary(l)
                   string.match( str, "^%s*\\Sublemma%*{(.-)}(.*)$" )--$
                   if sublemma and sublemma ~= '' then
                      -- we found a new sublemma*
-                     texio.write_nl( "Found new sublemma*: " .. sublemma )
+                     --texio.write_nl( "Found new sublemma*: " .. sublemma )
                      if prevsublemma and prevsublemma ~= '' then
                         sl[prevsublemma] = {["content"] = sublemmacontent, ["star"] = sublemmastar}
                      end
