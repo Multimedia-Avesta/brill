@@ -99,7 +99,7 @@ function lines_from(file)
   return lines
 end
 
-function sortGlossary(l)
+function sortGlossary( l )
    -- tests the functions above
    local file = status.filename
    local outfile = 'dictionaryconv.tex'
@@ -273,9 +273,14 @@ function sortGlossary(l)
          else
             if inSubsubsublemmata == true then
                subsubsublemma, subsubsublemmatext = 
-                  string.match( str, "^%s*\\Subsubsublemma{(.-)}(.*)$" )--$
+                  string.match( str, "^%s*\\Subsubsublemma(%b{})(.*)$" )--$
+               if not subsubsublemma or subsubsublemma == '' then
+                  -- we check for starred version
+                  subsubsublemma, subsubsublemmatext = 
+                     string.match( str, "^%s*\\Subsubsublemma%*(%b{})(.*)$" )--$
+               end   
                if subsubsublemma and subsubsublemma ~= '' then
-               -- we found a new sublemma
+                  -- we found a new subsubsublemma
                   if prevsubsubsublemma and prevsubsubsublemma ~= '' then
                      sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
                      ["star"] = subsubsublemmastar}
@@ -284,26 +289,19 @@ function sortGlossary(l)
                   prevsubsubsublemma = subsubsublemma
                   subsubsublemmacontent = subsubsublemmatext
                else
-                  subsubsublemma, subsubsublemmatext = 
-                  string.match( str, "^%s*\\Subsubsublemma%*{(.-)}(.*)$" )--$
-                  if subsubsublemma and subsubsublemma ~= '' then
-                  -- we found a new sublemma
-                     if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-                        sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
-                        ["star"] = subsubsublemmastar}
-                     end
-                     -- remember new sublemma as prevsublemma for next entry
-                     prevsubsubsublemma = subsubsublemma
-                     subsubsublemmacontent = subsubsublemmatext
-                  else
-                     subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
-                  end
+                  subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
                end                                    
             elseif inSubsublemmata == true then
                subsublemma, subsublemmatext = 
-                  string.match( str, "^%s*\\Subsublemma{(.-)}(.*)$" )--$
+                  string.match( str, "^%s*\\Subsublemma(%b{})(.*)$" )--$
+               if not subsublemma or subsublemma == '' then
+                  -- we check for starred version
+                  subsublemma, subsublemmatext = 
+                  string.match( str, "^%s*\\Subsublemma%*(%b{})(.*)$" )--$
+               end
                if subsublemma and subsublemma ~= '' then
-               -- we found a new sublemma
+                  -- we found a new sublemma
+                  subsublemma = string.match( subsublemma, "{(.*)}" )
                   if prevsubsublemma and prevsubsublemma ~= '' then
                      ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
                      ["star"] = subsublemmastar}
@@ -313,29 +311,20 @@ function sortGlossary(l)
                   subsublemmacontent = subsublemmatext
                   prevsubsubsublemma = ''
                   subsubsublemmacontent = ''
-               else
-                  subsublemma, subsublemmatext = 
-                  string.match( str, "^%s*\\Subsublemma%*{(.-)}(.*)$" )--$
-                  if subsublemma and subsublemma ~= '' then
-                  -- we found a new sublemma
-                     if prevsubsublemma and prevsubsublemma ~= '' then
-                        ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
-                        ["star"] = subsublemmastar}
-                     end
-                     -- remember new sublemma as prevsublemma for next entry
-                     prevsubsublemma = subsublemma
-                     subsublemmacontent = subsublemmatext
-                     prevsubsubsublemma = ''
-                     subsubsublemmacontent = ''
-                  else                  
-                     subsublemmacontent = subsublemmacontent .. "\n" .. str
-                  end
+               else                  
+                  subsublemmacontent = subsublemmacontent .. "\n" .. str
                end                           
             elseif inSublemmata == true then
                sublemma, sublemmatext = 
-                  string.match( str, "^%s*\\Sublemma{(.-)}(.*)$" )--$
+                  string.match( str, "^%s*\\Sublemma(%b{})(.*)$" )--$
+               if not sublemma or sublemma == '' then
+                  -- we check for starred version
+                  sublemma, sublemmatext = 
+                  string.match( str, "^%s*\\Sublemma%*(%b{})(.*)$" )--$
+               end
                if sublemma and sublemma ~= '' then
-               -- we found a new sublemma
+                  -- we found a new sublemma
+                  sublemma = string.match( sublemma, "{(.*)}" )
                   --texio.write_nl( "Found new sublemma: " .. sublemma )
                   if prevsublemma and prevsublemma ~= '' then
                      sl[prevsublemma] = {["content"] = sublemmacontent,
@@ -348,34 +337,19 @@ function sortGlossary(l)
                   prevsubsublemma = ''
                   subsublemmacontent = '' 
                else
-                  sublemma, sublemmatext = 
-                  string.match( str, "^%s*\\Sublemma%*{(.-)}(.*)$" )--$
-                  if sublemma and sublemma ~= '' then
-                     -- we found a new sublemma*
-                     --texio.write_nl( "Found new sublemma*: " .. sublemma )
-                     if prevsublemma and prevsublemma ~= '' then
-                        sl[prevsublemma] = {["content"] = sublemmacontent, ["star"] = sublemmastar}
-                     end
-                     -- remember new sublemma as prevsublemma for next entry
-                     prevsublemma = sublemma
-                     sublemmacontent = sublemmatext
-                     sublemmastar = true
-                     prevsubsublemma = ''
-                     subsublemmacontent = '' 
-                  else
-                     sublemmacontent = sublemmacontent .. "\n" .. str
-                  end               
+                  sublemmacontent = sublemmacontent .. "\n" .. str
                end
             else -- it can only be a lemma entry, but which one
                --texio.write_nl("Check line within dictionary")
-               lemma_oarg, lemma, text = string.match( str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$" ) --$
+               lemma_oarg, lemma, text = string.match( str, "^%s*\\Lemma%[(.-)%](%b{})(.*)$" ) --$
                if not lemma_oarg or lemma_oarg == '' then
-                  lemma, text = string.match( str, "^%s*\\Lemma{(.-)}(.*)$" ) --$
+                  lemma, text = string.match( str, "^%s*\\Lemma(%b{})(.*)$" ) --$
                else
                   text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
                end
                if lemma and lemma ~= '' then
-   --            texio.write_nl("Found new lemma " .. lemma)            
+                  lemma = string.match( lemma, "{(.*)}" )
+                  -- texio.write_nl("Found new lemma " .. lemma)            
                -- we found a new lemma
                -- write previous lemma (if any) to table
                   if prevlemma and prevlemma ~= '' then
@@ -396,12 +370,12 @@ function sortGlossary(l)
       end
    end
    elseif glosslang == "Av" or glosslang == "MP" or glosslang == "Skt" then
-   for k,v in pairs(lines) do
+   for k,v in pairs( lines ) do
    -- get line k and process it
       local str = lines[k]
    
-      if string.match(str, "^%s*\\begin{Dictionary}") then
-         f:write('\\begin{ModDictionary}', "\n")
+      if string.match( str, "^%s*\\begin{Dictionary}" ) then
+         f:write( '\\begin{ModDictionary}', "\n" )
          inDictionary = true
       elseif string.match(str, "^%s*\\end{Dictionary}") then
          -- we reached the end of the dictionary
@@ -410,12 +384,12 @@ function sortGlossary(l)
             result[prevlemma] = lemmacontent
          end
          -- start sorting process
-         newkeys = sortLemma(result)
+         newkeys = sortLemma( result )
          -- use the keys to retrieve the values in the sorted order
          for _, k in ipairs(newkeys) do
-            f:write('\n\\Lemma{' .. removesortid(k) .. '}' .. result[k])
+            f:write( '\n\\Lemma{' .. removesortid( k ) .. '}' .. result[k] )
             -- get the first letter of the lemma
-            local first = ustring.sub(removesortid(k),1,1)
+            local first = ustring.sub( removesortid( k ), 1, 1 )
             --texio.write_nl(first)
             -- check whether the letter is already known and not -
             if not hash[first] and first ~= "-" then
@@ -424,35 +398,36 @@ function sortGlossary(l)
             end
          end
          -- if lines follow they should be processed as well
-         f:write('\n\\end{ModDictionary}', "\n")
+         f:write( '\n\\end{ModDictionary}', "\n" )
          local sequenceofletters = ""
-         for k,v in pairs(res) do
+         for k,v in pairs( res ) do
             if sequenceofletters == "" then
                sequenceofletters = v
             else
                sequenceofletters = sequenceofletters .. ", " .. v
             end
          end
-         tex.sprint([[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
+         tex.sprint( [[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
          {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]])
-         tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]])
+         tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]] )
          inDictionary = false
       else
          if inDictionary == false then
          else -- it can only be a lemma entry, but which one
             --texio.write_nl("Check line within dictionary")
-            lemma_oarg, lemma, text = string.match(str, "^%s*\\Lemma%[(.-)%]{(.-)}(.*)$") --$
+            lemma_oarg, lemma, text = string.match( str, "^%s*\\Lemma%[(.-)%](%b{})(.*)$" ) --$
             if not lemma_oarg or lemma_oarg == '' then
-               lemma, text = string.match(str, "^%s*\\Lemma{(.-)}(.*)$") --$
+               lemma, text = string.match( str, "^%s*\\Lemma(%b{})(.*)$" ) --$
             else
                text = "\\Lemmaoarg{" .. lemma_oarg .. "}" .. text                 
             end
             if lemma and lemma ~= '' then
-               --            texio.write_nl("Found new lemma " .. lemma)            
+               lemma = string.match( lemma, "{(.*)}" )
+               texio.write_nl("Found new lemma " .. lemma)            
                -- we found a new lemma
                -- write previous lemma (if any) to table
                if prevlemma and prevlemma ~= '' then
-                  lemmacontent = string.gsub(lemmacontent, '\n\n', '\n')
+                  lemmacontent = string.gsub( lemmacontent, '\n\n', '\n' )
                   result[prevlemma] = lemmacontent
                end
                -- remember new lemma as prevlemma for next entry
@@ -465,70 +440,71 @@ function sortGlossary(l)
       end
    end
    else
-      texio.write_nl("Could not find a sort method for " .. glosslang)
+      texio.write_nl( "Could not find a sort method for " .. glosslang )
    end
    f:close()
 end
 
 -- We remove the sortid after the comparison
-function removesortid (s)
+function removesortid( s )
    local snew = s
-   snew = string.gsub(snew, '^¹(.+)$', '%1')
-   snew = string.gsub(snew, '^²(.+)$', '%1')
-   snew = string.gsub(snew, '^³(.+)$', '%1')
+   snew = string.gsub( snew, '^¹(.+)$', '%1' )
+   snew = string.gsub( snew, '^²(.+)$', '%1' )
+   snew = string.gsub( snew, '^³(.+)$', '%1' )
    return snew
 end
 
-function removespecialchars (s)
+function removespecialchars( s )
    local snew = s
    -- We replace/remove some characters not to be considered for sorting
    --snew = string.gsub(snew, '^%-?(.+)%-?$', '%1')--$
-   snew = string.gsub(snew, '%-', '')
-   snew = string.gsub(snew, '%.', '')
-   snew = string.gsub(snew, '%(', '')
-   snew = string.gsub(snew, '%)', '')
-   snew = string.gsub(snew, '°', '')
-   snew = string.gsub(snew, '%s-/%s-', ' ')
-   snew = string.gsub(snew, '%s-…%s-', ' ')
+   texio.write_nl("Vorher: " .. snew)
+   snew = string.gsub( snew, '%-', '' )
+   snew = string.gsub( snew, '%.', '' )
+   snew = string.gsub( snew, '%(', '' )
+   snew = string.gsub( snew, '%)', '' )
+   snew = string.gsub( snew, '°', '' )
+   snew = string.gsub( snew, '%s-/%s-', ' ' )
+   snew = string.gsub( snew, '%s-…%s-', ' ' )
    -- ... and we move sort ids to the very end
-   snew = string.gsub(snew, '^¹(.+)$', '%11')
-   snew = string.gsub(snew, '^²(.+)$', '%12')
-   snew = string.gsub(snew, '^³(.+)$', '%13')
+   snew = string.gsub( snew, '^¹(.+)$', '%11' )
+   snew = string.gsub( snew, '^²(.+)$', '%12' )
+   snew = string.gsub( snew, '^³(.+)$', '%13' )
    -- we change special chars to match Unicode characters
    --   s1 = ustring.gsub(s1, 'é', 'é')
-   snew = ustring.gsub(snew, 'ḍ', 'ḍ')
+   snew = ustring.gsub( snew, 'ḍ', 'ḍ' )
    --   s1 = ustring.gsub(s1, 'ḳ', 'ḳ')
-   snew = ustring.gsub(snew, 'ḷ', 'ḷ')   
-   snew = ustring.gsub(snew, 'ṃ', 'ṃ')      
-   snew = ustring.gsub(snew, 'ṇ', 'ṇ')
+   snew = ustring.gsub( snew, 'ḷ', 'ḷ' )   
+   snew = ustring.gsub( snew, 'ṃ', 'ṃ' )      
+   snew = ustring.gsub( snew, 'ṇ', 'ṇ' )
    --   s1 = ustring.gsub(s1, 'ọ', 'ọ')
-   snew = ustring.gsub(snew, 'ś', 'ś')
-   snew = ustring.gsub(snew, 'š' ,'š')
-   snew = ustring.gsub(snew, 'ṣ', 'ṣ')
-   snew = ustring.gsub(snew, 'ṭ', 'ṭ')
-   snew = string.gsub(snew, '\\XVE ', 'xv')
-   snew = string.gsub(snew, '\\NGVE' , 'ŋv')
-   snew = string.gsub(snew, '\\aee ', 'ǝ̄')
-   snew = string.gsub(snew, '\\XVE\\{\\}', 'xv')
-   snew = string.gsub(snew, '\\NGVE\\{\\}', 'ŋv')
-   snew = string.gsub(snew, '\\aee\\{\\}', 'ǝ̄')
-   
+   snew = ustring.gsub( snew, 'ś', 'ś' )
+   snew = ustring.gsub( snew, 'š' ,'š' )
+   snew = ustring.gsub( snew, 'ṣ', 'ṣ' )
+   snew = ustring.gsub( snew, 'ṭ', 'ṭ' )
+   snew = string.gsub( snew, '\\XVE ', 'xv' )
+   snew = string.gsub( snew, '\\NGVE' , 'ŋv' )
+   snew = string.gsub( snew, '\\aee ', 'ǝ̄' )
+   snew = string.gsub( snew, '\\XVE{}', 'xv' )
+   snew = string.gsub( snew, '\\NGVE{}', 'ŋv' )
+   snew = string.gsub( snew, '\\aee{}', 'ǝ̄' )
+   texio.write_nl("Nachher: " .. snew)
    return snew
 end
 
-function sortLemma (t)
+function sortLemma( t )
    local tkeys = {}
    -- populate the table that holds the keys
-   for k in pairs(t) do table.insert(tkeys, k) end
+   for k in pairs( t ) do table.insert( tkeys, k ) end
    -- sort the keys
-   table.sort(tkeys, compare)
+   table.sort( tkeys, compare )
    return tkeys
 end
 
-function compare (a,b)
+function compare( a, b )
    -- before sorting, we remove dashes from the beginning and from the end ...
-   local s1 = removespecialchars(a)
-   local s2 = removespecialchars(b)
+   local s1 = removespecialchars( a )
+   local s2 = removespecialchars( b )
       
    -- the comparison returns a sort order so1 and so2
    local so1, so2
@@ -612,7 +588,7 @@ function sortletter (s)
    
    -- If s is at last two characters long, we check, whether the first two 
    -- characters form a valid sorting letter (according to our scheme)
-   if ustring.len(s) > 1 then
+   if ustring.len( s ) > 1 then
       sortletter = ustring.sub( s, 1, 2 )
       if sortorder[sortletter] == nil then
          sortletter = ustring.sub( s, 1, 1 )

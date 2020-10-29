@@ -1898,8 +1898,8 @@ brill]
 \newcommand*{\Deactivatefootnotetext}{\let\@footnotetext=\@gobble}
 \newcommand*{\Activatefootnotetext}{\let\@footnotetext\brill@saved@footnotetext}
 
-\newcommand*{\fL}{\hskip0.16667em\relax}
+\providecommand*{\fL}{\hskip0.16667em\relax}
 \renewcommand{\slash}{/\penalty\exhyphenpenalty\hspace{0pt}}
-\newcommand*{\nbthinslash}{\,\slash\fL{}}
-\newcommand*{\appindent}{\hspace*{\normalparindent}}      
+\providecommand*{\nbthinslash}{\,\slash\fL{}}
+\providecommand*{\appindent}{\hspace*{\normalparindent}}      
 \endinput
