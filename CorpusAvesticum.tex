@@ -169,8 +169,8 @@ brill]
 \newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
 
 \newcommand*{\aee}{ǝ̄}
-\newcommand*{\XVE}{x\textsuperscript{v}}
-\newcommand*{\NGVE}{ŋ\textsuperscript{v}}
+\newcommand*{\XVE}{x\textsuperscript{v}\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
+\newcommand*{\NGVE}{ŋ\textsuperscript{v}\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
 
 \newcommand*{\AvA}{\symbol{"10B00}}
 \newcommand*{\AvAA}{\symbol{"10B01}}
