@@ -31,22 +31,19 @@ local ustring = require( 'ustring' )
 function modifySorting()
    local match = ''
    local n = 0
--- local f = io.open("passages-test.idx", "r")
-   local g = io.open("passages-mod.idx", "w+")
---   local content = f:read("*all")
--- f:seek('set')
+   local g = io.open( "passages-mod.idx", "w+" )
    -- for starred index macros like \Passages*
    -- TODO: What about letters within the passage id?
-   for line in io.lines ("passages.idx") do
+   for line in io.lines( "passages.idx" ) do
    --texio.write_nl("Vorher: " .. line)
-      match, n = string.gsub(line, 
+      match, n = string.gsub( line, 
          "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)@\\textup%s*{.+}|", 
-         function(a,b) return get_sortentry_star(a,b) end)
+         function(a,b) return get_sortentry_star( a, b ) end )
       if n == 0 then
       -- now for unstarred variant
-         match, n = string.gsub(line,
+         match, n = string.gsub( line,
             "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
-            function(a,b) return get_sortentry(a,b) end)
+            function( a, b ) return get_sortentry( a, b ) end )
    end
    --texio.write_nl("Treffer: " .. n)
    --texio.write_nl("Nachher: " .. match)
@@ -62,21 +59,28 @@ function get_sortentry(a,b)
    for v, w in string.gmatch(b, "(%d+)([%-%.])") do
       res = res .. string.format("%03d%s",v,w)
    end
-   for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
-      --res = res .. string.format("%03d", last)
-      res = res .. last
+   for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
+      if last:match( "^%d+$" ) then
+         res = res .. string.format( "%03d", last )
+      else
+         res = res .. last
+      end
    end
-   return string.format("%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b)
+   return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b )
 end
 
-function get_sortentry_star(a,b)
+function get_sortentry_star( a, b ) 
    -- we have to analyse b to get a correct sort string
    local res = ""
-   for v, w in string.gmatch(b, "(%d+)([%-%.])") do
-      res = res .. string.format("%03d%s", v, w)
+   for v, w in string.gmatch( b, "(%d+)([%-%.])" ) do
+      res = res .. string.format( "%03d%s", v, w )
    end
-   for last in string.gmatch(b, ".+[%-%.]([^%-%.]+)$") do
-      res = res .. string.format("%03d", last)
+   for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
+      if last:match( "^%d+$" ) then
+         res = res .. string.format( "%03d", last )
+      else
+         res = res .. last
+      end
    end
    return string.format("%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b)
 end
