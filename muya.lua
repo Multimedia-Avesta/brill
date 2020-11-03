@@ -462,7 +462,7 @@ function removespecialchars( s )
    local snew = s
    -- We replace/remove some characters not to be considered for sorting
    --snew = string.gsub(snew, '^%-?(.+)%-?$', '%1')--$
-   texio.write_nl("Vorher: " .. snew)
+   --texio.write_nl("Vorher: " .. snew)
    snew = string.gsub( snew, '%-', '' )
    snew = string.gsub( snew, '%.', '' )
    snew = string.gsub( snew, '%(', '' )
@@ -492,7 +492,7 @@ function removespecialchars( s )
    snew = string.gsub( snew, '\\XVE{}', 'xv' )
    snew = string.gsub( snew, '\\NGVE{}', 'ŋv' )
    snew = string.gsub( snew, '\\aee{}', 'ǝ̄' )
-   texio.write_nl("Nachher: " .. snew)
+   --texio.write_nl("Nachher: " .. snew)
    return snew
 end
 

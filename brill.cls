@@ -1496,6 +1496,9 @@
     {}%
 }
 
+\newcommand*\NoIndentAfterEnv[1]{%
+   \AfterEndEnvironment{#1}{\par\@afterindentfalse\@afterheading}}
+
 \renewenvironment{quote}%
    {%
     \par\vspace{\baselineskip}%
@@ -1524,8 +1527,11 @@
    }%
    {%
       \endaddmargin%
-      \par\addvspace{\@btvspace}%\noindent\ignorespaces%
+      \par\addvspace{\@btvspace}\noindent\ignorespaces%
    }%
+
+\NoIndentAfterEnv{quote}
+\NoIndentAfterEnv{@btquote}
 
 \newcommand{\beforeblocktranslation}[1]{%
    \begin{addmargin}[2\parindent]{0pt}%
@@ -1668,6 +1674,9 @@
     \restartlist{enuminlinesplitB}}%
    {\global\@splittranslationfalse%
     \global\@splitsplittranslationfalse}%   
+
+\NoIndentAfterEnv{splittranslation}
+\NoIndentAfterEnv{splittranslation*}
 
 \let\@RIGminisec\minisec
 \renewcommand{\minisec}[1]{\vspace{\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
