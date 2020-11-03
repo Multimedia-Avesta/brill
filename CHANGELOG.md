@@ -6,6 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.60.0] - 2020-11-03
+### Added
+- Macro `\Comment`
+
+### Changed
+- Set kerning after `\XVE` and `\NGVE` to `-1pt` in italic context (experimentell)
+
+### Fixed
+- Sorting of passage index
+- Sorting of lemmata containing macros (\#10095)
+
 ## [0.59.0] - 2020-10-26
 ### Added
 - Macro `\appindent` (\#10067)
@@ -817,6 +828,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.60.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.60.0
 [0.59.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.59.0
 [0.58.0]:
