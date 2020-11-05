@@ -1019,7 +1019,6 @@
 \newtoggle{@tablebfheaders}
 \newtoggle{@tablelandscape}
 \newtoggle{@figurelandscape}
-\define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurecaption{#1}}%
@@ -1067,9 +1066,10 @@
       {\def\@figurelongsource{#1}}%
       {\def\@tablelongsource{#1}}%
 }
-\define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
-\define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
-\define@key{brill}{bfheaders}{\settoggle{@tablebfheaders}{#1}}%
+\define@key{brill}{bgscreen}[true]{\settoggle{@tablebgscreen}{#1}}%
+\define@key{brill}{long}[true]{\settoggle{@tablelong}{#1}}%
+\define@key{brill}{booktabsstyle}[true]{\settoggle{@tablebooktabs}{#1}}%
+\define@key{brill}{bfheaders}[true]{\settoggle{@tablebfheaders}{#1}}%
 
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
@@ -1090,8 +1090,8 @@
       orientation=portrait,%
       placement={tbp},%
       width=full,%
-      bfheaders=true,%
-      booktabsstyle=true,%
+      bfheaders,%
+      booktabsstyle,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \Ifstr{\@tableorientation}{landscape}
@@ -1215,7 +1215,7 @@
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\@brillbottomrule}{\lasthline}%
-         \end{tabu}
+         \end{tabu}%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
