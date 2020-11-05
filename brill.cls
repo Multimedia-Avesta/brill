@@ -1016,6 +1016,7 @@
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
 \newtoggle{@tablebooktabs}
+\newtoggle{@tablebfheaders}
 \newtoggle{@tablelandscape}
 \newtoggle{@figurelandscape}
 \define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
@@ -1051,8 +1052,6 @@
       {\def\@figurewidth{#1}}%
       {\def\@tablewidth{#1}}%
 }%
-\define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
-\define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
 \define@key{brill}{landscape}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\settoggle{@figurelandscape}{#1}}%
@@ -1068,18 +1067,21 @@
       {\def\@figurelongsource{#1}}%
       {\def\@tablelongsource{#1}}%
 }
+\define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
+\define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
+\define@key{brill}{bfheaders}{\settoggle{@tablebfheaders}{#1}}%
 
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
       {\dimexpr -\dp\strutbox+\heavyrulewidth-1mm\relax}%
       {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox\relax}%
 }
-
 \newcommand*{\@brillmidrule}{%
    \specialrule{\lightrulewidth}%
       {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
       {\dimexpr 1mm +\normalbaselineskip-\ht\strutbox\relax}%
 }
+\let\@brillbottomrule\@brillmidrule
 
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -1088,6 +1090,8 @@
       orientation=portrait,%
       placement={tbp},%
       width=full,%
+      bfheaders=true,%
+      booktabsstyle=true,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \Ifstr{\@tableorientation}{landscape}
@@ -1121,7 +1125,9 @@
                \iftoggle{@tablebooktabs}%
                   {%
                      \@brilltoprule%
-                     \rowfont{\bfseries}\@tableheaders%
+                     \iftoggle{@tablebfheaders}%
+                        {\rowfont{\bfseries}\@tableheaders}%
+                        {\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
                      \addlinespace[\dimexpr -\dp\strutbox+0.8bp\relax]%
@@ -1132,14 +1138,18 @@
                         \@tablecaption~(\textit{cont.})%
                      }\\
                      \@brilltoprule%
-                     \rowfont{\bfseries}\@tableheaders%
+                     \iftoggle{@tablebfheaders}%
+                        {\rowfont{\bfseries}\@tableheaders}%
+                        {\@tableheaders}%
                      \@brillmidrule%
                      \endhead
-                     \@brillmidrule%
+                     \@brillbottomrule%
                      \endlastfoot
                   }{%
                      \firsthline
-                     \rowfont{\bfseries}\@tableheaders%
+                     \iftoggle{@tablebfheaders}%
+                        {\rowfont{\bfseries}\@tableheaders}%
+                        {\@tableheaders}%
                      \hline
                      \endfirsthead
                      \caption*{%
@@ -1149,7 +1159,9 @@
                         \@tablecaption~(\textit{cont.})%
                      }\\
                      \firsthline
-                     \rowfont{\bfseries}\@tableheaders%
+                     \iftoggle{@tablebfheaders}
+                        {\rowfont{\bfseries}\@tableheaders}%
+                        {\@tableheaders}%
                      \hline
                      \endhead
                      \lasthline
@@ -1186,19 +1198,23 @@
                {%
                   \iftoggle{@tablebooktabs}%
                      {%
-                        \toprule\addlinespace[\dimexpr\baselineskip+1mm\relax]%
-                        \rowfont{\bfseries}\@tableheaders%
-                        \specialrule{\lightrulewidth}{\dimexpr\baselineskip-1mm\relax}{2cm}%
+                        \@brilltoprule%
+                        \iftoggle{@tablebfheaders}
+                           {\rowfont{\bfseries}\@tableheaders}%
+                           {\@tableheaders}%
+                        \@brillmidrule%
                      }{%
                         \firsthline
-                        \rowfont{\bfseries}\@tableheaders%
+                        \iftoggle{@tablebfheaders}
+                           {\rowfont{\bfseries}\@tableheaders}%
+                           {\@tableheaders}%
                         \hline%
                      }%
                }%
             \showrowcolors
             \BODY%
             \iftoggle{@tablebooktabs}%
-               {\bottomrule}{\lasthline}%
+               {\@brillbottomrule}{\lasthline}%
          \end{tabu}
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
