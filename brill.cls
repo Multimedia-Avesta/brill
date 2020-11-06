@@ -937,8 +937,11 @@
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
+\RequirePackage{longtable}
 \RequirePackage{tabu}
 %\RequirePackage[flushleft]{threeparttable}
+\setlength{\LTpre}{0bp}
+\setlength{\LTpost}{0bp}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -950,9 +953,8 @@
 \setlength{\belowrulesep}{\dimexpr1mm +\normalbaselineskip-\ht\strutbox\relax}%
 % \abovecaptionskip -> below; \belowcaptionskip -> above
 \setlength{\belowcaptionskip}{%
-   \dimexpr\normalbaselineskip-\ht\strutbox+1bp\relax}%
+   \dimexpr 2\normalbaselineskip-\ht\strutbox\relax}%
 \setlength{\abovecaptionskip}{\normalbaselineskip}%
-\setlength{\lineskip}{0bp}%
 % Vertical space
 \setlength{\textfloatsep}{0bp}%
 \setlength{\intextsep}{0bp}%
@@ -1073,15 +1075,19 @@
 
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
-      {\dimexpr -\dp\strutbox+\heavyrulewidth-1mm\relax}%
-      {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox\relax}%
+      {\dimexpr -\dp\strutbox-1mm\relax}%
+      {\dimexpr 1mm+\heavyrulewidth+\normalbaselineskip-\ht\strutbox\relax}%
 }
 \newcommand*{\@brillmidrule}{%
    \specialrule{\lightrulewidth}%
       {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
-      {\dimexpr 1mm +\normalbaselineskip-\ht\strutbox\relax}%
+      {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox\relax}%
 }
-\let\@brillbottomrule\@brillmidrule
+\newcommand*{\@brillbottomrule}{%
+\specialrule{\lightrulewidth}%
+   {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
+   {\dimexpr 1mm+2\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
+}
 
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -1094,6 +1100,7 @@
       booktabsstyle,%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
+   \setlength{\lineskip}{0bp}%
    \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}
       {}
@@ -1130,7 +1137,7 @@
                         {\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
-                     \addlinespace[\dimexpr -\dp\strutbox+0.8bp\relax]%
+                     \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%
                      \caption*{%
                         \usekomafont{captionlabel}%
                         \tablename~\thetable:~%
