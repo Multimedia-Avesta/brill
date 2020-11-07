@@ -1109,7 +1109,7 @@
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
-      \addfontfeatures{Numbers={Tabular,Lining}}
+      \addfontfeatures{Numbers={Monospaced,OldStyle}}
       \@tablefontsize
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
@@ -1198,7 +1198,7 @@
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
          {\begin{table}[\@tableplacement]}
-         \addfontfeatures{Numbers={Tabular,Lining}}
+         \addfontfeatures{Numbers={Monospaced,OldStyle}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
             \caption{\@tablecaption}%
