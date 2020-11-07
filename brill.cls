@@ -1029,6 +1029,7 @@
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headerfontsize}{\def\@tableheaderfontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
+\define@key{brill}{numberstyle}{\def\@tablenumberstyle{#1}}%
 \define@key{brill}{label}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurelabel{#1}}%
@@ -1099,6 +1100,7 @@
       width=full,%
       bfheaders,%
       booktabsstyle,%
+      numberstyle={Monospaced},
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \setlength{\lineskip}{0bp}%
@@ -1109,7 +1111,7 @@
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
-      \addfontfeatures{Numbers={Monospaced,OldStyle}}
+      \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
       \@tablefontsize
       \iftoggle{@tablebgscreen}
          {\rowcolors{1}{white}{black!10}}%
@@ -1198,7 +1200,7 @@
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
          {\begin{table}[\@tableplacement]}
-         \addfontfeatures{Numbers={Monospaced,OldStyle}}
+         \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
             \caption{\@tablecaption}%
