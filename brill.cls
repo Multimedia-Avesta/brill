@@ -1027,6 +1027,7 @@
       {\def\@tablecaption{#1}}%
 }%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
+\define@key{brill}{headerfontsize}{\def\@tableheaderfontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
 \define@key{brill}{label}{%
    \Ifstr{\@currenvir}{brillfigure}
@@ -1101,6 +1102,7 @@
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \setlength{\lineskip}{0bp}%
+   \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
    \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}
       {}
@@ -1133,8 +1135,11 @@
                   {%
                      \@brilltoprule%
                      \iftoggle{@tablebfheaders}%
-                        {\rowfont{\bfseries}\@tableheaders}%
-                        {\@tableheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
                      \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%
@@ -1146,8 +1151,11 @@
                      }\\
                      \@brilltoprule%
                      \iftoggle{@tablebfheaders}%
-                        {\rowfont{\bfseries}\@tableheaders}%
-                        {\@tableheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
                      \endhead
                      \@brillbottomrule%
@@ -1155,8 +1163,11 @@
                   }{%
                      \firsthline
                      \iftoggle{@tablebfheaders}%
-                        {\rowfont{\bfseries}\@tableheaders}%
-                        {\@tableheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \hline
                      \endfirsthead
                      \caption*{%
@@ -1166,9 +1177,12 @@
                         \@tablecaption~(\textit{cont.})%
                      }\\
                      \firsthline
-                     \iftoggle{@tablebfheaders}
-                        {\rowfont{\bfseries}\@tableheaders}%
-                        {\@tableheaders}%
+                     \iftoggle{@tablebfheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \hline
                      \endhead
                      \lasthline
@@ -1206,15 +1220,23 @@
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
-                        \iftoggle{@tablebfheaders}
-                           {\rowfont{\bfseries}\@tableheaders}%
-                           {\@tableheaders}%
+                        \iftoggle{@tablebfheaders}%
+                           {%
+                              \rowfont{\bfseries\@tableheaderfontsize}%
+                              \@tableheaders%
+                           }%
+                           {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
                      }{%
                         \firsthline
-                        \iftoggle{@tablebfheaders}
-                           {\rowfont{\bfseries}\@tableheaders}%
-                           {\@tableheaders}%
+                        \begingroup%
+                        \iftoggle{@tablebfheaders}%
+                           {%
+                              \rowfont{\bfseries\@tableheaderfontsize}%
+                              \@tableheaders%
+                           }%
+                           {\rowfont{\@tableheaderfontsize}\@tableheaders}%
+                        \endgroup%
                         \hline%
                      }%
                }%
@@ -1228,7 +1250,6 @@
         {\end{table}}%
    }%
 }%
-%\newcommand*{\tabhead}[2][\@tablefontsize]{\bfseries #1}
 
 \newenvironment{brillfigure}[1][]{%
    \setkeys{brill}{%
