@@ -1144,7 +1144,7 @@
                         {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
-                     \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%
+                     \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
                      \caption*{%
                         \usekomafont{captionlabel}%
                         \tablename~\thetable:~%
@@ -1203,25 +1203,29 @@
          \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
-            \caption{\@tablecaption}%
+            \vspace{1.4bp}%TODO: Why this value? More elegant way needed.
+            \ifdefvoid{\@tableshortcaption}%
+               {\caption{\@tablecaption}}%
+               {\caption[\@tableshortcaption]{\@tablecaption}}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
          }%
          \iftoggle{@tablebgscreen}
             {\rowcolors{1}{white}{black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{@{}#2@{}}}
-            {full}{\begin{tabu} to \textwidth{@{}#2@{}}}
-            {wide}{\begin{tabu} to 130mm{@{}#2@{}}}
-            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
-         }[]         
-            \hiderowcolors
+            {dynamic}{\begin{tabu}{@{}#2@{}}}%
+            {full}{\begin{tabu} to \textwidth{@{}#2@{}}}%
+            {wide}{\begin{tabu} to 130mm{@{}#2@{}}}%
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
+         }[]%       
+            \hiderowcolors%
             \ifdefvoid{\@tableheaders}%
                {}%
                {%
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
+                        \addlinespace[-1bp]%TODO: Why that value?
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
@@ -1229,6 +1233,7 @@
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
+                        \addlinespace[0.25bp]%TODO: Why that value?
                      }{%
                         \firsthline
                         \begingroup%
