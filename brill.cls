@@ -1114,7 +1114,7 @@
       \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
       \@tablefontsize
       \iftoggle{@tablebgscreen}
-         {\rowcolors{1}{white}{black!10}}%
+         {\taburowcolors[1] 2{white .. black!10}}%
          {}%
       \IfStrEqCase{\@tablewidth}{%
          {dynamic}{\begin{longtabu}{@{}#2@{}}}
@@ -1129,7 +1129,7 @@
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
             \\%
          }%
-         \hiderowcolors
+         %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
             {}%
             {%
@@ -1191,7 +1191,7 @@
                      \endlastfoot
                   }%
             }%
-         \showrowcolors
+         %\showrowcolors
          \BODY%
       \end{longtabu}
       \endgroup
@@ -1210,7 +1210,7 @@
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
          }%
          \iftoggle{@tablebgscreen}
-            {\rowcolors{1}{white}{black!10}}%
+            {\taburowcolors[1] 2{white .. black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{tabu}{@{}#2@{}}}%
@@ -1218,7 +1218,7 @@
             {wide}{\begin{tabu} to 130mm{@{}#2@{}}}%
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
          }[]%       
-            \hiderowcolors%
+            %\hiderowcolors%
             \ifdefvoid{\@tableheaders}%
                {}%
                {%
@@ -1247,7 +1247,7 @@
                         \hline%
                      }%
                }%
-            \showrowcolors
+            %\showrowcolors
             \BODY%
             \iftoggle{@tablebooktabs}%
                {\@brillbottomrule}{\lasthline}%
