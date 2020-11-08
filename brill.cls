@@ -1117,9 +1117,9 @@
          {\rowcolors{1}{white}{black!10}}%
          {}%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}{#2}}
-         {full}{\begin{longtabu} to \linewidth{#2}}
-         {wide}{\begin{longtabu} to 130mm{#2}}
+         {dynamic}{\begin{longtabu}{@{}#2@{}}}
+         {full}{\begin{longtabu} to \linewidth{@{}#2@{}}}
+         {wide}{\begin{longtabu} to 130mm{@{}#2@{}}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
@@ -1210,9 +1210,9 @@
             {\rowcolors{1}{white}{black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{#2}}
-            {full}{\begin{tabu} to \textwidth{#2}}
-            {wide}{\begin{tabu} to 130mm{#2}}
+            {dynamic}{\begin{tabu}{@{}#2@{}}}
+            {full}{\begin{tabu} to \textwidth{@{}#2@{}}}
+            {wide}{\begin{tabu} to 130mm{@{}#2@{}}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]         
             \hiderowcolors
