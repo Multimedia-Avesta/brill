@@ -318,6 +318,19 @@
    % TODO: Call macro for _all_ configs; use config option or similar
    \makeglossaries
 }
+%\RequirePackage{noindentafter}
+%% Fix for noindentafter (cf. https://tex.stackexchange.com/questions/514127/incompatibility-between-noindentafter-and-etoolbox-v2-5f)
+%\expandafter\patchcmd\csname end \endcsname{%
+%   \if@ignore\@ignorefalse\ignorespaces\fi%
+%}{%
+%   \if@ignore\@ignorefalse\ignorespaces\fi%
+%   \csuse{@noindent@#1@hook}%
+%}{\PackageInfo{noindentafter}{`\string\end' patched by fix in brill.cls}}{%
+%   \PackageWarningNoLine{noindentafter}{%
+%      Patching `\string\end' failed!\MessageBreak%
+%      `\string\NoIndentAfter...' commands won't work%
+%   }%
+%}
 \RequirePackage{xstring}
 \RequirePackage{multicol}
 \AtBeginEnvironment{multicols}{\raggedright}
@@ -1496,8 +1509,18 @@
     {}%
 }
 
+\newcommand*{\@NoIndentAfter}{%
+   \@ifnextchar\par{%
+      \def\par{%
+         \everypar{\setbox\z@\lastbox\everypar{}}%
+         \@restorepar%
+      }%
+   }{}%
+}
+\newrobustcmd*{\NoIndentAfterThis}{\@NoIndentAfter\par\par}
 \newcommand*\NoIndentAfterEnv[1]{%
-   \AfterEndEnvironment{#1}{\par\@afterindentfalse\@afterheading}}
+   \AfterEndEnvironment{#1}{\NoIndentAfterThis}%
+}
 
 \renewenvironment{quote}%
    {%
@@ -1591,7 +1614,7 @@
             \end{addmargin}%
          }%
    \fi%
-   \par\addvspace{\@btvspace}%
+   \par\addvspace{\@btvspace}\NoIndentAfterThis%
 }%
 \def\@tabarray@array@new{%
    \@ifnextchar[{\@@array}{\expandafter\@@array\expandafter[\array@default]}%
@@ -1657,6 +1680,7 @@
             }%
          }%
    \end{@btquote}%
+   \NoIndentAfterThis%
 }%
 
 \newif\if@splittranslation
@@ -1677,6 +1701,9 @@
 
 \NoIndentAfterEnv{splittranslation}
 \NoIndentAfterEnv{splittranslation*}
+\NoIndentAfterCmd{\blocktranslation}
+%\NoIndentAfterCmd{\blocktranslation*}
+
 
 \let\@RIGminisec\minisec
 \renewcommand{\minisec}[1]{\addvspace{2\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
