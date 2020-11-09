@@ -1591,7 +1591,7 @@
             \end{addmargin}%
          }%
    \fi%
-   \par\vspace{\@btvspace}%
+   \par\addvspace{\@btvspace}%
 }%
 \def\@tabarray@array@new{%
    \@ifnextchar[{\@@array}{\expandafter\@@array\expandafter[\array@default]}%
@@ -1679,7 +1679,7 @@
 \NoIndentAfterEnv{splittranslation*}
 
 \let\@RIGminisec\minisec
-\renewcommand{\minisec}[1]{\vspace{\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
+\renewcommand{\minisec}[1]{\addvspace{2\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
 \appto{\frontmatter}{\setcounter{page}{5}} 
