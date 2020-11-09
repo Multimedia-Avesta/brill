@@ -430,11 +430,11 @@
    \ifnumless{\numexpr\totalchapters\relax}{10}{4mm}{8mm}}}
 
 \RedeclareSectionCommand[%
-   innerskip=0pt,%
+   innerskip=0bp,%
    font={\LARGE\bfseries\upshape\itshape},%
    prefixfont={\LARGE\bfseries\scshape},%
-   tocnumwidth=0pt,%
-   tocindent=0pt%
+   tocnumwidth=0bp,%
+   tocindent=0bp%
 ]{part}
 
 \renewcommand{\partlineswithprefixformat}[3]{%
@@ -482,7 +482,7 @@
    font          = \LARGE\bfseries,%
    prefixfont    = \normalfont\normalsize\mdseries\addfontfeatures{Numbers=Lining}\scshape,%
    tocnumwidth   = \dimexpr\@tocstartindent\relax,%
-   tocindent     = 0pt,%
+   tocindent     = 0bp,%
    tocbeforeskip = \dimexpr\@addchaptertocskip\relax,%
 ]{chapter}
 
@@ -544,7 +544,7 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\normalsize\bfseries},%
-      indent=0pt,%
+      indent=0bp,%
       level=4,%
       tocnumwidth=12mm,%
       tocindent=\dimexpr\@tocstartindent+28mm\relax,%
@@ -559,7 +559,7 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\small\bfseries},%
-      indent=0pt,%
+      indent=0bp,%
       level=5,%
       tocindent=\dimexpr\@tocstartindent+40mm\relax,%
       tocnumwidth=16mm,%
@@ -574,7 +574,7 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\small\bfseries},%
-      indent=0pt,%
+      indent=0bp,%
       level=6,%
       tocindent=\dimexpr\@tocstartindent+56mm\relax,%
       tocnumwidth=16mm,%
@@ -588,9 +588,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\small\bfseries},%
-      indent=0pt,%
+      indent=0bp,%
       level=7,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
 %      tocnumwidth=8mm,%
       counterwithin=subfivesection%
    ]{paragraph}
@@ -601,9 +601,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
       font={\small\bfseries},%
-      indent=0pt,%
+      indent=0bp,%
       level=8,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
 %      tocnumwidth=10\parindent%
    ]{subparagraph}
    \@namedef{subparagraphsectiontocdepth}{8}
@@ -645,9 +645,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
       font={\normalsize\itshape},%
-      indent=0pt,%
+      indent=0bp,%
       level=4,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
       tocnumwidth=6\parindent,%
       tocstyle=section,%
       counterwithin=subsubsection%
@@ -660,9 +660,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
       font={\small},%
-      indent=0pt,%
+      indent=0bp,%
       level=5,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
       tocnumwidth=7\parindent,%
       tocstyle=section,%
       counterwithin=subthreesection%
@@ -675,9 +675,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
       font={\small\itshape},%
-      indent=0pt,%
+      indent=0bp,%
       level=6,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
       tocnumwidth=8\parindent,%
       tocstyle=section,%
       counterwithin=subfoursection%
@@ -689,9 +689,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
       font={\small},%
-      indent=0pt,%
+      indent=0bp,%
       level=7,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
       tocnumwidth=9\parindent,%
       counterwithin=subfivesection%
    ]{paragraph}
@@ -702,9 +702,9 @@
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
       font={\small\itshape},%
-      indent=0pt,%
+      indent=0bp,%
       level=8,%
-      tocindent=0pt,%%%TODO
+      tocindent=0bp,%%%TODO
       tocnumwidth=10\parindent%
    ]{subparagraph}
    \@namedef{subparagraphsectiontocdepth}{8}
@@ -904,7 +904,7 @@
 \addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular,Lining}}}%
 \addtokomafont{minisec}{\bfseries}%
 \addtokomafont{footnotereference}{\upshape}%\addfontfeatures{VerticalPosition=Superior}}
-\setfootnoterule[.25pt]{16mm}
+\setfootnoterule[.25bp]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
 
 \RequirePackage{enumitem}
@@ -950,13 +950,27 @@
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
+\RequirePackage{longtable}
 \RequirePackage{tabu}
 %\RequirePackage[flushleft]{threeparttable}
+\setlength{\LTpre}{0bp}
+\setlength{\LTpost}{0bp}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
-\setlength{\heavyrulewidth}{0.6pt}%
-\setlength{\lightrulewidth}{0.3pt}%
+\setlength{\heavyrulewidth}{0.6bp}%
+\setlength{\lightrulewidth}{0.3bp}%
+% For \toprule, midrule and bottomrule, but _not_ specialrule
+\setlength{\aboverulesep}{%
+   \dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
+\setlength{\belowrulesep}{\dimexpr1mm +\normalbaselineskip-\ht\strutbox\relax}%
+% \abovecaptionskip -> below; \belowcaptionskip -> above
+\setlength{\belowcaptionskip}{%
+   \dimexpr 2\normalbaselineskip-\ht\strutbox\relax}%
+\setlength{\abovecaptionskip}{\normalbaselineskip}%
+% Vertical space
+\setlength{\textfloatsep}{0bp}%
+\setlength{\intextsep}{0bp}%
 \let\origtable\table
 \let\endorigtable\endtable
 \renewenvironment{table}[1][tbp]{%
@@ -1017,16 +1031,18 @@
 \newtoggle{@tablebgscreen}
 \newtoggle{@tablelong}
 \newtoggle{@tablebooktabs}
+\newtoggle{@tablebfheaders}
 \newtoggle{@tablelandscape}
 \newtoggle{@figurelandscape}
-\define@key{brill}{bgscreen}[false]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{caption}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurecaption{#1}}%
       {\def\@tablecaption{#1}}%
 }%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
+\define@key{brill}{headerfontsize}{\def\@tableheaderfontsize{#1}}%
 \define@key{brill}{headers}{\def\@tableheaders{#1}}%
+\define@key{brill}{numberstyle}{\def\@tablenumberstyle{#1}}%
 \define@key{brill}{label}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurelabel{#1}}%
@@ -1052,8 +1068,6 @@
       {\def\@figurewidth{#1}}%
       {\def\@tablewidth{#1}}%
 }%
-\define@key{brill}{long}{\settoggle{@tablelong}{#1}}%
-\define@key{brill}{booktabsstyle}{\settoggle{@tablebooktabs}{#1}}%
 \define@key{brill}{landscape}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\settoggle{@figurelandscape}{#1}}%
@@ -1069,6 +1083,26 @@
       {\def\@figurelongsource{#1}}%
       {\def\@tablelongsource{#1}}%
 }
+\define@key{brill}{bgscreen}[true]{\settoggle{@tablebgscreen}{#1}}%
+\define@key{brill}{long}[true]{\settoggle{@tablelong}{#1}}%
+\define@key{brill}{booktabsstyle}[true]{\settoggle{@tablebooktabs}{#1}}%
+\define@key{brill}{bfheaders}[true]{\settoggle{@tablebfheaders}{#1}}%
+
+\newcommand*{\@brilltoprule}{%
+   \specialrule{\heavyrulewidth}%
+      {\dimexpr -\dp\strutbox-1mm\relax}%
+      {\dimexpr 1mm+\heavyrulewidth+\normalbaselineskip-\ht\strutbox\relax}%
+}
+\newcommand*{\@brillmidrule}{%
+   \specialrule{\lightrulewidth}%
+      {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
+      {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox\relax}%
+}
+\newcommand*{\@brillbottomrule}{%
+\specialrule{\lightrulewidth}%
+   {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
+   {\dimexpr 1mm+2\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
+}
 
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -1077,23 +1111,28 @@
       orientation=portrait,%
       placement={tbp},%
       width=full,%
+      bfheaders,%
+      booktabsstyle,%
+      numberstyle={Monospaced},
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
+   \setlength{\lineskip}{0bp}%
+   \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
    \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}
       {}
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
-      \addfontfeatures{Numbers={Tabular,Lining}}
+      \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
       \@tablefontsize
       \iftoggle{@tablebgscreen}
-         {\rowcolors{1}{white}{black!10}}%
+         {\taburowcolors[1] 2{white .. black!10}}%
          {}%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}{#2}}
-         {full}{\begin{longtabu} to \linewidth{#2}}
-         {wide}{\begin{longtabu} to 130mm{#2}}
+         {dynamic}{\begin{longtabu}{@{}#2@{}}}
+         {full}{\begin{longtabu} to \linewidth{@{}#2@{}}}
+         {wide}{\begin{longtabu} to 130mm{@{}#2@{}}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
          \ifdefvoid{\@tablecaption}{}{%
@@ -1103,31 +1142,47 @@
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
             \\%
          }%
-         \hiderowcolors
+         %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
             {}%
             {%
                \iftoggle{@tablebooktabs}%
                   {%
-                     \toprule
-                     \@tableheaders%
-                     \midrule
-                     \endfirsthead
+                     \@brilltoprule%
+                     \iftoggle{@tablebfheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
+                     \@brillmidrule%
+                     \endfirsthead%
+                     \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
                      \caption*{%
                         \usekomafont{captionlabel}%
                         \tablename~\thetable:~%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
-                     \toprule
-                     \@tableheaders%
-                     \midrule
+                     \@brilltoprule%
+                     \iftoggle{@tablebfheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
+                     \@brillmidrule%
                      \endhead
-                     \bottomrule
+                     \@brillbottomrule%
                      \endlastfoot
                   }{%
                      \firsthline
-                     \@tableheaders%
+                     \iftoggle{@tablebfheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \hline
                      \endfirsthead
                      \caption*{%
@@ -1137,14 +1192,19 @@
                         \@tablecaption~(\textit{cont.})%
                      }\\
                      \firsthline
-                     \@tableheaders%
+                     \iftoggle{@tablebfheaders}%
+                        {%
+                           \rowfont{\bfseries\@tableheaderfontsize}%
+                           \@tableheaders%
+                        }%
+                        {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \hline
                      \endhead
                      \lasthline
                      \endlastfoot
                   }%
             }%
-         \showrowcolors
+         %\showrowcolors
          \BODY%
       \end{longtabu}
       \endgroup
@@ -1153,47 +1213,63 @@
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
          {\begin{table}[\@tableplacement]}
-         \addfontfeatures{Numbers={Tabular,Lining}}
+         \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
-            \caption{\@tablecaption}%
+            \vspace{1.4bp}%TODO: Why this value? More elegant way needed.
+            \ifdefvoid{\@tableshortcaption}%
+               {\caption{\@tablecaption}}%
+               {\caption[\@tableshortcaption]{\@tablecaption}}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
          }%
          \iftoggle{@tablebgscreen}
-            {\rowcolors{1}{white}{black!10}}%
+            {\taburowcolors[1] 2{white .. black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{#2}}
-            {full}{\begin{tabu} to \textwidth{#2}}
-            {wide}{\begin{tabu} to 130mm{#2}}
-            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
-         }[]         
-            \hiderowcolors
+            {dynamic}{\begin{tabu}{@{}#2@{}}}%
+            {full}{\begin{tabu} to \textwidth{@{}#2@{}}}%
+            {wide}{\begin{tabu} to 130mm{@{}#2@{}}}%
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
+         }[]%       
+            %\hiderowcolors%
             \ifdefvoid{\@tableheaders}%
                {}%
                {%
                   \iftoggle{@tablebooktabs}%
                      {%
-                        \toprule
-                        \@tableheaders%
-                        \midrule%
+                        \@brilltoprule%
+                        \addlinespace[-1bp]%TODO: Why that value?
+                        \iftoggle{@tablebfheaders}%
+                           {%
+                              \rowfont{\bfseries\@tableheaderfontsize}%
+                              \@tableheaders%
+                           }%
+                           {\rowfont{\@tableheaderfontsize}\@tableheaders}%
+                        \@brillmidrule%
+                        \addlinespace[0.25bp]%TODO: Why that value?
                      }{%
                         \firsthline
-                        \@tableheaders%
+                        \begingroup%
+                        \iftoggle{@tablebfheaders}%
+                           {%
+                              \rowfont{\bfseries\@tableheaderfontsize}%
+                              \@tableheaders%
+                           }%
+                           {\rowfont{\@tableheaderfontsize}\@tableheaders}%
+                        \endgroup%
                         \hline%
                      }%
                }%
-            \showrowcolors
+            %\showrowcolors
             \BODY%
             \iftoggle{@tablebooktabs}%
-               {\bottomrule}{\lasthline}%
-         \end{tabu}
+               {\@brillbottomrule}{\lasthline}%
+         \end{tabu}%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
    }%
 }%
-\newcommand*{\tabhead}[2][\@tablefontsize]{\bfseries #1}
 
 \newenvironment{brillfigure}[1][]{%
    \setkeys{brill}{%
@@ -1221,7 +1297,7 @@
             }%
             {narrow}{%
                \begin{figure}[tp]%
-               \setcapindent*{0pt}%
+               \setcapindent*{0bp}%
                \setkeys{Gin}{width=\Gin@nat@width}%
                \ifdefvoid{\@figurecaption}
                   {}%
@@ -1399,7 +1475,7 @@
    xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
 %
 \newdimen\widestabbreviation
-\setlength{\widestabbreviation}{0pt}
+\setlength{\widestabbreviation}{0bp}
 
 \newlength{\currentwidth}
 \newcommand*{\@checkforwidestabbreviation}[1]{%
@@ -1442,8 +1518,8 @@
 \newglossarystyle{brill}{%
    \renewenvironment{theglossary}%
       {%
-         \setlength{\LTpre}{0pt}%
-         \setlength{\LTpost}{0pt}%
+         \setlength{\LTpre}{0bp}%
+         \setlength{\LTpost}{0bp}%
          \begin{longtabu} to%
             \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
@@ -1525,7 +1601,7 @@
 \renewenvironment{quote}%
    {%
     \par\vspace{\baselineskip}%
-    \addmargin[2\parindent]{0pt}%
+    \addmargin[2\parindent]{0bp}%
     \ignorespaces%
     \aftergroup\useignorespacesandallpars%
    }%
@@ -1543,21 +1619,21 @@
          \par\addvspace{\@btvspace}%
       \fi%
       \ifcsdef{specialnewline\@currvalspecialnewline}%
-         {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0pt}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
-         {\addmargin[2\parindent]{0pt}}%
+         {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
+         {\addmargin[2\parindent]{0bp}}%
       \ignorespaces%
       \aftergroup\useignorespacesandallpars%
    }%
    {%
       \endaddmargin%
-      \par\addvspace{\@btvspace}\noindent\ignorespaces%
+      \par\addvspace{\@btvspace}%\noindent\ignorespaces%
    }%
 
 \NoIndentAfterEnv{quote}
 \NoIndentAfterEnv{@btquote}
 
 \newcommand{\beforeblocktranslation}[1]{%
-   \begin{addmargin}[2\parindent]{0pt}%
+   \begin{addmargin}[2\parindent]{0bp}%
       #1%
    \end{addmargin}%
    \par\nopagebreak\vspace{\baselineskip}%
@@ -1597,7 +1673,7 @@
          {}%
          {%
             \par\nopagebreak\noindent%
-            \begin{addmargin}[2\parindent]{0pt}%
+            \begin{addmargin}[2\parindent]{0bp}%
                #1%
             \end{addmargin}%
          }%
@@ -1609,7 +1685,7 @@
          {}%
          {%
             \par\nopagebreak\noindent%
-            \begin{addmargin}[2\parindent]{0pt}%
+            \begin{addmargin}[2\parindent]{0bp}%
                #1%
             \end{addmargin}%
          }%
@@ -1727,7 +1803,7 @@
       \let\origwrite\write
       \def\write{\immediate\origwrite}%
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
-      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0pt}}%
+      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0bp}}%
    \endgroup%
    \if@totalchapterwritten\else
       \immediate\write\@auxout%
