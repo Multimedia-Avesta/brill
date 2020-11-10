@@ -271,26 +271,6 @@
 \ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
 \ifundef{\Ifisinteger}{\let\Ifisinteger\ifisinteger}{}
 \RequirePackage[autostyle,english=british]{csquotes}
-\renewcommand*{\mkcitation}[1]{%
-   \ifblockquote
-      {%
-         \par\nopagebreak%
-         \hspace*{2\parindent}%
-         \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}%
-         #1%
-      }%
-      {\ (#1)}%   
-}
-\renewcommand*{\mkccitation}[1]{%
-   \ifblockquote
-      {%
-         \par\nopagebreak%
-         \hspace*{2\parindent}%
-         \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}   
-         #1%
-      }%
-      {\ (#1)}%
-}
 \RequirePackage[%
    backend=biber,%
    style=muya,%
@@ -298,6 +278,49 @@
    maxbibnames=99,%
    doi=false]%
 {biblatex}
+
+\newif\if@blockquotestar
+\newif\if@blockcquotestar
+
+\renewrobustcmd*{\blockquote}{%
+   \@ifstar%
+      {\SetCiteCommand{\cite}\@blockquotestartrue\csq@getcargs{\csq@bquote{}{}}}%
+      {\SetCiteCommand{\footcite}\@blockquotestarfalse\csq@getcargs{\csq@bquote{}{}}}%
+}
+\renewrobustcmd*{\blockcquote}{%
+   \@ifstar%
+      {\SetCiteCommand{\cite}\@blockcquotestartrue\csq@getccargs{\csq@bquote{}{}}}%
+      {\SetCiteCommand{\footcite}\@blockcquotestarfalse\csq@getccargs{\csq@bquote{}{}}}%
+}
+
+\renewcommand*{\mkcitation}[1]{%
+   \if@blockquotestar
+      \ifblockquote
+         {%
+            \par\nopagebreak%
+            \hspace*{2\parindent}%
+            \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}%
+            #1%
+         }%
+         {\ (#1)}%   
+   \else
+      #1%
+   \fi%
+}
+\renewcommand*{\mkccitation}[1]{%
+   \if@blockcquotestar
+      \ifblockquote
+         {%
+            \par\nopagebreak%
+            \hspace*{2\parindent}%
+            \AtNextCite{\DeclareNameWrapperFormat{labelname}{\textsc{##1}}}%
+            #1%
+         }%
+         {\ (#1)}%   
+   \else
+      #1%
+   \fi%
+}
 \RequirePackage[automark,markcase=lower]{scrlayer-scrpage}
 \automark[chapter]{chapter}
 \renewcommand*{\chaptermarkformat}{}
