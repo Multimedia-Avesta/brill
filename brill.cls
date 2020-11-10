@@ -1615,7 +1615,7 @@
     {\expandafter\ignorespacesandallpars\@gobble}%
     {}%
 }
-
+% See https://tex.stackexchange.com/questions/514127/incompatibility-between-noindentafter-and-etoolbox-v2-5f
 \newcommand*{\@NoIndentAfter}{%
    \@ifnextchar\par{%
       \def\par{%
@@ -1625,7 +1625,7 @@
    }{}%
 }
 \newrobustcmd*{\NoIndentAfterThis}{\@NoIndentAfter\par\par}
-\newcommand*\NoIndentAfterEnv[1]{%
+\newcommand*{\NoIndentAfterEnv}[1]{%
    \AfterEndEnvironment{#1}{\NoIndentAfterThis}%
 }
 
@@ -1808,7 +1808,7 @@
 
 \NoIndentAfterEnv{splittranslation}
 \NoIndentAfterEnv{splittranslation*}
-\NoIndentAfterCmd{\blocktranslation}
+%\NoIndentAfterCmd{\blocktranslation}
 %\NoIndentAfterCmd{\blocktranslation*}
 
 
