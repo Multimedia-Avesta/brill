@@ -6,6 +6,25 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.61.0] - 2020-11-10
+### Added
+- Options `bfheader=true|false`, `headerfontsize` (set to value of `fontsize` by default) and `numberstyle=Monospaced|Proportional` for `brilltable`
+- Macros `blockquote*` and `\blockcquote*` for in-text citations
+- Macro `\footnotetextsuperscript` for upright superscript numbers
+
+### Changed
+- Option `booktabsstyle` set to `true` by default
+- Boolean options for `brilltable` can be set without explicit `=true`
+- Citation argument of `\blockcquote` set as footnote using `footcite` (\#9974)
+- No more indention at start and end of each row for `brilltable`
+- Suppress indention after `blocktranslation`
+- Set spacing before `minisec` to `2\baselineskip`
+- Change some book names and remove book names `AJPz` and `AJPhl` and add `AJ` instead (\#10139)
+
+### Fixed
+- Output of `brilltable` very much improved (still not perfect)
+- Numbers in `brilltable` set to `OldStyle`
+
 ## [0.60.0] - 2020-11-03
 ### Added
 - Macro `\Comment`
@@ -828,6 +847,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.61.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.61.0
 [0.60.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.60.0
 [0.59.0]:
