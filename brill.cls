@@ -1153,7 +1153,9 @@
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}
       \begingroup
-      \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
+      \Ifstr{\@tablenumberstyle}{Proportional}%
+         {\addfontfeatures{RawFeature={-tnum}}}%
+         {\addfontfeatures{Numbers=Monospaced}}%
       \@tablefontsize
       \iftoggle{@tablebgscreen}
          {\taburowcolors[1] 2{white .. black!10}}%
@@ -1248,7 +1250,9 @@
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
          {\begin{table}[\@tableplacement]}
-         \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
+         \Ifstr{\@tablenumberstyle}{Proportional}%
+            {\addfontfeatures{RawFeature={-tnum}}}%
+            {\addfontfeatures{Numbers=Monospaced}}%
          \@tablefontsize
          \ifdefvoid{\@tablecaption}%
             {\setlength{\@firstlastcolindent}{\normalparindent}}%
