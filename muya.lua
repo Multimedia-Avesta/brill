@@ -82,22 +82,22 @@ function get_sortentry_star( a, b )
          res = res .. last
       end
    end
-   return string.format("%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b)
+   return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b )
 end
 
 -- see if the file exists
-function file_exists(file)
-  local f = io.open(file, "rb")
+function file_exists( file )
+  local f = io.open( file, "rb" )
   if f then f:close() end
   return f ~= nil
 end
 
 -- get all lines from a file, returns an empty 
 -- list/table if the file does not exist
-function lines_from(file)
-  if not file_exists(file) then return {} end
+function lines_from( file )
+  if not file_exists( file ) then return {} end
   lines = {}
-  for line in io.lines(file) do 
+  for line in io.lines( file ) do 
     lines[#lines + 1] = line
   end
   return lines
@@ -108,14 +108,14 @@ function sortGlossary( l )
    local file = status.filename
    local outfile = 'dictionaryconv.tex'
    if l == nil or l == '' then
-      texio.write_nl("Glossary language must not be empty")
+      texio.write_nl( "Glossary language must not be empty" )
    else
       glosslang = l
-      texio.write_nl("Found sorting language: " .. glosslang)
+      texio.write_nl( "Found sorting language: " .. glosslang )
    end
-   if not file_exists(file) then return {} end
+   if not file_exists( file ) then return {} end
    
-   local lines = lines_from(file)
+   local lines = lines_from( file )
    local text = ""
    local sublemmatext = ""      
    local subsublemmatext = ""      
@@ -130,12 +130,15 @@ function sortGlossary( l )
    local subsublemma = ""
    local subsubsublemma = ""   
    local lemmacontent = ""
-   local sublemmacontent = ""      
-   local subsublemmacontent = ""      
-   local subsubsublemmacontent = ""         
+   local prevsublemmacontent = ""      
+   local prevsubsublemmacontent = ""      
+   local prevsubsubsublemmacontent = ""         
    local sublemmastar = false
    local subsublemmastar = false
    local subsubsublemmastar = false
+   local prevsublemmastar = false
+   local prevsubsublemmastar = false
+   local prevsubsubsublemmastar = false
    local result = {}
    local sl = {}
    local ssl = {}
@@ -145,7 +148,7 @@ function sortGlossary( l )
    local inSublemmata = false
    local inSubsublemmata = false
    local inSubsubsublemmata = false   
-   local f = assert(io.open(outfile, "w+"))
+   local f = assert( io.open(outfile, "w+") )
    local hash = {}
    local res = {}
 
@@ -224,10 +227,10 @@ function sortGlossary( l )
             sl[prevsublemma] = {["content"] = sublemmacontent, 
             ["star"] = sublemmastar}
          end
-         newkeys = sortLemma(sl)
+         newkeys = sortLemma( sl )
          -- use the keys to retrieve the values in the sorted order
          -- we write the sorted content to the top level structure
-         for _, k in ipairs(newkeys) do
+         for _, k in ipairs( newkeys ) do
             if sl[k]["star"] == true then
                lemmacontent = lemmacontent .. '\n' .. 
                   '\\Sublemma*{' .. removesortid( k ) .. '}' .. sl[k]["content"]
@@ -277,42 +280,48 @@ function sortGlossary( l )
          else
             if inSubsubsublemmata == true then
                subsubsublemma, subsubsublemmatext = 
-                  string.match( str, "^%s*\\Subsubsublemma(%b{})(.*)$" )--$
-               if not subsubsublemma or subsubsublemma == '' then
-                  -- we check for starred version
-                  subsubsublemma, subsubsublemmatext = 
                      string.match( str, "^%s*\\Subsubsublemma%*(%b{})(.*)$" )--$
+               subsubsublemmastar = true
+               if not subsubsublemma or subsubsublemma == '' then
+                  -- we check for unstarred version
+                  subsubsublemma, subsubsublemmatext = 
+                     string.match( str, "^%s*\\Subsubsublemma(%b{})(.*)$" )--$
+                  subsubsublemmastar = false
                end   
                if subsubsublemma and subsubsublemma ~= '' then
                   -- we found a new subsubsublemma
                   if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-                     sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
-                     ["star"] = subsubsublemmastar}
+                     sssl[prevsubsubsublemma] = {["content"] = prevsubsubsublemmacontent,
+                     ["star"] = prevsubsubsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsubsublemma = subsubsublemma
-                  subsubsublemmacontent = subsubsublemmatext
+                  prevsubsubsublemmacontent = subsubsublemmatext
+                  prevsubsubsublemmastar = subsubsublemmastar
                else
                   subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
                end                                    
             elseif inSubsublemmata == true then
                subsublemma, subsublemmatext = 
-                  string.match( str, "^%s*\\Subsublemma(%b{})(.*)$" )--$
-               if not subsublemma or subsublemma == '' then
-                  -- we check for starred version
-                  subsublemma, subsublemmatext = 
                   string.match( str, "^%s*\\Subsublemma%*(%b{})(.*)$" )--$
+                  subsublemmastar = true
+               if not subsublemma or subsublemma == '' then
+                  -- we check for unstarred version
+                  subsublemma, subsublemmatext = 
+                  string.match( str, "^%s*\\Subsublemma(%b{})(.*)$" )--$
+                  subsublemmastar = false
                end
                if subsublemma and subsublemma ~= '' then
                   -- we found a new sublemma
                   subsublemma = string.match( subsublemma, "{(.*)}" )
                   if prevsubsublemma and prevsubsublemma ~= '' then
-                     ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
-                     ["star"] = subsublemmastar}
+                     ssl[prevsubsublemma] = {["content"] = prevsubsublemmacontent,
+                     ["star"] = prevsubsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsublemma = subsublemma
-                  subsublemmacontent = subsublemmatext
+                  prevsubsublemmacontent = subsublemmatext
+                  prevsubsublemmastar = subsublemmastar
                   prevsubsubsublemma = ''
                   subsubsublemmacontent = ''
                else                  
@@ -320,24 +329,26 @@ function sortGlossary( l )
                end                           
             elseif inSublemmata == true then
                sublemma, sublemmatext = 
-                  string.match( str, "^%s*\\Sublemma(%b{})(.*)$" )--$
-               if not sublemma or sublemma == '' then
-                  -- we check for starred version
-                  sublemma, sublemmatext = 
                   string.match( str, "^%s*\\Sublemma%*(%b{})(.*)$" )--$
+               sublemmastar = true
+               if not sublemma or sublemma == '' then
+                  -- we check for unstarred version
+                  sublemma, sublemmatext = 
+                  string.match( str, "^%s*\\Sublemma(%b{})(.*)$" )--$
+                  sublemmastar = false
                end
                if sublemma and sublemma ~= '' then
                   -- we found a new sublemma
                   sublemma = string.match( sublemma, "{(.*)}" )
                   --texio.write_nl( "Found new sublemma: " .. sublemma )
                   if prevsublemma and prevsublemma ~= '' then
-                     sl[prevsublemma] = {["content"] = sublemmacontent,
-                     ["star"] = sublemmastar}
+                     sl[prevsublemma] = {["content"] = prevsublemmacontent,
+                     ["star"] = prevsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsublemma = sublemma
-                  sublemmacontent = sublemmatext
-                  sublemmastar = false
+                  prevsublemmacontent = sublemmatext
+                  prevsublemmastar = sublemmastar
                   prevsubsublemma = ''
                   subsublemmacontent = '' 
                else
