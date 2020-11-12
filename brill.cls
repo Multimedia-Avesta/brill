@@ -660,7 +660,8 @@
       tocnumwidth=8mm,%
       tocindent=\dimexpr\@tocstartindent+8mm\relax,%
       tocentrynumberformat=\upshape,%
-      tocentryformat=\itshape%
+      tocentryformat=\itshape,%
+      tocbeforeskip=\baselineskip,%
    ]{subsection}
    %
    \RedeclareSectionCommand[%
@@ -937,7 +938,6 @@
 \addtokomafont{footnotereference}{\upshape}%\addfontfeatures{VerticalPosition=Superior}}
 \setfootnoterule[.25bp]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
-
 \RequirePackage{enumitem}
 \setlist{labelsep=*,align=left,nosep}
 \setlist[itemize]{leftmargin=\parindent,label=\textendash}
@@ -984,8 +984,8 @@
 \RequirePackage{longtable}
 \RequirePackage{tabu}
 %\RequirePackage[flushleft]{threeparttable}
-\setlength{\LTpre}{0bp}
-\setlength{\LTpost}{0bp}
+\setlength{\LTpre}{\normalbaselineskip}
+\setlength{\LTpost}{\normalbaselineskip}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -996,12 +996,9 @@
    \dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
 \setlength{\belowrulesep}{\dimexpr1mm +\normalbaselineskip-\ht\strutbox\relax}%
 % \abovecaptionskip -> below; \belowcaptionskip -> above
-\setlength{\belowcaptionskip}{%
-   \dimexpr 2\normalbaselineskip-\ht\strutbox\relax}%
+\setlength{\belowcaptionskip}{\dp\strutbox}%
+%   \dimexpr \normalbaselineskip-\dp\strutbox\relax}%
 \setlength{\abovecaptionskip}{\normalbaselineskip}%
-% Vertical space
-\setlength{\textfloatsep}{0bp}%
-\setlength{\intextsep}{0bp}%
 \let\origtable\table
 \let\endorigtable\endtable
 \renewenvironment{table}[1][tbp]{%
@@ -1132,7 +1129,7 @@
 \newcommand*{\@brillbottomrule}{%
 \specialrule{\lightrulewidth}%
    {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
-   {\dimexpr 1mm+2\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
+   {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
 }
 
 \newif\if@firstitem
@@ -1188,7 +1185,7 @@
                         {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
-                     \addlinespace[\dimexpr -\normalbaselineskip-\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
+                     \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
                      \caption*{%
                         \usekomafont{captionlabel}%
                         \tablename~\thetable:~%
@@ -1247,7 +1244,8 @@
          \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
          \@tablefontsize
          \ifdefvoid{\@tablecaption}{}{%
-            \vspace{1.4bp}%TODO: Why this value? More elegant way needed.
+            %\vspace{-0.5bp}%TODO: Why this value? More elegant way needed.
+            \vspace{\dimexpr \normalbaselineskip+1.5bp\relax}%TODO: More elegant way needed.]
             \ifdefvoid{\@tableshortcaption}%
                {\caption{\@tablecaption}}%
                {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1301,7 +1299,6 @@
         {\end{table}}%
    }%
 }%
-
 \newenvironment{brillfigure}[1][]{%
    \setkeys{brill}{%
       orientation=portrait,%
@@ -1380,6 +1377,7 @@
                   \ifdefvoid{\@figurecaption}%
                      {}%
                      {%
+                        \vspace{-\normalbaselineskip}%
                         \ifdefvoid{\@figureshortcaption}%
                            {%
                               \ifdefvoid{\@figuresource}%
@@ -1411,6 +1409,18 @@
                {\end{figure}}%
          }%
    }%
+\BeforeBeginEnvironment{brilltable}{%
+   \setlength{\textfloatsep}{\normalbaselineskip}%
+   % distance between floats on the top or the bottom and the text;
+   \setlength{\intextsep}{0bp}% 
+   % distance between floats inserted inside the page text (using h) and the text proper.
+   \setlength{\floatsep}{\normalbaselineskip}%
+}
+\BeforeBeginEnvironment{brillfigure}{%
+   \setlength{\textfloatsep}{\normalbaselineskip}%
+   \setlength{\intextsep}{\dimexpr\normalbaselineskip-1.5mm\relax}%
+   \setlength{\floatsep}{\normalbaselineskip}%
+}
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcapindent{16mm}
