@@ -1131,7 +1131,7 @@
    {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
    {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
 }
-
+\newlength{\@firstlastcolindent}
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
    \setkeys{brill}{%
@@ -1145,6 +1145,7 @@
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \setlength{\lineskip}{0bp}%
+   \setlength{\@firstlastcolindent}{0bp}%
    \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
    \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}
@@ -1157,13 +1158,19 @@
       \iftoggle{@tablebgscreen}
          {\taburowcolors[1] 2{white .. black!10}}%
          {}%
+      \ifdefvoid{\@tablecaption}%
+         {\setlength{\@firstlastcolindent}{\normalparindent}}%
+         {}%
       \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}{@{}#2@{}}}
-         {full}{\begin{longtabu} to \linewidth{@{}#2@{}}}
-         {wide}{\begin{longtabu} to 130mm{@{}#2@{}}}
+         {dynamic}{\begin{longtabu}%
+         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+         {full}{\begin{longtabu} to \linewidth%
+         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+         {wide}{\begin{longtabu} to 130mm%
+         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
          {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
       }[]
-         \ifdefvoid{\@tablecaption}{}{%
+         \ifdefvoid{\@tablecaption}{\addlinespace[2bp]}{%
             \ifdefvoid{\@tableshortcaption}%
                {\caption{\@tablecaption}}%
                {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1243,21 +1250,25 @@
          {\begin{table}[\@tableplacement]}
          \addfontfeatures{Numbers={\@tablenumberstyle,OldStyle}}
          \@tablefontsize
-         \ifdefvoid{\@tablecaption}{}{%
-            %\vspace{-0.5bp}%TODO: Why this value? More elegant way needed.
-            \vspace{\dimexpr \normalbaselineskip+1.5bp\relax}%TODO: More elegant way needed.]
-            \ifdefvoid{\@tableshortcaption}%
-               {\caption{\@tablecaption}}%
-               {\caption[\@tableshortcaption]{\@tablecaption}}%
-            \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-         }%
+         \ifdefvoid{\@tablecaption}%
+            {\setlength{\@firstlastcolindent}{\normalparindent}}%
+            {%
+               \vspace{\dimexpr \normalbaselineskip+1.5bp\relax}%TODO: More elegant way needed.]
+               \ifdefvoid{\@tableshortcaption}%
+                  {\caption{\@tablecaption}}%
+                  {\caption[\@tableshortcaption]{\@tablecaption}}%
+               \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+            }%
          \iftoggle{@tablebgscreen}
             {\taburowcolors[1] 2{white .. black!10}}%
             {}%
          \IfStrEqCase{\@tablewidth}{%
-            {dynamic}{\begin{tabu}{@{}#2@{}}}%
-            {full}{\begin{tabu} to \textwidth{@{}#2@{}}}%
-            {wide}{\begin{tabu} to 130mm{@{}#2@{}}}%
+            {dynamic}{\begin{tabu}%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
+            {full}{\begin{tabu} to \textwidth%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
+            {wide}{\begin{tabu} to 130mm%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
          }[]%       
             %\hiderowcolors%
