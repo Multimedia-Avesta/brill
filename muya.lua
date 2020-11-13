@@ -130,9 +130,9 @@ function sortGlossary( l )
    local subsublemma = ""
    local subsubsublemma = ""   
    local lemmacontent = ""
-   local prevsublemmacontent = ""      
-   local prevsubsublemmacontent = ""      
-   local prevsubsubsublemmacontent = ""         
+   local sublemmacontent = ""      
+   local subsublemmacontent = ""      
+   local subsubsublemmacontent = ""         
    local sublemmastar = false
    local subsublemmastar = false
    local subsubsublemmastar = false
@@ -291,12 +291,12 @@ function sortGlossary( l )
                if subsubsublemma and subsubsublemma ~= '' then
                   -- we found a new subsubsublemma
                   if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-                     sssl[prevsubsubsublemma] = {["content"] = prevsubsubsublemmacontent,
+                     sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
                      ["star"] = prevsubsubsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsubsublemma = subsubsublemma
-                  prevsubsubsublemmacontent = subsubsublemmatext
+                  subsubsublemmacontent = subsubsublemmatext
                   prevsubsubsublemmastar = subsubsublemmastar
                else
                   subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
@@ -315,12 +315,12 @@ function sortGlossary( l )
                   -- we found a new sublemma
                   subsublemma = string.match( subsublemma, "{(.*)}" )
                   if prevsubsublemma and prevsubsublemma ~= '' then
-                     ssl[prevsubsublemma] = {["content"] = prevsubsublemmacontent,
+                     ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
                      ["star"] = prevsubsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsubsublemma = subsublemma
-                  prevsubsublemmacontent = subsublemmatext
+                  subsublemmacontent = subsublemmatext
                   prevsubsublemmastar = subsublemmastar
                   prevsubsubsublemma = ''
                   subsubsublemmacontent = ''
@@ -342,12 +342,12 @@ function sortGlossary( l )
                   sublemma = string.match( sublemma, "{(.*)}" )
                   --texio.write_nl( "Found new sublemma: " .. sublemma )
                   if prevsublemma and prevsublemma ~= '' then
-                     sl[prevsublemma] = {["content"] = prevsublemmacontent,
+                     sl[prevsublemma] = {["content"] = sublemmacontent,
                      ["star"] = prevsublemmastar}
                   end
                   -- remember new sublemma as prevsublemma for next entry
                   prevsublemma = sublemma
-                  prevsublemmacontent = sublemmatext
+                  sublemmacontent = sublemmatext
                   prevsublemmastar = sublemmastar
                   prevsubsublemma = ''
                   subsublemmacontent = '' 
