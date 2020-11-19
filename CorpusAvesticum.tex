@@ -523,21 +523,21 @@
       title={Index of Words},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config muya}%
+      options={-u -l av -n -c muya}%
    ]%
    \makeindex[%
       name=passages,%
       title={Index of Passages},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config muyaPassages}%
+      options={-n -c muyaPassages}%
    ]%
    \makeindex[%
       name=namesandsubjects,%
       title={Index of Names and Subjects},%
       columns=3,%
       columnsep=4mm,%
-      options={--noheadings --config brill}%
+      options={-n -c brill}%
    ]%
 \else
    \makeindex[%
@@ -545,21 +545,21 @@
       title={Index of Words},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config muya}%
+      options={-u -l av -n -c muya}%
       ]%
    \makeindex[%
       name=passages,%
       title={Index of Passages},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config muyaPassages}%
+      options={-n -c muyaPassages}%
       ]%
    \makeindex[%
       name=namesandsubjects,%
       title={Index of Names and Subjects},%
       columns=2,%
       columnsep=4mm,%
-      options={--noheadings --config brill}%
+      options={-n -c brill}%
       ]%
 \fi%   
 
@@ -568,36 +568,28 @@
 \protected\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
-   \ifstrempty{\@rightword}%
+   \ifstrempty{\@rightword}% no '!' in Argument
       {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
       {\index[words]{\indexlanguage!#1@\idxentryfont{\@rightword}}}%
 }%
 \newcommand{\@@indexwords}[2][]{%
-   \StrCut*{#1}{!}{\@leftword}{\@rightword}%
-   \ifstrempty{\@rightword}%
-      {%
-         \index[words]{%
-         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
-         #2%
-         \index[words]{%
-         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
-      }%
-      {%
-         \index[words]{%
-         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
-         #2%
-         \index[words]{%
-         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
-      }%
+%   \StrDel{#1}{-}[\@@@rest]
+%   \StrDel{\@@@rest}{.}[\@@rest]
+%   \StrDel{\@@rest}{ }[\@rest]
+   \index[words]{%
+      \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+   #2%
+   \index[words]{%
+      \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
 }%
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 %\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
-   \index[passages]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1}%
+   \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
    \textup{#2}%
-   \index[passages]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1}%
+   \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
 }%
 
 \protected\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
