@@ -511,7 +511,7 @@
    \begingroup%
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
       \renewcommand*{\@idxitem}{%
-         \par\nopagebreak\vspace{\baselineskip}\hangindent 40\p@\relax}%
+         \par\nopagebreak\vspace{\baselineskip}\relax}%
       \printindex[words]%
       \printindex[passages]%
    \endgroup%
@@ -582,14 +582,22 @@
          \index[words]{%
          \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
       }%
-      {\index[words]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}}%
+      {%
+         \index[words]{%
+         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+         #2%
+         \index[words]{%
+         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+      }%
 }%
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
 \newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 %\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
 \newcommand{\@@indexpassages}[2][]{%
-   \index[passages]{\indexlanguage!#1}\textup{#2}\index[passages]{\indexlanguage!#1}%
+   \index[passages]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1}%
+   \textup{#2}%
+   \index[passages]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1}%
 }%
 
 \protected\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
