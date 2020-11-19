@@ -1477,7 +1477,7 @@
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \renewcommand*{\subsubitem}{%
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
-\renewcommand*\indexspace{\par\vskip\baselineskip\relax}%
+\renewcommand*\indexspace{\par\vskip 2\normalbaselineskip\relax}%
 
 \ifbrill@showgrid
    \RequirePackage{atbegshi,picture,xcolor}

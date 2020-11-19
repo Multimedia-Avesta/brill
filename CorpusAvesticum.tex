@@ -510,8 +510,9 @@
    \let\indexspace\relax%
    \begingroup%
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
+      \renewcommand*{\@idxitem}{%
+         \par\nopagebreak\vspace{\baselineskip}\hangindent 40\p@\relax}%
       \printindex[words]%
-      \renewcommand*{\@idxitem}{\par\nopagebreak\vspace{\baselineskip}\hangindent 40\p@\relax}%
       \printindex[passages]%
    \endgroup%
    \printindex[namesandsubjects]%
@@ -562,7 +563,7 @@
       ]%
 \fi%   
 
-\newcommand{\indexheaderfont}[1]{{\LARGE\bfseries #1}}
+\newcommand*{\indexheaderfont}[1]{\textbf{#1}}
    
 \protected\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
@@ -574,8 +575,14 @@
 \newcommand{\@@indexwords}[2][]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
    \ifstrempty{\@rightword}%
-      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
-      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
+      {%
+         \index[words]{%
+         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+         #2%
+         \index[words]{%
+         \indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+      }%
+      {\index[words]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}#2\index[words]{\indexlanguage@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}}%
 }%
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
