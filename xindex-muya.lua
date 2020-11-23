@@ -22,7 +22,13 @@ local language = "en" -- default language
 
 languages.av = function(collator_obj)
    local tailoring = function(s) collator_obj:tailor_string(s) end
-   tailoring("&a<ā<ā̊ <ą<b<β<c<d<δ<e<ē<ǝ=ə<ǝ̄=ə̄<f<g<γ<h<i<ī<j<k<m<n<ń<ṇ<ŋ<ŋ́<ŋv<o<ō<p<r<s<š́<ṣ̌<š<t<t̰<ϑ=θ<u<ū<v<x<x́<xv<y<z<ž")
+   tailoring("&a<ā<ā̊ <ą<b<β<c<d<δ<e<ē<ǝ=ə<ǝ̄=ə̄<f<g<γ<h<i<ī<j<k<m<n<ń<ṇ<ŋ<ŋ́<ŋv<o<ō<p<r<s<š<š́<ṣ̌<t<t̰<ϑ=θ<u<ū<v<x<x́<xv<y<z<ž")
+   return collator_obj
+end
+
+languages.gu = function(collator_obj)
+   local tailoring = function(s) collator_obj:tailor_string(s) end
+   tailoring("&a<ā<i<ī<u<ū<e<o<ṃ<k<kh<g<gh<c<ch<j<z<ṭ<ṭh<ḍ<ḍh<ṇ<t<th<d<dh<n<p<f<b<bh<m<y<r<l<v<ś<ṣ<s<h<ḷ")
    return collator_obj
 end
 
