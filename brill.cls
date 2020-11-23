@@ -913,16 +913,18 @@
          }%
    }%  
 
-\newcommand*{\@floattocfont}{\fontsize{10bp}{13.6bp}\selectfont}
+\newcommand*{\@floattocentryfont}{\fontsize{10bp}{13.6bp}\selectfont}
+\newcommand*{\@floattocentrynumberfont}[1]{%
+   {\@floattocentryfont\addfontfeature{Numbers=Tabular}#1}}
 \DeclareTOCStyleEntry[%
    indent=0bp,%
    numwidth=8mm,%
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
-   beforeskip=0bp,%
-   entryformat=\@floattocfont,%
-   entrynumberformat=\@floattocfont\addfontfeature{Numbers=Tabular},%
+   entryformat=\@floattocentryfont,%
+   entrynumberformat=\@floattocentrynumberfont,%
+   pagenumberformat=\@floattocentryfont,%
 ]{default}{figure}
 
 \DeclareTOCStyleEntry[%
@@ -931,8 +933,9 @@
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
-   entryformat=\@floattocfont,%
-   entrynumberformat=\@floattocfont\addfontfeature{Numbers=Tabular},%
+   entryformat=\@floattocentryfont,%
+   entrynumberformat=\@floattocentrynumberfont,%
+   pagenumberformat=\@floattocentryfont,%
 ]{default}{table}
 
 \AfterTOCHead[toc]{\zlabel{tocstart}}
