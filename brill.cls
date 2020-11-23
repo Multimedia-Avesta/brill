@@ -512,7 +512,8 @@
    afterskip     = 2\baselineskip,%
    innerskip     = 0.5\baselineskip,%
    font          = \LARGE\bfseries,%
-   prefixfont    = \normalfont\normalsize\mdseries\addfontfeatures{Numbers=Lining}\scshape,%
+   prefixfont    = \normalfont\normalsize\mdseries%
+                     \addfontfeatures{Numbers=Lining}\scshape,%
    tocnumwidth   = \dimexpr\@tocstartindent\relax,%
    tocindent     = 0bp,%
    tocbeforeskip = \dimexpr\@addchaptertocskip\relax,%
@@ -650,7 +651,7 @@
       afterskip=1\baselineskip,%
       font={\normalsize\bfseries},%
       tocnumwidth=8mm,%
-      tocindent=\dimexpr\@tocstartindent\relax%
+      tocindent=\dimexpr\@tocstartindent\relax,%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
    %
@@ -660,9 +661,8 @@
       font={\normalsize\bfseries\itshape},%
       tocnumwidth=8mm,%
       tocindent=\dimexpr\@tocstartindent+8mm\relax,%
-      tocentrynumberformat=\upshape,%
       tocentryformat=\itshape,%
-      tocbeforeskip=\baselineskip,%
+      tocentrynumberformat=\@tocentrynumberfont%
    ]{subsection}
    %
    \RedeclareSectionCommand[%
@@ -670,7 +670,7 @@
       afterskip=1sp,%
       font={\normalsize},%
       tocnumwidth=12mm,%
-      tocindent=\dimexpr\@tocstartindent+16mm\relax%
+      tocindent=\dimexpr\@tocstartindent+16mm\relax,%
    ]{subsubsection}
    %
    \ProvideSectionCommand[%
@@ -683,7 +683,7 @@
       tocindent=0bp,%%%TODO
       tocnumwidth=6\parindent,%
       tocstyle=section,%
-      counterwithin=subsubsection%
+      counterwithin=subsubsection,%
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
    \@namedef{subthreesectiontocdepth}{4}
@@ -698,7 +698,7 @@
       tocindent=0bp,%%%TODO
       tocnumwidth=7\parindent,%
       tocstyle=section,%
-      counterwithin=subthreesection%
+      counterwithin=subthreesection,%
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
    \@namedef{subfoursectiontocdepth}{5}
@@ -713,7 +713,7 @@
       tocindent=0bp,%%%TODO
       tocnumwidth=8\parindent,%
       tocstyle=section,%
-      counterwithin=subfoursection%
+      counterwithin=subfoursection,%
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
    \@namedef{subfivesectiontocdepth}{6}
@@ -726,7 +726,7 @@
       level=7,%
       tocindent=0bp,%%%TODO
       tocnumwidth=9\parindent,%
-      counterwithin=subfivesection%
+      counterwithin=subfivesection,%
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
    \@namedef{paragraphsectiontocdepth}{7}
@@ -738,7 +738,7 @@
       indent=0bp,%
       level=8,%
       tocindent=0bp,%%%TODO
-      tocnumwidth=10\parindent%
+      tocnumwidth=10\parindent,%
    ]{subparagraph}
    \@namedef{subparagraphsectiontocdepth}{8}
 \fi%
@@ -818,24 +818,19 @@
       #4%
    }%
 \fi%
-\newcommand\tocpageseparator{\unskip\hspace{2em}}
-\newcommand\tocpagenumberbox[1]{\mbox{#1}}%
+\newcommand*{\@tocentrynumberfont}[1]{%
+   {\normalfont\addfontfeature{Numbers=Tabular}#1}}
+\newcommand*{\tocpageseparator}{\unskip\hspace{2em}}
+\newcommand*{\tocpagenumberbox}[1]{\mbox{#1}}%
 \RedeclareSectionCommands[%
    tocraggedpagenumber,%
    toclinefill=\tocpageseparator,%
    tocpagenumberbox=\tocpagenumberbox,%
-   %%beforeskip=0pt
+   tocentrynumberformat=\@tocentrynumberfont,%
    ]{part,chapter,section,subsection,subsubsection}
 \RedeclareSectionCommands[%
    tocpagenumberbox={\@gobble}%
    ]{part}
-%   tocbreakafternumber=true,
-%   tocentryformat=\large\bfseries\scshape
-%   ]{part}
-%%\RedeclareSectionCommands[
-%%   toconstartsamelevel=\vspace{0pt},%
-%%   toconstartlowerlevel=\vspace{\baselineskip}]{chapter}
-%\RedeclareSectionCommands[tocentrynumberformat=\upshape,tocentryformat=\itshape]{subsection}
 
 \renewcommand*{\@saddsec}[1]{%
    \edef\reserved@a{%
@@ -1929,4 +1924,5 @@
 \interfootnotelinepenalty=9999
 \brokenpenalty=5000
 \vfuzz \hfuzz
+\raggedbottom
 \endinput
