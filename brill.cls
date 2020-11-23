@@ -77,6 +77,7 @@
    appendixprefix,%
    chapterprefix,%
    listof=leveldown,%
+   listof=nochaptergap,%
    open=any,%TODO: right?
    toc=bibliography,%
    toc=numberline,%
@@ -916,6 +917,29 @@
             \ClassInfoNoLine{brill}{Setting tocdepth to standard value 3}%
          }%
    }%  
+
+\newcommand*{\@floattocfont}{\fontsize{10bp}{13.6bp}\selectfont}
+\DeclareTOCStyleEntry[%
+   indent=0bp,%
+   numwidth=8mm,%
+   raggedpagenumber,%
+   linefill=\tocpageseparator,%
+   pagenumberbox=\tocpagenumberbox,%
+   beforeskip=0bp,%
+   entryformat=\@floattocfont,%
+   entrynumberformat=\@floattocfont\addfontfeature{Numbers=Tabular},%
+]{default}{figure}
+
+\DeclareTOCStyleEntry[%
+   indent=0bp,%
+   numwidth=8mm,%
+   raggedpagenumber,%
+   linefill=\tocpageseparator,%
+   pagenumberbox=\tocpagenumberbox,%
+   entryformat=\@floattocfont,%
+   entrynumberformat=\@floattocfont\addfontfeature{Numbers=Tabular},%
+]{default}{table}
+
 \AfterTOCHead[toc]{\zlabel{tocstart}}
 \appto\tableofcontents{\zlabel{tocend}\@checktocextent}
 \newcommand*{\@checktocextent}{\ifnumgreater{\zref@extract{tocend}{abspage}-\zref@extract{tocstart}{abspage}}{4}%
@@ -1453,7 +1477,6 @@
 \renewcaptionname{british}{\listfigurename}{Figures}
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
 \providecaptionname{british}{\introductionname}{Introduction}
-%TODO: TOC adjustments
 \newcommand{\listoffigurestables}{%
    \addchap*{Figures and Tables}
    \addchaptertocentry{}{\listfiguretablename}
@@ -1656,14 +1679,14 @@
 
 \renewenvironment{quote}%
    {%
-    \par\vspace{\baselineskip}%
+    \par\addvspace{\baselineskip}%
     \addmargin[2\parindent]{0bp}%
     \ignorespaces%
     \aftergroup\useignorespacesandallpars%
    }%
    {%
     \endaddmargin%
-    \par\vspace{\baselineskip}\noindent\ignorespaces%
+    \par\addvspace{\baselineskip}\noindent\ignorespaces%
    }%
 
 \newenvironment{@btquote}%
