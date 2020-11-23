@@ -306,16 +306,16 @@
 \renewrobustcmd*{\textsuperscript}[1]{%
    %   \edef\@tempsup{#1}%
    \Ifisinteger{#1}%
-   {\realsuperscript{#1}}%
-   {%
-      \IfStrEqCase{#1}{%
-         {+}{\realsuperscript{+}}%
-         {=}{\realsuperscript{=}}%
-         {(}{\realsuperscript{(}}%
-         {)}{\realsuperscript{)}}%
-         %         {th}{\realsuperscript{th}}%
-      }[\fakesuperscript{#1}]%
-   }%
+      {\realsuperscript{#1}}%
+      {%
+         \IfStrEqCase{#1}{%
+            {+}{\realsuperscript{+}}%
+            {=}{\realsuperscript{=}}%
+            {(}{\realsuperscript{(}}%
+            {)}{\realsuperscript{)}}%
+            {th}{\realsuperscript{th}}%
+         }[\fakesuperscript{#1}]%
+      }%
 }
 
 \newsavebox\@titlebox
