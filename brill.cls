@@ -955,15 +955,19 @@
 \setkomafont{pagenumber}{\normalfont\normalsize\addfontfeatures{Numbers=Lining}\scshape}
 \addtokomafont{chapterentry}{\bfseries}
 \addtokomafont{chapterentrypagenumber}{\mdseries\pagenumbertocfont}
-\addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular,Lining}}}%
+\addtokomafont{footnotelabel}{\addfontfeatures{Numbers={Tabular}}}%
 \addtokomafont{minisec}{\bfseries}%
-\addtokomafont{footnotereference}{\upshape}%\addfontfeatures{VerticalPosition=Superior}}
+\addtokomafont{footnotereference}{\upshape}%
 \setfootnoterule[.25bp]{16mm}
 \deffootnote[\fnlabelsep]{\fnlabelsep}{\normalparindent}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
 \RequirePackage{enumitem}
 \setlist{labelsep=*,align=left,nosep}
-\setlist[itemize]{leftmargin=\parindent,label=\textendash}
-\setlist[enumerate,1]{leftmargin=2\parindent}
+\setlist[itemize]{leftmargin=\normalparindent,label=\textendash}
+\setlist[enumerate,1]{%
+   left=0pt .. 2\normalparindent,%
+   labelsep=0pt,%
+   font=\normalfont\addfontfeature{Numbers=Tabular}%
+}
 \IfStrEqCase{\brill@enumsep}{%
    {dot}{}%
    {.}{}%
@@ -989,9 +993,19 @@
 \newlist{enuminline}{enumerate*}{1}
 \setlist[enuminline]{label=(\alph*),font=\upshape\bfseries,mode=unboxed}
 \newlist{enuminlinesplitA}{enumerate*}{1}
-\setlist[enuminlinesplitA]{label=(\alph*),font=\upshape\bfseries,mode=unboxed,resume}
+\setlist[enuminlinesplitA]{%
+   label=(\alph*),%
+   font=\upshape\bfseries,%
+   mode=unboxed,%
+   resume%
+}
 \newlist{enuminlinesplitB}{enumerate*}{1}
-\setlist[enuminlinesplitB]{label=(\alph*),font=\upshape\bfseries,mode=unboxed,resume}
+\setlist[enuminlinesplitB]{%
+   label=(\alph*),%
+   font=\upshape\bfseries,%
+   mode=unboxed,%
+   resume%
+}
 \RequirePackage[marginpar]{todo}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
