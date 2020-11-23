@@ -6,6 +6,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.62.0] - 2020-11-23
+### Added
+- Sorting for Avestan in Index of Words
+
+### Changed
+- Language header in Index of Passages with spacing and in bold
+- Language header in Index of Words with spacing and in bold
+- Parameters for inline tables without caption and header
+
+### Fixed
+- Fix problem with disappearing text in the sorted glossary (#8780)
+- Fix handling of numberstyle; Brill font does not fully support 'Numbers' feature
+- Fix bug for glossary sorting (#8770)
+
 ## [0.61.0] - 2020-11-10
 ### Added
 - Options `bfheader=true|false`, `headerfontsize` (set to value of `fontsize` by default) and `numberstyle=Monospaced|Proportional` for `brilltable`
@@ -847,6 +861,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.62.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.62.0
 [0.61.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.61.0
 [0.60.0]:

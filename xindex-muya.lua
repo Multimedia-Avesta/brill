@@ -4,6 +4,7 @@
 -- REQUIREMENTS:  
 --       AUTHOR:  Martin Sievers
 --      LICENSE:  LPPL1.3
+--      VERSION:  v0.62.0
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-muya'] = {

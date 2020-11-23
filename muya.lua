@@ -25,7 +25,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2020/11/10 v0.61.0
+-- 2020/11/23 v0.62.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
