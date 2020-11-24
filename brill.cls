@@ -367,6 +367,7 @@
 \RequirePackage{multicol}
 \AtBeginEnvironment{multicols}{\raggedright}
 \setlength{\columnsep}{4mm}
+\setlength{\multicolsep}{\normalbaselineskip}
 \RequirePackage[savepos,abspage,user]{zref}
 \newlength{\normalparindent}
 \newlength{\fnlabelsep}
@@ -966,7 +967,7 @@
 \setlist[enumerate,1]{%
    left=0pt .. 2\normalparindent,%
    labelsep=0pt,%
-   font=\normalfont\addfontfeature{Numbers=Tabular}%
+   %font=\normalfont\addfontfeature{Numbers=Tabular}%
 }
 \IfStrEqCase{\brill@enumsep}{%
    {dot}{}%
