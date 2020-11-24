@@ -1154,18 +1154,18 @@
 
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
-      {\dimexpr -\dp\strutbox-1mm\relax}%
-      {\dimexpr 1mm+\heavyrulewidth+\normalbaselineskip-\ht\strutbox\relax}%
+      {\dimexpr -\dp\@arstrutbox-1mm\relax}%
+      {\dimexpr \normalbaselineskip-0.5\heavyrulewidth-\ht\@arstrutbox+1mm\relax}%
 }
 \newcommand*{\@brillmidrule}{%
    \specialrule{\lightrulewidth}%
-      {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
-      {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox\relax}%
+      {\dimexpr \normalbaselineskip-\dp\@arstrutbox-\lightrulewidth-1mm\relax}%
+      {\dimexpr \normalbaselineskip-\ht\@arstrutbox+1mm\relax}%
 }
 \newcommand*{\@brillbottomrule}{%
 \specialrule{\lightrulewidth}%
-   {\dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
-   {\dimexpr 1mm+\normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
+   {\dimexpr \normalbaselineskip-\dp\@arstrutbox-\lightrulewidth-1mm\relax}%
+   {\dimexpr 0.5\normalbaselineskip-0.5\ht\@arstrutbox+\lightrulewidth+1mm\relax}%
 }
 \newlength{\@firstlastcolindent}
 \newif\if@firstitem
@@ -1177,22 +1177,22 @@
       width=full,%
       bfheaders,%
       booktabsstyle,%
-      numberstyle={Monospaced},
+      numberstyle={Monospaced},%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \setlength{\lineskip}{0bp}%
    \setlength{\@firstlastcolindent}{0bp}%
    \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
    \Ifstr{\@tableorientation}{landscape}
-      {\settoggle{@tablelandscape}{true}}
-      {}
+      {\settoggle{@tablelandscape}{true}}%
+      {}%
    \iftoggle{@tablelong}{%
-      \iftoggle{@tablelandscape}{\landscape}{}
-      \begingroup
+      \iftoggle{@tablelandscape}{\landscape}{}%
+      \begingroup%
       \Ifstr{\@tablenumberstyle}{Proportional}%
          {\addfontfeatures{RawFeature={-tnum}}}%
          {\addfontfeatures{Numbers=Monospaced}}%
-      \@tablefontsize
+      \@tablefontsize%
       \iftoggle{@tablebgscreen}
          {\taburowcolors[1] 2{white .. black!10}}%
          {}%
@@ -1285,7 +1285,7 @@
    }{%
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
-         {\begin{table}[\@tableplacement]}
+         {\begin{table}[\@tableplacement]}%
          \Ifstr{\@tablenumberstyle}{Proportional}%
             {\addfontfeatures{RawFeature={-tnum}}}%
             {\addfontfeatures{Numbers=Monospaced}}%
@@ -1293,7 +1293,7 @@
          \ifdefvoid{\@tablecaption}%
             {\setlength{\@firstlastcolindent}{\normalparindent}}%
             {%
-               \vspace{\dimexpr \normalbaselineskip+1.5bp\relax}%TODO: More elegant way needed.]
+               \vspace{-0.6bp}%TODO: Still don't know why
                \ifdefvoid{\@tableshortcaption}%
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1304,11 +1304,14 @@
             {}%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{tabu}%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
+               {@{\hspace*{\@firstlastcolindent}}%
+                  #2@{\hspace*{\@firstlastcolindent}}}}%
             {full}{\begin{tabu} to \textwidth%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
+               {@{\hspace*{\@firstlastcolindent}}%
+                  #2@{\hspace*{\@firstlastcolindent}}}}%
             {wide}{\begin{tabu} to 130mm%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}%
+               {@{\hspace*{\@firstlastcolindent}}%
+                  #2@{\hspace*{\@firstlastcolindent}}}}%
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
          }[]%       
             %\hiderowcolors%
@@ -1318,7 +1321,7 @@
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
-                        \addlinespace[-1bp]%TODO: Why that value?
+                        %\addlinespace[-1bp]%TODO: Why that value?
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
@@ -1326,7 +1329,7 @@
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
-                        \addlinespace[0.25bp]%TODO: Why that value?
+                        %\addlinespace[0.25bp]%TODO: Why that value?
                      }{%
                         \firsthline
                         \begingroup%
@@ -1710,7 +1713,10 @@
          \par\addvspace{\@btvspace}%
       \fi%
       \ifcsdef{specialnewline\@currvalspecialnewline}%
-         {\addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}\setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}}%
+         {%
+            \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
+            \setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}
+         }%
          {\addmargin[2\parindent]{0bp}}%
       \ignorespaces%
       \aftergroup\useignorespacesandallpars%
