@@ -366,8 +366,13 @@
 \RequirePackage{xstring}
 \RequirePackage{multicol}
 \AtBeginEnvironment{multicols}{\raggedright}
+%\AtEndEnvironment{multicols}{\setlength{\multicolsep}{0.9\normalbaselineskip}}
 \setlength{\columnsep}{4mm}
+\setlength{\premulticols}{4\normalbaselineskip}
+\setlength{\postmulticols}{2\normalbaselineskip}
 \setlength{\multicolsep}{\normalbaselineskip}
+%\setlength{\multicolbaselineskip}{0bp}
+%\raggedcolumns
 \RequirePackage[savepos,abspage,user]{zref}
 \newlength{\normalparindent}
 \newlength{\fnlabelsep}
@@ -1474,7 +1479,7 @@
 \BeforeBeginEnvironment{brillfigure}{%
    \setlength{\textfloatsep}{\normalbaselineskip}%
    \setlength{\intextsep}{\dimexpr\normalbaselineskip-1.5mm\relax}%
-   \setlength{\floatsep}{\normalbaselineskip}%
+   \setlength{\floatsep}{0bp}%
 }
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
@@ -1486,7 +1491,7 @@
          {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
          {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
       \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
-}%
+}%TODO: 20mm for figures?
 \renewcommand*{\figureformat}{\figurename~\thefigure}
 \renewcommand*{\tableformat}{\tablename~\thetable}
 \renewcaptionname{british}{\listtablename}{Tables}
@@ -1880,7 +1885,7 @@
 
 
 \let\@RIGminisec\minisec
-\renewcommand{\minisec}[1]{\addvspace{2\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
+\renewcommand{\minisec}[1]{\addvspace{1\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
 \appto{\frontmatter}{\setcounter{page}{5}} 
@@ -1936,6 +1941,8 @@
          {\string\numgdef{\string\totalchapters}{\thechapter}}%
    \fi%
 }%
+\setlength{\fboxsep}{0bp}
+\setlength{\fboxrule}{0.3bp}
 \toks0{\ifvoid\footins\else\suppressfloats[b]\fi}
 \output\expandafter{\the\toks0\the\output}
 \tolerance 1414
