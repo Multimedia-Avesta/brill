@@ -1160,18 +1160,19 @@
 
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
-      {\dimexpr -\dp\@arstrutbox-1mm\relax}%
-      {\dimexpr \normalbaselineskip-0.5\heavyrulewidth-\ht\@arstrutbox+1mm\relax}%
+      {\dimexpr -\dp\strutbox-1mm\relax}%
+      {\dimexpr \normalbaselineskip-0.5\heavyrulewidth-\ht\strutbox+1mm+1bp\relax}%
 }
 \newcommand*{\@brillmidrule}{%
    \specialrule{\lightrulewidth}%
-      {\dimexpr \normalbaselineskip-\dp\@arstrutbox-\lightrulewidth-1mm\relax}%
-      {\dimexpr \normalbaselineskip-\ht\@arstrutbox+1mm\relax}%
+      {\dimexpr \normalbaselineskip-\dp\strutbox-\lightrulewidth-1mm\relax}%
+      {\dimexpr \normalbaselineskip-\ht\strutbox+1mm\relax}%
 }
 \newcommand*{\@brillbottomrule}{%
-\specialrule{\lightrulewidth}%
-   {\dimexpr \normalbaselineskip-\dp\@arstrutbox-\lightrulewidth-1mm\relax}%
-   {\dimexpr 0.5\normalbaselineskip-0.5\ht\@arstrutbox+\lightrulewidth+1mm\relax}%
+   \specialrule{\lightrulewidth}%
+      {\dimexpr \normalbaselineskip-\dp\strutbox-\lightrulewidth-1mm\relax}%
+      {\dimexpr 0.5\normalbaselineskip-0.5\ht\strutbox%
+         +\lightrulewidth+1mm\relax}%
 }
 \newlength{\@firstlastcolindent}
 \newif\if@firstitem
@@ -1195,35 +1196,52 @@
    \iftoggle{@tablelong}{%
       \iftoggle{@tablelandscape}{\landscape}{}%
       \begingroup%
-      \Ifstr{\@tablenumberstyle}{Proportional}%
-         {\addfontfeatures{RawFeature={-tnum}}}%
-         {\addfontfeatures{Numbers=Monospaced}}%
-      \@tablefontsize%
-      \iftoggle{@tablebgscreen}
-         {\taburowcolors[1] 2{white .. black!10}}%
-         {}%
-      \ifdefvoid{\@tablecaption}%
-         {\setlength{\@firstlastcolindent}{\normalparindent}}%
-         {}%
-      \IfStrEqCase{\@tablewidth}{%
-         {dynamic}{\begin{longtabu}%
-         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
-         {full}{\begin{longtabu} to \linewidth%
-         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
-         {wide}{\begin{longtabu} to 130mm%
-         {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
-         {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
-      }[]
+         \Ifstr{\@tablenumberstyle}{Proportional}%
+            {\addfontfeatures{RawFeature={-tnum}}}%
+            {\addfontfeatures{Numbers=Monospaced}}%
+         \@tablefontsize%
+         \iftoggle{@tablebgscreen}
+            {\taburowcolors[1] 2{white .. black!10}}%
+            {}%
+         \ifdefvoid{\@tablecaption}%
+            {\setlength{\@firstlastcolindent}{\normalparindent}}%
+            {}%
+         \IfStrEqCase{\@tablewidth}{%
+            {dynamic}{\begin{longtabu}%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+            {full}{\begin{longtabu} to \linewidth%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+            {wide}{\begin{longtabu} to 130mm%
+            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
+         }[]
          \ifdefvoid{\@tablecaption}{\addlinespace[2bp]}{%
+            \addlinespace[-2.6bp]%11-13.6?
             \ifdefvoid{\@tableshortcaption}%
                {\caption{\@tablecaption}}%
                {\caption[\@tableshortcaption]{\@tablecaption}}%
             \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-            \\%
+            \\
          }%
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
-            {}%
+            {%
+               \addlinespace[1bp]%
+               \iftoggle{@tablebooktabs}%
+                  {%
+                     \endfirsthead%
+                     \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
+                     \caption*{%
+                        \makebox[16mm][l]{\usekomafont{captionlabel}%
+                        \tableformat}%
+                        \usekomafont{caption}%
+                        \@tablecaption~(\textit{cont.})%
+                     }\\[1.4bp]
+                     \endhead
+                     \endlastfoot
+                  }%
+                  {}%
+            }%
             {%
                \iftoggle{@tablebooktabs}%
                   {%
@@ -1238,8 +1256,8 @@
                      \endfirsthead%
                      \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
                      \caption*{%
-                        \usekomafont{captionlabel}%
-                        \tablename~\thetable:~%
+                        \makebox[16mm][l]{\usekomafont{captionlabel}%
+                        \tableformat}%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1265,8 +1283,8 @@
                      \hline
                      \endfirsthead
                      \caption*{%
-                        \usekomafont{captionlabel}%
-                        \tablename~\thetable:~%
+                        \makebox[16mm][l]{\usekomafont{captionlabel}%
+                        \tableformat}%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1287,7 +1305,7 @@
          \BODY%
       \end{longtabu}
       \endgroup
-      \iftoggle{@tablelandscape}{\endlandscape}{}
+      \iftoggle{@tablelandscape}{\endlandscape}{}%
    }{%
       \iftoggle{@tablelandscape}
          {\begin{sidewaystable}[\@tableplacement]}%
@@ -1472,7 +1490,7 @@
 \BeforeBeginEnvironment{brilltable}{%
    \setlength{\textfloatsep}{\normalbaselineskip}%
    % distance between floats on the top or the bottom and the text;
-   \setlength{\intextsep}{0bp}% 
+   \setlength{\intextsep}{\normalbaselineskip}% 
    % distance between floats inserted inside the page text (using h) and the text proper.
    \setlength{\floatsep}{\normalbaselineskip}%
 }
@@ -1739,7 +1757,7 @@
    \begin{addmargin}[2\parindent]{0bp}%
       #1%
    \end{addmargin}%
-   \par\nopagebreak\vspace{\baselineskip}%
+   \par\nopagebreak\addvspace{1\baselineskip}%
 }
 
 \newcounter{specialnewline}
@@ -1763,14 +1781,14 @@
          {\hyphenpenalty=\@M\exhyphenpenalty=\@M%
           \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
       \if@splittranslation%
-         \vspace{\@btvspace}\noindent%
+         \addvspace{\@btvspace}\noindent%
       \else%
          \noindent%
       \fi%
       \ifstrempty{#4}{}{%
-         \begin{enuminlinesplitB}
+         \begin{enuminlinesplitB}%
          #4%
-         \end{enuminlinesplitB}
+         \end{enuminlinesplitB}%
       }%
       \ifstrempty{#1}%
          {}%
@@ -1782,7 +1800,7 @@
          }%
    \else%
       {\ifstrempty{#2}{#3}{{\ItalicsOrNot{#2}#3}}}%
-      \par\vspace{\@btvspace}\noindent%
+      \par\addvspace{\@btvspace}\noindent%
       \ifstrempty{#4}{}{#4}%
       \ifstrempty{#1}%
          {}%
@@ -1880,12 +1898,13 @@
 
 \NoIndentAfterEnv{splittranslation}
 \NoIndentAfterEnv{splittranslation*}
-%\NoIndentAfterCmd{\blocktranslation}
-%\NoIndentAfterCmd{\blocktranslation*}
-
 
 \let\@RIGminisec\minisec
-\renewcommand{\minisec}[1]{\addvspace{1\baselineskip}\@RIGminisec{#1}\vspace{\baselineskip}}
+\renewcommand{\minisec}[1]{%
+   \addvspace{1\baselineskip}%
+   \@RIGminisec{#1}%
+   \addvspace{\baselineskip}%
+}
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
 \appto{\frontmatter}{\setcounter{page}{5}} 

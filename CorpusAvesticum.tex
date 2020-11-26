@@ -408,13 +408,15 @@
         \ifx\@frontispiece\@empty
         \else
           \if@twoside\mbox{}\next@tpage\fi
-          \noindent\@frontispiece\next@tdpage
+          \vspace*{-\topskip}%
+          \@frontispiece\next@tdpage
         \fi
       \else
         \noindent\@extratitle
         \ifx\@frontispiece\@empty
         \else
           \next@tpage
+          \vspace*{\dimexpr -\normalbaselineskip-\topskip-\dp\strutbox\relax}%
           \noindent\@frontispiece
         \fi%
         \next@tdpage
@@ -426,7 +428,8 @@
          \ifx\@subtitle\@empty%
             \vskip 4.8bp%
          \else%
-            \vskip\@subtitleskipbefore%  
+            %\vskip\@subtitleskipbefore%  
+            \vskip -\dp\strutbox%
             \vskip 2\baselineskip%
             {%
                \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\strut\par\kern-\prevdepth}%
@@ -511,13 +514,13 @@
    {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%             
 \def\brill@imki@putindexsplit#1{%
    \ifimki@nonewpage\else
-   \imki@clearpage
+      \imki@clearpage
    \fi
    \let\imki@indexname\indexname % keep \indexname
    \def\imki@maybeaddtotoc{\@nameuse{phantomsection}%
       \addcontentsline{toc}{\imki@toclevel}{\imki@title}}%
    \ifx\imki@title\imki@check@indexname\else
-   \def\indexname{\imki@title}%
+      \def\indexname{\imki@title}%
    \fi
    \@input@{#1.ind}
    \let\indexname\imki@indexname % restore \indexname
@@ -529,7 +532,10 @@
       \renewcommand*{\@idxitem}{%
          \par\nopagebreak\vspace{\baselineskip}\relax}%
       \IfFileExists{words-manually.ind}
-         {\brill@imki@putindexsplit{words-manually}}%
+         {%
+            \def\imki@title{Index of Words}%
+            \brill@imki@putindexsplit{words-manually}%
+         }%
          {\printindex[words]}%
       \printindex[passages]%
    \endgroup%

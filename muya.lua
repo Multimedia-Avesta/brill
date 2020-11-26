@@ -56,8 +56,11 @@ end
 function get_sortentry(a,b)
    -- we have to analyse b to get a correct sort string
    local res = ""
-   for v, w in string.gmatch(b, "(%d+)([%-%.])") do
-      res = res .. string.format("%03d%s",v,w)
+   for v, w in string.gmatch(b, "(%d+)([%-%.]*)") do
+      if w == '' then
+         w = '000'
+      end
+      res = res .. string.format( "%03d%s", v, w )
    end
    for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
       if last:match( "^%d+$" ) then

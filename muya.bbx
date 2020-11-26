@@ -27,7 +27,8 @@
 \ProvidesFile{muya.bbx}[2020/09/02 v0.56.0 biblatex bibliography style]
 \RequireBibliographyStyle{unified}
 \newtoggle{@autoquotationmarks}
-\DeclareBibliographyOption[boolean]{autoquotationmarks}[true]{\settoggle{@autoquotationmarks}{#1}}
+\DeclareBibliographyOption[boolean]{autoquotationmarks}[true]{%
+   \settoggle{@autoquotationmarks}{#1}}
 \ExecuteBibliographyOptions{%
    datecirca=true,
    dateuncertain=true,
@@ -45,7 +46,7 @@
 % Replace ... with \ldots
          \step[fieldsource=\regexp{$MAPLOOP},%$
                match=\regexp{\.\.\.},%
-               replace=\regexp{\\ldots\{\}}%
+               replace=\regexp{…}%
          ]%
 % Replace slash with breakable alternative         
          \step[fieldsource=\regexp{$MAPLOOP},%$
@@ -74,7 +75,8 @@
          \step[fieldset=langid,null]%
       }%
 % set fields other than title to specific language if it differs from the langid (derived from title)    
-      \map[overwrite,foreach={booktitle,series,journaltitle,maintitle,volumetitle,eventtitle,publisher}]{%
+      \map[overwrite,foreach={booktitle,series,journaltitle,maintitle,%
+                              volumetitle,eventtitle,publisher}]{%
          \step[fieldsource=keywords,%
                match=\regexp{lang-$MAPLOOP=(english|dutch|french|italian|latin|german|russian|spanish)},final]%$
          \step[fieldset=\regexp{$MAPLOOP},fieldvalue=§§§\regexp{$1},append]%$
@@ -186,6 +188,9 @@
       }%
 % Split up title information into title and subtitle field using ":" as 
 % the delimiter
+% TODO: This is not ideal as there are entries like 
+% westergaardZendAvestaReligious1993 which have something like "Volume I: " in 
+% their title field.
       \map[overwrite]{%
          \step[fieldsource=title,match=\regexp{(.*)\s+:\s+(.*)},final]%
          \step[fieldset=title,fieldvalue=\regexp{$1}]%$
