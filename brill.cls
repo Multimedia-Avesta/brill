@@ -919,7 +919,7 @@
          }%
    }%  
 
-\newcommand*{\@floattocentryfont}{\fontsize{10bp}{13.6bp}\selectfont}
+\newcommand*{\@floattocentryfont}{\small}
 \newcommand*{\@floattocentrynumberfont}[1]{%
    {\@floattocentryfont\addfontfeature{Numbers=Tabular}#1}}
 \DeclareTOCStyleEntry[%
