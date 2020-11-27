@@ -128,34 +128,43 @@ function sortGlossary( l )
    local sublemmatext = ""      
    local subsublemmatext = ""      
    local subsubsublemmatext = ""      
-   local str = ""
+   --local str = ""
    local prevlemma = ""
    local prevsublemma = ""
-   local prevsubsublemma = ""   
-   local prevsubsubsublemma = ""   
+   local prevsublemmastar = ""
+   local prevsubsublemma = ""
+   local prevsubsublemmastar = ""
+   local prevsubsubsublemma = ""
+   local prevsubsubsublemmastar = ""
    local lemma = ""
    local sublemma = ""
    local subsublemma = ""
-   local subsubsublemma = ""   
+   local subsubsublemma = ""
    local lemmacontent = ""
-   local sublemmacontent = ""      
-   local subsublemmacontent = ""      
-   local subsubsublemmacontent = ""         
-   local sublemmastar = false
-   local subsublemmastar = false
-   local subsubsublemmastar = false
-   local prevsublemmastar = false
-   local prevsubsublemmastar = false
-   local prevsubsubsublemmastar = false
+   local sublemmacontent = ""
+   local sublemmastarcontent = ""
+   local subsublemmacontent = ""
+   local subsublemmastarcontent = ""
+   local subsubsublemmacontent = ""
+   local subsubsublemmastarcontent = ""
+--
    local result = {}
    local sl = {}
+   local slstar = {}
    local ssl = {}
+   local sslstar = {}
    local sssl = {}
+   local ssslstar = {}
+--   
+   local is_sublemmastar = false
+   local is_subsublemmastar = false
+   local is_subsubsublemmastar = false
+--
    local newkeys = {}
-   local inDictionary = false
-   local inSublemmata = false
-   local inSubsublemmata = false
-   local inSubsubsublemmata = false   
+   local is_indictionary = false
+   local is_insublemmata = false
+   local is_insubsublemmata = false
+   local is_insubsubsublemmata = false   
    local f = assert( io.open(outfile, "w+") )
    local hash = {}
    local res = {}
@@ -165,100 +174,153 @@ function sortGlossary( l )
    
    -- Gujarati
    if glosslang == "Guj" then
-   for k,v in pairs( lines ) do
+   for k, v in pairs( lines ) do
       -- get line k and process it
       local str = lines[k]
       
       if string.match( str, "^%s*\\begin{Dictionary}" ) then
-         f:write( '\\begin{ModDictionary}', "\n" )
-         inDictionary = true
+         f:write( "\\begin{ModDictionary}" )
+         is_indictionary = true
       elseif string.match( str, "^%s*\\begin{Sublemmata}" ) then
-         inSublemmata = true
+         is_insublemmata = true
          -- Write line to top-level structure
-         lemmacontent = lemmacontent .. "\n\\begin{Sublemmata}"
-         -- define an empty table for sublemmata environment
+         sublemmacontent = "\n\\begin{Sublemmata}\n"
+         -- define empty tables for sublemmata environment
          sl = {}
+         slstar = {}
       elseif string.match( str, "^%s*\\begin{Subsublemmata}" ) then
-         inSubsublemmata = true
+         is_insubsublemmata = true
          -- Write line to top-level structure
-         sublemmacontent = sublemmacontent .. "\n\\begin{Subsublemmata}"
-         -- define an empty table for sublemmata environment
+         subsublemmacontent = "\n\\begin{Subsublemmata}\n"
+         -- define empty tables for sublemmata environment
          ssl = {}
+         sslstar = {}
       elseif string.match( str, "^%s*\\begin{Subsubsublemmata}" ) then
-         inSubsubsublemmata = true
+         is_insubsubsublemmata = true
          -- Write line to top-level structure
-         subsublemmacontent = subsublemmacontent .. 
-            "\n\\begin{Subsubsublemmata}"
-         -- define an empty table for sublemmata environment
+         subsubsublemmacontent = "\n\\begin{Subsubsublemmata}\n"
+         -- define empty tables for sublemmata environment
          sssl = {}
+         ssslstar = {}
       elseif string.match( str, "^%s*\\end{Subsubsublemmata}" ) then
-         if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-            sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent, 
-            ["star"] = subsubsublemmastar}
+         if next( ssslstar ) ~= nil then
+            subsubsublemmastarcontent = ''
+            local lastval = sssl[prevsubsubsublemma]
+            ssslstar[prevsubsubsublemma] = lastval
+            sssl[prevsubsubsublemma] = nil
+            newkeys = sortLemma( ssslstar )
+            local firstentry = true
+            for _, k in ipairs( newkeys ) do
+               if firstentry == true then
+                  sssl[k] = ssslstar[k]  
+                  firstentry = false
+                  prevsubsubsublemma = k
+               else
+                  subsubsublemmastarcontent = subsubsublemmastarcontent .. "\n" .. 
+                     '\\Subsubsublemma*{' .. removesortid( k ) .. '}' .. ssslstar[k]
+               end
+            end            
+            local lastval = sssl[prevsubsubsublemma]
+            sssl[prevsubsubsublemma] = lastval .. subsubsublemmastarcontent
+            -- Empty table ssslstar
+            ssslstar = {}
          end
          newkeys = sortLemma( sssl )
-         -- use the keys to retrieve the values in the sorted order
-         -- we write the sorted content to the top level structure
-         for _, k in ipairs(newkeys) do
-            if sssl[k]["star"] == true then
-               subsublemmacontent = subsublemmacontent .. '\n' .. 
-                  '\\Subsubsublemma*{' .. removesortid( k ) .. '}' .. sssl[k]["content"]
-            else
-               subsublemmacontent = subsublemmacontent .. '\n' .. 
-                  '\\Subsubsublemma{' .. removesortid( k ) .. '}' .. sssl[k]["content"]
-            end
-         end
-         subsublemmacontent = subsublemmacontent .. "\n\\end{Subsubsublemmata}"
-         inSubsubsublemmata = false
-      elseif string.match( str, "^%s*\\end{Subsublemmata}" ) then
-         if prevsubsublemma and prevsubsublemma ~= '' then
-            ssl[prevsubsublemma] = {["content"] = subsublemmacontent, 
-               ["star"] = subsublemmastar}
-         end
-         newkeys = sortLemma(ssl)
-         -- use the keys to retrieve the values in the sorted order
-         -- we write the sorted content to the top level structure
          for _, k in ipairs( newkeys ) do
-            if ssl[k]["star"] == true then
-               sublemmacontent = sublemmacontent .. '\n' .. 
-               '\\Subsublemma*{' .. removesortid( k ) .. '}' .. ssl[k]["content"]
-            else
-               sublemmacontent = sublemmacontent .. '\n' .. 
-               '\\Subsublemma{' .. removesortid( k ) .. '}' .. ssl[k]["content"]
-            end
+            subsubsublemmacontent = subsubsublemmacontent .. 
+               '\\Subsubsublemma{' .. removesortid( k ) .. '}' .. sssl[k] .. "\n"
          end
-         sublemmacontent = sublemmacontent .. "\n\\end{Subsublemmata}"
-         inSubsublemmata = false
+         local lastval = ssl[prevsubsublemma]
+         ssl[prevsubsublemma] = lastval .. subsubsublemmacontent .. "\n\\end{Subsubsublemmata}"
+         is_insubsubsublemmata = false
+      elseif string.match( str, "^%s*\\end{Subsublemmata}" ) then
+         if next( sslstar ) ~= nil then
+            subsublemmastarcontent = ''
+            local lastval = ssl[prevsubsublemma]
+            sslstar[prevsubsublemma] = lastval
+            ssl[prevsubsublemma] = nil
+            newkeys = sortLemma( sslstar )
+            local firstentry = true
+            for _, k in ipairs( newkeys ) do
+               if firstentry == true then
+                  ssl[k] = sslstar[k]  
+                  firstentry = false
+                  prevsubsublemma = k
+               else
+                  subsublemmastarcontent = subsublemmastarcontent .. "\n" .. 
+                     '\\Subsublemma*{' .. removesortid( k ) .. '}' .. sslstar[k]
+               end
+            end            
+            local lastval = ssl[prevsubsublemma]
+            ssl[prevsubsublemma] = lastval .. subsublemmastarcontent
+            -- Empty table slstar
+            sslstar = {}
+         end
+         newkeys = sortLemma( ssl )
+         for _, k in ipairs( newkeys ) do
+            subsublemmacontent = subsublemmacontent .. 
+               '\\Subsublemma{' .. removesortid( k ) .. '}' .. ssl[k] .. "\n"
+         end
+         local lastval = sl[prevsublemma]
+         sl[prevsublemma] = lastval .. subsublemmacontent .. "\\end{Subsublemmata}"
+         is_insubsublemmata = false
       elseif string.match( str, "^%s*\\end{Sublemmata}" ) then
          --texio.write_nl("End sublemmata")
-         if prevsublemma and prevsublemma ~= '' then
-            sl[prevsublemma] = {["content"] = sublemmacontent, 
-            ["star"] = sublemmastar}
+         --[[
+            check whether last entry was a sublemma*. 
+            Then we have to add slstar to the latest sublemma first
+         ]]
+         if next( slstar ) ~= nil then
+            -- There are \Sublemma* to sort
+            sublemmastarcontent = ''
+            -- Add sublemma to table of sublemma* for sorting
+            local lastval = sl[prevsublemma]
+            slstar[prevsublemma] = lastval
+            -- Remove it from sublemma table
+            sl[prevsublemma] = nil
+            -- sort slstar
+            newkeys = sortLemma( slstar )
+            -- use the keys to retrieve the values in the sorted order
+            -- we write the sorted content to the top level structure
+            local firstentry = true
+            for _, k in ipairs( newkeys ) do
+            -- Put the first element back in sublemma table
+               if firstentry == true then
+                  sl[k] = slstar[k]  
+                  firstentry = false
+                  prevsublemma = k
+                  -- All other elements are handeled as sublemma*
+               else
+                  sublemmastarcontent = sublemmastarcontent .. "\n" .. 
+                     '\\Sublemma*{' .. removesortid( k ) .. '}' .. slstar[k]
+               end
+            end
+            -- put it into table with key of last \Sublemma
+            local lastval = sl[prevsublemma]
+            sl[prevsublemma] = lastval .. sublemmastarcontent
+            -- Empty table slstar
+            slstar = {}
          end
+         -- now sort sublemma entries in sl table
          newkeys = sortLemma( sl )
          -- use the keys to retrieve the values in the sorted order
          -- we write the sorted content to the top level structure
          for _, k in ipairs( newkeys ) do
-            if sl[k]["star"] == true then
-               lemmacontent = lemmacontent .. '\n' .. 
-                  '\\Sublemma*{' .. removesortid( k ) .. '}' .. sl[k]["content"]
-            else
-               lemmacontent = lemmacontent .. '\n' .. 
-                  '\\Sublemma{' .. removesortid( k ) .. '}' .. sl[k]["content"]
-            end
+            sublemmacontent = sublemmacontent ..  
+               '\\Sublemma{' .. removesortid( k ) .. '}' .. sl[k] .. "\n"
          end
-         lemmacontent = lemmacontent .. "\n\\end{Sublemmata}"
-         inSublemmata = false
-      elseif string.match(str, "^%s*\\end{Dictionary}") then
+         lemmacontent = lemmacontent .. sublemmacontent .. "\\end{Sublemmata}"
+         is_insublemmata = false
+      elseif string.match( str, "^%s*\\end{Dictionary}" ) then
          -- we reached the end of the dictionary
          -- write last lemma to file
          if prevlemma and prevlemma ~= '' then
             result[prevlemma] = lemmacontent
          end
          -- start sorting process
-         newkeys = sortLemma(result)
+         newkeys = sortLemma( result )
          -- use the keys to retrieve the values in the sorted order
-         for _, k in ipairs(newkeys) do
+         for _, k in ipairs( newkeys ) do
             f:write( '\n\\Lemma{' .. removesortid( k ) .. '}' .. result[k] )
             -- get the first letter of the lemma
             local first = ustring.sub( removesortid( k ), 1, 1 )
@@ -272,95 +334,215 @@ function sortGlossary( l )
          -- if lines follow they should be processed as well
          f:write( '\n\\end{ModDictionary}', "\n" )
          local sequenceofletters = ""
-         for k,v in pairs(res) do
+         for k, v in pairs( res ) do
             if sequenceofletters == "" then
                sequenceofletters = v
             else
                sequenceofletters = sequenceofletters .. ", " .. v
             end
          end
-         tex.sprint([[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
-         {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]])
-         tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]])
-         inDictionary = false
-      else
-         if inDictionary == false then
+         tex.sprint( [[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
+         {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]] )
+         tex.sprint( [[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]] )
+         is_indictionary = false
+      else -- lines inbetween environments
+         if is_indictionary == false then
          else
-            if inSubsubsublemmata == true then
+            if is_insubsubsublemmata == true then
                subsubsublemma, subsubsublemmatext = 
-                     string.match( str, "^%s*\\Subsubsublemma%*(%b{})(.*)$" )--$
-               subsubsublemmastar = true
+                  string.match( str, "^%s*\\Subsubsublemma%*(%b{})(.*)$" )--$
+               is_subsubsublemmastar = true
                if not subsubsublemma or subsubsublemma == '' then
                   -- we check for unstarred version
                   subsubsublemma, subsubsublemmatext = 
                      string.match( str, "^%s*\\Subsubsublemma(%b{})(.*)$" )--$
-                  subsubsublemmastar = false
+                  is_subsubsublemmastar = false
                end   
                if subsubsublemma and subsubsublemma ~= '' then
                   -- we found a new subsubsublemma
-                  if prevsubsubsublemma and prevsubsubsublemma ~= '' then
-                     sssl[prevsubsubsublemma] = {["content"] = subsubsublemmacontent,
-                     ["star"] = prevsubsubsublemmastar}
+                  subsubsublemma = string.match( subsubsublemma, "{(.*)}" )
+                  if is_subsubsublemmastar == true then
+                     -- \Subsubsublemma* found -> put it into table
+                     ssslstar[subsubsublemma] = subsubsublemmatext
+                     -- store for potential additional text lines
+                     prevsubsubsublemmastar = subsubsublemma
+                  else   
+                     if next( ssslstar ) ~= nil then
+                        -- There are \Subsubsublemma* to sort
+                        subsubsublemmastarcontent = ''
+                        local lastval = sssl[prevsubsubsublemma]
+                        texio.write_nl("Vorgänger: " .. prevsubsubsublemma .. " mit Wert " .. lastval)
+                        ssslstar[prevsubsubsublemma] = lastval
+                        sssl[prevsubsubsublemma] = nil
+                        newkeys = sortLemma( ssslstar )
+                        local firstentry = true
+                        for _, k in ipairs( newkeys ) do
+                           if firstentry == true then
+                              sssl[k] = ssslstar[k]  
+                              firstentry = false
+                              prevsubsubsublemma = k
+                           else
+                              subsubsublemmastarcontent = subsubsublemmastarcontent .. "\n" .. 
+                                 '\\Subsubsublemma*{' .. removesortid( k ) .. '}' .. ssslstar[k]
+                           end
+                        end            
+                        -- put it into table with key of last \Sublemma
+                        local lastval = sssl[prevsubsubsublemma]
+                        sssl[prevsubsubsublemma] = lastval .. subsubsublemmastarcontent
+                        -- Empty table slstar
+                        ssslstar = {}
+                     end
+                     -- add sublemma to table and save it for possible sublemma*
+                     sssl[subsubsublemma] = subsubsublemmatext
+                     prevsubsubsublemma = subsubsublemma
                   end
-                  -- remember new sublemma as prevsublemma for next entry
-                  prevsubsubsublemma = subsubsublemma
-                  subsubsublemmacontent = subsubsublemmatext
-                  prevsubsubsublemmastar = subsubsublemmastar
-               else
-                  subsubsublemmacontent = subsubsublemmacontent .. "\n" .. str
-               end                                    
-            elseif inSubsublemmata == true then
+               else                  
+                  if next( ssslstar ) ~= nil then
+                     local lastval = ssslstar[prevsubsubsublemmastar]
+                     ssslstar[prevsubsubsublemmastar] = lastval .. "\n" .. str
+                  else
+                     local lastval = sssl[prevsubsubsublemma]
+                     ssl[prevsubsubsublemma] = lastval .. "\n" .. str
+                  end
+               end  
+            elseif is_insubsublemmata == true then
                subsublemma, subsublemmatext = 
                   string.match( str, "^%s*\\Subsublemma%*(%b{})(.*)$" )--$
-                  subsublemmastar = true
+               is_subsublemmastar = true
                if not subsublemma or subsublemma == '' then
                   -- we check for unstarred version
                   subsublemma, subsublemmatext = 
-                  string.match( str, "^%s*\\Subsublemma(%b{})(.*)$" )--$
-                  subsublemmastar = false
+                     string.match( str, "^%s*\\Subsublemma(%b{})(.*)$" )--$
+                  is_subsublemmastar = false
                end
                if subsublemma and subsublemma ~= '' then
                   -- we found a new sublemma
                   subsublemma = string.match( subsublemma, "{(.*)}" )
-                  if prevsubsublemma and prevsubsublemma ~= '' then
-                     ssl[prevsubsublemma] = {["content"] = subsublemmacontent,
-                     ["star"] = prevsubsublemmastar}
+                  if is_subsublemmastar == true then
+                     -- \Sublemma* found -> put it into table
+                     sslstar[subsublemma] = subsublemmatext
+                     -- store for potential additional text lines
+                     prevsubsublemmastar = subsublemma
+                  else   
+                     if next( sslstar ) ~= nil then
+                        -- There are \Subsublemma* to sort
+                        subsublemmastarcontent = ''
+                        local lastval = ssl[prevsubsublemma]
+                        sslstar[prevsubsublemma] = lastval
+                        ssl[prevsubsublemma] = nil
+                        newkeys = sortLemma( sslstar )
+                        local firstentry = true
+                        for _, k in ipairs( newkeys ) do
+                           if firstentry == true then
+                              ssl[k] = sslstar[k]  
+                              firstentry = false
+                              prevsubsublemma = k
+                           else
+                              subsublemmastarcontent = subsublemmastarcontent .. "\n" .. 
+                                 '\\Subsublemma*{' .. removesortid( k ) .. '}' .. sslstar[k]
+                           end
+                        end            
+                        -- put it into table with key of last \Sublemma
+                        local lastval = ssl[prevsubsublemma]
+                        ssl[prevsubsublemma] = lastval .. subsublemmastarcontent
+                        -- Empty table slstar
+                        sslstar = {}
+                     end
+                     -- add sublemma to table and save it for possible sublemma*
+                     ssl[subsublemma] = subsublemmatext
+                     prevsubsublemma = subsublemma
                   end
-                  -- remember new sublemma as prevsublemma for next entry
-                  prevsubsublemma = subsublemma
-                  subsublemmacontent = subsublemmatext
-                  prevsubsublemmastar = subsublemmastar
-                  prevsubsubsublemma = ''
-                  subsubsublemmacontent = ''
                else                  
-                  subsublemmacontent = subsublemmacontent .. "\n" .. str
-               end                           
-            elseif inSublemmata == true then
+                  if next( sslstar ) ~= nil then
+                     local lastval = sslstar[prevsubsublemmastar]
+                     sslstar[prevsubsublemmastar] = lastval .. "\n" .. str
+                  else
+                     local lastval = ssl[prevsubsublemma]
+                     ssl[prevsubsublemma] = lastval .. "\n" .. str
+                  end
+               end                        
+            elseif is_insublemmata == true then
+               --[[ 
+                  Within Sublemmata there can be two macros: 
+                  \Sublemma and \Sublemma*
+                  We check for one of them, otherwise we add the text to the
+                  current string
+               ]]
+               -- We check for \Sublemma* first
                sublemma, sublemmatext = 
                   string.match( str, "^%s*\\Sublemma%*(%b{})(.*)$" )--$
-               sublemmastar = true
+               is_sublemmastar = true
+               -- If we haven't found anything yet, we look for \Sublemma
                if not sublemma or sublemma == '' then
-                  -- we check for unstarred version
                   sublemma, sublemmatext = 
-                  string.match( str, "^%s*\\Sublemma(%b{})(.*)$" )--$
-                  sublemmastar = false
+                     string.match( str, "^%s*\\Sublemma(%b{})(.*)$" )--$
+                  is_sublemmastar = false
                end
+               --[[
+                  If we have found something we know from the boolean variable
+                  is_sublemmastar
+               ]]
                if sublemma and sublemma ~= '' then
-                  -- we found a new sublemma
+                  -- we found a new sublemma or a sublemma*
+                  -- Rip off braces before continuing
                   sublemma = string.match( sublemma, "{(.*)}" )
                   --texio.write_nl( "Found new sublemma: " .. sublemma )
-                  if prevsublemma and prevsublemma ~= '' then
-                     sl[prevsublemma] = {["content"] = sublemmacontent,
-                     ["star"] = prevsublemmastar}
+                  -- We now distinguish
+                  if is_sublemmastar == true then
+                     -- \Sublemma* found -> put it into table
+                     slstar[sublemma] = sublemmatext
+                     -- store for potential additional text lines
+                     prevsublemmastar = sublemma
+                  else   
+                     -- \Sublemma found -> sort \Sublemma* (if any), then proceed
+                     if next( slstar ) ~= nil then
+                        -- There are \Sublemma* to sort
+                        sublemmastarcontent = ''
+                        -- Add sublemma to table of sublemma* for sorting
+                        local lastval = sl[prevsublemma]
+                        slstar[prevsublemma] = lastval
+                        -- Remove it from sublemma table
+                        sl[prevsublemma] = nil
+                        -- sort slstar
+                        newkeys = sortLemma( slstar )
+                        -- use the keys to retrieve the values in the sorted order
+                        -- we write the sorted content to the top level structure
+                        local firstentry = true
+                        for _, k in ipairs( newkeys ) do
+                           -- Put the first element back in sublemma table
+                           if firstentry == true then
+                               sl[k] = slstar[k]  
+                               firstentry = false
+                               prevsublemma = k
+                           -- All other elements are handeled as sublemma*
+                           else 
+                              sublemmastarcontent = sublemmastarcontent .. "\n" .. 
+                                 '\\Sublemma*{' .. removesortid( k ) .. '}' .. 
+                                 slstar[k]
+                           end
+                        end
+                        -- put it into table with key of last \Sublemma
+                        local lastval = sl[prevsublemma]
+                        sl[prevsublemma] = lastval .. sublemmastarcontent
+                        -- Empty table slstar
+                        slstar = {}
+                     end
+                     -- add sublemma to table and save it for possible sublemma*
+                     sl[sublemma] = sublemmatext
+                     prevsublemma = sublemma
                   end
-                  -- remember new sublemma as prevsublemma for next entry
-                  prevsublemma = sublemma
-                  sublemmacontent = sublemmatext
-                  prevsublemmastar = sublemmastar
-                  prevsubsublemma = ''
-                  subsublemmacontent = '' 
                else
-                  sublemmacontent = sublemmacontent .. "\n" .. str
+                  --[[ 
+                     we concatenate the string to the last 
+                     sublemma or sublemma* in the table
+                  --]]
+                  if next( slstar ) ~= nil then
+                     local lastval = slstar[prevsublemmastar]
+                     slstar[prevsublemmastar] = lastval .. "\n" .. str
+                  else
+                     local lastval = sl[prevsublemma]
+                     sl[prevsublemma] = lastval .. "\n" .. str
+                  end
                end
             else -- it can only be a lemma entry, but which one
                --texio.write_nl("Check line within dictionary")
@@ -399,7 +581,7 @@ function sortGlossary( l )
    
       if string.match( str, "^%s*\\begin{Dictionary}" ) then
          f:write( '\\begin{ModDictionary}', "\n" )
-         inDictionary = true
+         is_indictionary = true
       elseif string.match(str, "^%s*\\end{Dictionary}") then
          -- we reached the end of the dictionary
          -- write last lemma to file
@@ -433,9 +615,9 @@ function sortGlossary( l )
          tex.sprint( [[\makeatletter\immediate\write\@mainaux{\string\ifltxcounter{numberofglossaries}
          {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]])
          tex.sprint([[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]] )
-         inDictionary = false
+         is_indictionary = false
       else
-         if inDictionary == false then
+         if is_indictionary == false then
          else -- it can only be a lemma entry, but which one
             --texio.write_nl("Check line within dictionary")
             lemma_oarg, lemma, text = string.match( str, "^%s*\\Lemma%[(.-)%](%b{})(.*)$" ) --$
