@@ -1530,16 +1530,16 @@
 \fi%
 \RequirePackage[imakeidx]{xindex}
 \indexsetup{%
-   headers={\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}},
-   level=\addchap,
-   %toclevel=chapter,
-   othercode={\RaggedRight\footnotesize}}%
+   headers={\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}},%
+   level=\addchap,%
+   %toclevel=chapter,%
+   othercode={\setlength{\parskip}{0pt}\RaggedRight\footnotesize}}%
 \renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
 \renewcommand*{\subitem}{%
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \renewcommand*{\subsubitem}{%
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
-\renewcommand*\indexspace{\par\vskip 2\normalbaselineskip\relax}%
+\let\indexspace\relax%\par\addvspace{\normalbaselineskip}\relax}%
 
 \ifbrill@showgrid
    \RequirePackage{atbegshi,picture,xcolor}
