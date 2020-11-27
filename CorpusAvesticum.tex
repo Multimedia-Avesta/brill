@@ -511,7 +511,12 @@
          {\imki@exec{\imki@program\imki@options#1.idx}}%
    }%
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
-   {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%             
+   {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%
+\patchcmd{\theindex}%
+   {\begin{multicols}}%
+   {\vspace*{-\normalbaselineskip}\begin{multicols}}%
+   {\ClassInfo{brill}{\string\theindex\space successfully patched!}}%
+   {\ClassInfo{brill}{\string\theindex\space could not be patched!}}%
 \def\brill@imki@putindexsplit#1{%
    \ifimki@nonewpage\else
       \imki@clearpage
@@ -530,7 +535,7 @@
    \begingroup%
       \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
       \renewcommand*{\@idxitem}{%
-         \par\nopagebreak\vspace{\baselineskip}\relax}%
+         \par\nopagebreak\addvspace{\baselineskip}\relax}%
       \IfFileExists{words-manually.ind}
          {%
             \def\imki@title{Index of Words}%
