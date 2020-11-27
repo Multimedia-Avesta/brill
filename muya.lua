@@ -53,20 +53,21 @@ function modifySorting()
    g:close()
 end
 
-function get_sortentry(a,b)
+function get_sortentry( a, b )
    -- we have to analyse b to get a correct sort string
    local res = ""
-   for v, w in string.gmatch(b, "(%d+)([%-%.]*)") do
-      if w == '' then
-         w = '000'
+   if b:match( "^%d+$" ) then
+      res = res .. string.format( "%03d", b ) .. ".000"
+   else
+      for v, w in string.gmatch( b, "(%d+)([%-%.]*)" ) do
+         res = res .. string.format( "%03d%s", v, w )
       end
-      res = res .. string.format( "%03d%s", v, w )
-   end
-   for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
-      if last:match( "^%d+$" ) then
-         res = res .. string.format( "%03d", last )
-      else
-         res = res .. last
+      for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
+         if last:match( "^%d+$" ) then
+            res = res .. string.format( "%03d", last )
+         else
+            res = res .. last
+         end
       end
    end
    return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b )
@@ -75,17 +76,21 @@ end
 function get_sortentry_star( a, b ) 
    -- we have to analyse b to get a correct sort string
    local res = ""
-   for v, w in string.gmatch( b, "(%d+)([%-%.])" ) do
-      res = res .. string.format( "%03d%s", v, w )
-   end
-   for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
-      if last:match( "^%d+$" ) then
-         res = res .. string.format( "%03d", last )
-      else
-         res = res .. last
+   if b:match( "^%d+$" ) then
+      res = res .. string.format( "%03d", b ) .. ".000"
+   else
+      for v, w in string.gmatch( b, "(%d+)([%-%.])" ) do
+         res = res .. string.format( "%03d%s", v, w )
+      end
+      for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
+         if last:match( "^%d+$" ) then
+            res = res .. string.format( "%03d", last )
+         else
+            res = res .. last
+         end
       end
    end
-   return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b )
+      return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b )
 end
 
 -- see if the file exists
