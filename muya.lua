@@ -177,21 +177,21 @@ function sortGlossary( l )
          is_insublemmata = true
          -- Write line to top-level structure
          sublemmacontent = "\n\\begin{Sublemmata}\n"
-         -- define an empty tables for sublemmata environment
+         -- define empty tables for sublemmata environment
          sl = {}
          slstar = {}
       elseif string.match( str, "^%s*\\begin{Subsublemmata}" ) then
          is_insubsublemmata = true
          -- Write line to top-level structure
          subsublemmacontent = "\n\\begin{Subsublemmata}\n"
-         -- define an empty table for sublemmata environment
+         -- define empty tables for sublemmata environment
          ssl = {}
          sslstar = {}
       elseif string.match( str, "^%s*\\begin{Subsubsublemmata}" ) then
          is_insubsubsublemmata = true
          -- Write line to top-level structure
          subsubsublemmacontent = "\n\\begin{Subsubsublemmata}\n"
-         -- define an empty table for sublemmata environment
+         -- define empty tables for sublemmata environment
          sssl = {}
          ssslstar = {}
       elseif string.match( str, "^%s*\\end{Subsubsublemmata}" ) then
@@ -214,7 +214,7 @@ function sortGlossary( l )
             end            
             local lastval = sssl[prevsubsubsublemma]
             sssl[prevsubsubsublemma] = lastval .. subsubsublemmastarcontent
-            -- Empty table slstar
+            -- Empty table ssslstar
             ssslstar = {}
          end
          newkeys = sortLemma( sssl )
@@ -362,7 +362,8 @@ function sortGlossary( l )
                      if next( ssslstar ) ~= nil then
                         -- There are \Subsubsublemma* to sort
                         subsubsublemmastarcontent = ''
-                        local lastval = ssl[prevsubsubsublemma]
+                        local lastval = sssl[prevsubsubsublemma]
+                        texio.write_nl("Vorgänger: " .. prevsubsubsublemma .. " mit Wert " .. lastval)
                         ssslstar[prevsubsubsublemma] = lastval
                         sssl[prevsubsubsublemma] = nil
                         newkeys = sortLemma( ssslstar )
