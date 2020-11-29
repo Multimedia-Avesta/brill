@@ -1025,7 +1025,59 @@
 \RequirePackage{booktabs}
 \RequirePackage{longtable}
 \RequirePackage{tabu}
-%\RequirePackage[flushleft]{threeparttable}
+%\patchcmd{\LT@start}%
+%   {\advance\vsize-\ht\LT@foot}%
+%   {\global\advance\vsize-\ht\LT@foot}%
+%   {\ClassInfo{brill}{\string\LT@start\space successfully patched!}}%
+%   {\ClassInfo{brill}{\string\LT@start\space could not be patched!}}%
+%%
+%\patchcmd{\endlongtable}%
+%   {\endgraf\penalty -\LT@end@pen
+%   \endgroup
+%   \global\@mparbottom\z@
+%   \pagegoal\vsize}%
+%   {\endgraf\penalty -\LT@end@pen
+%    \ifvoid\LT@foot\else
+%      \global\advance\vsize\ht\LT@foot
+%      \global\advance\@colroom\ht\LT@foot
+%      \dimen@\pagegoal\advance\dimen@\ht\LT@foot\pagegoal\dimen@
+%   \fi
+%   \endgroup
+%   \global\@mparbottom\z@}%
+%   {\ClassInfo{brill}{\string\endlongtable\space successfully patched!}}%
+%   {\ClassInfo{brill}{\string\endlongtable\space could not be patched!}}%
+%%
+%\patchcmd{\LT@output}%
+%   {%
+%         \advance\dimen@-\ht\LT@lastfoot
+%         \ifdim\dimen@<\ht\z@
+%            \setbox\@cclv\vbox{\unvbox\z@\copy\LT@foot\vss}%
+%            \@makecol
+%            \@outputpage
+%            \setbox\z@\vbox{\box\LT@head}%
+%         \fi
+%      \fi
+%      \global\@colroom\@colht
+%      \global\vsize\@colht
+%      \vbox
+%        {\unvbox\z@\box\ifvoid\LT@lastfoot\LT@foot\else\LT@lastfoot\fi}%
+%   }%
+%   {%
+%         \advance\dimen@\ht\LT@foot
+%         \advance\dimen@-\ht\LT@lastfoot%
+%         \ifdim\dimen@<\ht\z@
+%            \setbox\@cclv\vbox{\unvbox\z@\copy\LT@foot\vss}%
+%            \@makecol
+%            \@outputpage
+%            \global\vsize\@colroom
+%            \setbox\z@\vbox{\box\LT@head}%
+%         \fi
+%      \fi
+%      \unvbox\z@\ifvoid\LT@lastfoot\copy\LT@foot\else\box\LT@lastfoot\fi
+%   }%
+%   {\ClassInfo{brill}{\string\LT@output\space successfully patched!}}%
+%   {\ClassInfo{brill}{\string\LT@output\space could not be patched!}}%
+
 \setlength{\LTpre}{\normalbaselineskip}
 \setlength{\LTpost}{\normalbaselineskip}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
@@ -1345,7 +1397,7 @@
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
-                        %\addlinespace[-1bp]%TODO: Why that value?
+                        \addlinespace[-1bp]%TODO: Why that value?
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
@@ -1353,7 +1405,7 @@
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
-                        %\addlinespace[0.25bp]%TODO: Why that value?
+                        \addlinespace[0.25bp]%TODO: Why that value?
                      }{%
                         \firsthline
                         \begingroup%
@@ -1499,6 +1551,9 @@
    \setlength{\intextsep}{\dimexpr\normalbaselineskip-1.5mm\relax}%
    \setlength{\floatsep}{0bp}%
 }
+\setlength{\@fptop}{0pt}% default is 0\p@ \@plus 1fil
+\setlength{\@fpsep}{\floatsep}% default is 8\p@ \@plus 2fil
+\setlength{\@fpbot}{0pt plus 1fil}% default is 0\p@ \@plus 1fil
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcapindent{16mm}

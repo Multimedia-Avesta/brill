@@ -169,8 +169,8 @@
 \newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
 
 \newcommand*{\aee}{ǝ̄}
-\newcommand*{\XVE}{x\textsuperscript{v}\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
-\newcommand*{\NGVE}{ŋ\textsuperscript{v}\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
+\newcommand*{\XVE}{x\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
+\newcommand*{\NGVE}{ŋ\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
 
 \newcommand*{\AvA}{\symbol{"10B00}}
 \newcommand*{\AvAA}{\symbol{"10B01}}
@@ -317,6 +317,7 @@
             {rd}{\realsuperscript{rd}}%
             {st}{\realsuperscript{st}}%
             {th}{\realsuperscript{th}}%
+            {x}{\realsuperscript{x}}%
          }[\fakesuperscript{#1}]%
       }%
 }
@@ -408,7 +409,7 @@
         \ifx\@frontispiece\@empty
         \else
           \if@twoside\mbox{}\next@tpage\fi
-          \vspace*{-\topskip}%
+          \vspace*{\dimexpr -\topskip+1bp\relax}%
           \@frontispiece\next@tdpage
         \fi
       \else
@@ -416,7 +417,7 @@
         \ifx\@frontispiece\@empty
         \else
           \next@tpage
-          \vspace*{\dimexpr -\normalbaselineskip-\topskip-\dp\strutbox\relax}%
+          \vspace*{\dimexpr -\normalbaselineskip-\topskip-\dp\strutbox+1bp\relax}%
           \noindent\@frontispiece
         \fi%
         \next@tdpage
@@ -431,6 +432,7 @@
             %\vskip\@subtitleskipbefore%  
             \vskip -\dp\strutbox%
             \vskip 2\baselineskip%
+            \vskip 1bp%
             {%
                \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\strut\par\kern-\prevdepth}%
             }%
@@ -506,6 +508,7 @@
                      {\@input@{words-mod.ind}}%
                      {\@input@{#1.ind}}%
                }%
+               {\@input@{#1.ind}}%
           }%
    }%
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
