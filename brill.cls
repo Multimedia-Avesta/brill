@@ -1556,7 +1556,9 @@
 \setlength{\@fpbot}{0pt plus 1fil}% default is 0\p@ \@plus 1fil
 \setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
+\setcaphanging
 \setcapindent{16mm}
+\setcaptionalignment{J}
 \newlength{\@currentcaplabelwidth}
 \AtBeginDocument{
    \renewcommand*{\captionformat}{%
@@ -1596,7 +1598,8 @@
    \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
 \let\indexspace\relax%\par\addvspace{\normalbaselineskip}\relax}%
 
-\ifbrill@showgrid
+\ifboolexpr{ bool {brill@showgrid} and not bool {brill@printversion} }%
+{%
    \RequirePackage{atbegshi,picture,xcolor}
    \AtBeginShipout{%
      \AtBeginShipoutUpperLeft{%
@@ -1611,7 +1614,7 @@
          }%
      }%
 }
-\fi%
+}{}%
 
 \RequirePackage{shellesc} %TODO: Check whether still needed
 \RequirePackage{url}
