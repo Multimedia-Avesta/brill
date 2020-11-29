@@ -409,7 +409,7 @@
         \ifx\@frontispiece\@empty
         \else
           \if@twoside\mbox{}\next@tpage\fi
-          \vspace*{\dimexpr -\topskip+1bp\relax}%
+          \vspace*{\dimexpr -\topskip\relax}%
           \@frontispiece\next@tdpage
         \fi
       \else
@@ -417,7 +417,7 @@
         \ifx\@frontispiece\@empty
         \else
           \next@tpage
-          \vspace*{\dimexpr -\normalbaselineskip-\topskip-\dp\strutbox+1bp\relax}%
+          \vspace*{\dimexpr -\normalbaselineskip-\topskip-\dp\strutbox\relax}%
           \noindent\@frontispiece
         \fi%
         \next@tdpage
@@ -427,12 +427,12 @@
          {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\strut\par\kern-\prevdepth}}%
          \vskip\@titleskip%
          \ifx\@subtitle\@empty%
-            \vskip 4.8bp%
+            \vskip 4.7bp%
          \else%
             %\vskip\@subtitleskipbefore%  
             \vskip -\dp\strutbox%
             \vskip 2\baselineskip%
-            \vskip 1bp%
+            %\vskip 1bp%
             {%
                \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\strut\par\kern-\prevdepth}%
             }%
