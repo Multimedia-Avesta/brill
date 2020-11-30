@@ -6,6 +6,35 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+
+## [0.70.0] - 2020-11-30
+
+### Changed
+- Use real subs in body text (`v` and `x`)
+- 
+### Fixed
+- Line spacing in LOF/LOT
+- Captions are now set hanging
+
+## [0.63.0] - 2020-11-27
+### Added
+- Support for manual Index of Words
+
+### Changed
+- Spacing before `\minisec` is now `1\baselineskip` (was 2)
+- Allow line breaks at `|` in Glossary to improve result
+
+### Fixed
+- Sorting for Index of Passages
+- Index spacing
+- Layout of enumerations
+- Use `\raggedbottom`
+- Use Tabular numbers for TOC
+- Layout for List of Figures and Tables
+- `textsuperscript{th}` now uses `\realsuperscript`, add `nd`, `rd` and `st`
+- Sorting of Glossary
+- Spacing for `\multicol` set to `\normalbaselineskip`
+
 ## [0.62.0] - 2020-11-23
 ### Added
 - Sorting for Avestan in Index of Words
@@ -861,6 +890,10 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.70.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.70.0
+[0.63.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.63.0
 [0.62.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.62.0
 [0.61.0]:
