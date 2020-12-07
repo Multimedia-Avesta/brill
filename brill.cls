@@ -1281,18 +1281,25 @@
                \addlinespace[1bp]%
                \iftoggle{@tablebooktabs}%
                   {%
-                     \endfirsthead%
-                     \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
-                     \caption*{%
-                        \makebox[16mm][l]{\usekomafont{captionlabel}%
-                        \tableformat}%
-                        \usekomafont{caption}%
-                        \@tablecaption~(\textit{cont.})%
-                     }\\[1.4bp]
-                     \endhead
-                     \endlastfoot
+                     \ifdefvoid{\@tablecaption}%
+                        {}%
+                        {%
+                           \endfirsthead%
+                           \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
+                           %TODO: More elegant way needed.
+                           \caption*{%
+                              \makebox[16mm][l]{\usekomafont{captionlabel}%
+                              \tableformat}%
+                              \usekomafont{caption}%
+                              \@tablecaption~(\textit{cont.})%
+                           }\\[1.4bp]
+                           \endhead
+                           \endlastfoot
+                        }%
                   }%
-                  {}%
+                  {%
+                     %TODO: Add missing
+                  }%
             }%
             {%
                \iftoggle{@tablebooktabs}%
@@ -1306,13 +1313,18 @@
                         {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
                      \endfirsthead%
-                     \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%TODO: More elegant way needed.
-                     \caption*{%
-                        \makebox[16mm][l]{\usekomafont{captionlabel}%
-                        \tableformat}%
-                        \usekomafont{caption}%
-                        \@tablecaption~(\textit{cont.})%
-                     }\\
+                     \ifdefvoid{\@tablecaption}%
+                        {}%
+                        {%
+                           \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
+                           %TODO: More elegant way needed.
+                           \caption*{%
+                              \makebox[16mm][l]{\usekomafont{captionlabel}%
+                              \tableformat}%
+                              \usekomafont{caption}%
+                              \@tablecaption~(\textit{cont.})%
+                           }\\
+                        }%
                      \@brilltoprule%
                      \iftoggle{@tablebfheaders}%
                         {%
