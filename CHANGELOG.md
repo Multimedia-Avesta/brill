@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.71.0] - 2020-12-07
+
+### Changed
+- Update for Google Noto fonts
+
+### Fixed
+- `BrillTable` now works without caption and/or header
 
 ## [0.70.0] - 2020-11-30
 
@@ -890,6 +897,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.71.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.0
 [0.70.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.70.0
 [0.63.0]:
