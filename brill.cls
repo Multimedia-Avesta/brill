@@ -1267,14 +1267,16 @@
             {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
          }[]
-         \ifdefvoid{\@tablecaption}{\addlinespace[2bp]}{%
-            \addlinespace[-2.6bp]%11-13.6?
-            \ifdefvoid{\@tableshortcaption}%
-               {\caption{\@tablecaption}}%
-               {\caption[\@tableshortcaption]{\@tablecaption}}%
-            \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-            \\
-         }%
+         \ifdefvoid{\@tablecaption}%
+            {\addlinespace[2bp]}%
+            {%
+               \addlinespace[-2.6bp]%11-13.6?
+               \ifdefvoid{\@tableshortcaption}%
+                  {\caption{\@tablecaption}}%
+                  {\caption[\@tableshortcaption]{\@tablecaption}}%
+               \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
+               \\
+            }%
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
             {%
@@ -1369,6 +1371,7 @@
          \BODY%
       \end{longtabu}
       \endgroup
+      \ifdefvoid{\@tablecaption}{\addtocounter{table}{-1}}{}%
       \iftoggle{@tablelandscape}{\endlandscape}{}%
    }{%
       \iftoggle{@tablelandscape}
