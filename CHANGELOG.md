@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.71.2] - 2020-12-22
+### Fixed
+- Ignore spaces at the beginning of a stanza (\#10240)
+
 ## [0.71.1] - 2020-12-08
 ### Fixed
 - Table counting for `brilltable` with `long=true` and no caption
@@ -899,6 +903,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.71.2]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.2
 [0.71.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.1
 [0.71.0]:
