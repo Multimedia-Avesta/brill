@@ -854,22 +854,26 @@ function read_stanzas_from_file(f, suffix)
    local book = ''
    local buf = {}
    
-   for k,v in pairs(lines) do
+   for k,v in pairs( lines ) do
       -- get line k and process it
       local str = lines[k]
       --texio.write_nl(str .. "\n")
       -- Check, whether a new stanza starts
-      if string.match(str, "^\\begin{stanza}{.-}") then
-         book, stanzanr, text = string.match(str, "^\\begin{stanza}{\\(.-){(.-)}}")
-         buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "\n"
-      elseif string.match(str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$") then
-         stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
-         buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
-            book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}%\n" .. stanzastart .. "\n"
-      elseif string.match(str, "^.-\\end{stanza}$") then
-         buf[k] = str .. "}"
+      if isempty( str ) then 
+         buf[k] = ''
       else
-         buf[k] = str .. "\n"
+         if string.match( str, "^\\begin{stanza}{.-}" ) then
+            book, stanzanr, text = string.match( str, "^\\begin{stanza}{\\(.-){(.-)}}" )
+            buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "\n"
+         elseif string.match( str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$" ) then
+            stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
+            buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
+               book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}%\n" .. stanzastart .. "\n"
+         elseif string.match( str, "^.-\\end{stanza}$" ) then
+            buf[k] = str .. "}"
+         else
+            buf[k] = str .. "\n"
+         end
       end
    end
    local final_string = table.concat( buf )
@@ -891,7 +895,7 @@ end
 
 function read_transcriptions( f )
    if not file_exists( f ) then return {} end 
-   local lines = lines_from(f)
+   local lines = lines_from( f )
    local outfile = 'transcriptions-mod.tex'
    local sec, thrd = ''
    local newstr = ''
@@ -904,7 +908,7 @@ function read_transcriptions( f )
       -- get second and third argument
       sec, thrd = string.match( str, "^\\Newtranscription{(.-)}{(.-)}" )
       newstr = ''
-      if sec ~= nil then -- ignore empty lines
+      if not isempty( sec ) then -- ignore empty lines
          c = 0
          for i in string.gmatch( thrd, "%S+" ) do
             c = c + 1
@@ -917,4 +921,8 @@ function read_transcriptions( f )
    local g = assert( io.open( outfile, "w" ))
    g:write( final_string )
    g:close()
+end
+
+function isempty( s )
+   return s == nil or s == ''
 end
