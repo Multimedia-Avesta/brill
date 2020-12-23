@@ -1416,7 +1416,7 @@
    % All others get additional superscript numbers after each word.    
    \begingroup%
    %\editedtextfont
-   \Ifstr{#1}{(date, dedication of day and month)}%
+   \Ifstrstart{#1}{(date, dedication of}%
       {#1}%
       {%
          \ifx\app\@gobble
@@ -1441,7 +1441,7 @@
 \newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
-   \Ifstr{#1}{(date, dedication of day and month)}%
+   \Ifstrstart{#1}{(date, dedication of)}%
       {#1}%
       {% Check, whether this is the first commentary text
          \if@iscontinuedcommentarytext
