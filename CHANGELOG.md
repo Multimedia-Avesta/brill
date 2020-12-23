@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.71.3] - 2020-12-23
+### Fixed
+- Add check for empty lines when reading stanzas
+
 ## [0.71.2] - 2020-12-22
 ### Fixed
 - Ignore spaces at the beginning of a stanza (\#10240)
@@ -903,6 +907,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.71.3]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.3
 [0.71.2]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.2
 [0.71.1]:
