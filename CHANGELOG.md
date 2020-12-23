@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.72.0] - 2020-12-23
+### Added
+- Relax check for special date strings in edited text
+  
 ## [0.71.3] - 2020-12-23
 ### Fixed
 - Add check for empty lines when reading stanzas
@@ -907,6 +911,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.72.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.72.0
 [0.71.3]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.71.3
 [0.71.2]:
