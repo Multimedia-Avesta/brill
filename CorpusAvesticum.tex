@@ -29,6 +29,7 @@
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
+\RequirePackage[pages=absolute]{flowfram}
 %\if@printversion
 %   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 %\else
@@ -1312,14 +1313,28 @@
 }
 
 % Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
-\newcommand{\bookstringtocs}[1]{\directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
+\newcommand{\bookstringtocs}[1]{%
+   \directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
 
 \newif\if@inblocktranslation
-% Define a macro to output the stanza text and its translation as blocktranslation
+% Define a macro to output the stanza text and its translation as 
+% blocktranslation
 % #1 is the reference of a stanza, e.g. Y28.1
-\newcommand{\GetstanzaWithtranslation}[1]{%
-% Call the blocktranslation macro with appropriate arguments   
-   \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
+% The starred version uses the -transcript variant of the stanza imported with
+% \Importstanzas*{file} and the common translation
+\def\GetstanzaWithtranslation{\@ifstar%
+   {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
+\newcommand{\@GetstanzaWithtranslation}[2][]{%
+   \if@intextandtranslation
+      \paralleltypesetting%
+         {\minisec{#2 (text)}\GetstanzaTextonly*[heading=none]{#2#1}}%
+         {\minisec{#2 (translation)}\Gettranslation*{#2}}%
+   \else
+      % Call the blocktranslation macro with appropriate arguments   
+      \blocktranslation[\bookstringtocs{#2}]%
+         {}%
+         {\GetstanzaTextonly*[heading=none]{#2#1}}{\Gettranslation*{#2}}%
+   \fi%
 }
 \newif\if@substforeign
 \newcounter{foreign@in@editedtext}
@@ -1400,9 +1415,158 @@
    \endgroup%
 }
 
-% For conveniance
+% For convenience
 \let\gettranslation\Gettranslation
 
+% We need a special environment for typesetting of text and translation (or any
+% other two corresponding texts) on facing pages
+% We define a main text frame and two dynamic frames based on the flowfram 
+% package
+% The idea comes from https://tex.stackexchange.com/questions/165019/parallel-paragraphs-across-odd-and-even-pages
+\newflowframe{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[main]
+\newdynamicframe[odd]{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[translation]
+\newdynamicframe[even]{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[text]
+
+% \checkisroom{idl}{text}
+\providecommand{\@gobblethree}[3]{}
+% Define a temporary box and a test macro
+\newsavebox\tmpsbox
+\newif\ifenoughroom
+\newcommand{\checkisroom}[2]{%
+   \bgroup
+   % get the frame's idn (stored in \ff@id)
+   \@dynamicframeid{#1}%
+   % temporarily suspend writing to external files
+   \let\protected@write\@gobblethree
+   % put the frame's contents and the pending text into 
+   % the temporary sbox
+   \begin{lrbox}{\tmpsbox}%
+      \begin{minipage}{\textwidth}%
+         \csname @dynamicframe@\romannumeral\ff@id\endcsname
+         \par
+         #2%
+      \end{minipage}%
+   \end{lrbox}%
+   % Does it fit the page?
+   \settoheight{\@ff@tmp@y}{\usebox\tmpsbox}%
+   \settodepth{\dimen@ii}{\usebox\tmpsbox}%
+   \addtolength{\@ff@tmp@y}{\dimen@ii}%
+   \ifdim\@ff@tmp@y>\textheight
+      \global\enoughroomfalse
+   \else
+      \global\enoughroomtrue
+   \fi%
+   \egroup
+}
+
+% \getcontentsheight{length}{text}
+\newcommand{\getcontentsheight}[2]{%
+   \bgroup
+   \let\protected@write\@gobblethree
+   \begin{lrbox}{\tmpsbox}%
+      \begin{minipage}{\textwidth}%
+         #2%
+      \end{minipage}%
+   \end{lrbox}%
+   \settoheight{\@ff@tmp@y}{\usebox\tmpsbox}%
+   \settodepth{\dimen@ii}{\usebox\tmpsbox}%
+   \addtolength{\@ff@tmp@y}{\dimen@ii}%
+   \global#1=\@ff@tmp@y\relax
+   \egroup
+}
+
+%\newcounter{heading}
+\newlength\blockheight
+\newif\if@firstblock
+\newcommand{\blocksep}{%
+%   \par%
+   \if@firstblock
+      \par%
+      \global\@firstblockfalse%
+   \else
+      \par\vspace{2\baselineskip}%
+   \fi%   
+}
+
+% \annote{annotation}{text}
+
+\newcommand{\paralleltypesetting}[2]{%
+   % get height of the first argument
+   \getcontentsheight{\blockheight}{#1}%
+   % save it as the larger block (for now)
+   \def\largerblock{#1}%
+   % get height of the second argument
+   \getcontentsheight{\@ff@tmp@y}{#2}%
+   % check, whether it is larger than the first block
+   \ifdim\blockheight<\@ff@tmp@y
+      \blockheight=\@ff@tmp@y\relax
+      \def\largerblock{#2}%
+   \fi%
+   \edef\startblock{%
+      \noexpand\global\noexpand\@firstblocktrue
+      \noexpand\blocksep
+      \noexpand\begin{minipage}[t][\the\blockheight]{\the\textwidth}%
+         \noexpand\setlength{\noexpand\parindent}{\the\parindent}%
+         \noexpand\par\noexpand\noindent\ignorespaces
+   }%
+   \checkisroom{translation}{\largerblock}%
+   \ifenoughroom
+      \@dynamicframeid{text}%
+      \expandafter\appenddynamiccontents\expandafter\ff@id
+%      \global\@firstblocktrue
+      \expandafter{%
+         \expandafter\blocksep%
+         \startblock#1%
+         \end{minipage}%
+      }%
+      \@dynamicframeid{translation}%
+      \expandafter\appenddynamiccontents\expandafter\ff@id
+%      \global\@firstblocktrue
+      \expandafter{%
+         \expandafter\blocksep%
+         \startblock#2%
+         \end{minipage}%
+      }%
+   \else
+      % output 2 pages
+      \cleartoeven
+      \@dynamicframeid{text}%
+      \expandafter\setdynamiccontents\expandafter\ff@id
+      \expandafter{\startblock#1\end{minipage}}%
+      \@dynamicframeid{translation}%
+      \expandafter\setdynamiccontents\expandafter\ff@id
+      \expandafter{\startblock#2\end{minipage}}%
+   \fi%
+   \par\vspace{\baselineskip}%
+}
+
+\newcommand{\cleartoeven}{%
+   \Ifthispageodd% KOMA macro
+      {\newpage}%
+      {\mbox{}\newpage\mbox{}\newpage}%
+}
+\newif\if@intextandtranslation
+\newenvironment{textandtranslation}%
+   {%
+      \global\@intextandtranslationtrue%
+      \cleartoeven
+      \setdynamiccontents*{text}{}%
+      \setdynamiccontents*{translation}{}%
+%    \par\strut
+   }%
+   {%
+      \cleartoeven
+      \setdynamiccontents*{text}{}%
+      \setdynamiccontents*{translation}{}%
+      \global\@intextandtranslationfalse%
+   }%
+
+\AtEndDocument{\cleartoeven}
+
+%%%
 \newif\if@iscommentarytext
 \newif\if@iscontinuedcommentarytext
 \newrobustcmd*{\editedtext}[1]{%
