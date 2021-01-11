@@ -30,6 +30,7 @@
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
 \RequirePackage[pages=absolute]{flowfram}
+\RequirePackage{lineno}
 %\if@printversion
 %   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 %\else
@@ -1283,8 +1284,11 @@
 \newtoggle{@stanzabooktoindex}
 \settoggle{@stanzabooktoindex}{true}
 \newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
+\newtoggle{@stanzalinenumbers}
+
 \define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
 \define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
+\define@key{stanza}{linenumbers}[true]{\settoggle{@stanzalinenumbers}{#1}}
 
 % Define macro \Getstanza[heading]{reference}
 \newcommand{\Getstanza}[2][]{%
@@ -1306,7 +1310,7 @@
          \begingroup%
             \let\app\@gobble%
             \addfontfeatures{RawFeature=-liga}%
-            \csuse{stanza-#2}%
+            \csuse{stanza-#2}%   
          \endgroup%
       }%
       {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
@@ -1327,8 +1331,8 @@
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
       \paralleltypesetting%
-         {\minisec{#2 (text)}\GetstanzaTextonly*[heading=none]{#2#1}}%
-         {\minisec{#2 (translation)}\Gettranslation*{#2}}%
+         {\GetstanzaTextonly{#2#1}}%
+         {\minisec{\bookstringtocs{#2}}\Gettranslation{#2}}%
    \else
       % Call the blocktranslation macro with appropriate arguments   
       \blocktranslation[\bookstringtocs{#2}]%
@@ -1407,7 +1411,7 @@
          }%
       }[%
          \ifcsdef{specialnewline\@currvalspecialnewline}%
-            {\@linebreakwithindent\vspace{\baselineskip}}%
+            {AAA\@linebreakwithindent\vspace{\baselineskip}}%
             {\par\vspace{\baselineskip}\noindent}%
          \csuse{translation-#2}%
          \@linebreakwithindent%
@@ -1482,12 +1486,11 @@
 \newlength\blockheight
 \newif\if@firstblock
 \newcommand{\blocksep}{%
-%   \par%
    \if@firstblock
       \par%
       \global\@firstblockfalse%
    \else
-      \par\vspace{2\baselineskip}%
+      \par\vspace{\baselineskip}%
    \fi%   
 }
 
@@ -1506,28 +1509,31 @@
       \def\largerblock{#2}%
    \fi%
    \edef\startblock{%
-      \noexpand\global\noexpand\@firstblocktrue
+      %\noexpand\global\noexpand\@firstblocktrue
       \noexpand\blocksep
       \noexpand\begin{minipage}[t][\the\blockheight]{\the\textwidth}%
+         %\noexpand\begin{internallinenumbers}%
          \noexpand\setlength{\noexpand\parindent}{\the\parindent}%
-         \noexpand\par\noexpand\noindent\ignorespaces
+         %\noexpand\par\noexpand\noindent\noexpand\ignorespaces
    }%
    \checkisroom{translation}{\largerblock}%
    \ifenoughroom
       \@dynamicframeid{text}%
       \expandafter\appenddynamiccontents\expandafter\ff@id
-%      \global\@firstblocktrue
+      %\expandafter\global\expandafter\@firstblocktrue
       \expandafter{%
          \expandafter\blocksep%
          \startblock#1%
+         %\end{internallinenumbers}%
          \end{minipage}%
       }%
       \@dynamicframeid{translation}%
       \expandafter\appenddynamiccontents\expandafter\ff@id
-%      \global\@firstblocktrue
+      %\expandafter\global\expandafter\@firstblocktrue
       \expandafter{%
          \expandafter\blocksep%
          \startblock#2%
+         %\end{internallinenumbers}%
          \end{minipage}%
       }%
    \else
@@ -1555,7 +1561,7 @@
       \cleartoeven
       \setdynamiccontents*{text}{}%
       \setdynamiccontents*{translation}{}%
-%    \par\strut
+      %\global\@firstblocktrue%
    }%
    {%
       \cleartoeven
