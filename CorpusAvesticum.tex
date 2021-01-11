@@ -155,24 +155,43 @@
    UprightFont    = *,%
    Scale          = MatchLowercase,%
 ]%
-%\newfontfamily{\syriacfont}{NotoSansSyriac}%
-%[%
-%   Extension      = .ttf,%
-%   UprightFont    = *-Regular,%
-%   BoldFont       = *-Bold,%
-%   Scale          = MatchLowercase,%
-%   Renderer       = Harfbuzz,%
-%   Script         = Syriac,%
-%]%
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
-\newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
-\newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
-\newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
-\newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
+\newfontfamily{\syriacfont}{NotoSansSyriac}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Black,%
+   Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
+   Script         = Syriac,%
+]%
+
+\newcommand{\textarabic}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
+\newcommand{\textavestan}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{%
+   \bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
+\newcommand{\textpahlavi}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
+\newcommand{\textsanskrit}[1]{%
+   \bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
+\newcommand{\textsyriac}[1]{%
+   \bgroup\microtypesetup{activate=false}\syriacfont #1\egroup}
 
 \newcommand*{\aee}{ǝ̄}
 \newcommand*{\XVE}{x\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
 \newcommand*{\NGVE}{ŋ\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
+\newcommand*{\shinthreedots}{%
+   \ifdefstring{\f@shape}{it}
+   {\ensuremath{\stackrel%
+      {\text{\raisebox{-1.5ex}[0pt][0pt]{\hspace{0.3em}\syriacfont\symbol{"0745}}}}%
+      {\text{š}}}%
+   }%
+   {\ensuremath{\stackrel%
+      {\text{\raisebox{-1.5ex}[0pt][0pt]{\syriacfont\symbol{"0745}}}}%
+      {\text{š}}}%
+   }%
+}
 
 \newcommand*{\AvA}{\symbol{"10B00}}
 \newcommand*{\AvAA}{\symbol{"10B01}}
@@ -243,7 +262,13 @@
 \newunicodechar{●}{{\freeserif\symbol{"25CF}}}
 \newunicodechar{✓}{{\freeserif\symbol{"2713}}}
 \newunicodechar{θ}{ϑ}
-%\newunicodechar{݅ }{{\freesans\symbol{"0745}}}
+
+%\newcommand{\DeclareUnicodeCharacter}[2]{%
+%   \begingroup\lccode`|=\string"#1\relax
+%   \lowercase{\endgroup\newunicodechar{|}}{#2}%
+%}
+%\DeclareUnicodeCharacter{0745}{\raisebox{.75ex}{{\negthinspace\syriacfont\symbol{"0745}}}}
+%\newunicodechar{݅ }{\textsyriac{\symbol{"0745}}}
 %%%
 \newcommand*{\blackcircle}{●}
 \renewcommand*{\checkmark}{✓}% from AMSmath
