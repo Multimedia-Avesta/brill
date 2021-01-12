@@ -1411,9 +1411,11 @@
          }%
       }[%
          \ifcsdef{specialnewline\@currvalspecialnewline}%
-            {AAA\@linebreakwithindent\vspace{\baselineskip}}%
+            {\@linebreakwithindent\vspace{\baselineskip}}%
             {\par\vspace{\baselineskip}\noindent}%
-         \csuse{translation-#2}%
+         \ifcsdef{translation-#2}%
+            {\csuse{translation-#2}}%
+            {\ClassWarning{brill}{No translation found for #2}}%
          \@linebreakwithindent%
       ]%
    \endgroup%
@@ -1512,7 +1514,7 @@
       %\noexpand\global\noexpand\@firstblocktrue
       \noexpand\blocksep
       \noexpand\begin{minipage}[t][\the\blockheight]{\the\textwidth}%
-         %\noexpand\begin{internallinenumbers}%
+         \noexpand\begin{internallinenumbers}%
          \noexpand\setlength{\noexpand\parindent}{\the\parindent}%
          %\noexpand\par\noexpand\noindent\noexpand\ignorespaces
    }%
@@ -1524,7 +1526,7 @@
       \expandafter{%
          \expandafter\blocksep%
          \startblock#1%
-         %\end{internallinenumbers}%
+         \end{internallinenumbers}%
          \end{minipage}%
       }%
       \@dynamicframeid{translation}%
@@ -1533,7 +1535,7 @@
       \expandafter{%
          \expandafter\blocksep%
          \startblock#2%
-         %\end{internallinenumbers}%
+         \end{internallinenumbers}%
          \end{minipage}%
       }%
    \else
@@ -1541,10 +1543,10 @@
       \cleartoeven
       \@dynamicframeid{text}%
       \expandafter\setdynamiccontents\expandafter\ff@id
-      \expandafter{\startblock#1\end{minipage}}%
+      \expandafter{\startblock#1\end{internallinenumbers}\end{minipage}}%
       \@dynamicframeid{translation}%
       \expandafter\setdynamiccontents\expandafter\ff@id
-      \expandafter{\startblock#2\end{minipage}}%
+      \expandafter{\startblock#2\end{internallinenumbers}\end{minipage}}%
    \fi%
    \par\vspace{\baselineskip}%
 }
