@@ -1,5 +1,5 @@
 %% brill.cls
-%% Copyright 2018-2020 Martin Sievers
+%% Copyright 2018-2021 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/12/23 v0.72.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/01/12 v0.73.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {

@@ -1,5 +1,5 @@
 %% muya.dbx
-%% Copyright 2018-2020 Martin Sievers
+%% Copyright 2018-2021 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -24,7 +24,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.dbx}[2020/06/24 v0.44.0 biblatex datamodel style]
+\ProvidesFile{muya.dbx}[2021/01/12 v0.73.0 biblatex datamodel style]
 \DeclareDatamodelFields[type=field,datatype=literal]{preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}
 \DeclareDatamodelFields[type=list,datatype=name]{director}
