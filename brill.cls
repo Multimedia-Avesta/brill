@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/01/12 v0.73.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/01/13 v0.74.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -1813,8 +1813,8 @@
       \ifcsdef{specialnewline\@currvalspecialnewline}%
          {%
             \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
-            \setlength{\parindent}%
-               {-\normalparindent}\hspace*{-\normalparindent}%
+            \setlength{\parindent}{-\normalparindent}%
+            \hspace*{-\normalparindent}%
          }%
          {\addmargin[2\parindent]{0bp}}%
       \ignorespaces%

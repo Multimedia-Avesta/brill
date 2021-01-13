@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.74.0] - 2021-01-13
+### Fixed
+- Remove spurious blank (\#10278)
+- Fix indexing for `\passage*` and `\word*` (\#10280)
+
 ## [0.73.0] - 2021-01-12
 ### Added
 - Package `lua-ul` to support underline and strike-through macros
@@ -842,7 +847,7 @@ environment in order to use inline enumerated list
 - Macro `\Phlv` to support two or three arguments (#7755)
 - Macro `\Avst*` to mark a word as Avestan and write it directly to the index (#7935)
 
-## {0.8.0] - 2019-04-03
+## [0.8.0] - 2019-04-03
 
 ### Added
 - Support for language-dependent indexes
@@ -916,6 +921,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.74.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.0
 [0.73.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.73.0
 [0.72.0]:
