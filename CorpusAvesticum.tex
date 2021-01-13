@@ -630,8 +630,12 @@
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
    \ifstrempty{\@rightword}% no '!' in Argument
-      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
-      {\index[words]{\indexlanguage!#1@\idxentryfont{\@rightword}}}%
+      {\index[words]{%
+       \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+      }%
+      {\index[words]{%
+       \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{\@rightword}}%
+      }%
 }%
 \newcommand{\@@indexwords}[2][]{%
 %   \StrDel{#1}{-}[\@@@rest]
@@ -645,16 +649,21 @@
 }%
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
-\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
-%\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
+\newcommand{\@indexpassages}[1]{%
+   \index[passages]{%
+      \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\textup{#1}%
+   }%
+}
 \newcommand{\@@indexpassages}[2][]{%
    \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
    \textup{#2}%
    \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
 }%
 
-\protected\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
-\protected\def\Subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Name{\@ifstar%
+   {\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Subject{\@ifstar%
+   {\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
 \newcommand{\@indexnamesandsubjects}[1]{\index[namesandsubjects]{#1}}
 \newcommand{\@@indexnamesandsubjects}[2][]{\index[namesandsubjects]{#1}#2}
 
