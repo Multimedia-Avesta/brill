@@ -119,7 +119,7 @@ function sortGlossary( l )
       texio.write_nl( "Glossary language must not be empty" )
    else
       glosslang = l
-      texio.write_nl( "Found sorting language: " .. glosslang )
+      --texio.write_nl( "Found sorting language: " .. glosslang )
    end
    if not file_exists( file ) then return {} end
    
@@ -628,7 +628,7 @@ function sortGlossary( l )
             end
             if lemma and lemma ~= '' then
                lemma = string.match( lemma, "{(.*)}" )
-               texio.write_nl("Found new lemma " .. lemma)            
+               --texio.write_nl("Found new lemma " .. lemma)            
                -- we found a new lemma
                -- write previous lemma (if any) to table
                if prevlemma and prevlemma ~= '' then
