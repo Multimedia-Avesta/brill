@@ -266,6 +266,7 @@
    ]{microtype}%
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[soul]{lua-ul}
+\PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
