@@ -1813,7 +1813,8 @@
       \ifcsdef{specialnewline\@currvalspecialnewline}%
          {%
             \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
-            \setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}
+            \setlength{\parindent}%
+               {-\normalparindent}\hspace*{-\normalparindent}%
          }%
          {\addmargin[2\parindent]{0bp}}%
       \ignorespaces%
@@ -1835,7 +1836,8 @@
 }
 
 \newcounter{specialnewline}
-\newcommand{\@linebreakwithindent}{\par\hangindent\normalparindent\hangafter=1\relax}
+\newcommand{\@linebreakwithindent}{%
+   \par\hangindent\normalparindent\hangafter=1\relax}
 \newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%
       \csgdef{specialnewline\@currvalspecialnewline}{}}%
@@ -1852,8 +1854,13 @@
    \if@splitsplittranslation%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
-         {\hyphenpenalty=\@M\exhyphenpenalty=\@M%
-          \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {%
+            \hyphenpenalty=\@M%
+            \exhyphenpenalty=\@M%
+            \begin{enuminlinesplitA}%
+               \ItalicsOrNot{#2}#3%
+            \end{enuminlinesplitA}\par\nopagebreak%
+         }%
       \if@splittranslation%
          \addvspace{\@btvspace}\noindent%
       \else%
@@ -1933,22 +1940,22 @@
          }%
          {%
             \ifstrempty{#3}%
-            {\ifstrempty{#4}{}{\noindent #4}}%
-            {%
-               {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
-               \ifstrempty{#4}%
-                  {}%
-                  {%
+               {\ifstrempty{#4}{}{\noindent #4}}%
+               {%
+                  {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
+                  \ifstrempty{#4}%
+                     {}%
+                     {%
 % If argument #3 contains newline elements, the macro exists and we know, that 
 % we need to use hanging indentation for the translation as well. Otherwise we 
 % use a standard \par to end the text.
-                     \ifcsdef{specialnewline\@currvalspecialnewline}%
-                        {\par\nopagebreak\vspace{\@btvspace}}%
-                        {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                        \ifcsdef{specialnewline\@currvalspecialnewline}%
+                           {\par\nopagebreak\vspace{\@btvspace}}%
+                           {\par\nopagebreak\vspace{\@btvspace}\noindent}%
 % Output translation argument                        
-                     #4%
-                  }%
-            }%
+                        #4%
+                     }%
+               }%
          }%
    \end{@btquote}%
    \NoIndentAfterThis%
@@ -1987,7 +1994,8 @@
       \let\origwrite\write
       \def\write{\immediate\origwrite}%
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
-      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
+      \addtocontents{toc}{%
+         \protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
    \endgroup%
 }
 
