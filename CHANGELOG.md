@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.74.1] - 2021-01-13
+### Fixed
+- Prevent loading of `soul` package by user
+- Add workaround for issue with `biblatex` (see [issue on GitHub](https://github.com/plk/biblatex/issues/1090))
+
 ## [0.74.0] - 2021-01-13
 ### Fixed
 - Remove spurious blank (\#10278)
@@ -921,6 +926,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.74.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.1
 [0.74.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.0
 [0.73.0]:
