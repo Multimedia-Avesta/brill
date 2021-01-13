@@ -37,7 +37,8 @@
 }
 \DeclareLanguageMapping{british}{british-muya}
 
-\DeclareFieldFormat[thesis]{type}{\ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
+\DeclareFieldFormat[thesis]{type}{%
+   \ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
 
 \DeclareSourcemap{%
@@ -315,7 +316,7 @@
 \renewcommand{\bibfont}{\normalfont\small}%
 
 %%% Automatic Sentence case for _no_ language at all
-\DeclareCaseLangs{}
+%%%\DeclareCaseLangs{}
 
 \DeclareBibliographyDriver{inproceedings}{%
    \usebibmacro{bibindex}%
