@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.75.0] - 2021-01-16
+### Added
+- Language `NP` is valid option to `dictionary`
+
 ## [0.74.1] - 2021-01-13
 ### Fixed
 - Prevent loading of `soul` package by user
@@ -926,6 +930,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.75.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.75.0
 [0.74.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.1
 [0.74.0]:
