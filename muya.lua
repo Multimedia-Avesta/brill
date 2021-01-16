@@ -345,7 +345,7 @@ function sortGlossary( l )
          {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]] )
          tex.sprint( [[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]] )
          is_indictionary = false
-      else -- lines inbetween environments
+      else -- lines in-between environments
          if is_indictionary == false then
          else
             if is_insubsubsublemmata == true then
@@ -574,7 +574,10 @@ function sortGlossary( l )
          end
       end
    end
-   elseif glosslang == "Av" or glosslang == "MP" or glosslang == "Skt" then
+   elseif glosslang == "Av" or
+          glosslang == "MP" or
+          glosslang == "NP" or
+          glosslang == "Skt" then
    for k,v in pairs( lines ) do
    -- get line k and process it
       local str = lines[k]
@@ -582,7 +585,7 @@ function sortGlossary( l )
       if string.match( str, "^%s*\\begin{Dictionary}" ) then
          f:write( '\\begin{ModDictionary}', "\n" )
          is_indictionary = true
-      elseif string.match(str, "^%s*\\end{Dictionary}") then
+      elseif string.match( str, "^%s*\\end{Dictionary}" ) then
          -- we reached the end of the dictionary
          -- write last lemma to file
          if prevlemma and prevlemma ~= '' then
@@ -591,7 +594,7 @@ function sortGlossary( l )
          -- start sorting process
          newkeys = sortLemma( result )
          -- use the keys to retrieve the values in the sorted order
-         for _, k in ipairs(newkeys) do
+         for _, k in ipairs( newkeys ) do
             f:write( '\n\\Lemma{' .. removesortid( k ) .. '}' .. result[k] )
             -- get the first letter of the lemma
             local first = ustring.sub( removesortid( k ), 1, 1 )
@@ -755,6 +758,14 @@ function sortletter (s)
       ["ś"] = 42, ["ṣ"] = 43,["s"] = 44, ["h"] = 45, ["ḷ"] = 46, ["1"] = 47, 
       ["2"] = 48, ["3"] = 49, [" "] = 50}   
    elseif glosslang == 'MP' then -- Middle Persian (Pahlavi)  
+      sortorder = {["a"] = 1, ["ā"] = 2, ["b"] = 3, ["c"] = 4, ["d"] = 5,
+      ["e"] = 6, ["ē"] = 7, ["f"] = 8, ["g"] = 9, ["γ"] = 10, ["h"] = 11,
+      ["i"] = 12, ["ī"] = 13, ["j"] = 14, ["k"] = 15, ["l"] = 16, ["m"] = 17,
+      ["n"] = 18, ["o"] = 19, ["ō"] = 20, ["p"] = 21, ["r"] = 22, ["s"] = 23,
+      ["š"] = 24, ["t"] = 25, ["u"] = 26, ["ū"] = 27, ["w"] = 28, ["x"] = 29,
+      ["y"] = 30, ["z"] = 31, ["ž"] = 32, ["1"] = 33, ["2"] = 34, ["3"] = 35,
+      [" "] = 36}
+   elseif glosslang == 'NP' then -- New Persian
       sortorder = {["a"] = 1, ["ā"] = 2, ["b"] = 3, ["c"] = 4, ["d"] = 5,
       ["e"] = 6, ["ē"] = 7, ["f"] = 8, ["g"] = 9, ["γ"] = 10, ["h"] = 11,
       ["i"] = 12, ["ī"] = 13, ["j"] = 14, ["k"] = 15, ["l"] = 16, ["m"] = 17,
