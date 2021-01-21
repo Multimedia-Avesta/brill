@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [0.75.0] - 2021-01-16
 ### Added
-- Language `NP` is valid option to `dictionary`
+- Language `NP` is valid option to `dictionary` (\#10290)
 
 ## [0.74.1] - 2021-01-13
 ### Fixed
