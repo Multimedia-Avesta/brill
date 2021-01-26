@@ -24,10 +24,15 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.dbx}[2021/01/12 v0.73.0 biblatex datamodel style]
-\DeclareDatamodelFields[type=field,datatype=literal]{preorigdatetext,postorigdatetext}
+\ProvidesFile{muya.dbx}[2021/01/26 v0.76.0 biblatex datamodel style]
+\DeclareDatamodelFields[type=field,datatype=literal]%
+   {preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}
+%
 \DeclareDatamodelFields[type=list,datatype=name]{director}
 \DeclareDatamodelEntryfields[movie]{director}
+%
 \DeclareDatamodelFields[type=list,datatype=name]{tempsortname}
 \DeclareDatamodelEntryfields{tempsortname}
+%
+\DeclareDatamodelEntryfields[software]{isbn}

@@ -24,7 +24,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.bbx}[2021/01/13 v0.74.1 biblatex bibliography style]
+\ProvidesFile{muya.bbx}[2021/01/26 v0.76.0 biblatex bibliography style]
 \RequireBibliographyStyle{unified}
 \newtoggle{@autoquotationmarks}
 \DeclareBibliographyOption[boolean]{autoquotationmarks}[true]{%
@@ -97,10 +97,10 @@
 % Remove additional braces and replace " - " by " and " to get correct 
 % lists for location and publisher field     
       \map[overwrite,foreach={location,publisher}]{
-         \step[fieldsource=$MAPLOOP,
-               match=\regexp{\A\{(.+)\}\Z},
+         \step[fieldsource=$MAPLOOP,%$
+               match=\regexp{\A\{(.+)\}\Z},%
                replace=$1]%$
-         \step[fieldsource=$MAPLOOP,%
+         \step[fieldsource=$MAPLOOP,%$
                match=\regexp{\s+-\s+},%
                replace=\regexp{\x20and\x20}]             
      }%
@@ -121,7 +121,12 @@
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
          \step[fieldset=note,null]%
       }%
-% Remove isbn and pagetotal field for @unpublished entries
+% Move the doi for @software given in isbn field to doi field
+      \map{%
+         \pertype{software}%
+         \step[fieldsource=isbn,fieldtarget=doi]%
+      }%
+% Remove isbn and pagetotal field for all, but @unpublished entries (why?)
       \map{%
          \pernottype{unpublished}%
          \step[fieldset=isbn,null]%
@@ -171,19 +176,19 @@
       }
 % Use the correct input form for ca. dates.
       \map[foreach={date,origdate}]{%
-          \step[fieldsource=$MAPLOOP,%
+          \step[fieldsource=$MAPLOOP,%$
                 match=\regexp{^c\.a\.\s+(\d{4})},%
                 replace=\regexp{$1~}]%$
       }%
 % Use the correct input form for uncertain dates      
       \map[foreach={date,origdate}]{%
-          \step[fieldsource=$MAPLOOP,%
+          \step[fieldsource=$MAPLOOP,%$
                 match=\regexp{(.*)\s+\?+},%
                 replace=\regexp{$1?}]%$
       }%
 % Use the correct input form for date ranges
       \map[foreach={date,origdate}]{%
-         \step[fieldsource=$MAPLOOP,%
+         \step[fieldsource=$MAPLOOP,%$
                match=\regexp{(\d{4})-(\d{4})},%
                replace=\regexp{$1/$2}]%
       }%
@@ -406,7 +411,7 @@
       {}}
    \usebibmacro{finentry}}
 
-\DeclareBibliographyDriver{unpublished}{%
+\DeclareBibliographyDriver{unpublished}{% For Manuscripts
   \usebibmacro{bibindex}%
   \usebibmacro{begentry}%
   \usebibmacro{author}%
@@ -431,7 +436,7 @@
   \newunit\newblock
   \printfield{pagetotal}%
   \newunit\newblock
-  % Inserted to print the ISBN number
+  % Inserted to print the ISBN number (although isbn=false is set globaly)
   \printfield{isbn}%
   \newunit\newblock
   % end  
@@ -448,6 +453,43 @@
      \usebibmacro{related}}
     {}%
   \usebibmacro{finentry}}
+
+\DeclareBibliographyDriver{software}{%
+   \usebibmacro{bibindex}%
+   \usebibmacro{begentry}%
+   \usebibmacro{author/editor+others/translator+others}%
+   \setunit{\printdelim{nametitledelim}}\newblock
+   \usebibmacro{title}%
+   \newunit
+   \printlist{language}%
+   \newunit\newblock
+   \usebibmacro{byauthor}%
+   \newunit\newblock
+   \usebibmacro{byeditor+others}%
+   \newunit\newblock
+   \printfield{howpublished}%
+   \newunit\newblock
+   \printfield{type}%
+   \newunit
+   \printfield{version}%
+   \newunit
+   \printfield{note}%
+   \newunit\newblock
+   \usebibmacro{organization+location+date}%
+   \newunit\newblock
+   \settoggle{bbx:doi}{true}
+   \usebibmacro{doi+eprint+url}%
+   \settoggle{bbx:doi}{false}
+   \newunit\newblock
+   \usebibmacro{addendum+pubstate}%
+   \setunit{\bibpagerefpunct}\newblock
+   \usebibmacro{pageref}%
+   \newunit\newblock
+   \iftoggle{bbx:related}
+   {\usebibmacro{related:init}%
+      \usebibmacro{related}}
+   {}%
+   \usebibmacro{finentry}}
 
 \DeclareNameAlias{director}{sortname}
   
