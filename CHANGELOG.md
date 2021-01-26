@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.76.0] - 2021-01-26
+### Added
+- Support for `@Software` entries (\#10360)
+  
+### Fixed
+- Support for ISBN in `annotation` field for `@unpublished` (manuscripts) (\#10363)
+
 ## [0.75.1] - 2021-01-21
 ### Added
 - Sorting order for `NP` glossaries (\#10290)
@@ -934,6 +941,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.76.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.76.0
 [0.75.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.75.1
 [0.75.0]:
