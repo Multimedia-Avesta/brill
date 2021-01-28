@@ -311,7 +311,7 @@
             \step[fieldset=\regexp{$MAPLOOP},origfieldval,append]%$
             \step[fieldsource=\regexp{$MAPLOOP},%$
                   match=\regexp{(.*?)\x22(.*?)\x22(.*)§§§(.+)},%
-                  replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%                            
+                  replace=\regexp{$1\\foreignquote\{$4\}\{$2\}$3}]%
          }%  
 %      
          \map[overwrite,foreach={title,booktitle,note}]{%
