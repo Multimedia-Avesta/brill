@@ -1013,6 +1013,13 @@
    resume%
 }
 \RequirePackage[marginpar]{todo}
+\RequirePackage[]{marginnote}
+\patchcmd{\@mn@@@marginnote}{\begingroup}{\begingroup\@twosidefalse}{}{\fail}
+\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+%\reversemarginpar
+\renewcommand*{\marginfont}{%
+   \normalfont\scriptsize\addfontfeature{Numbers={Lining,Tabular}}}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
 \RequirePackage{array}
@@ -1834,7 +1841,15 @@
 }
 
 \newcounter{specialnewline}
-\newcommand{\@linebreakwithindent}{\par\hangindent\normalparindent\hangafter=1\relax}
+\newcommand{\@linebreakwithindent}{%
+\iftoggle{@translationlinenumbers}%
+{%
+   \refstepcounter{linenumberforstanza}%
+   \marginnote{\thelinenumberforstanza}%
+}%
+{}%
+   \par\hangindent\normalparindent\hangafter=1\relax%
+}
 \newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%
       \csgdef{specialnewline\@currvalspecialnewline}{}}%

@@ -30,7 +30,6 @@
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
 \RequirePackage[pages=absolute]{flowfram}
-\RequirePackage{lineno}
 %\if@printversion
 %   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 %\else
@@ -1072,6 +1071,7 @@
 % We define macros to be used (only) within the stnazas/apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcounter{appcrnewline}
+\newcounter{linenumberforstanza}
 \newcommand{\appcrnewline}{%
    \stepcounter{appcrnewline}%
    % Check whether we have to end a commentary passage
@@ -1090,7 +1090,16 @@
    \else
       \global\@iscontinuedcommentarytextfalse%
    \fi%
-   \par\noindent\hangindent\parindent\hangafter=1\relax}
+   \iftoggle{@stanzalinenumbers}%
+      {%
+         \refstepcounter{linenumberforstanza}%
+         \marginnote{\thelinenumberforstanza}%
+      }%
+      {}%
+   \par\noindent\hangindent\parindent\hangafter=1\relax%
+   %\ignorespaces%
+}
+
 % We need to know whether we have the first reading
 \newif\if@firstrdg
 
@@ -1112,6 +1121,7 @@
 \def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
 %
 \newcommand{\@rd}[1]{%TODO: Spacing
+   \settoggle{@stanzalinenumbers}{false}%
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
       \begingroup%
@@ -1127,6 +1137,7 @@
       \endgroup%
    \fi%
    \hangindent\parindent\hangafter=1\relax%
+   \settoggle{@stanzalinenumbers}{true}%TODO: Check
    \ignorespaces%
 }
 % We need to know, whether it's the first witness (sub)class call
@@ -1305,6 +1316,7 @@
 }
 \newcommand{\@GetstanzaTextonly}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
+   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{0}}{}%
    \ifcsdef{stanza-#2}%
       {%
          \begingroup%
@@ -1313,7 +1325,10 @@
             \csuse{stanza-#2}%   
          \endgroup%
       }%
-      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
+      {%
+         \ClassError{brill}{Stanza `#2` could not be read}%
+            {There is no macro for stanza `#2`}%
+      }%
 }
 
 % Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
@@ -1331,8 +1346,8 @@
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
       \paralleltypesetting%
-         {\GetstanzaTextonly{#2#1}}%
-         {\minisec{\bookstringtocs{#2}}\Gettranslation{#2}}%
+         {\GetstanzaTextonly[linenumbers]{#2#1}}%
+         {\minisec{\bookstringtocs{#2}}\Gettranslation[linenumbers]{#2}}%
    \else
       % Call the blocktranslation macro with appropriate arguments   
       \blocktranslation[\bookstringtocs{#2}]%
@@ -1366,9 +1381,19 @@
 % For conveniance
 \let\newtranslation\Newtranslation
 
+\newtoggle{@translationlinenumbers}
+\define@key{translation}{linenumbers}[true]{%
+   \settoggle{@translationlinenumbers}{#1}}
+\newcommand*{\@rdposition}{}
+\define@key{translation}{rdposition}{\renewcommand*{\@rdposition}{#1}}
+
 \newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
-\newcommand{\@Gettranslation}[1]{\@@Gettranslation[none]{#1}}
+\newcommand{\@Gettranslation}[1]{\@@Gettranslation[rdposition=none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
+   \setkeys{translation}{#1}%
+   \iftoggle{@translationlinenumbers}{\setcounter{linenumberforstanza}{0}}{}%
+   % Outside a blocktranslation we store the information, that we used a 
+   % special \newline for the current line
    \if@inblocktranslation
    \else
       \refstepcounter{specialnewline}%
@@ -1377,11 +1402,12 @@
    \begingroup%
       \let\newline\@specialnewline%
       \let\\\@specialnewline%
+      % No indention outside blocktranslation environment
       \if@inblocktranslation
       \else
          \setlength{\parindent}{0pt}%
       \fi%
-      \IfStrEqCase{#1}{%
+      \IfStrEqCase{\@rdposition}{%
          {t}{%
             \par\noindent%
             \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
@@ -1395,21 +1421,12 @@
          }%
          {none}{%
             \let\RDTrans\@gobble%
-            %\par%
-            %\if@stanza@in@blocktranslation
-            %\else
-            %\ifcsdef{specialnewline\@currvalspecialnewline}%
-            %   {\@linebreakwithindent}%
-            %   {\par\noindent}%
-            %\fi%
             \csuse{translation-#2}%
-            %\if@stanza@in@blocktranslation
-            %\else
-            %   \@linebreakwithindent%
-            %\fi%
             \par%
          }%
       }[%
+         % We have to check, whether the first line is long and needs the 
+         % special layout with hanging lines
          \ifcsdef{specialnewline\@currvalspecialnewline}%
             {\@linebreakwithindent\vspace{\baselineskip}}%
             {\par\vspace{\baselineskip}\noindent}%
@@ -1514,7 +1531,6 @@
       %\noexpand\global\noexpand\@firstblocktrue
       \noexpand\blocksep
       \noexpand\begin{minipage}[t][\the\blockheight]{\the\textwidth}%
-         \noexpand\begin{internallinenumbers}%
          \noexpand\setlength{\noexpand\parindent}{\the\parindent}%
          %\noexpand\par\noexpand\noindent\noexpand\ignorespaces
    }%
@@ -1526,7 +1542,6 @@
       \expandafter{%
          \expandafter\blocksep%
          \startblock#1%
-         \end{internallinenumbers}%
          \end{minipage}%
       }%
       \@dynamicframeid{translation}%
@@ -1535,7 +1550,6 @@
       \expandafter{%
          \expandafter\blocksep%
          \startblock#2%
-         \end{internallinenumbers}%
          \end{minipage}%
       }%
    \else
@@ -1543,10 +1557,10 @@
       \cleartoeven
       \@dynamicframeid{text}%
       \expandafter\setdynamiccontents\expandafter\ff@id
-      \expandafter{\startblock#1\end{internallinenumbers}\end{minipage}}%
+      \expandafter{\startblock#1\end{minipage}}%
       \@dynamicframeid{translation}%
       \expandafter\setdynamiccontents\expandafter\ff@id
-      \expandafter{\startblock#2\end{internallinenumbers}\end{minipage}}%
+      \expandafter{\startblock#2\end{minipage}}%
    \fi%
    \par\vspace{\baselineskip}%
 }
@@ -1570,6 +1584,7 @@
       \setdynamiccontents*{text}{}%
       \setdynamiccontents*{translation}{}%
       \global\@intextandtranslationfalse%
+      %\settoggle{@stanzalinenumbers}{false}%
    }%
 
 \AtEndDocument{\cleartoeven}
@@ -1641,7 +1656,8 @@
             \stepcounter{nextappcrfootnote}%
             {%
                \itshape%
-               \StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }%
+               \StrSubstitute{#1}{ }%
+                  {\realsuperscript{\upshape\thenextappcrfootnote} }%
             }%
          \fi%
       }%
@@ -2063,7 +2079,11 @@
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand*{\footnotetextsuperscript}[1]{\textsuperscript{\upshape #1}}
 \newcommand{\insertion}[1]{{\upshape #1}}
-\newcommand{\RDTrans}[1]{{\itshape #1}}
+\newcommand{\RDTrans}[1]{%
+   \settoggle{@translationlinenumbers}{false}%
+   {\itshape #1}%
+   \settoggle{@translationlinenumbers}{true}%
+}%
 %
 \let\@abstract\@empty%
 \ifbrill@PhD
