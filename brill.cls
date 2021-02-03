@@ -1228,6 +1228,11 @@
       {\dimexpr 0.5\normalbaselineskip-0.5\ht\strutbox%
          +\lightrulewidth+1mm\relax}%
 }
+\newif\if@userbottomrule
+\newcommand*{\brillbuttomrule}{%
+   \@brillbottomrule%
+   \global\@userbottomruletrue%
+}
 \newlength{\@firstlastcolindent}
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -1327,7 +1332,7 @@
                               \tableformat}%
                               \usekomafont{caption}%
                               \@tablecaption~(\textit{cont.})%
-                           }\\
+                           }\\%
                         }%
                      \@brilltoprule%
                      \iftoggle{@tablebfheaders}%
@@ -1337,9 +1342,13 @@
                         }%
                         {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
-                     \endhead
-                     \@brillbottomrule%
-                     \endlastfoot
+                     \endhead%
+                     \if@userbottomrule
+                     \else
+                        \@brillbottomrule%
+                     \fi%
+                     \endlastfoot%
+                     \global\@userbottomrulefalse%
                   }{%
                      \firsthline
                      \iftoggle{@tablebfheaders}%
