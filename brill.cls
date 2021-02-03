@@ -281,11 +281,6 @@
    maxbibnames=99,%
    doi=false]%
 {biblatex}
-\AtBeginDocument[biblatex/declarecaselangs]{%
-   \DeclareCaseLangs{}%
-}
-
-\DeclareHookRule{begindocument}{biblatex/declarecaselangs}{after}{biblatex}
 
 \newif\if@blockquotestar
 \newif\if@blockcquotestar

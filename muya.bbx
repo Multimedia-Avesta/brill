@@ -40,6 +40,8 @@
 \DeclareFieldFormat[thesis]{type}{%
    \ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
+% Revert usage of sentence case
+\DeclareFieldFormat*{titlecase}{#1}%
 
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
