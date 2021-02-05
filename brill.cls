@@ -1082,6 +1082,7 @@
 
 \setlength{\LTpre}{\normalbaselineskip}
 \setlength{\LTpost}{\normalbaselineskip}
+%\setlength{\LTcapwidth}{\linewidth}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1267,13 +1268,19 @@
             {}%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{longtabu}%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
             {full}{\begin{longtabu} to \linewidth%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
             {wide}{\begin{longtabu} to 130mm%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
-            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
-         }[]
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
+         }[]%
          \ifdefvoid{\@tablecaption}%
             {\addlinespace[2bp]}%
             {%
@@ -1282,7 +1289,7 @@
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
                \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-               \\
+               \\%
             }%
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
@@ -1328,8 +1335,8 @@
                            \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
                            %TODO: More elegant way needed.
                            \caption*{%
-                              \makebox[16mm][l]{\usekomafont{captionlabel}%
-                              \tableformat}%
+                              \makebox[16mm][l]{%
+                                 \usekomafont{captionlabel}\tableformat}%
                               \usekomafont{caption}%
                               \@tablecaption~(\textit{cont.})%
                            }\\%
@@ -1360,8 +1367,8 @@
                      \hline
                      \endfirsthead
                      \caption*{%
-                        \makebox[16mm][l]{\usekomafont{captionlabel}%
-                        \tableformat}%
+                        \makebox[16mm][l]{%
+                           \usekomafont{captionlabel}\tableformat}%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1580,7 +1587,7 @@
 \setlength{\@fptop}{0pt}% default is 0\p@ \@plus 1fil
 \setlength{\@fpsep}{\floatsep}% default is 8\p@ \@plus 2fil
 \setlength{\@fpbot}{0pt plus 1fil}% default is 0\p@ \@plus 1fil
-\setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
+\setkomafont{captionlabel}{\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcaphanging
 \setcapindent{16mm}
