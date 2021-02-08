@@ -82,6 +82,7 @@
    toc=bibliography,%
    toc=numberline,%
    numbers=noenddot,%
+   headings=optiontoheadandtoc,%
 ]{scrbook}[2018/03/30]
 \ifbrill@PhD
    \def\normalsize{%
@@ -1607,8 +1608,7 @@
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
 \providecaptionname{british}{\introductionname}{Introduction}
 \newcommand{\listoffigurestables}{%
-   \addchap*{Figures and Tables}
-   \addchaptertocentry{}{\listfiguretablename}
+   \addchap[tocentry={\listfiguretablename}]{Figures and Tables}
    \listoffigures
    \listoftables
 }
