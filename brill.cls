@@ -1014,12 +1014,12 @@
 }
 \RequirePackage[marginpar]{todo}
 \RequirePackage[]{marginnote}
-\patchcmd{\@mn@@@marginnote}{\begingroup}{\begingroup\@twosidefalse}{}{\fail}
-\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
-\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+%\patchcmd{\@mn@@@marginnote}{\begingroup}{\begingroup\@twosidefalse}{}{\fail}
+%\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
+%\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
 %\reversemarginpar
-\renewcommand*{\marginfont}{%
-   \normalfont\scriptsize\addfontfeature{Numbers={Lining,Tabular}}}
+%\renewcommand*{\marginfont}{%
+%   \normalfont\scriptsize\addfontfeature{Numbers={Lining,Tabular}}}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
 \RequirePackage{array}
@@ -1841,14 +1841,10 @@
 }
 
 \newcounter{specialnewline}
+%TODO: This should rather go in CorpusAvesticum.tex. Maybe use \renewcommand
 \newcommand{\@linebreakwithindent}{%
-\iftoggle{@translationlinenumbers}%
-{%
-   \refstepcounter{linenumberforstanza}%
-   \marginnote{\thelinenumberforstanza}%
-}%
-{}%
    \par\hangindent\normalparindent\hangafter=1\relax%
+   \@checklinenumberstatus%
 }
 \newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%

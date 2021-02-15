@@ -1071,7 +1071,9 @@
 % We define macros to be used (only) within the stnazas/apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcounter{appcrnewline}
+\newcounter{muyalinenumber}
 \newcounter{linenumberforstanza}
+\newtoggle{@setlinenumberforthisline}
 \newcommand{\appcrnewline}{%
    \stepcounter{appcrnewline}%
    % Check whether we have to end a commentary passage
@@ -1090,14 +1092,8 @@
    \else
       \global\@iscontinuedcommentarytextfalse%
    \fi%
-   \iftoggle{@stanzalinenumbers}%
-      {%
-         \refstepcounter{linenumberforstanza}%
-         \marginnote{\thelinenumberforstanza}%
-      }%
-      {}%
+   \@checklinenumberstatus%
    \par\noindent\hangindent\parindent\hangafter=1\relax%
-   %\ignorespaces%
 }
 
 % We need to know whether we have the first reading
@@ -1121,23 +1117,22 @@
 \def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
 %
 \newcommand{\@rd}[1]{%TODO: Spacing
-   \settoggle{@stanzalinenumbers}{false}%
+   \settoggle{@setlinenumberforthisline}{false}%
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
       \begingroup%
-      %\let\newline\appcrnewline%
-      \tolerance=1%
-      \emergencystretch=\maxdimen%
-      \hyphenpenalty=\@M%
-      %\exhyphenpenalty=\@M%
-      \hbadness=\@M%
-      \noindent% 
-      \hangindent\parindent\hangafter=1\relax%
-      #1\par\nobreak\vspace{.5\baselineskip}\noindent%
+         %\let\newline\appcrnewline%
+         \tolerance=1%
+         \emergencystretch=\maxdimen%
+         \hyphenpenalty=\@M%
+         %\exhyphenpenalty=\@M%
+         \hbadness=\@M%
+         \noindent% 
+         \hangindent\parindent\hangafter=1\relax%
+         #1\par\nobreak\vspace{.5\baselineskip}\noindent%
       \endgroup%
    \fi%
    \hangindent\parindent\hangafter=1\relax%
-   \settoggle{@stanzalinenumbers}{true}%TODO: Check
    \ignorespaces%
 }
 % We need to know, whether it's the first witness (sub)class call
@@ -1249,9 +1244,11 @@
    \else%
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
+      \@checklinenumberstatus%
       \par\hangindent\parindent\hangafter=1\noindent\ignorespaces%
    \fi%
 }{%
+   \settoggle{@setlinenumberforthisline}{false}%
    \par%
    % If the apparatus is not empty, output it in two columns
    \ifdefempty{\@appcr}{}{%
@@ -1306,7 +1303,8 @@
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
    \ifcsdef{stanza-#2}%
       {\addfontfeatures{RawFeature=-liga}\csuse{stanza-#2}}%
-      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
+      {\ClassError{brill}%
+         {Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 \newif\if@editedtextonly
@@ -1316,7 +1314,7 @@
 }
 \newcommand{\@GetstanzaTextonly}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
-   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{0}}{}%
+   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
    \ifcsdef{stanza-#2}%
       {%
          \begingroup%
@@ -1325,10 +1323,8 @@
             \csuse{stanza-#2}%   
          \endgroup%
       }%
-      {%
-         \ClassError{brill}{Stanza `#2` could not be read}%
-            {There is no macro for stanza `#2`}%
-      }%
+      {\ClassError{brill}%
+         {Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 % Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
@@ -1343,6 +1339,7 @@
 % \Importstanzas*{file} and the common translation
 \def\GetstanzaWithtranslation{\@ifstar%
    {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
+
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
       \paralleltypesetting%
@@ -1355,6 +1352,25 @@
          {\GetstanzaTextonly*[heading=none]{#2#1}}{\Gettranslation*{#2}}%
    \fi%
 }
+
+\def\GetstanzasWithtranslations{\@ifstar%
+   {\@GetstanzasWithtranslations[-transcript]}{\@GetstanzasWithtranslations}}
+\newcommand{\@GetstanzasWithtranslations}[3][]{%
+   \if@intextandtranslation
+      \paralleltypesetting%
+         {\GetstanzaTextonly[linenumbers]{#2#1}}%
+         {\GetstanzaTextonly[linenumbers]{#3}}% No opt. argument
+      \paralleltypesetting%
+         {\Gettranslation[linenumbers]{#2}}%
+         {\Gettranslation[linenumbers]{#3}}%
+   \else
+      \ClassError{brill}%
+         {Macro `\GetstanzasWithtranslations` outside `textandtranslation` 
+            environment}%
+         {}%
+   \fi%
+}
+
 \newif\if@substforeign
 \newcounter{foreign@in@editedtext}
 \newcommand{\GetstanzaWithtranscription}[1]{%
@@ -1391,7 +1407,7 @@
 \newcommand{\@Gettranslation}[1]{\@@Gettranslation[rdposition=none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
    \setkeys{translation}{#1}%
-   \iftoggle{@translationlinenumbers}{\setcounter{linenumberforstanza}{0}}{}%
+   \iftoggle{@translationlinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
    % Outside a blocktranslation we store the information, that we used a 
    % special \newline for the current line
    \if@inblocktranslation
@@ -1431,7 +1447,7 @@
             {\@linebreakwithindent\vspace{\baselineskip}}%
             {\par\vspace{\baselineskip}\noindent}%
          \ifcsdef{translation-#2}%
-            {\csuse{translation-#2}}%
+            {\@checklinenumberstatus\csuse{translation-#2}}%
             {\ClassWarning{brill}{No translation found for #2}}%
          \@linebreakwithindent%
       ]%
@@ -1570,10 +1586,29 @@
       {\newpage}%
       {\mbox{}\newpage\mbox{}\newpage}%
 }
+
+\newcommand{\@checklinenumberstatus}{%
+   \if@innumberlines
+      \iftoggle{@setlinenumberforthisline}%
+         {\immediate\write\@auxout{\csgdef{linenumber-\themuyalinenumber}{}}}%
+         {}%
+      \ifcsdef{linenumber-\themuyalinenumber}%
+         {%
+            \marginnote{\thelinenumberforstanza}%
+            \refstepcounter{linenumberforstanza}%
+         }%
+         {}%
+      % set variables for next line
+      \refstepcounter{muyalinenumber}%
+      \settoggle{@setlinenumberforthisline}{true}%
+   \fi%
+}
 \newif\if@intextandtranslation
+\newif\if@innumberlines
 \newenvironment{textandtranslation}%
    {%
       \global\@intextandtranslationtrue%
+      \global\@innumberlinestrue%
       \cleartoeven
       \setdynamiccontents*{text}{}%
       \setdynamiccontents*{translation}{}%
@@ -1583,6 +1618,7 @@
       \cleartoeven
       \setdynamiccontents*{text}{}%
       \setdynamiccontents*{translation}{}%
+      \global\@innumberlinesfalse%
       \global\@intextandtranslationfalse%
       %\settoggle{@stanzalinenumbers}{false}%
    }%
@@ -1628,6 +1664,7 @@
 \newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
+   \settoggle{@setlinenumberforthisline}{false}%
    \Ifstrstart{#1}{(date, dedication of)}%
       {#1}%
       {% Check, whether this is the first commentary text
@@ -1669,7 +1706,8 @@
 \newrobustcmd*{\foreign}[2][]{%
    \if@substforeign
       \stepcounter{foreign@in@editedtext}%
-      \Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
+%TODO: Check and fix this!%
+      %\Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
    \else
       \IfStrEqCase{#1}{%
          {pal-Avst}{\iftoggle{@inapp}{\textit{#2}}{\textit{#2}}}%
@@ -1678,7 +1716,7 @@
          {ae-fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
       }[%
          \ClassWarning{brill}{Found unknown foreign language `#1`\MessageBreak%
-            Result may not be as expected}%
+            Result may not be as expected!}%
          \iftoggle{@inapp}{\textup{#2}}{\textit{#2}}]%
    \fi%
 }
@@ -2080,9 +2118,9 @@
 \newcommand*{\footnotetextsuperscript}[1]{\textsuperscript{\upshape #1}}
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{%
-   \settoggle{@translationlinenumbers}{false}%
+   \settoggle{@setlinenumberforthisline}{false}%
    {\itshape #1}%
-   \settoggle{@translationlinenumbers}{true}%
+   \settoggle{@setlinenumberforthisline}{true}%
 }%
 %
 \let\@abstract\@empty%
