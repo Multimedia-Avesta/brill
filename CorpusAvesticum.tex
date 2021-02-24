@@ -1117,7 +1117,7 @@
 \def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
 %
 \newcommand{\@rd}[1]{%TODO: Spacing
-   \settoggle{@setlinenumberforthisline}{false}%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
       \begingroup%
@@ -1244,11 +1244,10 @@
    \else%
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
-      \@checklinenumberstatus%
       \par\hangindent\parindent\hangafter=1\noindent\ignorespaces%
    \fi%
 }{%
-   \settoggle{@setlinenumberforthisline}{false}%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    \par%
    % If the apparatus is not empty, output it in two columns
    \ifdefempty{\@appcr}{}{%
@@ -1287,11 +1286,13 @@
 % We define key-value options for \Getstanza
 
 \newcommand{\@defaultstanzaheading}{\minisec}
-\newcommand{\SetDefaultStanzaheading}[1]{\renewcommand{\@defaultstanzaheading}{#1}}
+\newcommand{\SetDefaultStanzaheading}[1]{%
+   \renewcommand{\@defaultstanzaheading}{#1}}
 \newcommand{\@stanzaheading}{}
 \newtoggle{@stanzabooktoindex}
 \settoggle{@stanzabooktoindex}{true}
-\newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
+\newcommand*{\SetDefaultStanzabooktoindex}[1]{%
+   \settoggle{@stanzabooktoindex}{#1}}
 \newtoggle{@stanzalinenumbers}
 
 \define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
@@ -1337,7 +1338,7 @@
 % #1 is the reference of a stanza, e.g. Y28.1
 % The starred version uses the -transcript variant of the stanza imported with
 % \Importstanzas*{file} and the common translation
-\def\GetstanzaWithtranslation{\@ifstar%
+\newcommand{\GetstanzaWithtranslation}{\@ifstar%
    {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
 
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
@@ -1353,16 +1354,31 @@
    \fi%
 }
 
-\def\GetstanzasWithtranslations{\@ifstar%
-   {\@GetstanzasWithtranslations[-transcript]}{\@GetstanzasWithtranslations}}
+\newcommand{\GetstanzasWithtranslations}{\@ifstar%
+   {\@GetstanzasWithtranslations[-transcript]}{\@GetstanzasWithtranslations}%
+}
 \newcommand{\@GetstanzasWithtranslations}[3][]{%
    \if@intextandtranslation
       \paralleltypesetting%
-         {\GetstanzaTextonly[linenumbers]{#2#1}}%
-         {\GetstanzaTextonly[linenumbers]{#3}}% No opt. argument
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \GetstanzaTextonly[linenumbers]{#2#1}%
+         }%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \reversemarginpar%
+            \GetstanzaTextonly[linenumbers]{#3}% No opt. argument
+         }%
       \paralleltypesetting%
-         {\Gettranslation[linenumbers]{#2}}%
-         {\Gettranslation[linenumbers]{#3}}%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \Gettranslation[linenumbers]{#2}%
+         }%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \reversemarginpar%
+            \Gettranslation[linenumbers]{#3}%
+         }%
    \else
       \ClassError{brill}%
          {Macro `\GetstanzasWithtranslations` outside `textandtranslation` 
@@ -1403,7 +1419,7 @@
 \newcommand*{\@rdposition}{}
 \define@key{translation}{rdposition}{\renewcommand*{\@rdposition}{#1}}
 
-\newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
+\newcommand{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
 \newcommand{\@Gettranslation}[1]{\@@Gettranslation[rdposition=none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
    \setkeys{translation}{#1}%
@@ -1444,10 +1460,10 @@
          % We have to check, whether the first line is long and needs the 
          % special layout with hanging lines
          \ifcsdef{specialnewline\@currvalspecialnewline}%
-            {\@linebreakwithindent\vspace{\baselineskip}}%
-            {\par\vspace{\baselineskip}\noindent}%
+            {\@linebreakwithindent*\addvspace{\baselineskip}}%
+            {\par\addvspace{\baselineskip}\noindent}%
          \ifcsdef{translation-#2}%
-            {\@checklinenumberstatus\csuse{translation-#2}}%
+            {\csuse{translation-#2}}%
             {\ClassWarning{brill}{No translation found for #2}}%
          \@linebreakwithindent%
       ]%
@@ -1586,13 +1602,16 @@
       {\newpage}%
       {\mbox{}\newpage\mbox{}\newpage}%
 }
-
+\def\muyalinenumber{}
 \newcommand{\@checklinenumberstatus}{%
    \if@innumberlines
+      \xdef\muyalinenumber{\themuyalinenumber}%
       \iftoggle{@setlinenumberforthisline}%
-         {\immediate\write\@auxout{\csgdef{linenumber-\themuyalinenumber}{}}}%
+         {%
+            \immediate\write\@auxout{\csxdef{linenumber-\muyalinenumber}{}}%
+         }%
          {}%
-      \ifcsdef{linenumber-\themuyalinenumber}%
+      \ifcsdef{linenumber-\muyalinenumber}%
          {%
             \marginnote{\thelinenumberforstanza}%
             \refstepcounter{linenumberforstanza}%
@@ -1600,7 +1619,7 @@
          {}%
       % set variables for next line
       \refstepcounter{muyalinenumber}%
-      \settoggle{@setlinenumberforthisline}{true}%
+      \global\settoggle{@setlinenumberforthisline}{true}%
    \fi%
 }
 \newif\if@intextandtranslation
@@ -1664,7 +1683,7 @@
 \newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
-   \settoggle{@setlinenumberforthisline}{false}%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    \Ifstrstart{#1}{(date, dedication of)}%
       {#1}%
       {% Check, whether this is the first commentary text
@@ -1699,6 +1718,12 @@
          \fi%
       }%
 }
+
+\newcommand{\trcommtext}[1]{%
+   \global\settoggle{@setlinenumberforthisline}{false}%
+   \textlangle{}#1\textrangle{}%
+}
+
 
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
@@ -2118,9 +2143,9 @@
 \newcommand*{\footnotetextsuperscript}[1]{\textsuperscript{\upshape #1}}
 \newcommand{\insertion}[1]{{\upshape #1}}
 \newcommand{\RDTrans}[1]{%
-   \settoggle{@setlinenumberforthisline}{false}%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    {\itshape #1}%
-   \settoggle{@setlinenumberforthisline}{true}%
+   \global\settoggle{@setlinenumberforthisline}{true}%
 }%
 %
 \let\@abstract\@empty%

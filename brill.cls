@@ -1018,8 +1018,8 @@
 %\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
 %\patchcmd{\@mn@margintest}{\@tempswafalse}{\@tempswatrue}{}{}
 %\reversemarginpar
-%\renewcommand*{\marginfont}{%
-%   \normalfont\scriptsize\addfontfeature{Numbers={Lining,Tabular}}}
+\renewcommand*{\marginfont}{%
+   \normalfont\scriptsize\addfontfeature{Numbers={Lining,Tabular}}}
 \RequirePackage[cmyk,x11names,table,hyperref]{xcolor}
 \RequirePackage[newcommands]{ragged2e}
 \RequirePackage{array}
@@ -1819,7 +1819,8 @@
       \ifcsdef{specialnewline\@currvalspecialnewline}%
          {%
             \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
-            \setlength{\parindent}{-\normalparindent}\hspace*{-\normalparindent}
+            \setlength{\parindent}{-\normalparindent}%
+            \hspace*{-\normalparindent}%
          }%
          {\addmargin[2\parindent]{0bp}}%
       \ignorespaces%
@@ -1843,8 +1844,12 @@
 \newcounter{specialnewline}
 %TODO: This should rather go in CorpusAvesticum.tex. Maybe use \renewcommand
 \newcommand{\@linebreakwithindent}{%
+   \@ifstar%
+      {\@@linebreakwithindent}%
+      {\@checklinenumberstatus\@@linebreakwithindent}%
+}
+\newcommand{\@@linebreakwithindent}{%      
    \par\hangindent\normalparindent\hangafter=1\relax%
-   \@checklinenumberstatus%
 }
 \newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%
