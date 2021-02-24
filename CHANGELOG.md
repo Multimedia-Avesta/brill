@@ -6,6 +6,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.76.0] - 2021-01-26
+### Added
+- Support for `@Software` entries (\#10360)
+  
+### Fixed
+- Support for ISBN in `annotation` field for `@unpublished` (manuscripts) (\#10363)
+
+## [0.75.1] - 2021-01-21
+### Added
+- Sorting order for `NP` glossaries (\#10290)
+
+## [0.75.0] - 2021-01-16
+### Added
+- Language `NP` is valid option to `dictionary` (\#10290)
+
+## [0.74.1] - 2021-01-13
+### Fixed
+- Prevent loading of `soul` package by user
+- Add workaround for issue with `biblatex` (see [issue on GitHub](https://github.com/plk/biblatex/issues/1090))
+
+## [0.74.0] - 2021-01-13
+### Fixed
+- Remove spurious blank (\#10278)
+- Fix indexing for `\passage*` and `\word*` (\#10280)
+
+## [0.73.0] - 2021-01-12
+### Added
+- Package `lua-ul` to support underline and strike-through macros
+- Macro `\shinthreedots` for a shin plus U+0745
+
 ## [0.72.0] - 2020-12-23
 ### Added
 - Relax check for special date strings in edited text
@@ -837,7 +867,7 @@ environment in order to use inline enumerated list
 - Macro `\Phlv` to support two or three arguments (#7755)
 - Macro `\Avst*` to mark a word as Avestan and write it directly to the index (#7935)
 
-## {0.8.0] - 2019-04-03
+## [0.8.0] - 2019-04-03
 
 ### Added
 - Support for language-dependent indexes
@@ -911,6 +941,18 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.76.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.76.0
+[0.75.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.75.1
+[0.75.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.75.0
+[0.74.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.1
+[0.74.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.74.0
+[0.73.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.73.0
 [0.72.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.72.0
 [0.71.3]:

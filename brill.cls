@@ -1,5 +1,5 @@
 %% brill.cls
-%% Copyright 2018-2020 Martin Sievers
+%% Copyright 2018-2021 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2020/12/23 v0.72.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/01/26 v0.76.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -82,6 +82,7 @@
    toc=bibliography,%
    toc=numberline,%
    numbers=noenddot,%
+   headings=optiontoheadandtoc,%
 ]{scrbook}[2018/03/30]
 \ifbrill@PhD
    \def\normalsize{%
@@ -265,6 +266,8 @@
    verbose=true%
    ]{microtype}%
 \SetTracking{encoding=*,shape=sc}{50}%
+\RequirePackage[soul]{lua-ul}
+\PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
@@ -1087,6 +1090,7 @@
 
 \setlength{\LTpre}{\normalbaselineskip}
 \setlength{\LTpost}{\normalbaselineskip}
+%\setlength{\LTcapwidth}{\linewidth}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1233,6 +1237,11 @@
       {\dimexpr 0.5\normalbaselineskip-0.5\ht\strutbox%
          +\lightrulewidth+1mm\relax}%
 }
+\newif\if@userbottomrule
+\newcommand*{\brillbuttomrule}{%
+   \@brillbottomrule%
+   \global\@userbottomruletrue%
+}
 \newlength{\@firstlastcolindent}
 \newif\if@firstitem
 \NewEnviron{brilltable}[2][]{%
@@ -1267,13 +1276,19 @@
             {}%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{longtabu}%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
             {full}{\begin{longtabu} to \linewidth%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
             {wide}{\begin{longtabu} to 130mm%
-            {@{\hspace*{\@firstlastcolindent}}#2@{\hspace*{\@firstlastcolindent}}}}
-            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}
-         }[]
+               {@{\hspace*{\@firstlastcolindent}}#2%
+                @{\hspace*{\@firstlastcolindent}}}%
+            }%
+            {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
+         }[]%
          \ifdefvoid{\@tablecaption}%
             {\addlinespace[2bp]}%
             {%
@@ -1282,7 +1297,7 @@
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
                \ifdefvoid{\@tablelabel}{}{\label{\@tablelabel}}%
-               \\
+               \\%
             }%
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
@@ -1328,11 +1343,11 @@
                            \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
                            %TODO: More elegant way needed.
                            \caption*{%
-                              \makebox[16mm][l]{\usekomafont{captionlabel}%
-                              \tableformat}%
+                              \makebox[16mm][l]{%
+                                 \usekomafont{captionlabel}\tableformat}%
                               \usekomafont{caption}%
                               \@tablecaption~(\textit{cont.})%
-                           }\\
+                           }\\%
                         }%
                      \@brilltoprule%
                      \iftoggle{@tablebfheaders}%
@@ -1342,9 +1357,13 @@
                         }%
                         {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                      \@brillmidrule%
-                     \endhead
-                     \@brillbottomrule%
-                     \endlastfoot
+                     \endhead%
+                     \if@userbottomrule
+                     \else
+                        \@brillbottomrule%
+                     \fi%
+                     \endlastfoot%
+                     \global\@userbottomrulefalse%
                   }{%
                      \firsthline
                      \iftoggle{@tablebfheaders}%
@@ -1356,8 +1375,8 @@
                      \hline
                      \endfirsthead
                      \caption*{%
-                        \makebox[16mm][l]{\usekomafont{captionlabel}%
-                        \tableformat}%
+                        \makebox[16mm][l]{%
+                           \usekomafont{captionlabel}\tableformat}%
                         \usekomafont{caption}%
                         \@tablecaption~(\textit{cont.})%
                      }\\
@@ -1576,7 +1595,7 @@
 \setlength{\@fptop}{0pt}% default is 0\p@ \@plus 1fil
 \setlength{\@fpsep}{\floatsep}% default is 8\p@ \@plus 2fil
 \setlength{\@fpbot}{0pt plus 1fil}% default is 0\p@ \@plus 1fil
-\setkomafont{captionlabel}{\normalfont\footnotesize\scshape}
+\setkomafont{captionlabel}{\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
 \setcaphanging
 \setcapindent{16mm}
@@ -1596,8 +1615,7 @@
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
 \providecaptionname{british}{\introductionname}{Introduction}
 \newcommand{\listoffigurestables}{%
-   \addchap*{Figures and Tables}
-   \addchaptertocentry{}{\listfiguretablename}
+   \addchap[tocentry={\listfiguretablename}]{Figures and Tables}
    \listoffigures
    \listoftables
 }
@@ -1849,8 +1867,8 @@
       {\@checklinenumberstatus\@@linebreakwithindent}%
 }
 \newcommand{\@@linebreakwithindent}{%      
-   \par\hangindent\normalparindent\hangafter=1\relax%
-}
+   \par\hangindent\normalparindent\hangafter=1\relax}
+
 \newcommand{\@specialnewline}{%
    \immediate\write\@auxout{%
       \csgdef{specialnewline\@currvalspecialnewline}{}}%
@@ -1867,8 +1885,13 @@
    \if@splitsplittranslation%
       \ifstrempty{#2}%
          {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
-         {\hyphenpenalty=\@M\exhyphenpenalty=\@M%
-          \begin{enuminlinesplitA}\ItalicsOrNot{#2}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {%
+            \hyphenpenalty=\@M%
+            \exhyphenpenalty=\@M%
+            \begin{enuminlinesplitA}%
+               \ItalicsOrNot{#2}#3%
+            \end{enuminlinesplitA}\par\nopagebreak%
+         }%
       \if@splittranslation%
          \addvspace{\@btvspace}\noindent%
       \else%
@@ -1948,22 +1971,22 @@
          }%
          {%
             \ifstrempty{#3}%
-            {\ifstrempty{#4}{}{\noindent #4}}%
-            {%
-               {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
-               \ifstrempty{#4}%
-                  {}%
-                  {%
+               {\ifstrempty{#4}{}{\noindent #4}}%
+               {%
+                  {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
+                  \ifstrempty{#4}%
+                     {}%
+                     {%
 % If argument #3 contains newline elements, the macro exists and we know, that 
 % we need to use hanging indentation for the translation as well. Otherwise we 
 % use a standard \par to end the text.
-                     \ifcsdef{specialnewline\@currvalspecialnewline}%
-                        {\par\nopagebreak\vspace{\@btvspace}}%
-                        {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                        \ifcsdef{specialnewline\@currvalspecialnewline}%
+                           {\par\nopagebreak\vspace{\@btvspace}}%
+                           {\par\nopagebreak\vspace{\@btvspace}\noindent}%
 % Output translation argument                        
-                     #4%
-                  }%
-            }%
+                        #4%
+                     }%
+               }%
          }%
    \end{@btquote}%
    \NoIndentAfterThis%
@@ -2002,7 +2025,8 @@
       \let\origwrite\write
       \def\write{\immediate\origwrite}%
       \addtocontents{toc}{\protect\addvspace{2\baselineskip}}%
-      \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
+      \addtocontents{toc}{%
+         \protect\setlength{\@addchaptertocskip}{1\baselineskip}}%
    \endgroup%
 }
 

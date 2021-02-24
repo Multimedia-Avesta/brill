@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 -- muya.lua
--- Copyright 2018-2020 Martin Sievers
+-- Copyright 2018-2021 Martin Sievers
 --
 -- This work may be distributed and/or modified under the
 -- conditions of the LaTeX Project Public License, either version 1.3
@@ -25,7 +25,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2020/12/23 v0.72.0
+-- 2021/01/21 v0.75.1
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -119,7 +119,7 @@ function sortGlossary( l )
       texio.write_nl( "Glossary language must not be empty" )
    else
       glosslang = l
-      texio.write_nl( "Found sorting language: " .. glosslang )
+      --texio.write_nl( "Found sorting language: " .. glosslang )
    end
    if not file_exists( file ) then return {} end
    
@@ -345,7 +345,7 @@ function sortGlossary( l )
          {}{\string\newcounter{numberofglossaries}}\string\stepcounter{numberofglossaries}}\makeatother]] )
          tex.sprint( [[\makeatletter\write\@mainaux{\string\csxdef{@sequenceofletters\arabic{numberofglossaries}}{]],sequenceofletters,"}}",[[\makeatother]] )
          is_indictionary = false
-      else -- lines inbetween environments
+      else -- lines in-between environments
          if is_indictionary == false then
          else
             if is_insubsubsublemmata == true then
@@ -574,7 +574,10 @@ function sortGlossary( l )
          end
       end
    end
-   elseif glosslang == "Av" or glosslang == "MP" or glosslang == "Skt" then
+   elseif glosslang == "Av" or
+          glosslang == "MP" or
+          glosslang == "NP" or
+          glosslang == "Skt" then
    for k,v in pairs( lines ) do
    -- get line k and process it
       local str = lines[k]
@@ -582,7 +585,7 @@ function sortGlossary( l )
       if string.match( str, "^%s*\\begin{Dictionary}" ) then
          f:write( '\\begin{ModDictionary}', "\n" )
          is_indictionary = true
-      elseif string.match(str, "^%s*\\end{Dictionary}") then
+      elseif string.match( str, "^%s*\\end{Dictionary}" ) then
          -- we reached the end of the dictionary
          -- write last lemma to file
          if prevlemma and prevlemma ~= '' then
@@ -591,7 +594,7 @@ function sortGlossary( l )
          -- start sorting process
          newkeys = sortLemma( result )
          -- use the keys to retrieve the values in the sorted order
-         for _, k in ipairs(newkeys) do
+         for _, k in ipairs( newkeys ) do
             f:write( '\n\\Lemma{' .. removesortid( k ) .. '}' .. result[k] )
             -- get the first letter of the lemma
             local first = ustring.sub( removesortid( k ), 1, 1 )
@@ -628,7 +631,7 @@ function sortGlossary( l )
             end
             if lemma and lemma ~= '' then
                lemma = string.match( lemma, "{(.*)}" )
-               texio.write_nl("Found new lemma " .. lemma)            
+               --texio.write_nl("Found new lemma " .. lemma)            
                -- we found a new lemma
                -- write previous lemma (if any) to table
                if prevlemma and prevlemma ~= '' then
@@ -762,6 +765,14 @@ function sortletter (s)
       ["š"] = 24, ["t"] = 25, ["u"] = 26, ["ū"] = 27, ["w"] = 28, ["x"] = 29,
       ["y"] = 30, ["z"] = 31, ["ž"] = 32, ["1"] = 33, ["2"] = 34, ["3"] = 35,
       [" "] = 36}
+   elseif glosslang == 'NP' then -- New Persian
+      sortorder = {["a"] = 1, ["ā"] = 2, ["e"] = 3, ["o"] = 4, ["u"] = 5,
+      ["i"] = 6, ["b"] = 7, ["p"] = 8, ["t"] = 9, ["s̱"] = 10, ["j"] = 11,
+      ["č"] = 12, ["ḥ"] = 13, ["x"] = 14, ["d"] = 15, ["ẕ"] = 16, ["r"] = 17,
+      ["z"] = 18, ["ž"] = 19, ["s"] = 20, ["š"] = 21, ["ṣ"] = 22, ["ż"] = 23,
+      ["ṭ"] = 24, ["ẓ"] = 25, ["ʿ"] = 26, ["ġ"] = 27, ["f"] = 28, ["q"] = 29,
+      ["k"] = 30, ["g"] = 31, ["l"] = 32, ["m"] = 33, ["n"] = 34, ["w"] = 35,
+      ["h"] = 36, ["y"] = 37, ["1"] = 38, ["2"] = 39, ["3"] = 40, [" "] = 41}
    elseif glosslang == 'Av' then -- Avestan, standard case
       sortorder = {["a"] = 1, ["ā"] = 2, ["ā̊ "] = 3, ["ą"] = 4, ["b"] = 5,
       ["β"] = 6, ["c"] = 7, ["d"] = 8, ["δ"] = 9, ["e"] = 10, ["ē"] = 11, 

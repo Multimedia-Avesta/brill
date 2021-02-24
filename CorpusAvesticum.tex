@@ -1,5 +1,5 @@
 %% CorpusAvesticum.tex
-%% Copyright 2018-2020 Martin Sievers
+%% Copyright 2018-2021 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \ProvidesFile{CorpusAvesticum.tex}%
-   [2020/12/23 v0.72.0 Configuration file for brill]
+   [2021/01/26 v0.76.0 Configuration file for brill]
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
@@ -155,24 +155,43 @@
    UprightFont    = *,%
    Scale          = MatchLowercase,%
 ]%
-%\newfontfamily{\syriacfont}{NotoSansSyriac}%
-%[%
-%   Extension      = .ttf,%
-%   UprightFont    = *-Regular,%
-%   BoldFont       = *-Bold,%
-%   Scale          = MatchLowercase,%
-%   Renderer       = Harfbuzz,%
-%   Script         = Syriac,%
-%]%
-\newcommand{\textarabic}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
-\newcommand{\textavestan}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
-\newcommand{\textgujarati}[1]{\bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
-\newcommand{\textpahlavi}[1]{\bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
-\newcommand{\textsanskrit}[1]{\bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
+\newfontfamily{\syriacfont}{NotoSansSyriac}%
+[%
+   Extension      = .ttf,%
+   UprightFont    = *-Regular,%
+   BoldFont       = *-Black,%
+   Scale          = MatchLowercase,%
+   Renderer       = Harfbuzz,%
+   Script         = Syriac,%
+]%
+
+\newcommand{\textarabic}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\arabicfont #1\egroup}
+\newcommand{\textavestan}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\avestanfont #1\egroup}
+\newcommand{\textgujarati}[1]{%
+   \bgroup\microtypesetup{activate=false}\gujaratifont #1\egroup}
+\newcommand{\textpahlavi}[1]{%
+   \bgroup\microtypesetup{activate=false}\textdir TRT\pahlavifont #1\egroup}
+\newcommand{\textsanskrit}[1]{%
+   \bgroup\microtypesetup{activate=false}\sanskritfont #1\egroup}
+\newcommand{\textsyriac}[1]{%
+   \bgroup\microtypesetup{activate=false}\syriacfont #1\egroup}
 
 \newcommand*{\aee}{ǝ̄}
 \newcommand*{\XVE}{x\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
 \newcommand*{\NGVE}{ŋ\realsuperscript{v}}%\ifdefstring{\f@shape}{it}{\kern-1pt}{}}
+\newcommand*{\shinthreedots}{%
+   \ifdefstring{\f@shape}{it}
+   {\ensuremath{\stackrel%
+      {\text{\raisebox{-1.5ex}[0pt][0pt]{\hspace{0.3em}\syriacfont\symbol{"0745}}}}%
+      {\text{š}}}%
+   }%
+   {\ensuremath{\stackrel%
+      {\text{\raisebox{-1.5ex}[0pt][0pt]{\syriacfont\symbol{"0745}}}}%
+      {\text{š}}}%
+   }%
+}
 
 \newcommand*{\AvA}{\symbol{"10B00}}
 \newcommand*{\AvAA}{\symbol{"10B01}}
@@ -243,7 +262,13 @@
 \newunicodechar{●}{{\freeserif\symbol{"25CF}}}
 \newunicodechar{✓}{{\freeserif\symbol{"2713}}}
 \newunicodechar{θ}{ϑ}
-%\newunicodechar{݅ }{{\freesans\symbol{"0745}}}
+
+%\newcommand{\DeclareUnicodeCharacter}[2]{%
+%   \begingroup\lccode`|=\string"#1\relax
+%   \lowercase{\endgroup\newunicodechar{|}}{#2}%
+%}
+%\DeclareUnicodeCharacter{0745}{\raisebox{.75ex}{{\negthinspace\syriacfont\symbol{"0745}}}}
+%\newunicodechar{݅ }{\textsyriac{\symbol{"0745}}}
 %%%
 \newcommand*{\blackcircle}{●}
 \renewcommand*{\checkmark}{✓}% from AMSmath
@@ -605,8 +630,12 @@
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
    \ifstrempty{\@rightword}% no '!' in Argument
-      {\index[words]{\indexlanguage!#1@\idxentryfont{#1}}}%
-      {\index[words]{\indexlanguage!#1@\idxentryfont{\@rightword}}}%
+      {\index[words]{%
+       \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{#1}}%
+      }%
+      {\index[words]{%
+       \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\idxentryfont{\@rightword}}%
+      }%
 }%
 \newcommand{\@@indexwords}[2][]{%
 %   \StrDel{#1}{-}[\@@@rest]
@@ -620,16 +649,21 @@
 }%
 
 \protected\def\Passage{\@ifstar{\@indexpassages}{\@dblarg\@@indexpassages}}
-\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
-%\newcommand{\@indexpassages}[1]{\index[passages]{\indexlanguage!#1@\textup{#1}}}
+\newcommand{\@indexpassages}[1]{%
+   \index[passages]{%
+      \indexlanguage{}@\indexheaderfont{\indexlanguage}!#1@\textup{#1}%
+   }%
+}
 \newcommand{\@@indexpassages}[2][]{%
    \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
    \textup{#2}%
    \index[passages]{\indexlanguage{}@\indexheaderfont{\indexlanguage}!#1}%
 }%
 
-\protected\def\Name{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
-\protected\def\Subject{\@ifstar{\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Name{\@ifstar%
+   {\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
+\protected\def\Subject{\@ifstar%
+   {\@indexnamesandsubjects}{\@dblarg\@@indexnamesandsubjects}}
 \newcommand{\@indexnamesandsubjects}[1]{\index[namesandsubjects]{#1}}
 \newcommand{\@@indexnamesandsubjects}[2][]{\index[namesandsubjects]{#1}#2}
 
@@ -1834,6 +1868,7 @@
 \newbook{PNy}
 \newbook{PRAF}
 \newbook{PRDD}
+\newbook{PS}
 \newbook{PT}
 \newbook{Pur}
 \newbook{PV}
@@ -1913,8 +1948,9 @@
          {Av}{\directlua{sortGlossary("Av")}}%
          {Guj}{\directlua{sortGlossary("Guj")}}%
          {MP}{\directlua{sortGlossary("MP")}}%
+         {NP}{\directlua{sortGlossary("NP")}}%
          {Skt}{\directlua{sortGlossary("Skt")}}%
-      }[]
+      }[\ClassWarning{brill}{Unknown language `\@dictlanguage`.}]
     }%
       \input{dictionaryconv}]%
 % For the dictionary
@@ -2034,8 +2070,9 @@
    \begin{nohyphens}%
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%
-      {MP}{\textlangle{}#2\textrangle{}}%
       {Guj}{\textit{#2}}%
+      {MP}{\textlangle{}#2\textrangle{}}%
+      {NP}{\textlangle{}#2\textrangle{}}%
    }[\textit{#2}]%
    \end{nohyphens}%
    \ #3%

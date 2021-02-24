@@ -1,4 +1,4 @@
-# muya-latex
+# Brill
 
 ## About
 
