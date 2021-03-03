@@ -127,13 +127,13 @@
       \map{%
          \step[fieldsource=annotation,match=\regexp{(97[8|9]-[-\d]{13})},final]%
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=note,null]%
+         \step[fieldset=annotation,null]%
       }%
       % The same for old ISBN numbers      
       \map{%
          \step[fieldsource=annotation,match=\regexp{(\d[-\d]{13})},final]
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
-         \step[fieldset=note,null]%
+         \step[fieldset=annotation,null]%
       }%
 % Move the doi for @software given in isbn field to doi field
       \map{%
