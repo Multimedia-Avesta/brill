@@ -1864,7 +1864,7 @@
 \newcommand{\@linebreakwithindent}{%
    \@ifstar%
       {\@@linebreakwithindent}%
-      {\@checklinenumberstatus\@@linebreakwithindent}%
+      {\@setlinenumberstatus\@@linebreakwithindent\@getlinenumberstatus}%
 }
 \newcommand{\@@linebreakwithindent}{%      
    \par\hangindent\normalparindent\hangafter=1\relax}

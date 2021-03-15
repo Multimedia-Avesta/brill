@@ -1126,8 +1126,25 @@
    \else
       \global\@iscontinuedcommentarytextfalse%
    \fi%
-   \@checklinenumberstatus%
+   \@setlinenumberstatus%
    \par\noindent\hangindent\parindent\hangafter=1\relax%
+   \@getlinenumberstatus%
+}
+\newcommand{\lastnewline}{%
+   \stepcounter{appcrnewline}%
+   \if@iscommentarytext
+      \global\@iscontinuedcommentarytexttrue%
+      \ifcsdef{commcont-\theappcrnewline}%
+         {}%
+         {% Next line starts with something else -> end passage
+            \unskip\textrangle{}% closing bracket >
+            \global\@iscommentarytextfalse%
+         }%
+   \else
+      \global\@iscontinuedcommentarytextfalse%
+   \fi%
+   \@setlinenumberstatus%
+   \par%
 }
 
 % We need to know whether we have the first reading
@@ -1148,9 +1165,12 @@
 % variant starts rightaway.
 \newif\if@startwithnewline
 \@startwithnewlinetrue
-\def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
-%
+\newif\if@inrd
+\newcommand{\rd}{\@ifstar%
+   {\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
+
 \newcommand{\@rd}[1]{%TODO: Spacing
+   \@inrdtrue%
    \global\settoggle{@setlinenumberforthisline}{false}%
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
@@ -1166,6 +1186,8 @@
          #1\par\nobreak\vspace{.5\baselineskip}\noindent%
       \endgroup%
    \fi%
+   \@inrdfalse%
+   \global\settoggle{@setlinenumberforthisline}{true}%
    \hangindent\parindent\hangafter=1\relax%
    \ignorespaces%
 }
@@ -1279,6 +1301,8 @@
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
       \par\hangindent\parindent\hangafter=1\noindent\ignorespaces%
+      % Check, whether to number _first_ line
+      \@getlinenumberstatus%
    \fi%
 }{%
    \global\settoggle{@setlinenumberforthisline}{false}%
@@ -1494,12 +1518,20 @@
          % We have to check, whether the first line is long and needs the 
          % special layout with hanging lines
          \ifcsdef{specialnewline\@currvalspecialnewline}%
-            {\@linebreakwithindent*\addvspace{\baselineskip}}%
+            {\@@linebreakwithindent\addvspace{\baselineskip}}%
             {\par\addvspace{\baselineskip}\noindent}%
          \ifcsdef{translation-#2}%
-            {\csuse{translation-#2}}%
+            {%
+               % Number _first_ line (if needed)
+               \@getlinenumberstatus%
+               % Output translation
+               \csuse{translation-#2}%
+               % Check, whether _last_ line has to be numbered
+               \@setlinenumberstatus%
+               % add new line marker (without any line numbering stuff)
+               \@@linebreakwithindent%
+            }%
             {\ClassWarning{brill}{No translation found for #2}}%
-         \@linebreakwithindent%
       ]%
    \endgroup%
 }
@@ -1637,25 +1669,46 @@
       {\mbox{}\newpage\mbox{}\newpage}%
 }
 \def\muyalinenumber{}
-\newcommand{\@checklinenumberstatus}{%
+%%% This macro is applied at the end of a line (when \\ or \newline is called)
+%%% to store, whether or not this line gets a line number.
+%%% It is the counterpart of macro \@getlinenumberstatus
+\newcommand{\@setlinenumberstatus}{%
    \if@innumberlines
       \xdef\muyalinenumber{\themuyalinenumber}%
+      % If the line should get a line number, write a corresponding macro
+      % into th aux file.
       \iftoggle{@setlinenumberforthisline}%
          {%
             \immediate\write\@auxout{\csxdef{linenumber-\muyalinenumber}{}}%
          }%
          {}%
+      % set variables for next line
+      \refstepcounter{muyalinenumber}%
+      % If we are still within ritual direction or commentary text, do not 
+      % number the next line.
+      \ifboolexpr{ bool {@inrd} or bool {@iscommentarytext} }        
+         {}%{\global\settoggle{@setlinenumberforthisline}{false}}%
+         {\global\settoggle{@setlinenumberforthisline}{true}}%
+   \fi%
+}
+
+%%% This macro is called at the beginning of a line, i.e. right after a \\ or
+%%% \newline has been called.
+\newcommand{\@getlinenumberstatus}{%
+   \if@innumberlines
+      \xdef\muyalinenumber{\themuyalinenumber}%
+      % If a macro is defined for the current line, i.e. through the aux file 
+      % from the previous run by \@setlinenumberstatus, then make a marginal
+      % note.
       \ifcsdef{linenumber-\muyalinenumber}%
          {%
             \marginnote{\thelinenumberforstanza}%
             \refstepcounter{linenumberforstanza}%
          }%
          {}%
-      % set variables for next line
-      \refstepcounter{muyalinenumber}%
-      \global\settoggle{@setlinenumberforthisline}{true}%
    \fi%
 }
+
 \newif\if@intextandtranslation
 \newif\if@innumberlines
 \newenvironment{textandtranslation}%
@@ -1717,7 +1770,11 @@
 \newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
-   \global\settoggle{@setlinenumberforthisline}{false}%
+   % Check, whether we are at the beginning of a line (following a \newline)
+   % If so, we deactivate the line numbering.
+   \ifvmode
+      \global\settoggle{@setlinenumberforthisline}{false}%
+   \fi%
    \Ifstrstart{#1}{(date, dedication of)}%
       {#1}%
       {% Check, whether this is the first commentary text
@@ -1753,7 +1810,7 @@
       }%
 }
 
-\newcommand{\trcommtext}[1]{%
+\newcommand{\trcommentarytext}[1]{%
    \global\settoggle{@setlinenumberforthisline}{false}%
    \textlangle{}#1\textrangle{}%
 }

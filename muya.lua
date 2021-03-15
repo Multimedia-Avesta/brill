@@ -745,7 +745,7 @@ function compare( a, b )
    end
 end
 
-function sortletter (s)
+function sortletter(s)
    local sortorder
    if glosslang == 'Guj' then -- Gujarati
       sortorder = {["a"] = 1, ["ā"] = 2, ["i"] = 3, ["ī"] = 4,["u"] = 5,
@@ -857,7 +857,7 @@ end
 function read_stanzas_from_file(f, suffix)
    if not file_exists( f ) then return {} end   
    local outfile = 'stanzas.tex'
-   local lines = lines_from(f)
+   local lines = lines_from( f )
    local stanzanr = ''
    local stanzastart = ''
    local stanzaend = ''
@@ -880,8 +880,11 @@ function read_stanzas_from_file(f, suffix)
             stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
             buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
                book .. stanzanr .. suffix .. "}{%\n\\begin{stanza}{\\" .. book .. "{" .. stanzanr .. "}}%\n" .. stanzastart .. "\n"
+         elseif string.match( str, "^.-\\newline\\end{stanza}$" ) then
+            text, rest = string.match( str, "^(.-)(\\newline\\end{stanza})$" )
+            buf[k] = text .. "\\lastnewline\\end{stanza}}%\n"
          elseif string.match( str, "^.-\\end{stanza}$" ) then
-            buf[k] = str .. "}"
+            buf[k] = str .. "}\n"
          else
             buf[k] = str .. "\n"
          end
