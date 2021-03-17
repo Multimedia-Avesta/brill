@@ -1183,13 +1183,14 @@
          \hbadness=\@M%
          \noindent% 
          \hangindent\parindent\hangafter=1\relax%
+         \@getlinenumberstatus%
          #1\par\nobreak\vspace{.5\baselineskip}\noindent%
       \endgroup%
    \fi%
    \@inrdfalse%
-   \global\settoggle{@setlinenumberforthisline}{true}%
    \hangindent\parindent\hangafter=1\relax%
    \ignorespaces%
+%   \global\settoggle{@setlinenumberforthisline}{true}%
 }
 % We need to know, whether it's the first witness (sub)class call
 \newif\if@firstwitclass
@@ -1686,7 +1687,9 @@
       \refstepcounter{muyalinenumber}%
       % If we are still within ritual direction or commentary text, do not 
       % number the next line.
-      \ifboolexpr{ bool {@inrd} or bool {@iscommentarytext} }        
+      \ifboolexpr{ bool {@inrd} 
+                or bool {@iscommentarytext}
+                or bool {@inRDTrans}}        
          {}%{\global\settoggle{@setlinenumberforthisline}{false}}%
          {\global\settoggle{@setlinenumberforthisline}{true}}%
    \fi%
@@ -1702,7 +1705,7 @@
       % note.
       \ifcsdef{linenumber-\muyalinenumber}%
          {%
-            \marginnote{\thelinenumberforstanza}%
+            \marginnote{\thelinenumberforstanza}[.17\baselineskip]%
             \refstepcounter{linenumberforstanza}%
          }%
          {}%
@@ -2236,10 +2239,13 @@
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand*{\footnotetextsuperscript}[1]{\textsuperscript{\upshape #1}}
 \newcommand{\insertion}[1]{{\upshape #1}}
+\newif\if@inRDTrans
 \newcommand{\RDTrans}[1]{%
+   \@inRDTranstrue%
    \global\settoggle{@setlinenumberforthisline}{false}%
    {\itshape #1}%
    \global\settoggle{@setlinenumberforthisline}{true}%
+   \@inRDTransfalse%
 }%
 %
 \let\@abstract\@empty%
