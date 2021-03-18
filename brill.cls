@@ -674,6 +674,20 @@
       tocentrynumberformat=\@tocentrynumberfont%
    ]{subsection}
    %
+   \ProvideSectionCommand[%
+      style=section,%
+      beforeskip=-1\baselineskip,%
+      afterskip=1sp,%
+      font={\normalsize\bfseries\itshape},%
+      indent=0bp,%
+      level=2,%
+      tocnumwidth=8mm,%
+      tocindent=\dimexpr\@tocstartindent+8mm\relax,%
+      tocentryformat=\itshape,%
+      tocentrynumberformat=\@tocentrynumberfont%
+   ]{subsectionnumeral}
+   \@namedef{subsectionnumeraltocdepth}{2}
+   %
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -791,7 +805,7 @@
       }%
       {\@hangfrom{\hskip #2#3}{#4}}%
    }%
-\else
+\else% for Brill book
    \renewcommand{\sectionlinesformat}[4]{%
       \Ifstr{#1}{section}{%
          \@hangfrom{\makebox[12mm][l]{\upshape #3}}%
@@ -875,6 +889,30 @@
   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
   \reserved@a
   \addsecmark{}%
+}
+%
+\newcommand{\addsubsecnum}{\secdef\@addsubsecnum\@saddsubsecnum}
+\newcommand*{\@addsubsecnum}{}
+\def\@addsubsecnum[#1]#2{%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \subsectionnumeral[{#1}]{#2}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+}
+\newcommand*{\@saddsubsecnum}[1]{%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \subsectionnumeral*{#1}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+   \addsecmark{}%
 }
 %
 \newcommand{\addsubsubsec}{\secdef\@addsubsubsec\@saddsubsubsec}
