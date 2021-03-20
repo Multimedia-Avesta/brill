@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.77.0] - 2021-03-20
+### Added
+- New book macro `\PS` (\#10413)
+- New macro `\brillbottomrule` to be used together with `\\*` by the user
+- Support for character `Danda` (U+0964) so that it works within Latin text (without using `\textsanskrit` explicitly) (\#10517)
+
+### Changed
+- Activate handling of extended optional argument of sectioning macros
+
+### Fixed
+- Add missing `z` to sorting of NP glossary (\#10290)
+- Correct output for attestation in NP context (\#10290)
+- Add running header for `\listoffigurestables`
+- Fix handling of `isbn` information in `annotation` field
+
 ## [0.76.0] - 2021-01-26
 ### Added
 - Support for `@Software` entries (\#10360)
@@ -941,6 +956,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.77.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.77.0
 [0.76.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.76.0
 [0.75.1]:
