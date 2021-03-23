@@ -649,11 +649,6 @@
 %      tocnumwidth=10\parindent%
    ]{subparagraph}
    \@namedef{subparagraphsectiontocdepth}{8}
-%
-%   \RedeclareSectionCommands[tocdynnumwidth]{%
-%      section,subsection,subsubsection,subthreesection,%
-%      subfoursection,subfivesection,paragraph,subparagraph%
-%   }   
 \else%
    \RedeclareSectionCommand[%
       beforeskip=-2\baselineskip,%
@@ -663,7 +658,19 @@
       tocindent=\dimexpr\@tocstartindent\relax,%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
-   %
+%
+   \ProvideSectionCommand[%
+      style=section,%
+      beforeskip=-2\baselineskip,%
+      afterskip=1\baselineskip,%
+      font={\normalsize\bfseries},%
+      indent=0bp,%
+      level=1,%
+      tocnumwidth=8mm,%
+      tocindent=\dimexpr\@tocstartindent\relax,%
+   ]{sectionnumeral}
+   \@namedef{sectionnumeraltocdepth}{1}
+%   
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -740,7 +747,7 @@
    ]{subfivesection}
    \renewcommand*{\thesubfivesection}{\thesubfoursection.\arabic{subfivesection}}
    \@namedef{subfivesectiontocdepth}{6}
-
+%
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -753,7 +760,7 @@
    ]{paragraph}
    \renewcommand*{\theparagraph}{\thesubfivesection.\arabic{paragraph}}
    \@namedef{paragraphsectiontocdepth}{7}
-
+%
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=1sp,%
@@ -850,7 +857,7 @@
    toclinefill=\tocpageseparator,%
    tocpagenumberbox=\tocpagenumberbox,%
    tocentrynumberformat=\@tocentrynumberfont,%
-   ]{part,chapter,section,subsection,subsubsection}
+   ]{part,chapter,section,subsection,subsubsection,sectionnumeral,subsectionnumeral}
 \RedeclareSectionCommands[%
    tocpagenumberbox={\@gobble}%
    ]{part}
@@ -866,7 +873,30 @@
    \reserved@a
    \addsecmark{}%
 }
-
+\newcommand{\addsecnum}{\secdef\@addsecnum\@saddsecnum}
+\newcommand*{\@addsecnum}{}
+\def\@addsecnum[#1]#2{%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \sectionnumeral[{#1}]{#2}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+}
+\newcommand*{\@saddsecnum}[1]{%
+   \edef\reserved@a{%
+      \unexpanded{%
+         \sectionnumeral*{#1}%
+         \c@secnumdepth=
+      }\the\c@secnumdepth\relax
+   }%
+   \c@secnumdepth=\numexpr \sectionnumdepth-1\relax
+   \reserved@a
+   \addsecmark{}%
+}
+%
 \newcommand{\addsubsec}{\secdef\@addsubsec\@saddsubsec}
 \newcommand*{\@addsubsec}{}
 \def\@addsubsec[#1]#2{%
