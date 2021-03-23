@@ -1353,7 +1353,6 @@
 \newcommand*{\SetDefaultStanzabooktoindex}[1]{%
    \settoggle{@stanzabooktoindex}{#1}}
 \newtoggle{@stanzalinenumbers}
-
 \define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
 \define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
 \define@key{stanza}{linenumbers}[true]{\settoggle{@stanzalinenumbers}{#1}}
@@ -1403,8 +1402,8 @@
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
       \paralleltypesetting%
-         {\GetstanzaTextonly[linenumbers]{#2#1}}%
-         {\minisec{\bookstringtocs{#2}}\Gettranslation[linenumbers]{#2}}%
+         {\GetstanzaTextonly{#2#1}}%
+         {\minisec{\bookstringtocs{#2}}\Gettranslation{#2}}%
    \else
       % Call the blocktranslation macro with appropriate arguments   
       \blocktranslation[\bookstringtocs{#2}]%
@@ -1472,9 +1471,9 @@
 % For conveniance
 \let\newtranslation\Newtranslation
 
-\newtoggle{@translationlinenumbers}
+%\newtoggle{@translationlinenumbers}
 \define@key{translation}{linenumbers}[true]{%
-   \settoggle{@translationlinenumbers}{#1}}
+   \settoggle{@stanzalinenumbers}{#1}}
 \newcommand*{\@rdposition}{}
 \define@key{translation}{rdposition}{\renewcommand*{\@rdposition}{#1}}
 
@@ -1482,7 +1481,7 @@
 \newcommand{\@Gettranslation}[1]{\@@Gettranslation[rdposition=none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
    \setkeys{translation}{#1}%
-   \iftoggle{@translationlinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
+   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
    % Outside a blocktranslation we store the information, that we used a 
    % special \newline for the current line
    \if@inblocktranslation
@@ -1674,42 +1673,44 @@
 %%% to store, whether or not this line gets a line number.
 %%% It is the counterpart of macro \@getlinenumberstatus
 \newcommand{\@setlinenumberstatus}{%
-   \if@innumberlines
-      \xdef\muyalinenumber{\themuyalinenumber}%
-      % If the line should get a line number, write a corresponding macro
-      % into th aux file.
-      \iftoggle{@setlinenumberforthisline}%
-         {%
-            \immediate\write\@auxout{\csxdef{linenumber-\muyalinenumber}{}}%
-         }%
-         {}%
-      % set variables for next line
-      \refstepcounter{muyalinenumber}%
-      % If we are still within ritual direction or commentary text, do not 
-      % number the next line.
-      \ifboolexpr{ bool {@inrd} 
-                or bool {@iscommentarytext}
-                or bool {@inRDTrans}}        
-         {}%{\global\settoggle{@setlinenumberforthisline}{false}}%
-         {\global\settoggle{@setlinenumberforthisline}{true}}%
-   \fi%
+   \ifboolexpr{ bool {@innumberlines} and togl {@stanzalinenumbers} }% 
+      {%
+         \xdef\muyalinenumber{\themuyalinenumber}%
+         % If the line should get a line number, write a corresponding macro
+         % into th aux file.
+         \iftoggle{@setlinenumberforthisline}%
+            {%
+               \immediate\write\@auxout{\csxdef{linenumber-\muyalinenumber}{}}%
+            }%
+            {}%
+         % set variables for next line
+         \refstepcounter{muyalinenumber}%
+         % If we are still within ritual direction or commentary text, do not 
+         % number the next line.
+         \ifboolexpr{ bool {@inrd} 
+                   or bool {@iscommentarytext}
+                   or bool {@inRDTrans}}        
+            {}%{\global\settoggle{@setlinenumberforthisline}{false}}%
+            {\global\settoggle{@setlinenumberforthisline}{true}}%
+      }{}%
 }
 
 %%% This macro is called at the beginning of a line, i.e. right after a \\ or
 %%% \newline has been called.
 \newcommand{\@getlinenumberstatus}{%
-   \if@innumberlines
-      \xdef\muyalinenumber{\themuyalinenumber}%
-      % If a macro is defined for the current line, i.e. through the aux file 
-      % from the previous run by \@setlinenumberstatus, then make a marginal
-      % note.
-      \ifcsdef{linenumber-\muyalinenumber}%
-         {%
-            \marginnote{\thelinenumberforstanza}[.17\baselineskip]%
-            \refstepcounter{linenumberforstanza}%
-         }%
-         {}%
-   \fi%
+   \ifboolexpr{ bool {@innumberlines} and togl {@stanzalinenumbers} }% 
+      {%
+         \xdef\muyalinenumber{\themuyalinenumber}%
+         % If a macro is defined for the current line, i.e. through the aux 
+         % file from the previous run by \@setlinenumberstatus, then make a 
+         % marginal note.
+         \ifcsdef{linenumber-\muyalinenumber}%
+            {%
+               \marginnote{\thelinenumberforstanza}[.17\baselineskip]%
+               \refstepcounter{linenumberforstanza}%
+            }%
+            {}%
+      }{}%
 }
 
 \newif\if@intextandtranslation
