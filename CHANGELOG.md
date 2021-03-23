@@ -6,11 +6,23 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.78.0] - 2021-03-23
+### Added
+- New macros `\addsecnum` and `addsecnum*` for headings consisting of a number or string of numbers only
+- New environment `textandtranslation` for first version of side-by-side layout 
+- New macro `\GetstanzasWithtranslations{stanzaA}{stanzaB}` puts stanza A together with its translation on an even page and stanza B with its translation on the facing (odd) page; needs to be called within `textandtranslation`
+- Option `linenumbers` for `\GetstanzaTextonly` and `\Gettranslation` (currently for internal usage only)
+
+### Changed
+- `\GetstanzaWithtranslation` checks for environment `textandtranslation`
+
+
 ## [0.77.0] - 2021-03-20
 ### Added
 - New book macro `\PS` (\#10413)
 - New macro `\brillbottomrule` to be used together with `\\*` by the user
 - Support for character `Danda` (U+0964) so that it works within Latin text (without using `\textsanskrit` explicitly) (\#10517)
+- New macros `\addsubsecnum` and `addsubsecnum*` for headings consisting of a number or string of numbers only
 
 ### Changed
 - Activate handling of extended optional argument of sectioning macros
@@ -956,6 +968,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.78.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.78.0
 [0.77.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.77.0
 [0.76.0]:
