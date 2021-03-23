@@ -29,7 +29,7 @@
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
-%\RequirePackage[soul]{lua-ul}
+\RequirePackage[pages=absolute]{flowfram}
 %\if@printversion
 %   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
 %\else
@@ -1106,6 +1106,9 @@
 % We define macros to be used (only) within the stnazas/apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcounter{appcrnewline}
+\newcounter{muyalinenumber}
+\newcounter{linenumberforstanza}
+\newtoggle{@setlinenumberforthisline}
 \newcommand{\appcrnewline}{%
    \stepcounter{appcrnewline}%
    % Check whether we have to end a commentary passage
@@ -1124,7 +1127,27 @@
    \else
       \global\@iscontinuedcommentarytextfalse%
    \fi%
-   \par\noindent\hangindent\parindent\hangafter=1\relax}
+   \@setlinenumberstatus%
+   \par\noindent\hangindent\parindent\hangafter=1\relax%
+   \@getlinenumberstatus%
+}
+\newcommand{\lastnewline}{%
+   \stepcounter{appcrnewline}%
+   \if@iscommentarytext
+      \global\@iscontinuedcommentarytexttrue%
+      \ifcsdef{commcont-\theappcrnewline}%
+         {}%
+         {% Next line starts with something else -> end passage
+            \unskip\textrangle{}% closing bracket >
+            \global\@iscommentarytextfalse%
+         }%
+   \else
+      \global\@iscontinuedcommentarytextfalse%
+   \fi%
+   \@setlinenumberstatus%
+   \par%
+}
+
 % We need to know whether we have the first reading
 \newif\if@firstrdg
 
@@ -1143,25 +1166,32 @@
 % variant starts rightaway.
 \newif\if@startwithnewline
 \@startwithnewlinetrue
-\def\rd{\@ifstar{\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
-%
+\newif\if@inrd
+\newcommand{\rd}{\@ifstar%
+   {\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
+
 \newcommand{\@rd}[1]{%TODO: Spacing
+   \@inrdtrue%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    \if@editedtextonly\else
       \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
       \begingroup%
-      %\let\newline\appcrnewline%
-      \tolerance=1%
-      \emergencystretch=\maxdimen%
-      \hyphenpenalty=\@M%
-      %\exhyphenpenalty=\@M%
-      \hbadness=\@M%
-      \noindent% 
-      \hangindent\parindent\hangafter=1\relax%
-      #1\par\nobreak\vspace{.5\baselineskip}\noindent%
+         %\let\newline\appcrnewline%
+         \tolerance=1%
+         \emergencystretch=\maxdimen%
+         \hyphenpenalty=\@M%
+         %\exhyphenpenalty=\@M%
+         \hbadness=\@M%
+         \noindent% 
+         \hangindent\parindent\hangafter=1\relax%
+         \@getlinenumberstatus%
+         #1\par\nobreak\vspace{.5\baselineskip}\noindent%
       \endgroup%
    \fi%
+   \@inrdfalse%
    \hangindent\parindent\hangafter=1\relax%
    \ignorespaces%
+%   \global\settoggle{@setlinenumberforthisline}{true}%
 }
 % We need to know, whether it's the first witness (sub)class call
 \newif\if@firstwitclass
@@ -1273,8 +1303,11 @@
       \let\newline\appcrnewline%
       \let\\\appcrnewline%
       \par\hangindent\parindent\hangafter=1\noindent\ignorespaces%
+      % Check, whether to number _first_ line
+      \@getlinenumberstatus%
    \fi%
 }{%
+   \global\settoggle{@setlinenumberforthisline}{false}%
    \par%
    % If the apparatus is not empty, output it in two columns
    \ifdefempty{\@appcr}{}{%
@@ -1313,20 +1346,25 @@
 % We define key-value options for \Getstanza
 
 \newcommand{\@defaultstanzaheading}{\minisec}
-\newcommand{\SetDefaultStanzaheading}[1]{\renewcommand{\@defaultstanzaheading}{#1}}
+\newcommand{\SetDefaultStanzaheading}[1]{%
+   \renewcommand{\@defaultstanzaheading}{#1}}
 \newcommand{\@stanzaheading}{}
 \newtoggle{@stanzabooktoindex}
 \settoggle{@stanzabooktoindex}{true}
-\newcommand*{\SetDefaultStanzabooktoindex}[1]{\settoggle{@stanzabooktoindex}{#1}}
+\newcommand*{\SetDefaultStanzabooktoindex}[1]{%
+   \settoggle{@stanzabooktoindex}{#1}}
+\newtoggle{@stanzalinenumbers}
 \define@key{stanza}{heading}{\renewcommand{\@stanzaheading}{#1}}
 \define@key{stanza}{booktoindex}[true]{\settoggle{@stanzabooktoindex}{#1}}
+\define@key{stanza}{linenumbers}[true]{\settoggle{@stanzalinenumbers}{#1}}
 
 % Define macro \Getstanza[heading]{reference}
 \newcommand{\Getstanza}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
    \ifcsdef{stanza-#2}%
       {\addfontfeatures{RawFeature=-liga}\csuse{stanza-#2}}%
-      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
+      {\ClassError{brill}%
+         {Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 \newif\if@editedtextonly
@@ -1336,27 +1374,78 @@
 }
 \newcommand{\@GetstanzaTextonly}[2][]{%
    \setkeys{stanza}{heading=\@defaultstanzaheading,#1}%
+   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
    \ifcsdef{stanza-#2}%
       {%
          \begingroup%
             \let\app\@gobble%
             \addfontfeatures{RawFeature=-liga}%
-            \csuse{stanza-#2}%
+            \csuse{stanza-#2}%   
          \endgroup%
       }%
-      {\ClassError{brill}{Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
+      {\ClassError{brill}%
+         {Stanza `#2` could not be read}{There is no macro for stanza `#2`}}%
 }
 
 % Define a macro to convert a book string like Y28.1 into a control sequence like \Y{28.1}
-\newcommand{\bookstringtocs}[1]{\directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
+\newcommand{\bookstringtocs}[1]{%
+   \directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
 
 \newif\if@inblocktranslation
-% Define a macro to output the stanza text and its translation as blocktranslation
+% Define a macro to output the stanza text and its translation as 
+% blocktranslation
 % #1 is the reference of a stanza, e.g. Y28.1
-\newcommand{\GetstanzaWithtranslation}[1]{%
-% Call the blocktranslation macro with appropriate arguments   
-   \blocktranslation[\bookstringtocs{#1}]{}{\GetstanzaTextonly*[heading=none]{#1}}{\Gettranslation*{#1}}%
+% The starred version uses the -transcript variant of the stanza imported with
+% \Importstanzas*{file} and the common translation
+\newcommand{\GetstanzaWithtranslation}{\@ifstar%
+   {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
+
+\newcommand{\@GetstanzaWithtranslation}[2][]{%
+   \if@intextandtranslation
+      \paralleltypesetting%
+         {\GetstanzaTextonly{#2#1}}%
+         {\minisec{\bookstringtocs{#2}}\Gettranslation{#2}}%
+   \else
+      % Call the blocktranslation macro with appropriate arguments   
+      \blocktranslation[\bookstringtocs{#2}]%
+         {}%
+         {\GetstanzaTextonly*[heading=none]{#2#1}}{\Gettranslation*{#2}}%
+   \fi%
 }
+
+\newcommand{\GetstanzasWithtranslations}{\@ifstar%
+   {\@GetstanzasWithtranslations[-transcript]}{\@GetstanzasWithtranslations}%
+}
+\newcommand{\@GetstanzasWithtranslations}[3][]{%
+   \if@intextandtranslation
+      \paralleltypesetting%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \GetstanzaTextonly[linenumbers]{#2#1}%
+         }%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \reversemarginpar%
+            \GetstanzaTextonly[linenumbers]{#3}% No opt. argument
+         }%
+      \paralleltypesetting%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \Gettranslation[linenumbers]{#2}%
+         }%
+         {%
+            \global\settoggle{@setlinenumberforthisline}{true}%
+            \reversemarginpar%
+            \Gettranslation[linenumbers]{#3}%
+         }%
+   \else
+      \ClassError{brill}%
+         {Macro `\GetstanzasWithtranslations` outside `textandtranslation` 
+            environment}%
+         {}%
+   \fi%
+}
+
 \newif\if@substforeign
 \newcounter{foreign@in@editedtext}
 \newcommand{\GetstanzaWithtranscription}[1]{%
@@ -1383,9 +1472,19 @@
 % For conveniance
 \let\newtranslation\Newtranslation
 
-\newcommand*{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
-\newcommand{\@Gettranslation}[1]{\@@Gettranslation[none]{#1}}
+%\newtoggle{@translationlinenumbers}
+\define@key{translation}{linenumbers}[true]{%
+   \settoggle{@stanzalinenumbers}{#1}}
+\newcommand*{\@rdposition}{}
+\define@key{translation}{rdposition}{\renewcommand*{\@rdposition}{#1}}
+
+\newcommand{\Gettranslation}{\@ifstar\@Gettranslation\@@Gettranslation}
+\newcommand{\@Gettranslation}[1]{\@@Gettranslation[rdposition=none]{#1}}
 \newcommand{\@@Gettranslation}[2][]{%
+   \setkeys{translation}{#1}%
+   \iftoggle{@stanzalinenumbers}{\setcounter{linenumberforstanza}{1}}{}%
+   % Outside a blocktranslation we store the information, that we used a 
+   % special \newline for the current line
    \if@inblocktranslation
    \else
       \refstepcounter{specialnewline}%
@@ -1394,11 +1493,12 @@
    \begingroup%
       \let\newline\@specialnewline%
       \let\\\@specialnewline%
+      % No indention outside blocktranslation environment
       \if@inblocktranslation
       \else
          \setlength{\parindent}{0pt}%
       \fi%
-      \IfStrEqCase{#1}{%
+      \IfStrEqCase{\@rdposition}{%
          {t}{%
             \par\noindent%
             \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
@@ -1412,33 +1512,231 @@
          }%
          {none}{%
             \let\RDTrans\@gobble%
-            %\par%
-            %\if@stanza@in@blocktranslation
-            %\else
-            %\ifcsdef{specialnewline\@currvalspecialnewline}%
-            %   {\@linebreakwithindent}%
-            %   {\par\noindent}%
-            %\fi%
             \csuse{translation-#2}%
-            %\if@stanza@in@blocktranslation
-            %\else
-            %   \@linebreakwithindent%
-            %\fi%
             \par%
          }%
       }[%
+         % We have to check, whether the first line is long and needs the 
+         % special layout with hanging lines
          \ifcsdef{specialnewline\@currvalspecialnewline}%
-            {\@linebreakwithindent\vspace{\baselineskip}}%
-            {\par\vspace{\baselineskip}\noindent}%
-         \csuse{translation-#2}%
-         \@linebreakwithindent%
+            {\@@linebreakwithindent\addvspace{\baselineskip}}%
+            {\par\addvspace{\baselineskip}\noindent}%
+         \ifcsdef{translation-#2}%
+            {%
+               % Number _first_ line (if needed)
+               \@getlinenumberstatus%
+               % Output translation
+               \csuse{translation-#2}%
+               % Check, whether _last_ line has to be numbered
+               \@setlinenumberstatus%
+               % add new line marker (without any line numbering stuff)
+               \@@linebreakwithindent%
+            }%
+            {\ClassWarning{brill}{No translation found for #2}}%
       ]%
    \endgroup%
 }
 
-% For conveniance
+% For convenience
 \let\gettranslation\Gettranslation
 
+% We need a special environment for typesetting of text and translation (or any
+% other two corresponding texts) on facing pages
+% We define a main text frame and two dynamic frames based on the flowfram 
+% package
+% The idea comes from https://tex.stackexchange.com/questions/165019/parallel-paragraphs-across-odd-and-even-pages
+\newflowframe{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[main]
+\newdynamicframe[odd]{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[translation]
+\newdynamicframe[even]{\textwidth}{\dimexpr\textheight-\baselineskip\relax}%
+   {0pt}{0pt}[text]
+
+% \checkisroom{idl}{text}
+\providecommand{\@gobblethree}[3]{}
+% Define a temporary box and a test macro
+\newsavebox\tmpsbox
+\newif\ifenoughroom
+\newcommand{\checkisroom}[2]{%
+   \bgroup
+   % get the frame's idn (stored in \ff@id)
+   \@dynamicframeid{#1}%
+   % temporarily suspend writing to external files
+   \let\protected@write\@gobblethree
+   % put the frame's contents and the pending text into 
+   % the temporary sbox
+   \begin{lrbox}{\tmpsbox}%
+      \begin{minipage}{\textwidth}%
+         \csname @dynamicframe@\romannumeral\ff@id\endcsname
+         \par
+         #2%
+      \end{minipage}%
+   \end{lrbox}%
+   % Does it fit the page?
+   \settoheight{\@ff@tmp@y}{\usebox\tmpsbox}%
+   \settodepth{\dimen@ii}{\usebox\tmpsbox}%
+   \addtolength{\@ff@tmp@y}{\dimen@ii}%
+   \ifdim\@ff@tmp@y>\textheight
+      \global\enoughroomfalse
+   \else
+      \global\enoughroomtrue
+   \fi%
+   \egroup
+}
+
+% \getcontentsheight{length}{text}
+\newcommand{\getcontentsheight}[2]{%
+   \bgroup
+   \let\protected@write\@gobblethree
+   \begin{lrbox}{\tmpsbox}%
+      \begin{minipage}{\textwidth}%
+         #2%
+      \end{minipage}%
+   \end{lrbox}%
+   \settoheight{\@ff@tmp@y}{\usebox\tmpsbox}%
+   \settodepth{\dimen@ii}{\usebox\tmpsbox}%
+   \addtolength{\@ff@tmp@y}{\dimen@ii}%
+   \global#1=\@ff@tmp@y\relax
+   \egroup
+}
+
+%\newcounter{heading}
+\newlength\blockheight
+\newif\if@firstblock
+\newcommand{\blocksep}{%
+   \if@firstblock
+      \par%
+      \global\@firstblockfalse%
+   \else
+      \par\vspace{\baselineskip}%
+   \fi%   
+}
+
+% \annote{annotation}{text}
+
+\newcommand{\paralleltypesetting}[2]{%
+   % get height of the first argument
+   \getcontentsheight{\blockheight}{#1}%
+   % save it as the larger block (for now)
+   \def\largerblock{#1}%
+   % get height of the second argument
+   \getcontentsheight{\@ff@tmp@y}{#2}%
+   % check, whether it is larger than the first block
+   \ifdim\blockheight<\@ff@tmp@y
+      \blockheight=\@ff@tmp@y\relax
+      \def\largerblock{#2}%
+   \fi%
+   \edef\startblock{%
+      %\noexpand\global\noexpand\@firstblocktrue
+      \noexpand\blocksep
+      \noexpand\begin{minipage}[t][\the\blockheight]{\the\textwidth}%
+         \noexpand\setlength{\noexpand\parindent}{\the\parindent}%
+         %\noexpand\par\noexpand\noindent\noexpand\ignorespaces
+   }%
+   \checkisroom{translation}{\largerblock}%
+   \ifenoughroom
+      \@dynamicframeid{text}%
+      \expandafter\appenddynamiccontents\expandafter\ff@id
+      %\expandafter\global\expandafter\@firstblocktrue
+      \expandafter{%
+         \expandafter\blocksep%
+         \startblock#1%
+         \end{minipage}%
+      }%
+      \@dynamicframeid{translation}%
+      \expandafter\appenddynamiccontents\expandafter\ff@id
+      %\expandafter\global\expandafter\@firstblocktrue
+      \expandafter{%
+         \expandafter\blocksep%
+         \startblock#2%
+         \end{minipage}%
+      }%
+   \else
+      % output 2 pages
+      \cleartoeven
+      \@dynamicframeid{text}%
+      \expandafter\setdynamiccontents\expandafter\ff@id
+      \expandafter{\startblock#1\end{minipage}}%
+      \@dynamicframeid{translation}%
+      \expandafter\setdynamiccontents\expandafter\ff@id
+      \expandafter{\startblock#2\end{minipage}}%
+   \fi%
+   \par\vspace{\baselineskip}%
+}
+
+\newcommand{\cleartoeven}{%
+   \Ifthispageodd% KOMA macro
+      {\newpage}%
+      {\mbox{}\newpage\mbox{}\newpage}%
+}
+\def\muyalinenumber{}
+%%% This macro is applied at the end of a line (when \\ or \newline is called)
+%%% to store, whether or not this line gets a line number.
+%%% It is the counterpart of macro \@getlinenumberstatus
+\newcommand{\@setlinenumberstatus}{%
+   \ifboolexpr{ bool {@innumberlines} and togl {@stanzalinenumbers} }% 
+      {%
+         \xdef\muyalinenumber{\themuyalinenumber}%
+         % If the line should get a line number, write a corresponding macro
+         % into th aux file.
+         \iftoggle{@setlinenumberforthisline}%
+            {%
+               \immediate\write\@auxout{\csxdef{linenumber-\muyalinenumber}{}}%
+            }%
+            {}%
+         % set variables for next line
+         \refstepcounter{muyalinenumber}%
+         % If we are still within ritual direction or commentary text, do not 
+         % number the next line.
+         \ifboolexpr{ bool {@inrd} 
+                   or bool {@iscommentarytext}
+                   or bool {@inRDTrans}}        
+            {}%{\global\settoggle{@setlinenumberforthisline}{false}}%
+            {\global\settoggle{@setlinenumberforthisline}{true}}%
+      }{}%
+}
+
+%%% This macro is called at the beginning of a line, i.e. right after a \\ or
+%%% \newline has been called.
+\newcommand{\@getlinenumberstatus}{%
+   \ifboolexpr{ bool {@innumberlines} and togl {@stanzalinenumbers} }% 
+      {%
+         \xdef\muyalinenumber{\themuyalinenumber}%
+         % If a macro is defined for the current line, i.e. through the aux 
+         % file from the previous run by \@setlinenumberstatus, then make a 
+         % marginal note.
+         \ifcsdef{linenumber-\muyalinenumber}%
+            {%
+               \marginnote{\thelinenumberforstanza}[.17\baselineskip]%
+               \refstepcounter{linenumberforstanza}%
+            }%
+            {}%
+      }{}%
+}
+
+\newif\if@intextandtranslation
+\newif\if@innumberlines
+\newenvironment{textandtranslation}%
+   {%
+      \global\@intextandtranslationtrue%
+      \global\@innumberlinestrue%
+      \cleartoeven
+      \setdynamiccontents*{text}{}%
+      \setdynamiccontents*{translation}{}%
+      %\global\@firstblocktrue%
+   }%
+   {%
+      \cleartoeven
+      \setdynamiccontents*{text}{}%
+      \setdynamiccontents*{translation}{}%
+      \global\@innumberlinesfalse%
+      \global\@intextandtranslationfalse%
+      %\settoggle{@stanzalinenumbers}{false}%
+   }%
+
+\AtEndDocument{\cleartoeven}
+
+%%%
 \newif\if@iscommentarytext
 \newif\if@iscontinuedcommentarytext
 \newrobustcmd*{\editedtext}[1]{%
@@ -1477,6 +1775,11 @@
 \newcommand{\editedcommentarytext}[1]{% Adaption of \editedtext
    % We test for specific texts and write them as they are.
    % All others get additional superscript numbers after each word.    
+   % Check, whether we are at the beginning of a line (following a \newline)
+   % If so, we deactivate the line numbering.
+   \ifvmode
+      \global\settoggle{@setlinenumberforthisline}{false}%
+   \fi%
    \Ifstrstart{#1}{(date, dedication of)}%
       {#1}%
       {% Check, whether this is the first commentary text
@@ -1505,11 +1808,18 @@
             \stepcounter{nextappcrfootnote}%
             {%
                \itshape%
-               \StrSubstitute{#1}{ }{\realsuperscript{\upshape\thenextappcrfootnote} }%
+               \StrSubstitute{#1}{ }%
+                  {\realsuperscript{\upshape\thenextappcrfootnote} }%
             }%
          \fi%
       }%
 }
+
+\newcommand{\trcommentarytext}[1]{%
+   \global\settoggle{@setlinenumberforthisline}{false}%
+   \textlangle{}#1\textrangle{}%
+}
+
 
 % We need a macro for text portions within the Avestan (italic) text.
 % In the XML these are <foreign> elements
@@ -1517,7 +1827,8 @@
 \newrobustcmd*{\foreign}[2][]{%
    \if@substforeign
       \stepcounter{foreign@in@editedtext}%
-      \Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
+%TODO: Check and fix this!%
+      %\Gettranscription{Y72.10-trans-\theforeign@in@editedtext}%
    \else
       \IfStrEqCase{#1}{%
          {pal-Avst}{\iftoggle{@inapp}{\textit{#2}}{\textit{#2}}}%
@@ -1526,7 +1837,7 @@
          {ae-fa}{\iftoggle{@inapp}{\textup{#2}}{\textit{#2}}}%
       }[%
          \ClassWarning{brill}{Found unknown foreign language `#1`\MessageBreak%
-            Result may not be as expected}%
+            Result may not be as expected!}%
          \iftoggle{@inapp}{\textup{#2}}{\textit{#2}}]%
    \fi%
 }
@@ -1930,7 +2241,14 @@
 \newcommand{\addblankline}[1][1]{\vspace{#1\baselineskip}}
 \newcommand*{\footnotetextsuperscript}[1]{\textsuperscript{\upshape #1}}
 \newcommand{\insertion}[1]{{\upshape #1}}
-\newcommand{\RDTrans}[1]{{\itshape #1}}
+\newif\if@inRDTrans
+\newcommand{\RDTrans}[1]{%
+   \@inRDTranstrue%
+   \global\settoggle{@setlinenumberforthisline}{false}%
+   {\itshape #1}%
+   \global\settoggle{@setlinenumberforthisline}{true}%
+   \@inRDTransfalse%
+}%
 %
 \let\@abstract\@empty%
 \ifbrill@PhD
