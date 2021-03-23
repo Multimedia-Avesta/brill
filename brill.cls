@@ -717,7 +717,7 @@
    ]{subthreesection}
    \renewcommand*{\thesubthreesection}{\thesubsubsection.\arabic{subthreesection}}
    \@namedef{subthreesectiontocdepth}{4}
-
+%
    \ProvideSectionCommand[%
       style=section,%
       beforeskip=-1\baselineskip,%
@@ -732,7 +732,7 @@
    ]{subfoursection}
    \renewcommand*{\thesubfoursection}{\thesubthreesection.\arabic{subfoursection}}
    \@namedef{subfoursectiontocdepth}{5}
-   
+%   
    \ProvideSectionCommand[%
       style=section,%
       beforeskip=-1\baselineskip,%
@@ -850,7 +850,7 @@
 \fi%
 \newcommand*{\@tocentrynumberfont}[1]{%
    {\normalfont\addfontfeature{Numbers=Tabular}#1}}
-\newcommand*{\tocpageseparator}{\unskip\hspace{2em}}
+\newcommand*{\tocpageseparator}{\unskip\hspace{4mm}}
 \newcommand*{\tocpagenumberbox}[1]{\mbox{#1}}%
 \RedeclareSectionCommands[%
    tocraggedpagenumber,%
