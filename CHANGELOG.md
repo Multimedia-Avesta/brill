@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.79.0] - 2021-03-25
+### Added
+- Options `debug` and `checkhyphens` to load packages `lua-typo` and `lua-check-hyphen` resp.
+
+### Changed
+- Deactivate `textandtranslation` for now as it has too problems (\#10592)
+
+### Fixed
+- Correct distance between heading and page reference in TOC
+- Add definitions for `\addsecnum` and `addsubsecnum` for `PhD` mode as well (\#10617)
+
+
 ## [0.78.0] - 2021-03-23
 ### Added
 - New macros `\addsecnum` and `addsecnum*` for headings consisting of a number or string of numbers only
@@ -968,6 +980,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.79.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.79.0
 [0.78.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.78.0
 [0.77.0]:
