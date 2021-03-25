@@ -564,7 +564,19 @@
       tocindent=\dimexpr\@tocstartindent\relax%
    ]{section}
    \renewcommand*{\thesection}{\arabic{section}}
-
+%
+   \ProvideSectionCommand[%
+      style=section,%
+      beforeskip=-2\baselineskip,%
+      afterskip=1\baselineskip,%
+      font={\normalsize\bfseries},%
+      indent=0bp,%
+      level=1,%
+      tocnumwidth=8mm,%
+      tocindent=\dimexpr\@tocstartindent\relax,%
+      ]{sectionnumeral}
+      \@namedef{sectionnumeraltocdepth}{1}
+%
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
@@ -572,7 +584,19 @@
       tocnumwidth=8mm,%
       tocindent=\dimexpr\@tocstartindent+8mm\relax%
    ]{subsection}
-   
+%
+   \ProvideSectionCommand[%
+      style=section,%
+      beforeskip=-1\baselineskip,%
+      afterskip=.5\baselineskip,%
+      font={\normalsize\bfseries},%
+      indent=0bp,%
+      level=2,%
+      tocnumwidth=8mm,%
+      tocindent=\dimexpr\@tocstartindent+8mm\relax,%
+      ]{subsectionnumeral}
+   \@namedef{subsectionnumeraltocdepth}{2}
+%   
    \RedeclareSectionCommand[%
       beforeskip=-1\baselineskip,%
       afterskip=.5\baselineskip,%
