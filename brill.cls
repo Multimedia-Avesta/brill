@@ -46,6 +46,7 @@
 \DeclareBoolOption[false]{printversion}
 \DeclareBoolOption[false]{colorlinks}
 %%%
+\DeclareBoolOption[false]{checkhyphens}
 \DeclareBoolOption[false]{debug}
 %%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
@@ -1750,6 +1751,10 @@
 }{}%
 
 \RequirePackage{shellesc} %TODO: Check whether still needed
+\ifbrill@checkhyphens
+%%% mark=true does not work, reason unknown
+   \RequirePackage{lua-check-hyphen}
+\fi%
 \ifbrill@debug
    \RequirePackage[All]{lua-typo}
 \fi%
