@@ -45,8 +45,9 @@
 \DeclareBoolOption[false]{countwords}
 \DeclareBoolOption[false]{printversion}
 \DeclareBoolOption[false]{colorlinks}
-%%
-
+%%%
+\DeclareBoolOption[false]{debug}
+%%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
 \DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
@@ -1749,6 +1750,9 @@
 }{}%
 
 \RequirePackage{shellesc} %TODO: Check whether still needed
+\ifbrill@debug
+   \RequirePackage[All]{lua-typo}
+\fi%
 \RequirePackage{url}
 \urlstyle{same}
 \ifbrill@colorlinks
