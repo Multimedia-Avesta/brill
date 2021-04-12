@@ -1016,6 +1016,25 @@
 
 % We need a second abbreviation list for the apparatus criticus
 \newglossary{appcrit}{appcritin}{appcritout}{Sigla and Abbreviations Used in the Critical Apparatus}
+\newglossarystyle{muyaac}{%
+   \setglossarystyle{brill}%
+   \renewenvironment{theglossary}%
+      {%
+         \setlength{\LTpre}{0pt}%
+         \setlength{\LTpost}{0pt}%
+         \setlength{\widestabbreviationac}{0pt}%
+         \begin{longtabu} to%
+            \textwidth{@{}p{\widestabbreviationac}%
+               @{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+      }%
+      {\end{longtabu}}%
+      \renewcommand{\glossentry}[2]{%
+         \@checkforwidestabbreviationac{##1}%
+         \glsentryitem{##1}\glstarget{##1}{\glossentryname{##1}}\strut &
+         \glossentrydesc{##1}\glspostdescription\space ##2\strut%
+         \tabularnewline%
+      }%
+}%   
 \newcommand*{\@listabbreviationsac}{}
 \newcommand*{\@listabbreviationsacadd}{}
 \newcommand*{\@listabbreviationsacremove}{}
@@ -1065,7 +1084,7 @@
          \renewcommand*{\arraystretch}{1.4}%
       \fi%
       \renewcommand{\glossarysection}[2][]{}%
-      \printabbreviations[type=appcrit]%
+      \printabbreviations[type=appcrit,style=muyaac]%
    \endgroup%
 }
 \newcommand{\@@printabbreviationsac}[1][]{%
@@ -1099,7 +1118,7 @@
    \ifbrill@PhD
       \renewcommand*{\arraystretch}{1.4}%
    \fi%
-   \printabbreviations[type=appcrit,title={\actitle}]%
+   \printabbreviations[type=appcrit,title={\actitle},style=muyaac]%
    \endgroup%
 }
 %
@@ -2156,37 +2175,65 @@
    \csuse{@sequenceofletters\the@numberofglossaries}%
    \par\vspace{\baselineskip}\noindent}
 
-\newdimen\widestabbreviationac
+\newlength{\widestabbreviationac}
 \setlength{\widestabbreviationac}{0pt}
 
 \newcommand*{\@checkforwidestabbreviationac}[1]{%
    \settowidth{\currentwidth}{#1}%
    \ifdimgreater{\currentwidth}{\widestabbreviationac}%
-      {\global\setlength{\widestabbreviationac}{\the\currentwidth}}%
+      {\global\setlength{\widestabbreviationac}{\currentwidth}}%
       {}%
 }
 
 \AtEndDocument{%
    \ifdimless{\widestabbreviationac}{\normalparindent}%
       {\immediate\write\@auxout%
-         {\noexpand\setlength{\widestabbreviationac}{\normalparindent}}%
+         {%
+            \noexpand\global%
+            \noexpand\setlength{\widestabbreviationac}%
+            {\dimexpr 1.0\dimexpr\the\normalparindent\relax \relax}%
+         }%
       }{\ifdimless{\widestabbreviationac}{2\normalparindent}%
          {\immediate\write\@auxout%
-            {\noexpand\setlength{\widestabbreviationac}{2\normalparindent}}%
+            {%
+               \noexpand\global%
+               \noexpand\setlength{\widestabbreviationac}%
+               {\dimexpr 2.0\dimexpr\the\normalparindent\relax \relax}%
+            }%
          }{\ifdimless{\widestabbreviationac}{3\normalparindent}%
             {\immediate\write\@auxout%
-               {\noexpand\setlength{\widestabbreviationac}{3\normalparindent}}%
+               {%
+                  \noexpand\global%
+                  \noexpand\setlength{\widestabbreviationac}%
+                  {\dimexpr 3.0\dimexpr\the\normalparindent\relax \relax}%
+               }%
             }{\ifdimless{\widestabbreviationac}{4\normalparindent}%
                {\immediate\write\@auxout%
-                  {\noexpand\setlength{\widestabbreviationac}{4\normalparindent}}%
+                  {%
+                     \noexpand\global%
+                     \noexpand\setlength{\widestabbreviationac}%
+                     {\dimexpr 4.0\dimexpr\the\normalparindent\relax \relax}%
+                  }%
                }{\ifdimless{\widestabbreviationac}{5\normalparindent}%
                   {\immediate\write\@auxout%
-                     {\noexpand\setlength{\widestabbreviationac}{5\normalparindent}}%
-                  }{\ifdimless{\widestabbreviationaac}{6\normalparindent}%
+                     {%
+                        \noexpand\global%
+                        \noexpand\setlength{\widestabbreviationac}%
+                        {\dimexpr 5.0\dimexpr\the\normalparindent\relax \relax}%
+                     }%
+                  }{\ifdimless{\widestabbreviationac}{6\normalparindent}%
                      {\immediate\write\@auxout%
-                        {\noexpand\setlength{\widestabbreviationac}{6\normalparindent}}%
+                        {%
+                           \noexpand\global%
+                           \noexpand\setlength{\widestabbreviationac}%
+                           {\dimexpr 6.0\dimexpr\the\normalparindent\relax \relax}%
+                        }%
                      }{\immediate\write\@auxout%
-                           {\noexpand\setlength{\widestabbreviationac}{7\normalparindent}}%
+                           {%
+                              \noexpand\global%
+                              \noexpand\setlength{\widestabbreviationac}%
+                              {\dimexpr 7.0\dimexpr\the\normalparindent\relax \relax}%
+                           }%
                      }%
                   }%
                }%
@@ -2201,22 +2248,31 @@
    \shorthandon{"}
    \InputIfFileExists{\@abbreviationsfile}%
       {\ClassInfo{brill}{Abbreviations successfully loaded!}}%
-      {\ClassWarning{brill}{No abbreviation file found!\MessageBreak
-       Please use \string\SetAbbreviationsFile\space}}%
+      {\ClassWarning{brill}{%
+         No abbreviation file found!\MessageBreak
+         Please use \string\SetAbbreviationsFile\space}%
+      }%
    \InputIfFileExists{\@abbreviationsacfile}%
-      {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully loaded!}}%
-      {\ClassWarning{brill}{No abbreviation file for apparatus criticus found!\MessageBreak
-       Please use \string\SetAbbreviationsacFile\space}}%
+      {\ClassInfo{brill}{Abbreviations for apparatus criticus successfully    
+         loaded!}}%
+      {\ClassWarning{brill}{%
+         No abbreviation file for apparatus criticus found!\MessageBreak
+         Please use \string\SetAbbreviationsacFile\space}%
+      }%
    \InputIfFileExists{\@translationsfile}%
       {\ClassInfo{brill}{Translations successfully loaded!}}%
-      {\ClassWarning{brill}{No translation file found!\MessageBreak
-       Please use \string\SetTranslationsFile\space}}%
+      {\ClassWarning{brill}{%
+         No translation file found!\MessageBreak
+         Please use \string\SetTranslationsFile\space}%
+      }%
    \shorthandoff{"}
    \IfFileExists{\@transcriptionsfile}%
       {%
          \directlua{read_transcriptions("\luaescapestring{\@transcriptionsfile}")}%
          \InputIfFileExists{transcriptions-mod.tex}%
-            {\ClassInfo{brill}{\ClassInfo{brill}{Transcriptions successfully loaded from `\@transcriptionsfile`!}}}
+            {%
+               \ClassInfo{brill}{Transcriptions successfully loaded from `\@transcriptionsfile`!}%
+            }%
             {%
                \ClassWarning{brill}{Problem with loading transcriptions from `\@transcriptionsfile`\MessageBreak No transcriptions available}%
             }%

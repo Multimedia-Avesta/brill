@@ -346,8 +346,8 @@
       \ClassWarning{brill}{No series option found.}%
    \else
       \InputIfFileExists{\brill@series.tex}%
-         {\ClassInfo{brill}{Successfully loaded configuration file for series
-         ``\brill@series''}%
+         {\ClassInfoNoLine{brill}{%
+           Successfully loaded configuration file for series ``\brill@series''}%
          }%
          {\ClassWarning{brill}{Could not load file `\brill@series`.tex}}%
    \fi%
@@ -1186,8 +1186,8 @@
 \setlength{\LTpost}{\normalbaselineskip}
 %\setlength{\LTcapwidth}{\linewidth}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
-   {\ClassInfo{brill}{\string\bottomrule\space successfully patched!}}%
-   {\ClassInfo{brill}{\string\bottomrule\space could not be patched!}}%
+   {\ClassInfoNoLine{brill}{\string\bottomrule\space successfully patched!}}%
+   {\ClassInfoNoLine{brill}{\string\bottomrule\space could not be patched!}}%
 \setlength{\heavyrulewidth}{0.6bp}%
 \setlength{\lightrulewidth}{0.3bp}%
 % For \toprule, midrule and bottomrule, but _not_ specialrule
@@ -1791,43 +1791,81 @@
    automake=immediate,
    xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
 %
-\newdimen\widestabbreviation
-\setlength{\widestabbreviation}{0bp}
-
+\newlength{\widestabbreviation}
 \newlength{\currentwidth}
 \newcommand*{\@checkforwidestabbreviation}[1]{%
    \settowidth{\currentwidth}{#1}%
    \ifdimgreater{\currentwidth}{\widestabbreviation}%
-      {\global\setlength{\widestabbreviation}{\the\currentwidth}}%
+      {\global\setlength{\widestabbreviation}{\currentwidth}}%
       {}%
 }
 
 \AtEndDocument{%
-   \ifdimless{\widestabbreviation}{\normalparindent}%
+   \ClassInfoNoLine{brill}{\the\widestabbreviation\space\the\normalparindent}%
+   \ifdimless{\widestabbreviation}{1.0\normalparindent}%
       {\immediate\write\@auxout%
-         {\noexpand\setlength{\widestabbreviation}{\normalparindent}}%
-      }{\ifdimless{\widestabbreviation}{2\normalparindent}%
-         {\immediate\write\@auxout%
-            {\noexpand\setlength{\widestabbreviation}{2\normalparindent}}%
-         }{\ifdimless{\widestabbreviation}{3\normalparindent}%
+         {%
+            \noexpand\global%
+            \noexpand\setlength{\widestabbreviation}%
+            {\dimexpr 1.0\dimexpr\the\normalparindent\relax \relax}%
+         }%
+      }%
+      {%
+         \ifdimless{\widestabbreviation}{2.0\normalparindent}%
             {\immediate\write\@auxout%
-               {\noexpand\setlength{\widestabbreviation}{3\normalparindent}}%
-            }{\ifdimless{\widestabbreviation}{4\normalparindent}%
+               {%
+                  \noexpand\global%
+                  \noexpand\setlength{\widestabbreviation}%
+                  {\dimexpr 2.0\dimexpr\the\normalparindent\relax \relax}%
+               }%
+            }%
+            {%
+               \ifdimless{\widestabbreviation}{3.0\normalparindent}%
                {\immediate\write\@auxout%
-                  {\noexpand\setlength{\widestabbreviation}{4\normalparindent}}%
-               }{\ifdimless{\widestabbreviation}{5\normalparindent}%
+                  {%
+                     \noexpand\global%
+                     \noexpand\setlength{\widestabbreviation}%
+                     {\dimexpr 3.0\dimexpr\the\normalparindent\relax \relax}%
+                  }%
+               }%
+               {%
+                  \ifdimless{\widestabbreviation}{4.0\normalparindent}%
                   {\immediate\write\@auxout%
-                     {\noexpand\setlength{\widestabbreviation}{5\normalparindent}}%
-                  }{\ifdimless{\widestabbreviation}{6\normalparindent}%
+                     {%
+                        \noexpand\global%
+                        \noexpand\setlength{\widestabbreviation}%
+                        {\dimexpr 4.0\dimexpr\the\normalparindent\relax \relax}%
+                     }%
+                  }%
+                  {%
+                     \ifdimless{\widestabbreviation}{5.0\normalparindent}%
                      {\immediate\write\@auxout%
-                        {\noexpand\setlength{\widestabbreviation}{6\normalparindent}}%
-                     }{\immediate\write\@auxout%
-                           {\noexpand\setlength{\widestabbreviation}{7\normalparindent}}%
+                        {%
+                           \noexpand\global%
+                           \noexpand\setlength{\widestabbreviation}%
+                           {\dimexpr 5.0\dimexpr\the\normalparindent\relax \relax}%
+                        }%
+                     }%
+                     {%
+                        \ifdimless{\widestabbreviation}{6.0\normalparindent}%
+                        {\immediate\write\@auxout%
+                           {%
+                              \noexpand\global%
+                              \noexpand\setlength{\widestabbreviation}%
+                              {\dimexpr 6.0\dimexpr\the\normalparindent\relax \relax}%
+                           }%
+                        }%
+                        {\immediate\write\@auxout%
+                           {%
+                              \noexpand\global%
+                              \noexpand\setlength{\widestabbreviation}%
+                              {\dimexpr 7.0\dimexpr\the\normalparindent\relax \relax}%
+                           }%
+                        }%
                      }%
                   }%
                }%
             }%
-         }%
       }%
 }%
 \newlength{\@pdepth}
@@ -1835,10 +1873,12 @@
 \newglossarystyle{brill}{%
    \renewenvironment{theglossary}%
       {%
-         \setlength{\LTpre}{0bp}%
-         \setlength{\LTpost}{0bp}%
+         \setlength{\LTpre}{0pt}%
+         \setlength{\LTpost}{0pt}%
+         \setlength{\widestabbreviation}{0pt}%
          \begin{longtabu} to%
-            \textwidth{@{}p{\widestabbreviation}@{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+            \textwidth{@{}p{\widestabbreviation}%
+               @{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
       {\end{longtabu}}%
    \renewcommand*{\glossaryheader}{}%
