@@ -37,6 +37,7 @@
 \DeclareStringOption[dot]{enumsep}[dot]
 \DeclareStringOption[dot]{alphenumsep}[dot]
 \DeclareStringOption[3]{tocdepth}[3]
+\DeclareStringOption[Monospaced]{numberstyle}[Monospaced]
 %%%
 \DeclareBoolOption[false]{showgrid}
 \DeclareBoolOption[false]{gitver}
@@ -1346,7 +1347,7 @@
       width=full,%
       bfheaders,%
       booktabsstyle,%
-      numberstyle={Monospaced},%
+      numberstyle={\brill@numberstyle},%
       #1}% Set default and updated keys
    %%\renewcommand{\thefootnote}{\alph{footnote}}
    \setlength{\lineskip}{0bp}%
