@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+## [0.80.0] - 2021-04-13
+### Added
+- Class option `numberstyle` with values `Monospaced` (default) and `Proportional`
+
+### Fixed
+- Correct calculation of width for first column of abbreviations
+  
 
 ## [0.79.0] - 2021-03-25
 ### Added
@@ -980,6 +987,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.80.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.80.0
 [0.79.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.79.0
 [0.78.0]:
