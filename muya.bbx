@@ -56,6 +56,12 @@
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
 % Revert usage of sentence case
 \DeclareFieldFormat*{titlecase}{#1}%
+% For forthcoming add -a, -b, ... instead of (a), (b), ...
+\DeclareFieldFormat{extradate}{%
+   \iffieldnums{labelyear}
+      {\mknumalph{#1}}%
+      {\nbhyphen\mknumalph{#1}}%
+}
 
 \DeclareSourcemap{%
    \maps[datatype=bibtex]{%
@@ -347,9 +353,6 @@
 }{}%
 
 \renewcommand{\bibfont}{\normalfont\small}%
-
-%%% Automatic Sentence case for _no_ language at all
-%%%\DeclareCaseLangs{}
 
 \DeclareBibliographyDriver{inproceedings}{%
    \usebibmacro{bibindex}%
