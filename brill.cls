@@ -228,7 +228,11 @@
 \newrobustcmd*{\texttrackingLR}[1]{%
    \ifhmode\unskip\fi%
    {\trackingfont\ #1\ }\ignorespaces%
-}%   
+}%
+\newcommand{\qq}[1]{{%
+   \addfontfeatures{Ligatures=TeXOff}%
+   \symbol{"0022}\mbox{#1}\symbol{"0022}%
+}}   
 \RequirePackage{realscripts}
 %
 \ifbrill@PhD
