@@ -37,6 +37,20 @@
 }
 \DeclareLanguageMapping{british}{british-muya}
 
+% Remove glue for setting URL
+\biburlbigskip=0mu\relax
+
+% Make sure, that the ampersand sticks to the last but one name/entry
+\renewcommand*{\finalnamedelim}{\addnbspace\&\addspace}
+\renewcommand*{\finallistdelim}{\addnbspace\&\addspace}
+
+% Make sure, that URLs do not break after https:, but https://
+\patchcmd{\biburlsetup}%
+   {\def\UrlBigBreaks{\do\:\do\-}}%
+   {\def\UrlBigBreaks{\do\:\do\-\do\/}}%
+   {\ClassInfoNoLine{brill}{Macro \string\UrlBigBreaks\space successfully patched}}%
+   {\ClassWarningNoLine{brill}{Macro \string\UrlBigBreaks\space could not be patched}}%
+
 \DeclareFieldFormat[thesis]{type}{%
    \ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
 \DeclareFieldFormat[incollection,inproceedings]{volumes}{#1}
@@ -103,7 +117,7 @@
                match=\regexp{\A\{(.+)\}\Z},%
                replace=$1]%$
          \step[fieldsource=$MAPLOOP,%$
-               match=\regexp{\s+-\s+},%
+               match=\regexp{\s+[-–]\s+},%
                replace=\regexp{\x20and\x20}]             
      }%
 % Move the director of a @movie entry to the author field           
