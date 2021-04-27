@@ -51,7 +51,7 @@
 \DeclareBoolOption[false]{debug}
 %%%
 \DeclareBoolOption[true]{titlecase}
-\DeclareComplementaryOption{titlecase}{notitlecase}
+\DeclareComplementaryOption{notitlecase}{titlecase}
 %%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
@@ -310,6 +310,13 @@
          s = s:gsub ( "\\subsubsection%s*%b[]%s*%b{}", my_upper )
          s = s:gsub ( "\\subsubsection%s*%b{}", my_upper )
          s = s:gsub ( "\\addsubsubsec%s*%b{}", my_upper )
+         s = s:gsub ( "\\subthreesection%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subthreesection%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfoursection%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfoursection%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfivesection%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfivesection%s*%b{}", my_upper )
+         s = s:gsub ( "\\minisec%s*%b{}", my_upper )
          return s
       end
    \end{luacode*}
@@ -1167,7 +1174,8 @@
 \newcolumntype{L}{>{\strut\raggedright\arraybackslash}X<{\strut}}
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
-\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}@{}}
+\newcolumntype{m}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
