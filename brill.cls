@@ -50,6 +50,9 @@
 \DeclareBoolOption[false]{checkhyphens}
 \DeclareBoolOption[false]{debug}
 %%%
+\DeclareBoolOption[true]{titlecase}
+\DeclareComplementaryOption{titlecase}{notitlecase}
+%%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
 \DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
@@ -277,6 +280,42 @@
 \PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
+\RequirePackage{luacode}
+\ifbrill@titlecase
+   \begin{luacode*}
+      function my_upper ( z )
+      -- First, uppercase all starting lowercase letters ('%l' in Lua jargon)
+      -- "starting": %l is preceded by whitespace, {, or [
+      z = z:gsub ( "[%s{%[]%l" , string.upper )
+      -- Next, undo upper-casing for some words
+      z = z:gsub ( " Of " , string.lower ) 
+      z = z:gsub ( " The ", string.lower )
+      z = z:gsub ( " A "  ,  string.lower )
+      z = z:gsub ( " And "  ,  string.lower )
+      z = z:gsub ( " In "  ,  string.lower )
+      z = z:gsub ( " An "  ,  string.lower )
+      z = z:gsub ( " on "  ,  string.lower )
+      return z
+      end
+      function do_titlecasing ( s )
+         s = s:gsub ( "\\chapter%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\chapter%s*%b{}", my_upper )
+         s = s:gsub ( "\\addchap%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\section%s*%b{}", my_upper )
+         s = s:gsub ( "\\section%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsec%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsection%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsection%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsubsec%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsubsection%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsubsection%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsubsubsec%s*%b{}", my_upper )
+         return s
+      end
+   \end{luacode*}
+   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
+      "process_input_buffer", do_titlecasing, "do_titlecasing" )}}
+\fi%
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
 % We make sure, that this macro exists for older versions as well.
 \ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
