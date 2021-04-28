@@ -511,7 +511,7 @@
 
 \renewcommand*{\partheadstartvskip}{\null\vfill}
 \renewcommand*{\partheadmidvskip}{%
-   \par\nobreak\vskip\baselineskip%0pt%
+   \par\nobreak\vskip\baselineskip%
 }%
 \renewcommand*{\partheadendvskip}{%
    \par\nobreak\vskip -\baselineskip%
@@ -531,9 +531,6 @@
    tocindent=0bp%
 ]{part}
 
-\renewcommand{\partlineswithprefixformat}[3]{%
-   #2\enspace#3%
-}
 \renewcommand*{\thepart}{\arabic{part}}
 \renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
 \renewcommand*{\addparttocentry}[2]{%
@@ -545,25 +542,6 @@
       \upshape\itshape #2%
    }%
 }
-%\newlength{\@chapterheight}
-%\patchcmd[]{\scr@@makechapterhead}{\chapterheadendvskip}{%
-%%   \settoheight{\@chapterheight}{%
-%%      \parbox[b]{\textwidth}{%
-%%         \normalfont\usekomafont{disposition}{%
-%%            \usekomafont{chapter}{%
-%%               #2%
-%%            }%
-%%         }%
-%%      }%
-%%   }%
-%%   \ifdimless{\@chapterheight}{15pt}{%
-%%      \setlength{\@addchapterheight}{0bp}%
-%%   }{%
-%%      \setlength{\@addchapterheight}{6.4bp}%
-%%   }%
-%   \par\kern-\prevdepth\vspace{0pt}%
-%   \chapterheadendvskip%
-%}{}{}%
 
 \newlength{\@addchaptertocskip}
 %\newlength{\@addchapterheight}
