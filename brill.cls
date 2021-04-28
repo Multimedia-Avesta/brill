@@ -509,7 +509,7 @@
    \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
 }%
 
-\renewcommand*{\partheadstartvskip}{\null\vfill}
+\renewcommand*{\partheadstartvskip}{\cleardoubleoddemptypage\null\vfill}
 \renewcommand*{\partheadmidvskip}{%
    \par\nobreak\vskip\baselineskip%
 }%
