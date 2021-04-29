@@ -288,13 +288,19 @@
       -- "starting": %l is preceded by whitespace, {, or [
       z = z:gsub ( "[%s{%[]%l" , string.upper )
       -- Next, undo upper-casing for some words
-      z = z:gsub ( " Of " , string.lower ) 
-      z = z:gsub ( " The ", string.lower )
       z = z:gsub ( " A "  ,  string.lower )
-      z = z:gsub ( " And "  ,  string.lower )
-      z = z:gsub ( " In "  ,  string.lower )
       z = z:gsub ( " An "  ,  string.lower )
+      z = z:gsub ( " The ", string.lower )
+      z = z:gsub ( " And "  ,  string.lower )
+      z = z:gsub ( " But "  ,  string.lower )
+      z = z:gsub ( " For "  ,  string.lower )
+      z = z:gsub ( " Or "  ,  string.lower )
+      z = z:gsub ( " Nor "  ,  string.lower )
+      z = z:gsub ( " Van "  ,  string.lower )
+      z = z:gsub ( " De "  ,  string.lower )
+      z = z:gsub ( " In "  ,  string.lower )
       z = z:gsub ( " on "  ,  string.lower )
+      z = z:gsub ( " Of " , string.lower ) 
       return z
       end
       function do_titlecasing ( s )
@@ -346,8 +352,16 @@
 }
 \renewrobustcmd*{\blockcquote}{%
    \@ifstar%
-      {\SetCiteCommand{\cite}\@blockcquotestartrue\csq@getccargs{\csq@bquote{}{}}}%
-      {\SetCiteCommand{\footcite}\@blockcquotestarfalse\csq@getccargs{\csq@bquote{}{}}}%
+      {%
+         \SetCiteCommand{\cite}%
+         \@blockcquotestartrue%
+         \csq@getccargs{\csq@bquote{}{}}%
+      }%
+      {%
+         \SetCiteCommand{\footcite}%
+         \@blockcquotestarfalse%
+         \csq@getccargs{\csq@bquote{}{}}%
+      }%
 }
 
 \renewcommand*{\mkcitation}[1]{%
@@ -364,6 +378,7 @@
       #1%
    \fi%
 }
+
 \renewcommand*{\mkccitation}[1]{%
    \if@blockcquotestar
       \ifblockquote
@@ -378,6 +393,7 @@
       #1%
    \fi%
 }
+
 \RequirePackage[automark,markcase=lower]{scrlayer-scrpage}
 \automark[chapter]{chapter}
 \renewcommand*{\chaptermarkformat}{}
@@ -505,7 +521,6 @@
    \else%>=99
       \setlength{\fnlabelsep}{3\normalparindent}%
    \fi%
-   %%\deffootnote{\fnlabelsep}{\fnlabelsep}{\makebox[\fnlabelsep][l]{\thefootnotemark}}%
    \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
 }%
 

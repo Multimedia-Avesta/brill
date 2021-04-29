@@ -1046,8 +1046,11 @@
 \newcommand*{\actitle}{Sigla and Abbreviations Used in the Critical Apparatus}
 \define@key{ac}{title}{\renewcommand*{\actitle}{#1}}
 \def\newabbreviationac{\@ifstar\@newabbreviationac\@@newabbreviationac}
-\newcommand*{\@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{#3}{#4}\listgadd{\@listabbreviationsac}{#2}}
-\newcommand*{\@@newabbreviationac}[4][]{\newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
+\newcommand*{\@newabbreviationac}[4][]{%
+   \newabbreviation[type=appcrit,#1]{#2}{#3}{#4}%
+   \listgadd{\@listabbreviationsac}{#2}}
+\newcommand*{\@@newabbreviationac}[4][]{%
+   \newabbreviation[type=appcrit,#1]{#2}{\textup{#3}}{#4}}
 \def\printabbreviationsac{\@ifstar\@printabbreviationsac\@@printabbreviationsac}
 \newcommand{\@printabbreviationsac}[1][]{%
    \setkeys{ac}{#1}%
@@ -2314,7 +2317,8 @@
    \newcommand{\department}[1]{\renewcommand{\@department}{#1}}
    \newcommand{\@department}{}%
    \def\abstract{\@ifstar%
-      {\def\@abstractheading{\chapter*{\abstractname}\markboth{\abstractname}{\abstractname}}%
+      {\def\@abstractheading{\chapter*{\abstractname}%
+         \markboth{\abstractname}{\abstractname}}%
        \@@abstract}%   
       {\def\@abstractheading{\addchap{\abstractname}}%
        \@@abstract}%
