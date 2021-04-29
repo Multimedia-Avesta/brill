@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Class option `titlecase` to automatically get headings in title case as requested by Brill
 - New column parameter `m{NUMBER}` for multiple columns based on `X` columns in the middle of a table
-- New macro `qq{}` to wrap argument in straight quotes, e.g. for XML attributes: `hand=\qq{first}`
+- New macro `\qq{}` to wrap argument in straight quotes, e.g. for XML attributes: `hand=\qq{first}`
 
 ### Changed
 - For forthcoming publications of the same author a dash is now used to separate the letter, e.g. `forthcoming-a`
@@ -1004,6 +1004,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.81.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.0
 [0.80.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.80.0
 [0.79.0]:
