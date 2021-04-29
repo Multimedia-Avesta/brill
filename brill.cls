@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/04/13 v0.80.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/04/27 v0.81.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -304,25 +304,25 @@
       return z
       end
       function do_titlecasing ( s )
-         s = s:gsub ( "\\chapter%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\chapter%s*%b{}", my_upper )
-         s = s:gsub ( "\\addchap%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\section%s*%b{}", my_upper )
-         s = s:gsub ( "\\section%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsec%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsection%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsection%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsubsec%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsubsection%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsubsection%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsubsubsec%s*%b{}", my_upper )
-         s = s:gsub ( "\\subthreesection%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subthreesection%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfoursection%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfoursection%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfivesection%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfivesection%s*%b{}", my_upper )
-         s = s:gsub ( "\\minisec%s*%b{}", my_upper )
+         s = s:gsub ( "\\chapter%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\chapter%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\addchap%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\section%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\section%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsec%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsection%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsection%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsubsec%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsubsection%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subsubsection%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\addsubsubsec%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\subthreesection%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subthreesection%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfoursection%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfoursection%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfivesection%*?%s*%b[]%s*%b{}", my_upper )
+         s = s:gsub ( "\\subfivesection%*?%s*%b{}", my_upper )
+         s = s:gsub ( "\\minisec%*?%s*%b{}", my_upper )
          return s
       end
    \end{luacode*}
@@ -2201,7 +2201,7 @@
 \renewcommand{\minisec}[1]{%
    \addvspace{1\baselineskip}%
    \@RIGminisec{#1}%
-   \addvspace{\baselineskip}%
+   \addvspace{1\baselineskip}%
 }
 
 \appto{\tableofcontents}{\cleardoubleoddemptypage}
