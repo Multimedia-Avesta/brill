@@ -5,6 +5,23 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.81.0] - 2021-04-29
+### Added
+- Class option `titlecase` to automatically get headings in title case as requested by Brill
+- New column parameter `m{NUMBER}` for multiple columns based on `X` columns in the middle of a table
+- New macro `qq{}` to wrap argument in straight quotes, e.g. for XML attributes: `hand=\qq{first}`
+
+### Changed
+- For forthcoming publications of the same author a dash is now used to separate the letter, e.g. `forthcoming-a`
+- Column parameter `M{NUMBER}` now adds a `@{}` at the end, i.e. it is suited for multiple columns including the right-most one
+- URLs in the bibliography are no longer hyphenated after `https:`, but `https://`
+- Multiple locations can be split by `-` and (new) by `–` in Zotero in order to be correctly evaluated as a list by biblatex
+
+### Fixed
+- Layout of `part` heading
+- `part` always starts on an right-hand (odd) page
+
 ## [0.80.0] - 2021-04-13
 ### Added
 - Class option `numberstyle` with values `Monospaced` (default) and `Proportional`
