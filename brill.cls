@@ -286,7 +286,7 @@
       function my_upper ( z )
       -- First, uppercase all starting lowercase letters ('%l' in Lua jargon)
       -- "starting": %l is preceded by whitespace, {, or [
-      z = z:gsub ( "[%s{%[]%l" , string.upper )
+      z = z:gsub ( "[%s%[]%l" , string.upper )
       -- Next, undo upper-casing for some words
       z = z:gsub ( " A "  ,  string.lower )
       z = z:gsub ( " An "  ,  string.lower )
