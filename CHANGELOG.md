@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.81.1] - 2021-05-02
+### Fixed
+- Arguments in `{...}` are no longer considered by title case function
+- 
 ## [0.81.0] - 2021-04-29
 ### Added
 - Class option `titlecase` to automatically get headings in title case as requested by Brill
@@ -1004,6 +1008,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.81.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.1
 [0.81.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.0
 [0.80.0]:

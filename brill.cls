@@ -25,7 +25,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/04/27 v0.81.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/05/02 v0.81.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -286,7 +286,7 @@
       function my_upper ( z )
       -- First, uppercase all starting lowercase letters ('%l' in Lua jargon)
       -- "starting": %l is preceded by whitespace, {, or [
-      z = z:gsub ( "[%s{%[]%l" , string.upper )
+      z = z:gsub ( "[%s%[]%l" , string.upper )
       -- Next, undo upper-casing for some words
       z = z:gsub ( " A "  ,  string.lower )
       z = z:gsub ( " An "  ,  string.lower )
