@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.81.1] - 2021-05-02
 ### Fixed
 - Arguments in `{...}` are no longer considered by title case function
-- 
+ 
 ## [0.81.0] - 2021-04-29
 ### Added
 - Class option `titlecase` to automatically get headings in title case as requested by Brill
