@@ -6,10 +6,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.81.2] - 2021-05-02
+### Fixed
+- Revert redefinition of column parameters `M{}` and `m{}`.
+- New column parameters `E{}` and `B{}` to use `M{}` with additional `@{}` at the end or the beginning resp.
+
+
 ## [0.81.1] - 2021-05-02
 ### Fixed
 - Arguments in `{...}` are no longer considered by title case function
- 
+
+
 ## [0.81.0] - 2021-04-29
 ### Added
 - Class option `titlecase` to automatically get headings in title case as requested by Brill
@@ -26,13 +33,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Layout of `part` heading
 - `part` always starts on an right-hand (odd) page
 
+
 ## [0.80.0] - 2021-04-13
 ### Added
 - Class option `numberstyle` with values `Monospaced` (default) and `Proportional`
 
 ### Fixed
 - Correct calculation of width for first column of abbreviations
-  
+
 
 ## [0.79.0] - 2021-03-25
 ### Added
@@ -1008,6 +1016,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.81.2]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.2
 [0.81.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.1
 [0.81.0]:
