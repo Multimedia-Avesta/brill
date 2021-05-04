@@ -1168,8 +1168,8 @@
 \newcolumntype{C}{>{\strut\centering\arraybackslash}X<{\strut}}
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
 \newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
-\newcolumntype{E}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}@{}}
-\newcolumntype{B}[1]{>{@{}\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{E}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}@{\hspace*{\@firstlastcolindent}}}
+\newcolumntype{B}[1]{>{@{\hspace*{\@firstlastcolindent}\strut}}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
