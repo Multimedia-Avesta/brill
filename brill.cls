@@ -292,6 +292,7 @@
       z = z:gsub ( " An "  ,  string.lower )
       z = z:gsub ( " The ", string.lower )
       z = z:gsub ( " And "  ,  string.lower )
+      z = z:gsub ( " As "  ,  string.lower )
       z = z:gsub ( " But "  ,  string.lower )
       z = z:gsub ( " For "  ,  string.lower )
       z = z:gsub ( " Or "  ,  string.lower )
@@ -301,6 +302,7 @@
       z = z:gsub ( " In "  ,  string.lower )
       z = z:gsub ( " on "  ,  string.lower )
       z = z:gsub ( " Of " , string.lower ) 
+      z = z:gsub ( " To " , string.lower ) 
       return z
       end
       function do_titlecasing ( s )
