@@ -164,6 +164,8 @@
 \KOMAoptions{parskip=never}
 \normalsize%
 \RequirePackage{luatex85}
+%%% At least luaotfload v3.18 is needed to get correct 
+%%% output of float headers on continued pages
 \RequirePackage{fontspec}
 \RequirePackage[%
    dutch,%
@@ -280,61 +282,16 @@
 \PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
-\RequirePackage{luacode}
-\ifbrill@titlecase
-   \begin{luacode*}
-      function my_upper ( z )
-      -- First, uppercase all starting lowercase letters ('%l' in Lua jargon)
-      -- "starting": %l is preceded by whitespace, {, or [
-      z = z:gsub ( "[%s%[]%l" , string.upper )
-      -- Next, undo upper-casing for some words
-      z = z:gsub ( " A "  ,  string.lower )
-      z = z:gsub ( " An "  ,  string.lower )
-      z = z:gsub ( " The ", string.lower )
-      z = z:gsub ( " And "  ,  string.lower )
-      z = z:gsub ( " As "  ,  string.lower )
-      z = z:gsub ( " But "  ,  string.lower )
-      z = z:gsub ( " For "  ,  string.lower )
-      z = z:gsub ( " Or "  ,  string.lower )
-      z = z:gsub ( " Nor "  ,  string.lower )
-      z = z:gsub ( " Van "  ,  string.lower )
-      z = z:gsub ( " De "  ,  string.lower )
-      z = z:gsub ( " In "  ,  string.lower )
-      z = z:gsub ( " on "  ,  string.lower )
-      z = z:gsub ( " Of " , string.lower ) 
-      z = z:gsub ( " To " , string.lower ) 
-      return z
-      end
-      function do_titlecasing ( s )
-         s = s:gsub ( "\\chapter%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\chapter%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\addchap%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\section%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\section%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsec%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsection%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsection%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsubsec%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsubsection%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subsubsection%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\addsubsubsec%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\subthreesection%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subthreesection%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfoursection%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfoursection%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfivesection%*?%s*%b[]%s*%b{}", my_upper )
-         s = s:gsub ( "\\subfivesection%*?%s*%b{}", my_upper )
-         s = s:gsub ( "\\minisec%*?%s*%b{}", my_upper )
-         return s
-      end
-   \end{luacode*}
-   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
-      "process_input_buffer", do_titlecasing, "do_titlecasing" )}}
-\fi%
+%\directlua{require("brill")}
+%\ifbrill@titlecase
+%   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
+%      "process_input_buffer", do_titlecasing, "do_titlecasing" )}}
+%\fi%
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
 % We make sure, that this macro exists for older versions as well.
 \ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
 \ifundef{\Ifisinteger}{\let\Ifisinteger\ifisinteger}{}
+\ifundef{\Ifthispageodd}{\let\Ifthispageodd\ifthispageodd}{}
 \RequirePackage[autostyle,english=british]{csquotes}
 \RequirePackage[%
    backend=biber,%
@@ -1171,12 +1128,24 @@
 \newcolumntype{R}{>{\strut\raggedleft\arraybackslash}X<{\strut}}
 \newcolumntype{M}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{E}[1]{>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}@{\hspace*{\@firstlastcolindent}}}
-\newcolumntype{B}[1]{>{@{\hspace*{\@firstlastcolindent}\strut}}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
+\newcolumntype{B}[1]{@{\hspace*{\@firstlastcolindent}}>{\strut}p{\dimexpr#1\tabucolX+#1\tabcolsep+\arrayrulewidth\relax}<{\strut}}
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \RequirePackage{longtable}
 \RequirePackage{tabu}
+\RequirePackage{threeparttablex}
+\setTableNoteFont{\normalfont\footnotesize}
+\def\tnote#1{\realsuperscript{#1}}% 
+\def\TPTnoteLabel#1{#1\hfil}
+\def\TPTnoteSettings{%
+   \setlength\leftmargin{\normalparindent}%
+   \setlength\labelwidth{\normalparindent}%
+   \setlength\labelsep{0pt}%
+%   \rightskip\tabcolsep \leftskip\tabcolsep
+   \rightskip\z@skip \leftskip\z@skip
+}
+
 %\patchcmd{\LT@start}%
 %   {\advance\vsize-\ht\LT@foot}%
 %   {\global\advance\vsize-\ht\LT@foot}%
@@ -1232,7 +1201,7 @@
 
 \setlength{\LTpre}{\normalbaselineskip}
 \setlength{\LTpost}{\normalbaselineskip}
-%\setlength{\LTcapwidth}{\linewidth}
+%\setlength{\LTcapwidth}{\textwidth}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfoNoLine{brill}{\string\bottomrule\space successfully patched!}}%
    {\ClassInfoNoLine{brill}{\string\bottomrule\space could not be patched!}}%
@@ -1241,11 +1210,12 @@
 % For \toprule, midrule and bottomrule, but _not_ specialrule
 \setlength{\aboverulesep}{%
    \dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
-\setlength{\belowrulesep}{\dimexpr1mm +\normalbaselineskip-\ht\strutbox\relax}%
+\setlength{\belowrulesep}{\dimexpr 1mm +\normalbaselineskip-\ht\strutbox\relax}%
 % \abovecaptionskip -> below; \belowcaptionskip -> above
-\setlength{\belowcaptionskip}{\dp\strutbox}%
-%   \dimexpr \normalbaselineskip-\dp\strutbox\relax}%
-\setlength{\abovecaptionskip}{\normalbaselineskip}%
+%\setlength{\belowcaptionskip}{\dp\strutbox}%
+%\setlength{\belowcaptionskip}{1.2bp}%
+%%   \dimexpr \normalbaselineskip-\dp\strutbox\relax}%
+%\setlength{\abovecaptionskip}{\dimexpr \normalbaselineskip+1.6bp\relax}%
 \let\origtable\table
 \let\endorigtable\endtable
 \renewenvironment{table}[1][tbp]{%
@@ -1308,11 +1278,12 @@
 \newtoggle{@tablebooktabs}
 \newtoggle{@tablebfheaders}
 \newtoggle{@tablelandscape}
+\newtoggle{@tablerules}
 \newtoggle{@figurelandscape}
 \define@key{brill}{caption}{%
    \Ifstr{\@currenvir}{brillfigure}
-      {\def\@figurecaption{#1}}%
-      {\def\@tablecaption{#1}}%
+      {\def\@figurecaption{#1\strut}}%
+      {\def\@tablecaption{#1\strut}}%
 }%
 \define@key{brill}{fontsize}{\def\@tablefontsize{#1}}%
 \define@key{brill}{headerfontsize}{\def\@tableheaderfontsize{#1}}%
@@ -1343,6 +1314,11 @@
       {\def\@figurewidth{#1}}%
       {\def\@tablewidth{#1}}%
 }%
+\define@key{brill}{height}{%
+   \Ifstr{\@currenvir}{brillfigure}
+   {\def\@figureheight{\dimexpr #1\baselineskip+1.5mm-2\fboxrule-2\fboxsep\relax}}%
+   {\ClassWarning{brill}{Option `height` is not available for brilltable}}%
+}%
 \define@key{brill}{landscape}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\settoggle{@figurelandscape}{#1}}%
@@ -1358,15 +1334,22 @@
       {\def\@figurelongsource{#1}}%
       {\def\@tablelongsource{#1}}%
 }
+\define@key{brill}{tablenotes}{%
+   \def\@tabletablenotes{#1}%
+}
+
 \define@key{brill}{bgscreen}[true]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{long}[true]{\settoggle{@tablelong}{#1}}%
 \define@key{brill}{booktabsstyle}[true]{\settoggle{@tablebooktabs}{#1}}%
 \define@key{brill}{bfheaders}[true]{\settoggle{@tablebfheaders}{#1}}%
-
+\define@key{brill}{rules}[true]{\settoggle{@tablerules}{#1}}%
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
-      {\dimexpr -\dp\strutbox-1mm\relax}%
-      {\dimexpr \normalbaselineskip-0.5\heavyrulewidth-\ht\strutbox+1mm+1bp\relax}%
+%      {\dimexpr -\dp\strutbox-1mm\relax}%
+      %{\dimexpr \normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
+      %{\dimexpr \normalbaselineskip-\heavyrulewidth-\ht\strutbox+1mm\relax}%
+      {\dimexpr -\dp\strutbox-\heavyrulewidth-1mm\relax}%
+      {\dimexpr \dp\strutbox+1mm\relax}%
 }
 \newcommand*{\@brillmidrule}{%
    \specialrule{\lightrulewidth}%
@@ -1376,8 +1359,9 @@
 \newcommand*{\@brillbottomrule}{%
    \specialrule{\lightrulewidth}%
       {\dimexpr \normalbaselineskip-\dp\strutbox-\lightrulewidth-1mm\relax}%
-      {\dimexpr 0.5\normalbaselineskip-0.5\ht\strutbox%
-         +\lightrulewidth+1mm\relax}%
+      {\dimexpr -\lightrulewidth+1mm\relax}%
+     % {\dimexpr 0.25\normalbaselineskip-0.5\ht\strutbox%
+%         +\lightrulewidth+1mm\relax}%
 }
 \newif\if@userbottomrule
 \newcommand*{\brillbuttomrule}{%
@@ -1395,10 +1379,10 @@
       bfheaders,%
       booktabsstyle,%
       numberstyle={\brill@numberstyle},%
+      rules=true,%
       #1}% Set default and updated keys
-   %%\renewcommand{\thefootnote}{\alph{footnote}}
-   \setlength{\lineskip}{0bp}%
-   \setlength{\@firstlastcolindent}{0bp}%
+   \setlength{\lineskip}{0pt}%
+   \setlength{\@firstlastcolindent}{0pt}%
    \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
    \Ifstr{\@tableorientation}{landscape}
       {\settoggle{@tablelandscape}{true}}%
@@ -1416,16 +1400,26 @@
          \ifdefvoid{\@tablecaption}%
             {\setlength{\@firstlastcolindent}{\normalparindent}}%
             {}%
+         \ifdef{\@tabletablenotes}%
+            {%
+               \ThreePartTable%
+               \renewcommand\TPTminimum{\textwidth}%%% we want full width
+               \begin{TableNotes}%
+                  \@tabletablenotes%
+               \end{TableNotes}%   
+            }%
+            {}%   
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{longtabu}%
                {@{\hspace*{\@firstlastcolindent}}#2%
                 @{\hspace*{\@firstlastcolindent}}}%
             }%
-            {full}{\begin{longtabu} to \linewidth%
+            {full}{\begin{longtabu} to \textwidth%
                {@{\hspace*{\@firstlastcolindent}}#2%
                 @{\hspace*{\@firstlastcolindent}}}%
             }%
-            {wide}{\begin{longtabu} to 130mm%
+            {wide}{\Ifthispageodd{\hspace*{-4mm}}{\hspace*{-11mm}}%
+               \begin{longtabu} to 130mm%
                {@{\hspace*{\@firstlastcolindent}}#2%
                 @{\hspace*{\@firstlastcolindent}}}%
             }%
@@ -1434,7 +1428,7 @@
          \ifdefvoid{\@tablecaption}%
             {\addlinespace[2bp]}%
             {%
-               \addlinespace[-2.6bp]%11-13.6?
+               %\addlinespace[-2.6bp]%11-13.6?
                \ifdefvoid{\@tableshortcaption}%
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1444,27 +1438,49 @@
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
             {%
-               \addlinespace[1bp]%
+               %\addlinespace[1bp]%
                \iftoggle{@tablebooktabs}%
                   {%
                      \ifdefvoid{\@tablecaption}%
-                        {}%
                         {%
+                           \iftoggle{@tablerules}%
+                              {\@brilltoprule}%
+                              {}%
+                        }%
+                        {%
+                           \@brilltoprule%
                            \endfirsthead%
-                           \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
+                           %\addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
                            %TODO: More elegant way needed.
                            \caption*{%
-                              \makebox[16mm][l]{\usekomafont{captionlabel}%
-                              \tableformat}%
+                              \makebox[16mm][l]{%
+                                 \usekomafont{captionlabel}%
+                                 \tableformat%
+                              }%
                               \usekomafont{caption}%
                               \@tablecaption~(\textit{cont.})%
-                           }\\[1.4bp]
+                           }\\%[1.4bp]
                            \endhead
-                           \endlastfoot
+                           \if@userbottomrule
+                           \else
+                              \@brillbottomrule%
+                           \fi%
+                           \endlastfoot%
                         }%
                   }%
                   {%
-                     %TODO: Add missing
+                     \ifdefvoid{\@tablecaption}%
+                        {%
+                           \iftoggle{@tablerules}%
+                              {\firsthline}%
+                              {}%
+                        }%
+                        {%
+                           \iftoggle{@tablerules}%
+                              {\firsthline}%
+                              {}%
+                           %TODO: Add missing   
+                        }%
                   }%
             }%
             {%
@@ -1482,8 +1498,6 @@
                      \ifdefvoid{\@tablecaption}%
                         {}%
                         {%
-                           \addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
-                           %TODO: More elegant way needed.
                            \caption*{%
                               \makebox[16mm][l]{%
                                  \usekomafont{captionlabel}\tableformat}%
@@ -1504,6 +1518,7 @@
                      \else
                         \@brillbottomrule%
                      \fi%
+                     \ifdef{\@tabletablenotes}{\insertTableNotes\\}{}%
                      \endlastfoot%
                      \global\@userbottomrulefalse%
                   }{%
@@ -1538,6 +1553,9 @@
          %\showrowcolors
          \BODY%
       \end{longtabu}
+      \ifdef{\@tabletablenotes}%
+         {\endThreePartTable}%
+         {}%
       \endgroup
       \ifdefvoid{\@tablecaption}{\addtocounter{table}{-1}}{}%
       \iftoggle{@tablelandscape}{\endlandscape}{}%
@@ -1552,7 +1570,7 @@
          \ifdefvoid{\@tablecaption}%
             {\setlength{\@firstlastcolindent}{\normalparindent}}%
             {%
-               \vspace{-0.6bp}%TODO: Still don't know why
+               %\vspace{-0.6bp}%TODO: Still don't know why
                \ifdefvoid{\@tableshortcaption}%
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1561,6 +1579,15 @@
          \iftoggle{@tablebgscreen}
             {\taburowcolors[1] 2{white .. black!10}}%
             {}%
+         \ifdef{\@tabletablenotes}%
+            {%
+               \ThreePartTable%
+               \renewcommand\TPTminimum{\textwidth}%%% we want full width
+               \begin{TableNotes}%
+                  \@tabletablenotes%
+               \end{TableNotes}%   
+            }%
+            {}%
          \IfStrEqCase{\@tablewidth}{%
             {dynamic}{\begin{tabu}%
                {@{\hspace*{\@firstlastcolindent}}%
@@ -1568,19 +1595,31 @@
             {full}{\begin{tabu} to \textwidth%
                {@{\hspace*{\@firstlastcolindent}}%
                   #2@{\hspace*{\@firstlastcolindent}}}}%
-            {wide}{\begin{tabu} to 130mm%
+            {wide}{\Ifthispageodd{\hspace*{-4mm}}{\hspace*{-11mm}}%
+               \begin{tabu} to 130mm%
                {@{\hspace*{\@firstlastcolindent}}%
                   #2@{\hspace*{\@firstlastcolindent}}}}%
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
          }[]%       
             %\hiderowcolors%
             \ifdefvoid{\@tableheaders}%
-               {}%
+               {%
+                  \iftoggle{@tablerules}%
+                     {\ifdefvoid{\@tablecaption}%
+                        %{\addlinespace[\dimexpr 1.5\normalbaselineskip-1mm\relax]}%
+                        {\addlinespace[\normalbaselineskip]}%
+                        {}%
+                        \iftoggle{@tablebooktabs}%
+                           {\@brilltoprule}%
+                           {\firsthline}%
+                     }%
+                     {}%
+               }%
                {%
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
-                        \addlinespace[-1bp]%TODO: Why that value?
+                        %\addlinespace[-1bp]%TODO: Why that value?
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
@@ -1588,9 +1627,11 @@
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
-                        \addlinespace[0.25bp]%TODO: Why that value?
+                        %\addlinespace[0.25bp]%TODO: Why that value?
                      }{%
-                        \firsthline
+                        \iftoggle{@tablerules}%
+                           {\firsthline}%
+                           {}%
                         \begingroup%
                         \iftoggle{@tablebfheaders}%
                            {%
@@ -1604,9 +1645,32 @@
                }%
             %\showrowcolors
             \BODY%
-            \iftoggle{@tablebooktabs}%
-               {\@brillbottomrule}{\lasthline}%
+            \ifdefvoid{\@tableheaders}%
+               {%
+                  \iftoggle{@tablerules}%
+                     {%
+                        \iftoggle{@tablebooktabs}%
+                           {\@brillbottomrule}%
+                           {\lasthline}%
+                     }%
+                     {\addlinespace[\dimexpr -\dp\strutbox\relax]}%
+               }%
+               {%
+                  \iftoggle{@tablerules}%
+                     {%
+                        \iftoggle{@tablebooktabs}%
+                           {%
+                              \@brillbottomrule%
+                              \ifdef{\@tabletablenotes}{\insertTableNotes\\}{}%
+                           }%
+                           {\lasthline}%
+                     }%
+                     {}%
+               }%
          \end{tabu}%
+      \ifdef{\@tabletablenotes}%
+         {\endThreePartTable}%
+         {}%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
         {\end{table}}%
@@ -1617,6 +1681,7 @@
       orientation=portrait,%
       placement={tp},%
       width=dynamic,%
+      height=0pt,%
       #1}% Set default and updated keys
    \ifdefvoid{\@figurecaption}%
       {\par\vspace{\baselineskip}\noindent\ignorespaces}%
@@ -1625,7 +1690,9 @@
             {dynamic}{%
                \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
                \efigure%
-               \setkeys{Gin}{width=\Gin@nat@width}%
+               \ifdimgreater{\@figureheight}{0pt}%
+                  {\setkeys{Gin}{height=\@figureheight}}%
+                  {\setkeys{Gin}{width=\Gin@nat@width}}%
             }%
             {full}{%
                \begin{figure}[tp]%
@@ -1723,22 +1790,27 @@
          }%
    }%
 \BeforeBeginEnvironment{brilltable}{%
-   \setlength{\textfloatsep}{\normalbaselineskip}%
    % distance between floats on the top or the bottom and the text;
-   \setlength{\intextsep}{\normalbaselineskip}% 
+   \setlength{\textfloatsep}{\normalbaselineskip}%
    % distance between floats inserted inside the page text (using h) and the text proper.
+   \setlength{\intextsep}{\normalbaselineskip}% 
+   % distance between two floats;
    \setlength{\floatsep}{\normalbaselineskip}%
+   \setlength{\belowcaptionskip}{1.7bp}%
+   \setlength{\abovecaptionskip}{\dimexpr\normalbaselineskip+1.2bp\relax}%
 }
 \BeforeBeginEnvironment{brillfigure}{%
    \setlength{\textfloatsep}{\normalbaselineskip}%
-   \setlength{\intextsep}{\dimexpr\normalbaselineskip-1.5mm\relax}%
-   \setlength{\floatsep}{0bp}%
+   \setlength{\intextsep}{\dimexpr 2\normalbaselineskip-3mm\relax}%
+   \setlength{\floatsep}{0pt}%
+   \setlength{\belowcaptionskip}{0pt}%
+   \setlength{\abovecaptionskip}{\dimexpr \normalbaselineskip\relax}%
 }
 \setlength{\@fptop}{0pt}% default is 0\p@ \@plus 1fil
 \setlength{\@fpsep}{\floatsep}% default is 8\p@ \@plus 2fil
 \setlength{\@fpbot}{0pt plus 1fil}% default is 0\p@ \@plus 1fil
-\setkomafont{captionlabel}{\scshape}
 \setkomafont{caption}{\normalfont\footnotesize}
+\setkomafont{captionlabel}{\scshape}
 \setcaphanging
 \setcapindent{16mm}
 \setcaptionalignment{J}
@@ -1791,7 +1863,7 @@
          {%
           \vtop to\dimexpr\vsize+\baselineskip{
             \hrule
-            \leaders\vbox to 13.2bp{\hrule width\hsize\vfill}\vfill
+            \leaders\vbox to 13.2bp{\hrule width 1.1\hsize\vfill}\vfill
           }%
          }%
      }%
