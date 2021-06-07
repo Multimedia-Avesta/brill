@@ -416,70 +416,81 @@
 \newcounter{chaptercount}
 \renewcommand{\thechaptercount}{\Roman{chaptercount}}
 \newcounter{testcounter}
-%%%\RequirePackage{bigfoot}
-\let\ORIG@footnote\footnote
-\renewcommand{\footnote}[2][]{%
+\newrobustcmd{\@footnoteadjustment}{%
    \ifnum\value{footnote}=0%
       \global\stepcounter{chaptercount}%
       \@ifundefined{c@changeToTen\thechaptercount}%
          {\expandafter\newcounter{changeToTen%
-          \csname thechaptercount\endcsname}}%
+               \csname thechaptercount\endcsname}}%
          {}%
-      \protected@write\@auxout{}%
-         {%
-            \string\@ifundefined{c@changeToTen\thechaptercount}%
-            {\string\newcounter{\expandafter changeToTen%
-             \csname thechaptercount\endcsname}%
-            }%
-            {}%
-         }%  
+      \immediate\write\@mainaux%%\protected@write\@auxout{}%
+      {%
+         \string\@ifundefined{c@changeToTen\thechaptercount}%
+         {\string\newcounter{\expandafter changeToTen%
+            \csname thechaptercount\endcsname}%
+         }%
+         {}%
+      }%  
       \@ifundefined{c@changeToHundred\thechaptercount}%
          {\expandafter\newcounter{changeToHundred%
-          \csname thechaptercount\endcsname}%
+            \csname thechaptercount\endcsname}%
          }%
          {}%
-      \protected@write\@auxout{}%
-         {%
-            \string\@ifundefined{c@changeToHundred\thechaptercount}%
-            {\string\newcounter{\expandafter changeToHundred%
-             \csname thechaptercount\endcsname}%
+         \immediate\write\@mainaux%\protected@write\@auxout{}%
+            {%
+               \string\@ifundefined{c@changeToHundred\thechaptercount}%
+                  {\string\newcounter{\expandafter changeToHundred%
+                     \csname thechaptercount\endcsname}%
+                  }%
+                  {}%
             }%
-            {}%
-         }%
       \gdef\actcounterT{changeToTen\thechaptercount}%
       \gdef\actcounterH{changeToHundred\thechaptercount}%
    \fi%
    \setcounter{testcounter}{\value{footnote}}%
    \stepcounter{testcounter}%
+   %\ClassInfo{brill}{Processing footnote \thefootnote}%
    \ifnum\value{footnote}=99%
-      \protected@write\@auxout{}%
-         {\string\global\string\setcounter{\actcounterH}%
+      \immediate\write\@mainaux{%\protected@write\@auxout{}%
+         \string\global\string\setcounter{\actcounterH}%
             {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
          }%
    \fi% 
    \ifnum\value{footnote}=9%
-      \protected@write\@auxout{}%
-      {\string\global\string\setcounter{\actcounterT}%
-         {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
-      }%
+      \immediate\write\@mainaux{%\protected@write\@auxout{}%
+         \string\global\string\setcounter{\actcounterT}%
+            {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
+         }%
    \fi%
    \ifnum\value{footnote}<99%
       \ifnum\value{footnote}<9%
+         %\ClassInfo{brill}{Comparing \csuse{the\actcounterT} with \zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
          \ifnumequal%
             {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
             {\value{\actcounterT}}%
-               {\setlength{\fnlabelsep}{2\normalparindent}}%
-               {\setlength{\fnlabelsep}{\normalparindent}}%
-      \else%10-98
-         \ifnumequal%
-            {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
-            {\value{\actcounterH}}%
-               {\setlength{\fnlabelsep}{3\normalparindent}}%
-               {\setlength{\fnlabelsep}{2\normalparindent}}%
-      \fi%
+               {\global\setlength{\fnlabelsep}{2\normalparindent}}%
+               {\global\setlength{\fnlabelsep}{\normalparindent}}%
+         \else%10-98
+            %\ClassInfo{brill}{Comparing \theactcounterH with \zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
+            \ifnumequal%
+               {\zref@extract{footnote\thechaptercount\thetestcounter}{abspage}}%
+               {\value{\actcounterH}}%
+                  {\setlength{\fnlabelsep}{3\normalparindent}}%
+                  {\setlength{\fnlabelsep}{2\normalparindent}}%
+         \fi%
    \else%>=99
       \setlength{\fnlabelsep}{3\normalparindent}%
    \fi%
+}
+\let\ORIG@footnotemark\footnotemark
+\renewcommand{\footnotemark}{%
+   \@footnoteadjustment%
+   \ORIG@footnotemark%
+   \zlabel{footnote\thechaptercount\thefootnote}%
+}
+\let\ORIG@footnote\footnote
+\renewcommand{\footnote}[2][]{%
+   \@footnoteadjustment%
    \protect\ORIG@footnote{\zlabel{footnote\thechaptercount\thefootnote}#2}%
 }%
 
@@ -502,13 +513,15 @@
    font={\LARGE\bfseries\upshape\itshape},%
    prefixfont={\LARGE\bfseries\scshape},%
    tocnumwidth=0bp,%
-   tocindent=0bp%
+   tocindent=0bp,%
+   tocbeforeskip=2\normalbaselineskip,%
+%   tocafterskip=1\normalbaselineskip
 ]{part}
 
 \renewcommand*{\thepart}{\arabic{part}}
-\renewcommand*{\partformat}{\partname\enskip\thepart\autodot}
+\renewcommand*{\partformat}{\partname\strut\enskip\thepart\autodot}
 \renewcommand*{\addparttocentry}[2]{%
-   \addtocentrydefault{part}{}{%
+   \addtocentrydefault{part}{}{\strut%
       \hspace*{12mm}%
       \large\bfseries%
       \scshape\partformat%
@@ -1046,11 +1059,18 @@
 
 \AfterTOCHead[toc]{\zlabel{tocstart}}
 \appto\tableofcontents{\zlabel{tocend}\@checktocextent}
-\newcommand*{\@checktocextent}{\ifnumgreater{\zref@extract{tocend}{abspage}-\zref@extract{tocstart}{abspage}}{4}%
-   {\ClassWarningNoLine{brill}{The TOC consists of more than four pages.\MessageBreak%
-         Unless this is confirmed by Brill, you should try\MessageBreak%
-         to reduze the extent by setting the tocdepth option}}%
-   {\ClassInfoNoLine{brill}{The TOC consists of four pages or less. That's fine.}}%
+\newcommand*{\@checktocextent}{%
+   \ifnumgreater%
+      {\zref@extract{tocend}{abspage}-\zref@extract{tocstart}{abspage}}%
+      {4}%
+         {%
+            \ClassWarningNoLine{brill}{The TOC consists of more than four pages.\MessageBreak%
+            Unless this is confirmed by Brill, you should try\MessageBreak%
+            to reduze the extent by setting the tocdepth option}%
+         }%
+         {%
+            \ClassInfoNoLine{brill}{The TOC consists of four pages or less. That's fine.}%
+         }%
 }
  
 \setkomafont{title}{\normalfont\normalcolor\bfseries\hyphenpenalty=\@M}
@@ -1133,10 +1153,15 @@
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
 \RequirePackage{longtable}
+\patchcmd{\LT@makecaption}{\linewidth}{\textwidth}%
+   {\ClassInfoNoLine{brill}{Captions for long tables patched}}%
+   {\ClassWarningNoLine{brill}{Captions for long tables could not be patched}}%
 \RequirePackage{tabu}
+\RequirePackage{threeparttable}
 \RequirePackage{threeparttablex}
 \setTableNoteFont{\normalfont\footnotesize}
-\def\tnote#1{\realsuperscript{#1}}% 
+\g@addto@macro\TPT@defaults{\normalfont\footnotesize}
+\def\tnote#1{\realsuperscript{\textup{#1}}}% 
 \def\TPTnoteLabel#1{#1\hfil}
 \def\TPTnoteSettings{%
    \setlength\leftmargin{\normalparindent}%
@@ -1207,6 +1232,7 @@
    {\ClassInfoNoLine{brill}{\string\bottomrule\space could not be patched!}}%
 \setlength{\heavyrulewidth}{0.6bp}%
 \setlength{\lightrulewidth}{0.3bp}%
+\setlength{\arrayrulewidth}{0.3bp}%
 % For \toprule, midrule and bottomrule, but _not_ specialrule
 \setlength{\aboverulesep}{%
    \dimexpr -\dp\strutbox-\lightrulewidth+\normalbaselineskip-1mm\relax}%
@@ -1223,13 +1249,13 @@
 }{%
    \endorigtable
 }
-%\chardef\TPT@@@asteriskcatcode=\catcode`*
-%\catcode`*=11
-%\expandafter\patchcmd\csname\string\threeparttable\endcsname
-%  {\TPT@hookin{tabular}}
-%  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
-%  {}{}
-%\catcode`*=\TPT@@@asteriskcatcode
+\chardef\TPT@@@asteriskcatcode=\catcode`*
+\catcode`*=11
+\expandafter\patchcmd\csname\string\threeparttable\endcsname
+  {\TPT@hookin{tabular}}
+  {\TPT@hookin{tabular}\TPT@hookin{tabu}}
+  {}{}
+\catcode`*=\TPT@@@asteriskcatcode
 \RequirePackage{graphicx}
 %%%\RequirePackage{grffile}
 \RequirePackage{rotating}
@@ -1279,7 +1305,9 @@
 \newtoggle{@tablebfheaders}
 \newtoggle{@tablelandscape}
 \newtoggle{@tablerules}
+\newtoggle{@tabletablenotesauto}
 \newtoggle{@figurelandscape}
+
 \define@key{brill}{caption}{%
    \Ifstr{\@currenvir}{brillfigure}
       {\def\@figurecaption{#1\strut}}%
@@ -1337,6 +1365,9 @@
 \define@key{brill}{tablenotes}{%
    \def\@tabletablenotes{#1}%
 }
+\define@key{brill}{tablenotesauto}{%
+   \settoggle{@tabletablenotesauto}{#1}%
+}
 
 \define@key{brill}{bgscreen}[true]{\settoggle{@tablebgscreen}{#1}}%
 \define@key{brill}{long}[true]{\settoggle{@tablelong}{#1}}%
@@ -1345,9 +1376,6 @@
 \define@key{brill}{rules}[true]{\settoggle{@tablerules}{#1}}%
 \newcommand*{\@brilltoprule}{%
    \specialrule{\heavyrulewidth}%
-%      {\dimexpr -\dp\strutbox-1mm\relax}%
-      %{\dimexpr \normalbaselineskip-\ht\strutbox-\dp\strutbox\relax}%
-      %{\dimexpr \normalbaselineskip-\heavyrulewidth-\ht\strutbox+1mm\relax}%
       {\dimexpr -\dp\strutbox-\heavyrulewidth-1mm\relax}%
       {\dimexpr \dp\strutbox+1mm\relax}%
 }
@@ -1359,9 +1387,7 @@
 \newcommand*{\@brillbottomrule}{%
    \specialrule{\lightrulewidth}%
       {\dimexpr \normalbaselineskip-\dp\strutbox-\lightrulewidth-1mm\relax}%
-      {\dimexpr -\lightrulewidth+1mm\relax}%
-     % {\dimexpr 0.25\normalbaselineskip-0.5\ht\strutbox%
-%         +\lightrulewidth+1mm\relax}%
+      {\dimexpr 1mm\relax}%
 }
 \newif\if@userbottomrule
 \newcommand*{\brillbuttomrule}{%
@@ -1380,6 +1406,7 @@
       booktabsstyle,%
       numberstyle={\brill@numberstyle},%
       rules=true,%
+      tablenotesauto=true,%
       #1}% Set default and updated keys
    \setlength{\lineskip}{0pt}%
    \setlength{\@firstlastcolindent}{0pt}%
@@ -1426,9 +1453,8 @@
             {narrow}{\ClassWarning{brill}{Option narrow not implemented yet!}}%
          }[]%
          \ifdefvoid{\@tablecaption}%
-            {\addlinespace[2bp]}%
+            {}%
             {%
-               %\addlinespace[-2.6bp]%11-13.6?
                \ifdefvoid{\@tableshortcaption}%
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1438,20 +1464,17 @@
          %\hiderowcolors
          \ifdefvoid{\@tableheaders}%
             {%
-               %\addlinespace[1bp]%
                \iftoggle{@tablebooktabs}%
                   {%
                      \ifdefvoid{\@tablecaption}%
                         {%
                            \iftoggle{@tablerules}%
                               {\@brilltoprule}%
-                              {}%
+                              {}%{\addlinespace[\dimexpr .2bp\relax]}%
                         }%
                         {%
                            \@brilltoprule%
                            \endfirsthead%
-                           %\addlinespace[\dimexpr -\dp\strutbox+1.7bp\relax]%
-                           %TODO: More elegant way needed.
                            \caption*{%
                               \makebox[16mm][l]{%
                                  \usekomafont{captionlabel}%
@@ -1459,7 +1482,7 @@
                               }%
                               \usekomafont{caption}%
                               \@tablecaption~(\textit{cont.})%
-                           }\\%[1.4bp]
+                           }\\%
                            \endhead
                            \if@userbottomrule
                            \else
@@ -1518,7 +1541,9 @@
                      \else
                         \@brillbottomrule%
                      \fi%
-                     \ifdef{\@tabletablenotes}{\insertTableNotes\\}{}%
+                     \ifboolexpe{ test {\iftoggle{@tabletablenotesauto}} 
+                              and test {\ifdef{\@tabletablenotes}} }%
+                        {\insertTableNotes\\}{}%
                      \endlastfoot%
                      \global\@userbottomrulefalse%
                   }{%
@@ -1556,6 +1581,10 @@
       \ifdef{\@tabletablenotes}%
          {\endThreePartTable}%
          {}%
+%      \ifboolexpr{test { \ifdefvoid{\@tablecaption} }
+%              and test { \ifdefvoid{\@tableheaders} }
+%          and not test { \iftoggle{@tablerules} }}
+%              {\vspace{-2.8bp}}{}%
       \endgroup
       \ifdefvoid{\@tablecaption}{\addtocounter{table}{-1}}{}%
       \iftoggle{@tablelandscape}{\endlandscape}{}%
@@ -1570,7 +1599,6 @@
          \ifdefvoid{\@tablecaption}%
             {\setlength{\@firstlastcolindent}{\normalparindent}}%
             {%
-               %\vspace{-0.6bp}%TODO: Still don't know why
                \ifdefvoid{\@tableshortcaption}%
                   {\caption{\@tablecaption}}%
                   {\caption[\@tableshortcaption]{\@tablecaption}}%
@@ -1581,11 +1609,7 @@
             {}%
          \ifdef{\@tabletablenotes}%
             {%
-               \ThreePartTable%
-               \renewcommand\TPTminimum{\textwidth}%%% we want full width
-               \begin{TableNotes}%
-                  \@tabletablenotes%
-               \end{TableNotes}%   
+               \threeparttable%
             }%
             {}%
          \IfStrEqCase{\@tablewidth}{%
@@ -1606,7 +1630,6 @@
                {%
                   \iftoggle{@tablerules}%
                      {\ifdefvoid{\@tablecaption}%
-                        %{\addlinespace[\dimexpr 1.5\normalbaselineskip-1mm\relax]}%
                         {\addlinespace[\normalbaselineskip]}%
                         {}%
                         \iftoggle{@tablebooktabs}%
@@ -1619,7 +1642,6 @@
                   \iftoggle{@tablebooktabs}%
                      {%
                         \@brilltoprule%
-                        %\addlinespace[-1bp]%TODO: Why that value?
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
@@ -1627,7 +1649,6 @@
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
                         \@brillmidrule%
-                        %\addlinespace[0.25bp]%TODO: Why that value?
                      }{%
                         \iftoggle{@tablerules}%
                            {\firsthline}%
@@ -1661,7 +1682,6 @@
                         \iftoggle{@tablebooktabs}%
                            {%
                               \@brillbottomrule%
-                              \ifdef{\@tabletablenotes}{\insertTableNotes\\}{}%
                            }%
                            {\lasthline}%
                      }%
@@ -1669,7 +1689,12 @@
                }%
          \end{tabu}%
       \ifdef{\@tabletablenotes}%
-         {\endThreePartTable}%
+         {%
+            \begin{tablenotes}%
+               \@tabletablenotes%
+            \end{tablenotes}%
+            \endthreeparttable%
+         }%
          {}%
       \iftoggle{@tablelandscape}
         {\end{sidewaystable}}%
@@ -1704,10 +1729,13 @@
                \setkeys{Gin}{width=130mm}%
             }%
             {narrow}{%
-               \begin{figure}[tp]%
-               \setcapindent*{0bp}%
-               \setkeys{Gin}{width=\Gin@nat@width}%
-               \ifdefvoid{\@figurecaption}
+               \edef\efigure{\noexpand\begin{figure}[\@figureplacement]}%
+                  \efigure%
+               \setcapindent*{0pt}%
+               \ifdimgreater{\@figureheight}{0pt}%
+                  {\setkeys{Gin}{height=\@figureheight}}%
+                  {\setkeys{Gin}{width=\Gin@nat@width}}%
+               \ifdefvoid{\@figurecaption}%
                   {}%
                   {%
                      \ifdefvoid{\@figureshortcaption}%
@@ -1744,12 +1772,12 @@
       \ifdefvoid{\@figurecaption}%
          {\par\vspace{\baselineskip}}%
          {%
-            \Ifstr{\@figurewidth}{narrow}
+            \Ifstr{\@figurewidth}{narrow}%
                {%
                   \ifdefvoid{\@figurecaption}
                      {}%
                      {%
-                        \end{captionbeside}
+                        \end{captionbeside}%
                         \ifdefvoid{\@figurelabel}{}{\label{\@figurelabel}}%
                      }%
                }%   
@@ -1762,7 +1790,10 @@
                            {%
                               \ifdefvoid{\@figuresource}%
                                  {\caption{\@figurecaption}}%
-                                 {\caption{\@figurecaption\\*\textsc{\@figuresource}}}%
+                                 {%
+                                    \caption{\@figurecaption\\*%
+                                    \textsc{\@figuresource}}%
+                                 }%
                            }%
                            {%
                               \ifdefvoid{\@figuresource}%
@@ -1796,15 +1827,15 @@
    \setlength{\intextsep}{\normalbaselineskip}% 
    % distance between two floats;
    \setlength{\floatsep}{\normalbaselineskip}%
-   \setlength{\belowcaptionskip}{1.7bp}%
-   \setlength{\abovecaptionskip}{\dimexpr\normalbaselineskip+1.2bp\relax}%
+   \setlength{\belowcaptionskip}{\dimexpr 2.2bp\relax}%
+   \setlength{\abovecaptionskip}{\dimexpr 1.0\normalbaselineskip\relax}%
 }
 \BeforeBeginEnvironment{brillfigure}{%
-   \setlength{\textfloatsep}{\normalbaselineskip}%
-   \setlength{\intextsep}{\dimexpr 2\normalbaselineskip-3mm\relax}%
+   \setlength{\textfloatsep}{\dimexpr 1.0\normalbaselineskip\relax}%
+   \setlength{\intextsep}{\dimexpr 2.0\normalbaselineskip-1.5mm\relax}%
    \setlength{\floatsep}{0pt}%
    \setlength{\belowcaptionskip}{0pt}%
-   \setlength{\abovecaptionskip}{\dimexpr \normalbaselineskip\relax}%
+   \setlength{\abovecaptionskip}{\dimexpr 1.0\normalbaselineskip+2.2bp\relax}%
 }
 \setlength{\@fptop}{0pt}% default is 0\p@ \@plus 1fil
 \setlength{\@fpsep}{\floatsep}% default is 8\p@ \@plus 2fil
@@ -1815,7 +1846,7 @@
 \setcapindent{16mm}
 \setcaptionalignment{J}
 \newlength{\@currentcaplabelwidth}
-\AtBeginDocument{
+\AtBeginDocument{%
    \renewcommand*{\captionformat}{%
       \Ifstr{\@captype}{figure}
          {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
@@ -1876,7 +1907,17 @@
    \RequirePackage{lua-check-hyphen}
 \fi%
 \ifbrill@debug
-   \RequirePackage[All]{lua-typo}
+   %\RequirePackage[All]{lua-typo}
+   \RequirePackage[%
+   ShortLines,
+   ShortPages,
+   OverfullLines,
+   UnderfullLines,
+   Widows,
+   Orphans,
+   EOPHyphens,
+   RepeatedHyphens,
+   ParLastHyphen]{lua-typo}
 \fi%
 \RequirePackage{url}
 \urlstyle{same}
@@ -1892,6 +1933,8 @@
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
 \RequirePackage{ellipsis}
+\DeclareTextCommandDefault{\textellipsis}{\symbol{\"2026}}%
+
 \ifboolexpr{ not bool {brill@printversion} and bool {brill@gitver} }%
    {%
       \RequirePackage[noheader]{gitver}%
@@ -1911,19 +1954,32 @@
    automake=immediate,
    xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
 %
+\newrobustcmd*{\glsaddNoNumber}[2][]{%
+   \glsdoifexists{#2}%
+   {%
+      \def\@glsnumberformat{glsnumberformat}%
+      \edef\@gls@counter{\csname glo@\glsdetoklabel{#2}@counter\endcsname}%
+      \setkeys{glossadd}{#1}%
+      \@gls@saveentrycounter
+      \@gls@setsort{#2}%
+      \@@do@wrglossary{#2}%
+   }%
+}
+
 \newlength{\widestabbreviation}
 \newlength{\currentwidth}
 \newcommand*{\@checkforwidestabbreviation}[1]{%
    \settowidth{\currentwidth}{#1}%
+   \addtolength{\currentwidth}{1em}%
    \ifdimgreater{\currentwidth}{\widestabbreviation}%
       {\global\setlength{\widestabbreviation}{\currentwidth}}%
       {}%
 }
 
 \AtEndDocument{%
-   \ClassInfoNoLine{brill}{\the\widestabbreviation\space\the\normalparindent}%
+   %\ClassInfoNoLine{brill}{\the\widestabbreviation\space\the\normalparindent}%
    \ifdimless{\widestabbreviation}{1.0\normalparindent}%
-      {\immediate\write\@auxout%
+      {\immediate\write\@mainaux%{%
          {%
             \noexpand\global%
             \noexpand\setlength{\widestabbreviation}%
@@ -1932,7 +1988,7 @@
       }%
       {%
          \ifdimless{\widestabbreviation}{2.0\normalparindent}%
-            {\immediate\write\@auxout%
+            {\immediate\write\@mainaux%{%
                {%
                   \noexpand\global%
                   \noexpand\setlength{\widestabbreviation}%
@@ -1941,7 +1997,7 @@
             }%
             {%
                \ifdimless{\widestabbreviation}{3.0\normalparindent}%
-               {\immediate\write\@auxout%
+               {\immediate\write\@mainaux%{%
                   {%
                      \noexpand\global%
                      \noexpand\setlength{\widestabbreviation}%
@@ -1950,7 +2006,7 @@
                }%
                {%
                   \ifdimless{\widestabbreviation}{4.0\normalparindent}%
-                  {\immediate\write\@auxout%
+                  {\immediate\write\@mainaux%{%
                      {%
                         \noexpand\global%
                         \noexpand\setlength{\widestabbreviation}%
@@ -1959,7 +2015,7 @@
                   }%
                   {%
                      \ifdimless{\widestabbreviation}{5.0\normalparindent}%
-                     {\immediate\write\@auxout%
+                     {\immediate\write\@mainaux%{%
                         {%
                            \noexpand\global%
                            \noexpand\setlength{\widestabbreviation}%
@@ -1968,14 +2024,14 @@
                      }%
                      {%
                         \ifdimless{\widestabbreviation}{6.0\normalparindent}%
-                        {\immediate\write\@auxout%
+                        {\immediate\write\@mainaux%{%
                            {%
                               \noexpand\global%
                               \noexpand\setlength{\widestabbreviation}%
                               {\dimexpr 6.0\dimexpr\the\normalparindent\relax \relax}%
                            }%
                         }%
-                        {\immediate\write\@auxout%
+                        {\immediate\write\@mainaux%{%
                            {%
                               \noexpand\global%
                               \noexpand\setlength{\widestabbreviation}%
@@ -2302,14 +2358,14 @@
       \addtocontents{toc}{\protect\setlength{\@addchaptertocskip}{0bp}}%
    \endgroup%
    \if@totalchapterwritten\else
-      \immediate\write\@auxout%
+      \immediate\write\@mainaux%{%
          {\string\numgdef{\string\totalchapters}{\thechapter}}%
          \@totalchapterwrittentrue%
    \fi%
 }
 \preto{\appendix}{%
    \if@totalchapterwritten\else
-      \immediate\write\@auxout%
+      \immediate\write\@mainaux%{%
          {\string\numgdef{\string\totalchapters}{\thechapter}}%
       \@totalchapterwrittentrue%
    \fi%
@@ -2326,11 +2382,14 @@
 \newcommand*{\appendixstart}{\appendix}
 \newcommand*{\appendixend}{\@mainmatterfalse\normalsize}
 
+%\let\ORIG@insertTableNotes\insertTableNotes
+%\newcommand{\insertTableNotesHere}{%
+%   \ORIG@insertTableNotes\let\insertTableNotes\relax}
 \setlength{\parindent}{4mm}
 
 \AtEndDocument{%
    \if@totalchapterwritten\else
-      \immediate\write\@auxout%
+      \immediate\write\@mainaux%{%
          {\string\numgdef{\string\totalchapters}{\thechapter}}%
    \fi%
 }%

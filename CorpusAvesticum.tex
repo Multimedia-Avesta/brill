@@ -453,13 +453,13 @@
       \setparsizes{\z@}{\z@}{\z@\@plus 1fil}\par@updaterelative
       {\centering
          {\vspace*{-33bp}\usekomafont{title}{\fontsize{28bp}{33bp}\selectfont\@title\strut\par\kern-\prevdepth}}%
-         \vskip\@titleskip%
+         %\vskip\@titleskip%
          \ifx\@subtitle\@empty%
             \vskip 4.7bp%
          \else%
             %\vskip\@subtitleskipbefore%  
-            \vskip -\dp\strutbox%
-            \vskip 2\baselineskip%
+            %\vskip -\dp\strutbox%
+            \vspace{\dimexpr 2.0\normalbaselineskip+1bp\relax}%
             %\vskip 1bp%
             {%
                \usekomafont{subtitle}{\fontsize{16bp}{20bp}\selectfont\@subtitle\strut\par\kern-\prevdepth}%
@@ -498,6 +498,7 @@
          \@lowertitleback%
       \end{minipage}%
       \end{addmargin}\removelastskip%
+      \vspace*{35mm}%
       \ifx\@dedication\@empty
       \else
         \next@tdpage\null\vfill
@@ -1020,7 +1021,8 @@
    \setglossarystyle{brill}%
    \renewenvironment{theglossary}%
       {%
-         \setlength{\LTpre}{0pt}%
+         % We use \LTpre to correct the spacing; should be done automatically
+         \setlength{\LTpre}{\dimexpr 0.5\normalbaselineskip\relax}%
          \setlength{\LTpost}{0pt}%
          \setlength{\widestabbreviationac}{0pt}%
          \begin{longtabu} to%
@@ -1078,7 +1080,7 @@
                `add` option is ignored!}%
             }%
          \forlistloop{\@removeitemfromaclist}{\@listabbreviationsacremove}%
-         \forlistloop{\glsadd}{\@listabbreviationsac}%
+         \forlistloop{\glsaddNoNumber}{\@listabbreviationsac}%
       }%
    \begingroup%
       \renewcommand*{\glsgroupskip}{}%
@@ -1097,13 +1099,13 @@
    {% Now check, whether add option was given as well
       \ifdefempty{\@listabbreviationsacadd}%
       {% No additions, no removals. Add all entries to the abbreviation list
-         \forlistloop{\glsadd}{\@listabbreviationsac}%
+         \forlistloop{\glsaddNoNumber}{\@listabbreviationsac}%
       }%
       {%
          % Clear list
          %%%               \renewcommand*{\@listabbreviationsac}{}%
          % Add only specific entries
-         \forlistloop{\glsadd}{\@listabbreviationsacadd}%
+         \forlistloop{\glsaddNoNumber}{\@listabbreviationsacadd}%
       }%
    }%
    {%
@@ -1114,7 +1116,7 @@
                `add` option is ignored!}%
          }%
       \forlistloop{\@removeitemfromaclist}{\@listabbreviationsacremove}%
-      \forlistloop{\glsadd}{\@listabbreviationsac}%
+      \forlistloop{\glsaddNoNumber}{\@listabbreviationsac}%
    }%
    \begingroup%
    \renewcommand*{\glsgroupskip}{}%
@@ -1196,7 +1198,9 @@
    \@inrdtrue%
    \global\settoggle{@setlinenumberforthisline}{false}%
    \if@editedtextonly\else
-      \if@startwithnewline\par\vspace{.5\baselineskip}\fi%
+      %TODO: Why do we need this?
+      %\if@startwithnewline\par\vspace{.5\baselineskip}\fi%
+      \if@startwithnewline\par\addvspace{1\baselineskip}\fi%
       \begingroup%
          %\let\newline\appcrnewline%
          \tolerance=1%
@@ -1207,7 +1211,7 @@
          \noindent% 
          \hangindent\parindent\hangafter=1\relax%
          \@getlinenumberstatus%
-         #1\par\nobreak\vspace{.5\baselineskip}\noindent%
+         #1\par\nobreak\addvspace{1\baselineskip}\noindent%
       \endgroup%
    \fi%
    \@inrdfalse%
@@ -1237,13 +1241,13 @@
    % optional argument)
    \if@subreading
       \ifstrempty{#1}%
-         {\gappto{\@appcr}{\begin{appcrenum}\item[]}}%
-         {\gappto{\@appcr}{\begin{appcrenum}\item[]\makebox[1.5\normalparindent][l]{#1}}}%
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]\strut}}%
+         {\gappto{\@appcr}{\begin{appcrenum}\item[]\makebox[1.25\normalparindent][l]{#1\strut}}}%
    \fi%
    \@firstwitclasstrue%
    \@firstwitsubclasstrue%
    % Add reading to apparatus variable
-   \gappto{\@appcr}{\textit{#3}\ \begingroup\frenchspacing}%
+   \gappto{\@appcr}{\strut\textit{#3}\ \begingroup\frenchspacing}%
    % Evaluate witnesses 
    #2%
    \gappto{\@appcr}{\endgroup}%
@@ -1253,7 +1257,7 @@
    \fi%
 }
 % Write witness to apparatus
-\newcommand{\wit}[1]{\gappto{\@appcr}{#1 }}
+\newcommand{\wit}[1]{\gappto{\@appcr}{\strut #1 }}
  
 \newcommand{\witclass}[1]{%
    % If this is not the first witness class call, insert punctuation
@@ -1292,7 +1296,7 @@
    label=\arabic*,%
    leftmargin=*,%
    widest=88,%
-   itemsep=.25\baselineskip,%
+   itemsep=.25\baselineskip plus .1\baselineskip minus .1\baselineskip,%
    parsep=0pt%
 }
 
@@ -1302,10 +1306,10 @@
    nosep%
 }
 
-\let\@ORIGminisec\minisec
+\let\@MUYAminisec\minisec
 \long\def\minisec{\@minisec}
-\newcommand{\@minisec}[2][]{\@ORIGminisec{#2}}
-% Each stanza starts a new mini sections and resets the \enquote{footnote} counter
+\newcommand{\@minisec}[2][]{\@MUYAminisec{#2}}
+% Each stanza starts a new mini section and resets the \enquote{footnote} counter
 \newenvironment{stanza}[1]{%
    \stepcounter{stanza}%
    \Ifstr{\@stanzaheading}{none}%
@@ -1315,7 +1319,6 @@
             {\@stanzaheading[#1]{\Av{\passage{#1}}}}%
             {\@stanzaheading{#1}}%
       }%
-   %\setcounter{appcrfootnote}{0}%
    % The apparatus is stored in a variable
    \gdef\@appcr{}%
    \hyphenpenalty=\@M%
@@ -1523,14 +1526,14 @@
       \IfStrEqCase{\@rdposition}{%
          {t}{%
             \par\noindent%
-            \ifcsdef{rd-#2}{\csuse{rd-#2}\par\vspace{\baselineskip}}{}%
+            \ifcsdef{rd-#2}{\csuse{rd-#2}\par\addvspace{\baselineskip}}{}%
             \csuse{translation-#2}%
          }%
          {m}{}%
          {b}{%
             \par\noindent%
             \csuse{translation-#2}%
-            \ifcsdef{rd-#2}{\par\vspace{\baselineskip}\csuse{rd-#2}}{}%
+            \ifcsdef{rd-#2}{\par\addvspace{\baselineskip}\csuse{rd-#2}}{}%
          }%
          {none}{%
             \let\RDTrans\@gobble%
@@ -2023,7 +2026,7 @@
 \newcommand*{\SetTitleLogoFile}[1]{\renewcommand*{\@titlelogofile}{#1}}
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
-
+\newcommand{\setdictlanguage}[1]{\def\@dictlanguage{#1}}
 \NewEnviron{Dictionary}[1][Av]%
    {%
       \stepcounter{numberofglossaries}%
@@ -2359,4 +2362,27 @@
 \providecommand*{\nbthinslash}{\,\slash\fL{}}
 \providecommand*{\appindent}{\hspace*{\normalparindent}}      
 %\providecommand*{\Comment}{\noindent\textbf{Comment}:}
+\providecommand*{\skipaftergraphic}%
+   {\vspace*{\dimexpr -1.0\normalbaselineskip+1bp\relax}}
+
+%\newcommand*\footnoteruleVAR{%
+%   \normalsize\ftn@rule@test@values
+%   \kern-\dimexpr 2.6\p@+\ftn@rule@height\relax
+%   \ifx\@textbottom\relax\else\vskip \z@ \@plus.05fil\fi
+%   {\usekomafont{footnoterule}{%
+%         \hrule \@height\ftn@rule@height \@width\ftn@rule@width}}%
+%   \kern 2.6\p@}
+%
+%\providecommand{\liftfootnotes}[1]{%
+%      \advance\skip\footins by-#1%
+%      \def\footnoterule{%
+%         \normalsize\ftn@rule@test@values
+%         \kern#1%
+%         \kern-\dimexpr 2.6\p@+\ftn@rule@height\relax
+%         \ifx\@textbottom\relax\else\vskip \z@ \@plus.05fil\fi
+%         {\usekomafont{footnoterule}{%
+%               \hrule \@height\ftn@rule@height \@width\ftn@rule@width}}%
+%         %\kern 2.6\p@%
+%         \kern-#1}%
+%}
 \endinput
