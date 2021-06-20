@@ -1894,7 +1894,7 @@
          {%
           \vtop to\dimexpr\vsize+\baselineskip{
             \hrule
-            \leaders\vbox to 13.2bp{\hrule width 1.1\hsize\vfill}\vfill
+            \leaders\vbox to 13.2bp{\hrule width\hsize\vfill}\vfill
           }%
          }%
      }%

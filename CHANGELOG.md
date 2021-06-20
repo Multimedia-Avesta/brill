@@ -6,6 +6,28 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.90.0] - 2021-06-20
+
+### Added
+- Support for table notes (package `threeparttablex`) 
+- New options for `brilltable`: `tablesrules`, `tablenotes`, `tablenotesauto`
+- New option `height` for `brillfigure`
+
+### Changed
+- Smaller box for reading type in apparatus output
+- Add small flexibility to apparatus output
+
+### Fixed
+- Fix definition of column parameters `E` and `B`
+- Caption settings for `brilltable` and `brillfigure`
+- No more additional empty pages before `\printabbreviations` and `printabbreviations_ac`
+- Correct indention for footnotes with different number of digits (e.g. 9-->10)
+- Correct vertical skip for `part` entries in TOC
+- Patch width of `longtable` captions
+- Make `\textellipsis` and `\ldots` use U+2026 of brill font
+- Correct calculation for widest entry in abbreviations
+
+
 ## [0.81.2] - 2021-05-02
 ### Fixed
 - Revert redefinition of column parameters `M{}` and `m{}`.
@@ -1016,6 +1038,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.90.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.90.0
 [0.81.2]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.81.2
 [0.81.1]:
