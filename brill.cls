@@ -254,7 +254,7 @@
    \patchcmd[]{\footnoterule}%
       {\kern 2.6\p@}%
       {\kern \dimexpr 2.6\p@-\footnotesep+0.5\baselineskip\relax}%
-      {\ClassWarningNoLine{brill}{Macro \string\footnoterule\space successfully patched}}%
+      {\ClassInfoNoLine{brill}{Macro \string\footnoterule\space successfully patched}}%
       {\ClassError{brill}{Error when trying to patch macro \string\footnoterule}{}}
 \else
    \RequirePackage[driver=none]{geometry}
@@ -1152,7 +1152,7 @@
 \newcolumntype{x}[1]{>{\strut\hsize=#1\hsize}X<{\strut}}
 \RequirePackage{multirow}
 \RequirePackage{booktabs}
-\RequirePackage{longtable}
+\RequirePackage{longtable}[=v4.13]
 \patchcmd{\LT@makecaption}{\linewidth}{\textwidth}%
    {\ClassInfoNoLine{brill}{Captions for long tables patched}}%
    {\ClassWarningNoLine{brill}{Captions for long tables could not be patched}}%
@@ -1229,7 +1229,7 @@
 %\setlength{\LTcapwidth}{\textwidth}
 \patchcmd{\bottomrule}{\heavyrulewidth}{\lightrulewidth}%
    {\ClassInfoNoLine{brill}{\string\bottomrule\space successfully patched!}}%
-   {\ClassInfoNoLine{brill}{\string\bottomrule\space could not be patched!}}%
+   {\ClassWarningNoLine{brill}{\string\bottomrule\space could not be patched!}}%
 \setlength{\heavyrulewidth}{0.6bp}%
 \setlength{\lightrulewidth}{0.3bp}%
 \setlength{\arrayrulewidth}{0.3bp}%
