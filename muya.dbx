@@ -15,6 +15,7 @@
 %
 % This work consists of the files 
 % brill.cls
+% brill.lua
 % CorpusAvesticum.tex
 % muya.bbx
 % muya.cbx
@@ -24,7 +25,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.dbx}[2021/04/27 v0.81.0 biblatex datamodel style]
+\ProvidesFile{muya.dbx}[2021/06/20 v0.90.0 biblatex datamodel style]
 \DeclareDatamodelFields[type=field,datatype=literal]%
    {preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}

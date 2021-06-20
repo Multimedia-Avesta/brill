@@ -15,6 +15,7 @@
 %
 % This work consists of the files 
 % brill.cls
+% brill.lua
 % CorpusAvesticum.tex
 % muya.bbx
 % muya.cbx
@@ -25,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/05/26 v0.82.0-dev A template for Brill publications]
+\ProvidesClass{brill}[2021/06/20 v0.90.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {

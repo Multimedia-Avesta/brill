@@ -16,6 +16,7 @@
 --
 -- This work consists of the files 
 -- brill.cls
+-- brill.lua
 -- CorpusAvesticum.tex
 -- muya.bbx
 -- muya.cbx
@@ -25,7 +26,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2021/04/27 v0.81.0
+-- 2021/06/20 v0.90.0
 local ustring = require( 'ustring' )
 
 function modifySorting()

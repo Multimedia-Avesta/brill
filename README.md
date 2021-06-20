@@ -19,6 +19,7 @@ All files are
 the guidelines of [Brill](https://brill.com/) as found in the “Brill
 Typographic Style” (BTS) v2.0. This file is meant as a general approach and
 will later be published on its own.
+* brill.lua
 * `CorpusAvesticum.tex`: Specific (re)definitions for the series `Corpus Avesticum`.
 * `muya.bbx`, `muya.cbx`, `muya.dbx`: Style files for citations and bibliography output based on the [Unified Stylesheet for Linguistics Journals](https://www.linguisticsociety.org/resource/unified-style-sheet).
 It uses `biblatex` and is based on the [`biblatex-unified` style](https://github.com/semprag/biblatex-sp-unified).
