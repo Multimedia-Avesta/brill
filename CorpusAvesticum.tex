@@ -1365,8 +1365,8 @@
 % After all other \AtBeginDocument code we read the stanzas.tex file (if it exists)
 \AfterEndPreamble{%
    \InputIfFileExists{./stanzas.tex}%
-      {\ClassInfo{brill}{Stanza macros successfully loaded from `stanzas.tex`!}}%
-      {\ClassInfo{brill}{There is no file `stanzas.tex`. No stanzas read!}}%
+      {\ClassInfoNoLine{brill}{Stanza macros successfully loaded from `stanzas.tex`!}}%
+      {\ClassWarningNoLine{brill}{There is no file `stanzas.tex`. No stanzas read!}}%
 }
 
 % We define key-value options for \Getstanza
