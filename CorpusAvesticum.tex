@@ -1778,7 +1778,8 @@
    % All others get additional superscript numbers after each word.    
    \begingroup%
    %\editedtextfont
-   \Ifstrstart{#1}{(date, dedication of}%
+   \ifboolexpr{test { \Ifstrstart{#1}{(date, dedication of} }%
+            or test { \Ifstr{#1}{(abbreviated text)} }}%
       {#1}%
       {%
          \ifx\app\@gobble
