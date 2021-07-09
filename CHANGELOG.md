@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Check for `abbreviated text` in edited text and set as one in recte (\#10959)
+
+### Fixed
+- Output of stanzas without using `\GetStanza...` now uses default heading
+- Ignore empty lines when reading stanzas from file (\#10993)
 
 ## [0.90.0] - 2021-06-20
 
