@@ -673,6 +673,7 @@ function removespecialchars( s )
    snew = string.gsub( snew, '%(', '' )
    snew = string.gsub( snew, '%)', '' )
    snew = string.gsub( snew, '°', '' )
+   snew = string.gsub( snew, '⁺', '' )
    snew = string.gsub( snew, '%s-/%s-', ' ' )
    snew = string.gsub( snew, '%s-…%s-', ' ' )
    -- ... and we move sort ids to the very end
@@ -697,6 +698,7 @@ function removespecialchars( s )
    snew = string.gsub( snew, '\\XVE{}', 'xv' )
    snew = string.gsub( snew, '\\NGVE{}', 'ŋv' )
    snew = string.gsub( snew, '\\aee{}', 'ǝ̄' )
+   snew = string.gsub( snew, '^\\uncertain{([^}]+)}', '%1' )
    --texio.write_nl("Nachher: " .. snew)
    return snew
 end
