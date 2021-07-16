@@ -872,7 +872,9 @@ function read_stanzas_from_file(f, suffix)
       -- get line k and process it
       local str = lines[k]
       --texio.write_nl(str .. "\n")
-      if not isempty( str ) then 
+      if isempty( str ) then 
+         buf[k] = ''
+      else
          -- Check, whether a new stanza starts
          if string.match( str, "^\\begin{stanza}{.-}" ) then
             book, stanzanr, text = string.match( str, "^\\begin{stanza}{\\(.-){(.-)}}" )
