@@ -1345,7 +1345,14 @@
 }%
 \define@key{brill}{height}{%
    \Ifstr{\@currenvir}{brillfigure}
-   {\def\@figureheight{\dimexpr #1\baselineskip+1.5mm-2\fboxrule-2\fboxsep\relax}}%
+   {%
+      \ifnumgreater{#1}{0}%
+         {%
+            \def\@figureheight{%
+               \dimexpr #1\baselineskip+1.5mm-2\fboxrule-2\fboxsep\relax}%
+         }%
+         {\def\@figureheight{0pt}}%
+   }%
    {\ClassWarning{brill}{Option `height` is not available for brilltable}}%
 }%
 \define@key{brill}{landscape}{%
@@ -1707,7 +1714,7 @@
       orientation=portrait,%
       placement={tp},%
       width=dynamic,%
-      height=0pt,%
+      height=0,% number of lines
       #1}% Set default and updated keys
    \ifdefvoid{\@figurecaption}%
       {\par\vspace{\baselineskip}\noindent\ignorespaces}%
