@@ -4,7 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+
 ## [Unreleased]
+
+## [0.92.0] - 2021-07-20
+
+### Fixed
+- Fix handling for missing height parameter for brillfigure"
+- Revert changes for empty lines in input file
+- Fix sorting in glossaries for ⁺ and \uncertain
 
 ## [0.91.0] - 2021-07-09
 ### Added
@@ -1046,6 +1054,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.92.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.92.0
 [0.91.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.91.0
 [0.90.0]:
