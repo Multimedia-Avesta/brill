@@ -1941,7 +1941,7 @@
    \def\textsuperscript#1{\textasciicircum(#1)}%
 }%
 \RequirePackage{ellipsis}
-\DeclareTextCommandDefault{\textellipsis}{\symbol{\"2026}}%
+\DeclareTextCommandDefault{\textellipsis}{\symbol{"2026}}%
 
 \ifboolexpr{ not bool {brill@printversion} and bool {brill@gitver} }%
    {%
