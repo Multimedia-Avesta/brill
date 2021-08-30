@@ -226,7 +226,8 @@
    Renderer       = Node,%
 ]%
 
-\newrobustcmd*{\nosmallcaps}{\addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
+\newrobustcmd*{\nosmallcaps}{%
+   \addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
 \newcommand*{\@morewordspace}{\spaceskip=2\fontdimen2\font plus 2\fontdimen3\font minus \fontdimen4\font}
 \newrobustcmd*{\texttracking}[1]{{\trackingfont #1}}%
 \newrobustcmd*{\texttrackingL}[1]{\ifhmode\unskip\fi{\trackingfont\ #1}}%
