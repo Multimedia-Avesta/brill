@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.93.0] - 2021-08-30
+
+### Fixed
+- Restrict font changes for stanza to a local scope (\#11088)
+- Wrong number in definition of `\textellipsis`
+
 ## [0.92.0] - 2021-07-20
 
 ### Fixed
@@ -1054,6 +1060,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.93.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.93.0
 [0.92.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.92.0
 [0.91.0]:
