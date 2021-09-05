@@ -1497,7 +1497,11 @@
                            \else
                               \@brillbottomrule%
                            \fi%
+                           \ifboolexpe{ test {\iftoggle{@tabletablenotesauto}} 
+                              and test {\ifdef{\@tabletablenotes}} }%
+                           {\insertTableNotes\\}{}%
                            \endlastfoot%
+                           \global\@userbottomrulefalse%
                         }%
                   }%
                   {%
@@ -1581,6 +1585,9 @@
                      \hline
                      \endhead
                      \lasthline
+                     \ifboolexpe{ test {\iftoggle{@tabletablenotesauto}} 
+                        and test {\ifdef{\@tabletablenotes}} }%
+                     {\insertTableNotes\\}{}%
                      \endlastfoot
                   }%
             }%
