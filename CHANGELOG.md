@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.95.0] - 2021-09-11
+
+### Fixed
+- Sorting for numbers and sort order in Sanskrit (\#11130, \#11131)
+
 ## [0.94.0] - 2021-09-05
 
 ### Fixed
@@ -1065,6 +1070,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.95.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.95.0
 [0.94.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.94.0
 [0.93.0]:
