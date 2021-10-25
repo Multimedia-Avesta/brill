@@ -227,6 +227,12 @@
                match=\regexp{(\d{4})-(\d{4})},%
                replace=\regexp{$1/$2}]%
       }%
+% Check for "AY" within the new postorigdatetext field
+      \map{%
+         \step[fieldsource=postorigdatetext,%$
+            match=\regexp{AY},%
+            replace=\regexp{\\textsc{AY}}]%
+      }%
 % Split up title information into title and subtitle field using ":" as 
 % the delimiter
 % TODO: This is not ideal as there are entries like 
