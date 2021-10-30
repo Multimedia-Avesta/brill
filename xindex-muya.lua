@@ -8,7 +8,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-muya'] = {
-      version = 0.28,
+      version = 0.33,
       comment = "",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
@@ -58,6 +58,9 @@ numericPage = true
 sublabels = {"", "", "", ""}
 pageNoPrefixDel   = ""
 indexOpening      = ""
+idxnewletter      = "\\textbf"  -- Only valid if -n is not set
+envStart          = "\\begin{theindex}"  
+envStop           = "\\end{theindex}"
 
 function UTFCompare(a,b)
    local A = a["SortKey"]

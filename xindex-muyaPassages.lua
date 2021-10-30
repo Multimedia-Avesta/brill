@@ -7,7 +7,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-muyaPassages'] = {
-      version = 0.19,
+      version = 0.33,
       comment = "",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
@@ -23,6 +23,10 @@ numericPage = true
 sublabels = {"", "", "", ""}
 pageNoPrefixDel   = ""
 indexOpening      = ""
+idxnewletter      = "\\textbf"  -- Only valid if -n is not set
+envStart          = "\\begin{theindex}"  
+envStop           = "\\end{theindex}"
+
 
 alphabet_lower = { --   for sorting
     { ' ' },  -- only for internal tests

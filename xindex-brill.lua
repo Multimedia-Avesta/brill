@@ -7,7 +7,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-brill'] = {
-      version = 0.16,
+      version = 0.33,
       comment = "main configuration to xindex.lua",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
@@ -22,6 +22,9 @@ numericPage = true
 sublabels = {"", "", "", ""}
 pageNoPrefixDel   = ""
 indexOpening      = ""
+idxnewletter      = "\\textbf"  -- Only valid if -n is not set
+envStart          = "\\begin{theindex}"  
+envStop           = "\\end{theindex}"
 
 --[[
     Each character's position in this array-like table determines its 'priority'.
