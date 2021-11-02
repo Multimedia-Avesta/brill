@@ -677,7 +677,10 @@
 
 \newcommand*{\indexlanguage}{A@General}
 \newcommand*{\idxentryfont}[1]{#1}
-\newcommand*{\resetlanguage}{\gdef\indexlanguage{A@General}\renewcommand*{\idxentryfont}[1]{##1}}
+\newcommand*{\resetlanguage}{%
+   \gdef\indexlanguage{A@General}%
+   \renewcommand*{\idxentryfont}[1]{##1}%
+}
 \newcommand{\ItalicsOrNot}[1]{%
    \IfStrEqCase{#1}{%
       {Aram}{\def\indexlanguage{Aramaic}\itshape}%
