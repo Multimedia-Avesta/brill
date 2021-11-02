@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.96.1] - 2021-11-02
+
+### Fixed
+- `xindex`  config file (\#11199)
+  
+
 ## [0.96.0] - 2021-10-30
 
 ### Added
 - Replace AY in postorigdatetext field with small caps (\#11167)
 
 ### Fixed
-- Add new config options to xindex files (\#11199)
+- Add new config options to `xindex` files (\#11199)
 
 
 ## [0.95.0] - 2021-09-11
@@ -1079,6 +1085,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.96.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.96.1
 [0.96.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.96.0
 [0.95.0]:

@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/10/30 v0.96.0 A template for Brill publications]
+\ProvidesClass{brill}[2021/11/02 v0.96.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
