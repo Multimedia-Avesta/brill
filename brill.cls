@@ -408,10 +408,14 @@
 %\raggedcolumns
 \RequirePackage[savepos,abspage,user]{zref}
 \newlength{\normalparindent}
+\newlength{\normalparskip}
 \newlength{\fnlabelsep}
+%\newlength{\
 \AtBeginDocument{%
    \setlength{\normalparindent}{\parindent}%
    \setlength{\fnlabelsep}{\normalparindent}%
+   \setlength{\normalparskip}{\parskip}%
+   %\setlength{\testbaselineskip}{2cm}%
 }
 \newcommand\actcounterT{}
 \newcommand\actcounterH{}
