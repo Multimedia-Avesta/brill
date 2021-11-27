@@ -7,20 +7,20 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-muyaPassages'] = {
-      version = 0.33,
-      comment = "",
+      version = 0.34,
+      comment = "Custom config file for MuYa project",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
       license = "LPPL 1.3"
 }
 
 itemPageDelimiter = "\\quad "
-compressPages = true
-fCompress = false
-minCompress = 1 
-rangeSymbol = "--"
-numericPage = true
-sublabels = {"", "", "", ""}
+compressPages     = true
+fCompress         = false
+minCompress       = 1 
+rangeSymbol       = "--"
+numericPage       = true
+sublabels         = {"", "", "", ""}
 pageNoPrefixDel   = ""
 indexOpening      = ""
 idxnewletter      = "\\textbf"  -- Only valid if -n is not set
