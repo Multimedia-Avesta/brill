@@ -1669,14 +1669,12 @@
                         \iftoggle{@tablerules}%
                            {\firsthline}%
                            {}%
-                        \begingroup%
                         \iftoggle{@tablebfheaders}%
                            {%
                               \rowfont{\bfseries\@tableheaderfontsize}%
                               \@tableheaders%
                            }%
                            {\rowfont{\@tableheaderfontsize}\@tableheaders}%
-                        \endgroup%
                         \hline%
                      }%
                }%
@@ -1696,9 +1694,7 @@
                   \iftoggle{@tablerules}%
                      {%
                         \iftoggle{@tablebooktabs}%
-                           {%
-                              \@brillbottomrule%
-                           }%
+                           {\@brillbottomrule}%
                            {\lasthline}%
                      }%
                      {}%
