@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.98.0] - 2021-11-30
+### Added
+- New macro `\introduction*[]{}` for introduction with extra chapter heading
+- 
 ## [0.97.0] - 2021-11-27
 ### Fixed
 - Using `booktabsstyle=false` resulted in an error due to a `\begingroup...\endgroup` 
@@ -15,7 +19,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - `xindex`  config file (\#11199)
   
-
 ## [0.96.0] - 2021-10-30
 ### Added
 - Replace AY in postorigdatetext field with small caps (\#11167)
@@ -1083,6 +1086,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.98.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.98.0
 [0.97.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.97.0
 [0.96.1]:
