@@ -563,14 +563,29 @@
    }}%
    {#2}#3%
 }%
-%TODO: \introduction should have an optional argument, p. 19
-\newcommand{\introduction}[1]{%
+
+\protected\def\introduction{%
+   \@ifstar{\@dblarg\@introduction}{\@dblarg\@@introduction}}
+\newcommand{\@introduction}[2][]{%
    {%
-    \renewcommand*{\chapterformat}{\hspace*{3\normalparindent}\introductionname}%
+      \renewcommand*{\chapterformat}{%
+         \hspace*{3\normalparindent}\introductionname}%
+      \ifnum\value{chapter}=0
+         \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \renewcommand{\thechapter}{}%
+      \chapter[{#1}]{#2}%
+      \markleft{\introductionname}%
+      \addtocounter{chapter}{-1}%
+   }%
+}%   
+
+\newcommand{\@@introduction}[2][]{%
+   {%
     \ifnum\value{chapter}=0
       \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
     \fi%
-    \addchap{#1}%
+    \addchap[{#1}]{#2}%
    }%
 }%   
 
