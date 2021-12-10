@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [0.98.0] - 2021-11-30
 ### Added
 - New macro `\introduction*[]{}` for introduction with extra chapter heading
-- 
+
 ## [0.97.0] - 2021-11-27
 ### Fixed
 - Using `booktabsstyle=false` resulted in an error due to a `\begingroup...\endgroup` 

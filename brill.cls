@@ -2170,7 +2170,7 @@
     \par\addvspace{\baselineskip}\noindent\ignorespaces%
    }%
 
-\newenvironment{@btquote}%
+\newenvironment{@btquote}[1][2\parindent]%
    {%
       \if@btquotetitle
          \par\nopagebreak\vspace{\@btvspace}%
@@ -2180,11 +2180,11 @@
       \fi%
       \ifcsdef{specialnewline\@currvalspecialnewline}%
          {%
-            \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
+            \addmargin[\dimexpr #1+\normalparindent\relax]{0bp}%
             \setlength{\parindent}{-\normalparindent}%
             \hspace*{-\normalparindent}%
          }%
-         {\addmargin[2\parindent]{0bp}}%
+         {\addmargin[#1]{0bp}}%
       \ignorespaces%
       \aftergroup\useignorespacesandallpars%
    }%
@@ -2330,6 +2330,53 @@
 % Output translation argument                        
                         #4%
                      }%
+               }%
+         }%
+   \end{@btquote}%
+   \NoIndentAfterThis%
+}%
+
+%%% Copy of \blocktranslation without indention
+\newcommand{\blocktranslationNoindent}[4][]{%
+   \def\array@default{b}%
+   \refstepcounter{specialnewline}%
+   \xdef\@currvalspecialnewline{\thespecialnewline}%
+   \ifstrempty{#1}%
+      {\@btquotetitlefalse}%
+      {%
+         \@btquotetitletrue%
+         \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
+      }%
+   \begin{@btquote}[0pt]%
+      \@inblocktranslationtrue%
+      \let\newline\@specialnewline%
+      \let\\\@specialnewline%
+      \ifstrempty{#2}%
+         {\ifstrempty{#3}%
+            {\noindent #4}%
+            {%
+               #3%
+               \ifstrempty{#4}{}{%
+                  \ifcsdef{specialnewline\@currvalspecialnewline}%
+                  {\par\nopagebreak\vspace{\@btvspace}}%
+                  {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                  #4%
+               }%
+            }%
+         }%
+         {%
+            \ifstrempty{#3}%
+               {\ifstrempty{#4}{}{\noindent #4}}%
+               {%
+                  {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
+                  \ifstrempty{#4}%
+                  {}%
+                  {%
+                     \ifcsdef{specialnewline\@currvalspecialnewline}%
+                        {\par\nopagebreak\vspace{\@btvspace}}%
+                        {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                     #4%
+                  }%
                }%
          }%
    \end{@btquote}%
