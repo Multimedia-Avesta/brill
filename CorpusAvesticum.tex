@@ -2035,6 +2035,17 @@
 \newcommand*{\@titlelogofile}{../muya.common/BRILL.pdf}
 \newcommand*{\SetTitleLogoFile}[1]{\renewcommand*{\@titlelogofile}{#1}}
 
+\newcommand*{\LemmaBasic}[2][]{\item[#2]}
+\newlist{Dictionary*}{description}{1}
+\setlist[Dictionary*]{%
+   labelsep=0pt,%
+   left=0pt .. 2\normalparindent,%
+   itemindent=*,
+   labelsep=2em,%
+   font=\normalfont\bfseries,%
+   before={\let\Lemma\LemmaBasic\small},%
+}
+
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 \newcommand{\setdictlanguage}[1]{\def\@dictlanguage{#1}}
 \NewEnviron{Dictionary}[1][Av]%
