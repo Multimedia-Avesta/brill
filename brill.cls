@@ -1903,11 +1903,30 @@
    level=\addchap,%
    %toclevel=chapter,%
    othercode={\setlength{\parskip}{0pt}\RaggedRight\footnotesize}}%
-\renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
+\newif\iffirst@subitem%
+\newif\iffirst@subsubitem%
+\first@subsubitemfalse%
+\renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent\first@subitemtrue}%
 \renewcommand*{\subitem}{%
-   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
+   \par%
+   \iffirst@subitem%
+      \nobreak%
+      \first@subitemfalse%
+   \else%
+      \penalty 2000%
+   \fi%
+   \hangindent 2\normalparindent%
+   \first@subsubitemtrue%
+   \hspace*{\normalparindent}}%
 \renewcommand*{\subsubitem}{%
-   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
+   \par\hangindent 2\normalparindent%
+   \iffirst@subsubitem%
+      \nobreak%
+      \first@subsubitemfalse%
+   \else%
+      \penalty 5000%
+   \fi%   
+   \hspace*{\normalparindent}}%
 \let\indexspace\relax%\par\addvspace{\normalbaselineskip}\relax}%
 
 \ifboolexpr{ bool {brill@showgrid} and not bool {brill@printversion} }%

@@ -573,9 +573,17 @@
 \newcommand{\printindexes}{%
    \let\indexspace\relax%
    \begingroup%
-      \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
+      \renewcommand*{\subitem}{%
+         \par%
+         \iffirst@subitem%
+            \nobreak%
+            \first@subitemfalse%
+         \else%
+            \penalty 2000%
+         \fi%
+         \hangindent 2\normalparindent\relax}%
       \renewcommand*{\@idxitem}{%
-         \par\nopagebreak\addvspace{\baselineskip}\relax}%
+         \par\addvspace{\baselineskip}\first@subitemtrue\relax}%
       \printindex[words]%
       \printindex[passages]%
    \endgroup%
