@@ -1870,7 +1870,7 @@
 \setkomafont{caption}{\normalfont\footnotesize}
 \setkomafont{captionlabel}{\scshape}
 \setcaphanging
-\setcapindent{16mm}
+\setcapindent{16mm}%TODO: 20mm for figures?
 \setcaptionalignment{J}
 \newlength{\@currentcaplabelwidth}
 \AtBeginDocument{%
@@ -1878,8 +1878,8 @@
       \Ifstr{\@captype}{figure}
          {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
          {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
-      \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
-}%TODO: 20mm for figures?
+      \hspace{\dimexpr\cap@indent-\@currentcaplabelwidth\relax}}
+}%
 \renewcommand*{\figureformat}{\figurename~\thefigure}
 \renewcommand*{\tableformat}{\tablename~\thetable}
 \renewcaptionname{british}{\listtablename}{Tables}
@@ -2449,6 +2449,9 @@
    \ifbrill@PhD
    \else
       \renewcommand*{\thechapter}{\arabic{chapter}}%
+      \renewcommand*{\thefigure}{A-\thechapter.\@arabic\c@figure}%
+      \renewcommand*{\thetable}{A-\thechapter.\@arabic\c@table}%
+      \setcapindent{20mm}%
       \small%
    \fi%
    \cleardoubleoddemptypage
