@@ -589,6 +589,31 @@
    }%
 }%   
 
+\protected\def\conclusion{%
+   \@ifstar{\@dblarg\@conclusion}{\@dblarg\@@conclusion}}
+\newcommand{\@conclusion}[2][]{%
+   {%
+      \renewcommand*{\chapterformat}{%
+         \hspace*{3\normalparindent}\conclusionname}%
+      \ifnum\value{chapter}=0
+         \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \renewcommand{\thechapter}{}%
+      \chapter[{#1}]{#2}%
+      \markleft{\conclusionname}%
+      \addtocounter{chapter}{-1}%
+   }%
+}%   
+
+\newcommand{\@@conclusion}[2][]{%
+   {%
+      \ifnum\value{chapter}=0
+      \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \addchap[{#1}]{#2}%
+   }%
+}%  
+
 % We use different set-ups for headings depending on PhD or not
 \ifbrill@PhD
    \RedeclareSectionCommand[%
@@ -1886,6 +1911,7 @@
 \renewcaptionname{british}{\listfigurename}{Figures}
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
 \providecaptionname{british}{\introductionname}{Introduction}
+\providecaptionname{british}{\conclusionname}{Conclusion}
 \newcommand{\listoffigurestables}{%
    \addchap[tocentry={\listfiguretablename}]{Figures and Tables}
    \listoffigures
