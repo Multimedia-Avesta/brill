@@ -809,6 +809,8 @@
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newlanguage{Blc}{Balōčī}
+\let\Balochi\Blc
 \newlanguage{Chor}{Choresmian}
 \newlanguage{El}{Elamite}
 \newlanguage{NP}{New Persian}
@@ -974,7 +976,6 @@
 \newlanguage{Ormuri}{Ōrmuṛī}
 \newlanguage{Zazaki}{Zāzākī}
 \newlanguage{Parachi}{Parāčī}
-\newlanguage{Balochi}{Balōčī}
 \newlanguage{Yazghulami}{Yazγulāmī}
 \newlanguage{Kurmanji}{Kurmanǰī}
 %%%
@@ -988,6 +989,8 @@
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
+\let\BalochiBlock\BlcBlock
+\let\endBalochiBlock\endBlcBlock
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
 \let\GujrBlock\GujBlock
@@ -1991,6 +1994,8 @@
 \newbook{SA}
 \newbook{SBM}
 \newbook{SCE}
+\newbook{SdBd}
+\newbook{SdN}
 \newbook{SGW}
 \newbook{ShahrEr}
 \newbook{SnS}
