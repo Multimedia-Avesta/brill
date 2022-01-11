@@ -9,7 +9,7 @@ London as well.
 
 MUYA is a multi-disciplinary, international project and has as its focus
 the Yasna – the core ritual of the Zoroastrian religion. The project is
-funded by the [European Research Council (ERC)](https://erc.europa.eu/) with an Advanced Investigator Grant (2016–2021).
+funded by the [European Research Council (ERC)](https://erc.europa.eu/) with an Advanced Investigator Grant (2016–2022).
 
 All files are
 

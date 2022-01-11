@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.99.0] - 2022-01-11
+### Added 
+- Add new language and text names (\#11288)
+- Add special \conclusion macro (\#11248)
+- Add Dictionary* environment (\#11280)
+- Add new macro \blocktranslationNoindent (\#11257)
+
+### Changed
+- Change figure and table number for appendix (\#11279)
+
+### Fixed
+- Fix nobreak call for indices (\#11276)
+
 ## [0.98.0] - 2021-11-30
 ### Added
 - New macro `\introduction*[]{}` for introduction with extra chapter heading
@@ -1086,6 +1099,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.99.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.0
 [0.98.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.98.0
 [0.97.0]:
