@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [0.99.1] - 2022-01-12
+### Added
+- Add book names (\#11293)
+
 ## [0.99.0] - 2022-01-11
 ### Added 
 - Add new language and text names (\#11288)
@@ -1099,6 +1103,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.99.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.1
 [0.99.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.0
 [0.98.0]:
