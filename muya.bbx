@@ -233,6 +233,12 @@
             match=\regexp{AY},%
             replace=\regexp{\\textsc{AY}}]%
       }%
+% Check for "SH" within the new postorigdatetext field
+      \map{%
+         \step[fieldsource=postorigdatetext,%$
+            match=\regexp{SH},%
+            replace=\regexp{\\textsc{SH}}]%
+      }%      
 % Split up title information into title and subtitle field using ":" as 
 % the delimiter
 % TODO: This is not ideal as there are entries like 
