@@ -1444,6 +1444,11 @@
 % \Importstanzas*{file} and the common translation
 \newcommand{\GetstanzaWithtranslation}{\@ifstar%
    {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
+\newcommand{\GetstanzaWithtranslationNB}{\@ifstar%
+   {\settoggle{@blocktranslationNobreak}{true}%
+    \@GetstanzaWithtranslation[-transcript]}%
+   {\settoggle{@blocktranslationNobreak}{true}\@GetstanzaWithtranslation}%
+}%
 
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
@@ -1456,6 +1461,7 @@
          {}%
          {\GetstanzaTextonly*[heading=none]{#2#1}}{\Gettranslation*{#2}}%
    \fi%
+   \settoggle{@blocktranslationNobreak}{false}%
 }
 
 \newcommand{\GetstanzasWithtranslations}{\@ifstar%

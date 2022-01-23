@@ -408,14 +408,10 @@
 %\raggedcolumns
 \RequirePackage[savepos,abspage,user]{zref}
 \newlength{\normalparindent}
-\newlength{\normalparskip}
 \newlength{\fnlabelsep}
-%\newlength{\
 \AtBeginDocument{%
    \setlength{\normalparindent}{\parindent}%
    \setlength{\fnlabelsep}{\normalparindent}%
-   \setlength{\normalparskip}{\parskip}%
-   %\setlength{\testbaselineskip}{2cm}%
 }
 \newcommand\actcounterT{}
 \newcommand\actcounterH{}
@@ -2270,8 +2266,10 @@
 
 \newlength{\@btvspace}
 \setlength{\@btvspace}{\baselineskip}
+\newtoggle{@blocktranslationNobreak}
 \newcommand*{\Setbtvspace}[1]{\setlength{\@btvspace}{#1}}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
+
 % Starred version
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
@@ -2341,6 +2339,13 @@
          \@btquotetitletrue%
          \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
       }%
+   \iftoggle{@blocktranslationNobreak}%
+      {%
+         \noindent% 
+         \minipage[b]{\linewidth}%
+         \parindent=\normalparindent%
+      }%
+      {}%
 % We start the output using a custom variant of the quote environment   
    \begin{@btquote}%
 % Define \newline and \\ to use a hanging indent _and_ to set a macro to 
@@ -2382,6 +2387,7 @@
                }%
          }%
    \end{@btquote}%
+   \iftoggle{@blocktranslationNobreak}{\endminipage}{}%
    \NoIndentAfterThis%
 }%
 
