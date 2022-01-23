@@ -519,11 +519,19 @@
 \patchcmd{\imki@putindex}%
    {\immediate\closeout\csname #1@idxfile\endcsname}%
    {\immediate\closeout\csname #1@idxfile\endcsname
-    \Ifstr{#1}{passages}{%
-      \ClassInfo{brill}{Start modifying passages for sorting ...}%
-      \directlua{modifySorting()}%
-      \ClassInfo{brill}{... done.}%
-    }{}}%
+      \Ifstr{#1}{passages}{%
+         \ClassInfo{brill}{Start modifying passages for sorting ...}%
+         \directlua{modifySorting()}%
+         \ClassInfo{brill}{... done.}%
+      }%
+      {%
+         \Ifstr{#1}{words}{%
+            \ClassInfo{brill}{Start modifying words for sorting ...}%
+            \directlua{modifySorting_words()}%
+            \ClassInfo{brill}{... done.}%
+         }%
+      }%
+   }%
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
    {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%
 \patchcmd{\imki@putindex}%
@@ -546,7 +554,7 @@
 \patchcmd{\imki@putindex}%  
    {\imki@exec{\imki@program\imki@options#1.idx}}%
    {%
-      \Ifstr{#1}{passages}%
+      \ifboolexpr{ test {\Ifstr{#1}{passages}} or test {\Ifstr{#1}{words}} }%
          {\imki@exec{\imki@program\imki@options#1-mod.idx}}%
          {\imki@exec{\imki@program\imki@options#1.idx}}%
    }%
