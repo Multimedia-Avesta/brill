@@ -7,14 +7,36 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
-## [0.96.1] - 2021-11-02
+## [0.99.1] - 2022-01-12
+### Added
+- Add book names (\#11293)
 
+## [0.99.0] - 2022-01-11
+### Added 
+- Add new language and text names (\#11288)
+- Add special \conclusion macro (\#11248)
+- Add Dictionary* environment (\#11280)
+- Add new macro \blocktranslationNoindent (\#11257)
+
+### Changed
+- Change figure and table number for appendix (\#11279)
+
+### Fixed
+- Fix nobreak call for indices (\#11276)
+
+## [0.98.0] - 2021-11-30
+### Added
+- New macro `\introduction*[]{}` for introduction with extra chapter heading
+
+## [0.97.0] - 2021-11-27
+### Fixed
+- Using `booktabsstyle=false` resulted in an error due to a `\begingroup...\endgroup` 
+
+## [0.96.1] - 2021-11-02
 ### Fixed
 - `xindex`  config file (\#11199)
   
-
 ## [0.96.0] - 2021-10-30
-
 ### Added
 - Replace AY in postorigdatetext field with small caps (\#11167)
 
@@ -23,23 +45,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [0.95.0] - 2021-09-11
-
 ### Fixed
 - Sorting for numbers and sort order in Sanskrit (\#11130, \#11131)
 
 ## [0.94.0] - 2021-09-05
-
 ### Fixed
 - Handling of table notes for tables without headers (\#11032)
 
 ## [0.93.0] - 2021-08-30
-
 ### Fixed
 - Restrict font changes for stanza to a local scope (\#11088)
 - Wrong number in definition of `\textellipsis`
 
 ## [0.92.0] - 2021-07-20
-
 ### Fixed
 - Fix handling for missing height parameter for brillfigure"
 - Revert changes for empty lines in input file
@@ -1085,6 +1103,14 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[0.99.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.1
+[0.99.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.0
+[0.98.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.98.0
+[0.97.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.97.0
 [0.96.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.96.1
 [0.96.0]:

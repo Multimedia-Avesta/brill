@@ -1,5 +1,5 @@
 %% CorpusAvesticum.tex
-%% Copyright 2018-2021 Martin Sievers
+%% Copyright 2018-2022 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \ProvidesFile{CorpusAvesticum.tex}%
-   [2021/11/02 v0.96.1 Configuration file for brill]
+   [2022/01/12 v0.99.1 Configuration file for brill]
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
@@ -573,9 +573,17 @@
 \newcommand{\printindexes}{%
    \let\indexspace\relax%
    \begingroup%
-      \renewcommand*{\subitem}{\par\hangindent 2\normalparindent\relax}%
+      \renewcommand*{\subitem}{%
+         \par%
+         \iffirst@subitem%
+            \nobreak%
+            \first@subitemfalse%
+         \else%
+            \penalty 2000%
+         \fi%
+         \hangindent 2\normalparindent\relax}%
       \renewcommand*{\@idxitem}{%
-         \par\nopagebreak\addvspace{\baselineskip}\relax}%
+         \par\addvspace{\baselineskip}\first@subitemtrue\relax}%
       \printindex[words]%
       \printindex[passages]%
    \endgroup%
@@ -801,6 +809,8 @@
       }%
    \ifstrempty{#1}{}{\ \enquote{#1}}%
    \resetlanguage}
+\newlanguage{Blc}{Balōčī}
+\let\Balochi\Blc
 \newlanguage{Chor}{Choresmian}
 \newlanguage{El}{Elamite}
 \newlanguage{NP}{New Persian}
@@ -966,7 +976,6 @@
 \newlanguage{Ormuri}{Ōrmuṛī}
 \newlanguage{Zazaki}{Zāzākī}
 \newlanguage{Parachi}{Parāčī}
-\newlanguage{Balochi}{Balōčī}
 \newlanguage{Yazghulami}{Yazγulāmī}
 \newlanguage{Kurmanji}{Kurmanǰī}
 %%%
@@ -980,6 +989,8 @@
    \def\indexlanguage{Bactrian}%
    \renewcommand*{\idxentryfont}[1]{##1}\hyphenpenalty=\@M\exhyphenpenalty=\@M\relax}%
    {\resetlanguage}
+\let\BalochiBlock\BlcBlock
+\let\endBalochiBlock\endBlcBlock
 \let\FaBlock\NPBlock
 \let\endFaBlock\endNPBlock
 \let\GujrBlock\GujBlock
@@ -1975,6 +1986,7 @@
 \newbook{PY}
 \newbook{PYt}
 \newbook{PWD}
+\newbook{Ram}
 \newbook{RV}
 \let\origS\S
 \let\S\@undefined
@@ -1983,6 +1995,9 @@
 \newbook{SA}
 \newbook{SBM}
 \newbook{SCE}
+\newbook{SBh}
+\newbook{SdBd}
+\newbook{SdN}
 \newbook{SGW}
 \newbook{ShahrEr}
 \newbook{SnS}
@@ -2034,6 +2049,17 @@
 \newcommand*{\SetHyphexceptionsFile}[1]{\renewcommand*{\@hyphexceptionsfile}{#1}}
 \newcommand*{\@titlelogofile}{../muya.common/BRILL.pdf}
 \newcommand*{\SetTitleLogoFile}[1]{\renewcommand*{\@titlelogofile}{#1}}
+
+\newcommand*{\LemmaBasic}[2][]{\item[#2]}
+\newlist{Dictionary*}{description}{1}
+\setlist[Dictionary*]{%
+   labelsep=0pt,%
+   left=0pt .. 2\normalparindent,%
+   itemindent=*,
+   labelsep=4mm,%
+   font=\normalfont\bfseries,%
+   before={\let\Lemma\LemmaBasic\small},%
+}
 
 \newcommand{\anklink}[2]{#1\hfill\Ank{#2}}
 \newcommand{\setdictlanguage}[1]{\def\@dictlanguage{#1}}

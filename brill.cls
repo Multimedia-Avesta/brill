@@ -1,5 +1,5 @@
 %% brill.cls
-%% Copyright 2018-2021 Martin Sievers
+%% Copyright 2018-2022 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2021/11/02 v0.96.1 A template for Brill publications]
+\ProvidesClass{brill}[2022/01/11 v0.99.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -567,16 +567,56 @@
    }}%
    {#2}#3%
 }%
-%TODO: \introduction should have an optional argument, p. 19
-\newcommand{\introduction}[1]{%
+
+\protected\def\introduction{%
+   \@ifstar{\@dblarg\@introduction}{\@dblarg\@@introduction}}
+\newcommand{\@introduction}[2][]{%
    {%
-    \renewcommand*{\chapterformat}{\hspace*{3\normalparindent}\introductionname}%
+      \renewcommand*{\chapterformat}{%
+         \hspace*{3\normalparindent}\introductionname}%
+      \ifnum\value{chapter}=0
+         \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \renewcommand{\thechapter}{}%
+      \chapter[{#1}]{#2}%
+      \markleft{\introductionname}%
+      \addtocounter{chapter}{-1}%
+   }%
+}%   
+
+\newcommand{\@@introduction}[2][]{%
+   {%
     \ifnum\value{chapter}=0
       \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
     \fi%
-    \addchap{#1}%
+    \addchap[{#1}]{#2}%
    }%
 }%   
+
+\protected\def\conclusion{%
+   \@ifstar{\@dblarg\@conclusion}{\@dblarg\@@conclusion}}
+\newcommand{\@conclusion}[2][]{%
+   {%
+      \renewcommand*{\chapterformat}{%
+         \hspace*{3\normalparindent}\conclusionname}%
+      \ifnum\value{chapter}=0
+         \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \renewcommand{\thechapter}{}%
+      \chapter[{#1}]{#2}%
+      \markleft{\conclusionname}%
+      \addtocounter{chapter}{-1}%
+   }%
+}%   
+
+\newcommand{\@@conclusion}[2][]{%
+   {%
+      \ifnum\value{chapter}=0
+      \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+      \fi%
+      \addchap[{#1}]{#2}%
+   }%
+}%  
 
 % We use different set-ups for headings depending on PhD or not
 \ifbrill@PhD
@@ -1859,7 +1899,7 @@
 \setkomafont{caption}{\normalfont\footnotesize}
 \setkomafont{captionlabel}{\scshape}
 \setcaphanging
-\setcapindent{16mm}
+\setcapindent{16mm}%TODO: 20mm for figures?
 \setcaptionalignment{J}
 \newlength{\@currentcaplabelwidth}
 \AtBeginDocument{%
@@ -1867,14 +1907,15 @@
       \Ifstr{\@captype}{figure}
          {\settowidth{\@currentcaplabelwidth}{\figureformat}}%
          {\settowidth{\@currentcaplabelwidth}{\tableformat}}%
-      \hspace{\dimexpr 16mm-\@currentcaplabelwidth\relax}}
-}%TODO: 20mm for figures?
+      \hspace{\dimexpr\cap@indent-\@currentcaplabelwidth\relax}}
+}%
 \renewcommand*{\figureformat}{\figurename~\thefigure}
 \renewcommand*{\tableformat}{\tablename~\thetable}
 \renewcaptionname{british}{\listtablename}{Tables}
 \renewcaptionname{british}{\listfigurename}{Figures}
 \providecaptionname{british}{\listfiguretablename}{List of Figures and Tables}
 \providecaptionname{british}{\introductionname}{Introduction}
+\providecaptionname{british}{\conclusionname}{Conclusion}
 \newcommand{\listoffigurestables}{%
    \addchap[tocentry={\listfiguretablename}]{Figures and Tables}
    \listoffigures
@@ -1892,11 +1933,30 @@
    level=\addchap,%
    %toclevel=chapter,%
    othercode={\setlength{\parskip}{0pt}\RaggedRight\footnotesize}}%
-\renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent}%
+\newif\iffirst@subitem%
+\newif\iffirst@subsubitem%
+\first@subsubitemfalse%
+\renewcommand*{\@idxitem}{\par\hangindent 2\normalparindent\first@subitemtrue}%
 \renewcommand*{\subitem}{%
-   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
+   \par%
+   \iffirst@subitem%
+      \nobreak%
+      \first@subitemfalse%
+   \else%
+      \penalty 2000%
+   \fi%
+   \hangindent 2\normalparindent%
+   \first@subsubitemtrue%
+   \hspace*{\normalparindent}}%
 \renewcommand*{\subsubitem}{%
-   \par\hangindent 2\normalparindent\hspace*{\normalparindent}}%
+   \par\hangindent 2\normalparindent%
+   \iffirst@subsubitem%
+      \nobreak%
+      \first@subsubitemfalse%
+   \else%
+      \penalty 5000%
+   \fi%   
+   \hspace*{\normalparindent}}%
 \let\indexspace\relax%\par\addvspace{\normalbaselineskip}\relax}%
 
 \ifboolexpr{ bool {brill@showgrid} and not bool {brill@printversion} }%
@@ -2159,7 +2219,7 @@
     \par\addvspace{\baselineskip}\noindent\ignorespaces%
    }%
 
-\newenvironment{@btquote}%
+\newenvironment{@btquote}[1][2\parindent]%
    {%
       \if@btquotetitle
          \par\nopagebreak\vspace{\@btvspace}%
@@ -2169,11 +2229,11 @@
       \fi%
       \ifcsdef{specialnewline\@currvalspecialnewline}%
          {%
-            \addmargin[\dimexpr 2\parindent+\normalparindent\relax]{0bp}%
+            \addmargin[\dimexpr #1+\normalparindent\relax]{0bp}%
             \setlength{\parindent}{-\normalparindent}%
             \hspace*{-\normalparindent}%
          }%
-         {\addmargin[2\parindent]{0bp}}%
+         {\addmargin[#1]{0bp}}%
       \ignorespaces%
       \aftergroup\useignorespacesandallpars%
    }%
@@ -2325,6 +2385,53 @@
    \NoIndentAfterThis%
 }%
 
+%%% Copy of \blocktranslation without indention
+\newcommand{\blocktranslationNoindent}[4][]{%
+   \def\array@default{b}%
+   \refstepcounter{specialnewline}%
+   \xdef\@currvalspecialnewline{\thespecialnewline}%
+   \ifstrempty{#1}%
+      {\@btquotetitlefalse}%
+      {%
+         \@btquotetitletrue%
+         \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
+      }%
+   \begin{@btquote}[0pt]%
+      \@inblocktranslationtrue%
+      \let\newline\@specialnewline%
+      \let\\\@specialnewline%
+      \ifstrempty{#2}%
+         {\ifstrempty{#3}%
+            {\noindent #4}%
+            {%
+               #3%
+               \ifstrempty{#4}{}{%
+                  \ifcsdef{specialnewline\@currvalspecialnewline}%
+                  {\par\nopagebreak\vspace{\@btvspace}}%
+                  {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                  #4%
+               }%
+            }%
+         }%
+         {%
+            \ifstrempty{#3}%
+               {\ifstrempty{#4}{}{\noindent #4}}%
+               {%
+                  {\ItalicsOrNot{#2}#3}%TODO: Could be \begin{nohypens}...\end{nohyphens}
+                  \ifstrempty{#4}%
+                  {}%
+                  {%
+                     \ifcsdef{specialnewline\@currvalspecialnewline}%
+                        {\par\nopagebreak\vspace{\@btvspace}}%
+                        {\par\nopagebreak\vspace{\@btvspace}\noindent}%
+                     #4%
+                  }%
+               }%
+         }%
+   \end{@btquote}%
+   \NoIndentAfterThis%
+}%
+
 \newif\if@splittranslation
 \newif\if@splitsplittranslation
 \newenvironment{splittranslation}%
@@ -2391,6 +2498,9 @@
    \ifbrill@PhD
    \else
       \renewcommand*{\thechapter}{\arabic{chapter}}%
+      \renewcommand*{\thefigure}{A-\thechapter.\@arabic\c@figure}%
+      \renewcommand*{\thetable}{A-\thechapter.\@arabic\c@table}%
+      \setcapindent{20mm}%
       \small%
    \fi%
    \cleardoubleoddemptypage
