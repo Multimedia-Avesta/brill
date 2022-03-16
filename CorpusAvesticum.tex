@@ -538,7 +538,11 @@
    {\@input@{#1.ind}}%
    {%
       \Ifstr{#1}{passages}%
-         {\@input@{passages-mod.ind}}%
+         {%
+            \IfFileExists{passages-final.ind}%
+               {\@input@{passages-final.ind}}%
+               {\@input@{passages-mod.ind}}%
+         }%
          {%
             \Ifstr{#1}{words}%
                {%
