@@ -895,7 +895,7 @@ function read_stanzas_from_file(f, suffix)
          -- Check, whether a new stanza starts
          if string.match( str, "^\\begin{stanza}{.-}" ) then
             book, stanzanr, text = string.match( str, "^\\begin{stanza}{\\(.-){(.-)}}" )
-            buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "%\n"
+            buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "%%\n"
          elseif string.match( str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$" ) then
             stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
             buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
