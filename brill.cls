@@ -54,6 +54,8 @@
 \DeclareBoolOption[true]{titlecase}
 \DeclareComplementaryOption{notitlecase}{titlecase}
 %%%
+\DeclareBoolOption[false]{legacyfonts}
+%%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
 \DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
@@ -212,19 +214,41 @@
 %   {\ClassWarning{brill}{Patch of realsuperscript failed}}
 \defaultfontfeatures{Ligatures={TeX}}
 % Uses proportional oldstyle numbers by default
-%\setmainfont{Brill}[RawFeature={+ktest+thetasubst},SmallCapsFeatures = {RawFeature=+c2sc}]
-\setmainfont{Brill}[%
-   Ligatures         = {Common,NoRare},%
-   SmallCapsFeatures = {RawFeature=+c2sc},%
-   Renderer          = Node,%
-]
-\newfontfamily{\trackingfont}{Brill}
-[%
-   Ligatures      = {NoCommon,NoRare},%
-   WordSpace      = {1.35,1.45,1.55},%
-   LetterSpace    = 12.5,%
-   Renderer       = Node,%
-]%
+\ifbrill@legacyfonts
+   \setmainfont{Brill}[%
+      Extension         = .ttf,%
+      UprightFont       = {* Roman 2.06 051},%
+      BoldFont          = {* Bold 2.06 051},%
+      ItalicFont        = {* Italic 2.06 051},%
+      BoldItalicFont    = {* Bold Italic 2.06 051},%
+      Ligatures         = {Common,NoRare},%
+      SmallCapsFeatures = {RawFeature=+c2sc},%
+      Renderer          = Node,%
+   ]%
+\else
+   \setmainfont{Brill}[%
+      Extension         = .ttf,%
+      UprightFont       = *-Roman,%
+      BoldFont          = *-Bold,%
+      ItalicFont        = *-Italic,%
+      BoldItalicFont    = *-BoldItalic,%
+      Ligatures         = {Common,NoRare},%
+      SmallCapsFeatures = {RawFeature=+c2sc},%
+      Renderer          = Node,%
+   ]%
+   \newfontfamily{\trackingfont}{Brill}
+   [%
+      Extension         = .ttf,%
+      UprightFont       = *-Roman,%
+      BoldFont          = *-Bold,%
+      ItalicFont        = *-Italic,%
+      BoldItalicFont    = *-BoldItalic,%
+      Ligatures      = {NoCommon,NoRare},%
+      WordSpace      = {1.35,1.45,1.55},%
+      LetterSpace    = 12.5,%
+      Renderer       = Node,%
+   ]%
+\fi%
 
 \newrobustcmd*{\nosmallcaps}{%
    \addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
