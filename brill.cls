@@ -2269,19 +2269,32 @@
 \newtoggle{@blocktranslationNobreak}
 \newcommand*{\Setbtvspace}[1]{\setlength{\@btvspace}{#1}}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
+}
 
 % Starred version
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
    \if@splitsplittranslation%
       \ifstrempty{#2}%
-         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {%
+            \if@splittransnumbered
+               \begin{enuminlinesplitA}[label={(\arabic*)}]#3\end{enuminlinesplitA}\par\nopagebreak%
+            \else%
+               \begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak%
+            \fi%
+         }%
          {%
             \hyphenpenalty=\@M%
             \exhyphenpenalty=\@M%
-            \begin{enuminlinesplitA}%
-               \ItalicsOrNot{#2}#3%
-            \end{enuminlinesplitA}\par\nopagebreak%
+            \if@splittransnumbered
+               \begin{enuminlinesplitA}[label={(\arabic*)}]%
+                  \ItalicsOrNot{#2}#3%
+               \end{enuminlinesplitA}\par\nopagebreak%
+            \else%
+               \begin{enuminlinesplitA}%
+                  \ItalicsOrNot{#2}#3%
+               \end{enuminlinesplitA}\par\nopagebreak%
+            \fi%
          }%
       \if@splittranslation%
          \addvspace{\@btvspace}\noindent%
@@ -2289,9 +2302,15 @@
          \noindent%
       \fi%
       \ifstrempty{#4}{}{%
-         \begin{enuminlinesplitB}%
-         #4%
-         \end{enuminlinesplitB}%
+         \if@splittransnumbered
+            \begin{enuminlinesplitB}[label={(\arabic*)}]%
+               #4%
+            \end{enuminlinesplitB}%
+         \else%   
+            \begin{enuminlinesplitB}%
+               #4%
+            \end{enuminlinesplitB}%
+         \fi%
       }%
       \ifstrempty{#1}%
          {}%
@@ -2440,22 +2459,54 @@
 
 \newif\if@splittranslation
 \newif\if@splitsplittranslation
+\newif\if@splittransnumbered
 \newenvironment{splittranslation}%
-   {\global\@splitsplittranslationtrue%
-    \restartlist{enuminlinesplitA}%
-    \restartlist{enuminlinesplitB}}%
+   {%
+      \global\@splittransnumberedfalse%
+      \global\@splitsplittranslationtrue%
+      \restartlist{enuminlinesplitA}%
+      \restartlist{enuminlinesplitB}%
+   }%
    {\global\@splitsplittranslationfalse}%
+   
+\newenvironment{splittranslationNumbered}%
+{%
+   \global\@splittransnumberedtrue%
+   \global\@splitsplittranslationtrue%
+   \restartlist{enuminlinesplitA}%
+   \restartlist{enuminlinesplitB}%
+}%
+{\global\@splitsplittranslationfalse}%   
 
 \newenvironment{splittranslation*}%
-   {\global\@splittranslationtrue%
-    \global\@splitsplittranslationtrue%
-    \restartlist{enuminlinesplitA}%
-    \restartlist{enuminlinesplitB}}%
-   {\global\@splittranslationfalse%
-    \global\@splitsplittranslationfalse}%   
+   {%
+      \global\@splittransnumberedfalse%
+      \global\@splittranslationtrue%
+      \global\@splitsplittranslationtrue%
+      \restartlist{enuminlinesplitA}%
+      \restartlist{enuminlinesplitB}%
+   }%
+   {%
+      \global\@splittranslationfalse%
+      \global\@splitsplittranslationfalse%
+   }%   
+
+\newenvironment{splittranslationNumbered*}%
+{%
+   \global\@splittransnumberedtrue%
+   \global\@splittranslationtrue%
+   \global\@splitsplittranslationtrue%
+   \restartlist{enuminlinesplitA}%
+   \restartlist{enuminlinesplitB}}%
+{%
+   \global\@splittranslationfalse%
+   \global\@splitsplittranslationfalse%
+}%   
 
 \NoIndentAfterEnv{splittranslation}
 \NoIndentAfterEnv{splittranslation*}
+\NoIndentAfterEnv{splittranslationNumbered}
+\NoIndentAfterEnv{splittranslationNumbered*}
 
 \let\@RIGminisec\minisec
 \renewcommand{\minisec}[1]{%
