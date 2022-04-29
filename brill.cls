@@ -217,12 +217,24 @@
 \ifbrill@legacyfonts
    \setmainfont{Brill}[%
       Extension         = .ttf,%
-      UprightFont       = {* Roman 2.06 051},%
-      BoldFont          = {* Bold 2.06 051},%
-      ItalicFont        = {* Italic 2.06 051},%
-      BoldItalicFont    = {* Bold Italic 2.06 051},%
+      UprightFont       = *-legacy-Roman,%
+      BoldFont          = *-legacy-Bold,%
+      ItalicFont        = *-legacy-Italic,%
+      BoldItalicFont    = *-legacy-BoldItalic,%
       Ligatures         = {Common,NoRare},%
       SmallCapsFeatures = {RawFeature=+c2sc},%
+      Renderer          = Node,%
+   ]%
+   \newfontfamily{\trackingfont}{Brill}
+   [%
+      Extension         = .ttf,%
+      UprightFont       = *-legacy-Roman,%
+      BoldFont          = *-legacy-Bold,%
+      ItalicFont        = *-legacy-Italic,%
+      BoldItalicFont    = *-legacy-BoldItalic,%
+      Ligatures         = {NoCommon,NoRare},%
+      WordSpace         = {1.35,1.45,1.55},%
+      LetterSpace       = 12.5,%
       Renderer          = Node,%
    ]%
 \else
