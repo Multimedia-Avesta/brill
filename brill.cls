@@ -66,7 +66,6 @@
 \DeclareVoidOption{alphenumparen}{\setkeys{brill}{alphenumsep=paren}}
 \DeclareVoidOption{alphenumspace}{\setkeys{brill}{alphenumsep=space}}
 \DeclareVoidOption{colourlinks}{\setkeys{brill}{colorlinks=true}}
-
 \DeclareDefaultOption{%
    \expandafter\PassOptionsToClass\expandafter\CurrentOption{scrbook}%
 }
@@ -199,19 +198,7 @@
    {%
       \endhyphenrules%
    }%
-%\directlua{
-%   fonts.handlers.otf.addfeature {
-%      name = "thetasubst",
-%      type = "substitution",
-%      data = {
-%         theta = "uni03d1",
-%      },
-%   }
-%}
-%\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}}%
-%   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
-%   {}%
-%   {\ClassWarning{brill}{Patch of realsuperscript failed}}
+
 \defaultfontfeatures{Ligatures={TeX}}
 % Uses proportional oldstyle numbers by default
 \ifbrill@legacyfonts
@@ -2305,7 +2292,6 @@
 \newtoggle{@blocktranslationNobreak}
 \newcommand*{\Setbtvspace}[1]{\setlength{\@btvspace}{#1}}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
-}
 
 % Starred version
 \newcommand{\@blocktranslation}[4][]{%
