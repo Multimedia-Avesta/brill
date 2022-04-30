@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.0] - 2022-04-30
+### Added
+- Add bibliography option for AY/SH era layout (\#11294)
+- Add new macro \GetStanzewithtranslationNB (\#11214)
+- Add new Brill fonts (Option `legacyfonts` for old fonts)
+- Add environment splittranslationNumbered (\#11451)
+
 ## [0.99.1] - 2022-01-12
 ### Added
 - Add book names (\#11293)
@@ -1103,6 +1110,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[1.0.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.0.0
 [0.99.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v0.99.1
 [0.99.0]:
