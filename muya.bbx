@@ -446,7 +446,7 @@
    \newunit\newblock
    \usebibmacro{unified:proc-as-article:maintitle+booktitle}%
    \usebibmacro{unified:proc-as-article:volume+number+eid}
-   \newunit\newblock%                           \newblock ensures period before pages
+   \newunit\newblock% \newblock ensures period before pages
    \usebibmacro{note+pages}%
    \newunit\newblock
    \iftoggle{bbx:isbn}
@@ -566,38 +566,72 @@
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{finentry}}  
 
-\renewbibmacro*{author}{%
-  \ifboolexpr{
-    test \ifuseauthor
-    and
-    not test {\ifnameundef{author}}
-  }
-    {\usebibmacro{bbx:dashcheck}
-       {\bibnamedash}
-       {\usebibmacro{bbx:savehash}%
-        \printnames{author}%
-  \iffieldundef{authortype}
-    {\newunit}%                               period instead of space
-    {\setunit{\addcomma\space}}}%
-     \iffieldundef{authortype}
-       {}
-       {\usebibmacro{authorstrg}%
-  \newunit}}%                                 period instead of space
-    {\global\undef\bbx@lasthash
-     \usebibmacro{labeltitle}%
-     \newunit}%                               period instead of space
-  \usebibmacro{date+extradate}%
-  \iffieldundef{origyear}%
-   {}%
-   {\addspace%
-    \printtext[brackets]{%
+%\renewbibmacro*{author}{%
+%  \ifboolexpr{
+%    test \ifuseauthor
+%    and
+%    not test {\ifnameundef{author}}
+%  }
+%    {\usebibmacro{bbx:dashcheck}
+%       {\bibnamedash}
+%       {\usebibmacro{bbx:savehash}%
+%        \printnames{author}%
+%  \iffieldundef{authortype}
+%    {\newunit}% period instead of space
+%    {\setunit{\addcomma\space}}}%
+%     \iffieldundef{authortype}
+%       {}
+%       {\usebibmacro{authorstrg}%
+%  \newunit}}%  period instead of space
+%    {\global\undef\bbx@lasthash
+%     \usebibmacro{labeltitle}%
+%     \newunit}%  period instead of space
+%  \usebibmacro{date+extradate}%
+%  \iffieldundef{origyear}%
+%   {}%
+%   {\addspace%
+%    \printtext[brackets]{%
+%      \printfield{preorigdatetext}%
+%      \setunit*{\addspace}%
+%      \printorigdate%
+%      \setunit{\addspace}%
+%      \printfield{postorigdatetext}}%
+%   }%
+%}%
+
+\xpatchbibmacro{author}%
+   {\usebibmacro{date+extradate}}%
+   {\usebibmacro{date+extradate}%
+      \iffieldundef{origyear}%
+      {}%
+      {\addspace%
+         \printtext[brackets]{%
+            \printfield{preorigdatetext}%
+            \setunit*{\addspace}%
+            \printorigdate%
+            \setunit{\addspace}%
+            \printfield{postorigdatetext}}%
+      }%
+   }%
+   {\ClassInfo{brill}{Successfully patched author bibmacro}}%
+   {\ClassError{brill}{Could not patch author bibmacro}{}}%
+
+\xpatchbibmacro{bbx:editor}%
+   {\usebibmacro{date+extradate}}%
+   {\usebibmacro{date+extradate}%
+      \iffieldundef{origyear}%
+      {}%
+      {\addspace%
+      \printtext[brackets]{%
       \printfield{preorigdatetext}%
       \setunit*{\addspace}%
       \printorigdate%
       \setunit{\addspace}%
       \printfield{postorigdatetext}}%
+      }%
    }%
-}%
+   {\ClassInfo{brill}{Successfully patched author bibmacro}}%
+   {\ClassError{brill}{Could not patch author bibmacro}{}}%
 
 \renewbibmacro*{byeditor+others}{%
    \ifnameundef{editor}

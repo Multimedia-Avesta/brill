@@ -307,6 +307,7 @@
 \PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
+\RequirePackage{xpatch}
 %\directlua{require("brill")}
 %\ifbrill@titlecase
 %   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
