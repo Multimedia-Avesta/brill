@@ -45,7 +45,7 @@ function modifySorting()
          match, n = string.gsub( line,
             "\\gls%s*{([^}]*)}\\nobreak%s*\\hspace%s*{\\fontdimen 2\\font%s*}([%-%.%d%a]+)|",
             function( a, b ) return get_sortentry( a, b ) end )
-   end
+      end
    --texio.write_nl("Treffer: " .. n)
    --texio.write_nl("Nachher: " .. match)
    g:write(match .. "\n")
@@ -92,6 +92,23 @@ function get_sortentry_star( a, b )
       end
    end
       return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b )
+end
+
+function modifySorting_words()
+   local match = ''
+   local g = io.open( "words-mod.idx", "w+" )
+   for line in io.lines( "words.idx" ) do
+      --texio.write_nl("Vorher: " .. line)
+      match = ustring.gsub( line, 
+      '(.+@.+)![*⁺](.+@.+)', '%1!%2' ) 
+      match = ustring.gsub( match, 
+      '(.+@.+)!²(.+)(@.+)', '%1!%22%3' ) 
+      match = ustring.gsub( match, 
+      '(.+@.+)!³(.+)(@.+)', '%1!%23%3' ) 
+      --texio.write_nl("Nachher: " .. match)
+      g:write(match .. "\n")
+   end
+   g:close()
 end
 
 -- see if the file exists
@@ -878,7 +895,7 @@ function read_stanzas_from_file(f, suffix)
          -- Check, whether a new stanza starts
          if string.match( str, "^\\begin{stanza}{.-}" ) then
             book, stanzanr, text = string.match( str, "^\\begin{stanza}{\\(.-){(.-)}}" )
-            buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "%\n"
+            buf[k] = "\\csgdef{stanza-" .. book .. stanzanr .. suffix .. "}{%\n" .. str .. "%%\n"
          elseif string.match( str, "^.-\\end{stanza}\\begin{stanza}{.-}.-$" ) then
             stanzaend, book, stanzanr, stanzastart = string.match(str, "^(.-)\\end{stanza}\\begin{stanza}{\\(.-){(.-)}}(.-)$")
             buf[k] = stanzaend .. "\n\\end{stanza}}%\n\\csgdef{stanza-" .. 
