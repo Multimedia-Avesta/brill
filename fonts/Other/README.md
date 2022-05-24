@@ -1,1 +1,1 @@
-The KHUSRO font was taken from <http://minerva.stkate.edu/offices/academic/classics.nsf/pages/pahlavifonts>. Please stick to that page for information on usage, encoding etc.
+The KHUSRO font was taken from <http://www.avesta.org/iranian-font/pahlavi.html>. Please stick to that page for information on usage, encoding etc.
