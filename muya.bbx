@@ -1,5 +1,5 @@
 %% muya.bbx
-%% Copyright 2018-2021 Martin Sievers
+%% Copyright 2018-2022 Martin Sievers
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -25,16 +25,20 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.bbx}[2021/06/20 v0.90.0 biblatex bibliography style]
+\ProvidesFile{muya.bbx}[2022/05/04 v1.0.1 biblatex bibliography style]
 \RequireBibliographyStyle{unified}
 \newtoggle{@autoquotationmarks}
 \DeclareBibliographyOption[boolean]{autoquotationmarks}[true]{%
    \settoggle{@autoquotationmarks}{#1}}
+\newtoggle{@setEraInSmallcaps}
+\DeclareBibliographyOption[boolean]{setEraInSmallcaps}[true]{%
+   \settoggle{@setEraInSmallcaps}{#1}}
 \ExecuteBibliographyOptions{%
-   datecirca=true,
-   dateuncertain=true,
-   autolang=hyphen,
-   autoquotationmarks=true,
+   datecirca=true,%
+   dateuncertain=true,%
+   autolang=hyphen,%
+   autoquotationmarks=true,%
+   setEraInSmallcaps=true,%
 }
 \DeclareLanguageMapping{british}{british-muya}
 
@@ -227,12 +231,6 @@
                match=\regexp{(\d{4})-(\d{4})},%
                replace=\regexp{$1/$2}]%
       }%
-% Check for "AY" within the new postorigdatetext field
-      \map{%
-         \step[fieldsource=postorigdatetext,%$
-            match=\regexp{AY},%
-            replace=\regexp{\\textsc{AY}}]%
-      }%
 % Split up title information into title and subtitle field using ":" as 
 % the delimiter
 % TODO: This is not ideal as there are entries like 
@@ -359,6 +357,24 @@
    }%
 }{}%
 
+% Check for "AY" and "SH" within the new postorigdatetext field
+\iftoggle{@setEraInSmallcaps}{%
+   \DeclareSourcemap{%
+      \maps[datatype=bibtex]{%
+         \map{%
+            \step[fieldsource=postorigdatetext,%$
+                  match=\regexp{AY},%
+                  replace=\regexp{\\textsc{AY}}]%
+         }%
+         \map{%
+            \step[fieldsource=postorigdatetext,%$
+                  match=\regexp{SH},%
+                  replace=\regexp{\\textsc{SH}}]%
+         }%      
+      }%
+   }%
+}%
+
 \renewcommand{\bibfont}{\normalfont\small}%
 
 \DeclareBibliographyDriver{inproceedings}{%
@@ -430,7 +446,7 @@
    \newunit\newblock
    \usebibmacro{unified:proc-as-article:maintitle+booktitle}%
    \usebibmacro{unified:proc-as-article:volume+number+eid}
-   \newunit\newblock%                           \newblock ensures period before pages
+   \newunit\newblock% \newblock ensures period before pages
    \usebibmacro{note+pages}%
    \newunit\newblock
    \iftoggle{bbx:isbn}
@@ -550,38 +566,72 @@
   \setunit{\bibpagerefpunct}\newblock
   \usebibmacro{finentry}}  
 
-\renewbibmacro*{author}{%
-  \ifboolexpr{
-    test \ifuseauthor
-    and
-    not test {\ifnameundef{author}}
-  }
-    {\usebibmacro{bbx:dashcheck}
-       {\bibnamedash}
-       {\usebibmacro{bbx:savehash}%
-        \printnames{author}%
-  \iffieldundef{authortype}
-    {\newunit}%                               period instead of space
-    {\setunit{\addcomma\space}}}%
-     \iffieldundef{authortype}
-       {}
-       {\usebibmacro{authorstrg}%
-  \newunit}}%                                 period instead of space
-    {\global\undef\bbx@lasthash
-     \usebibmacro{labeltitle}%
-     \newunit}%                               period instead of space
-  \usebibmacro{date+extradate}%
-  \iffieldundef{origyear}%
-   {}%
-   {\addspace%
-    \printtext[brackets]{%
+%\renewbibmacro*{author}{%
+%  \ifboolexpr{
+%    test \ifuseauthor
+%    and
+%    not test {\ifnameundef{author}}
+%  }
+%    {\usebibmacro{bbx:dashcheck}
+%       {\bibnamedash}
+%       {\usebibmacro{bbx:savehash}%
+%        \printnames{author}%
+%  \iffieldundef{authortype}
+%    {\newunit}% period instead of space
+%    {\setunit{\addcomma\space}}}%
+%     \iffieldundef{authortype}
+%       {}
+%       {\usebibmacro{authorstrg}%
+%  \newunit}}%  period instead of space
+%    {\global\undef\bbx@lasthash
+%     \usebibmacro{labeltitle}%
+%     \newunit}%  period instead of space
+%  \usebibmacro{date+extradate}%
+%  \iffieldundef{origyear}%
+%   {}%
+%   {\addspace%
+%    \printtext[brackets]{%
+%      \printfield{preorigdatetext}%
+%      \setunit*{\addspace}%
+%      \printorigdate%
+%      \setunit{\addspace}%
+%      \printfield{postorigdatetext}}%
+%   }%
+%}%
+
+\xpatchbibmacro{author}%
+   {\usebibmacro{date+extradate}}%
+   {\usebibmacro{date+extradate}%
+      \iffieldundef{origyear}%
+      {}%
+      {\addspace%
+         \printtext[brackets]{%
+            \printfield{preorigdatetext}%
+            \setunit*{\addspace}%
+            \printorigdate%
+            \setunit{\addspace}%
+            \printfield{postorigdatetext}}%
+      }%
+   }%
+   {\ClassInfo{brill}{Successfully patched author bibmacro}}%
+   {\ClassError{brill}{Could not patch author bibmacro}{}}%
+
+\xpatchbibmacro{bbx:editor}%
+   {\usebibmacro{date+extradate}}%
+   {\usebibmacro{date+extradate}%
+      \iffieldundef{origyear}%
+      {}%
+      {\addspace%
+      \printtext[brackets]{%
       \printfield{preorigdatetext}%
       \setunit*{\addspace}%
       \printorigdate%
       \setunit{\addspace}%
       \printfield{postorigdatetext}}%
+      }%
    }%
-}%
+   {\ClassInfo{brill}{Successfully patched author bibmacro}}%
+   {\ClassError{brill}{Could not patch author bibmacro}{}}%
 
 \renewbibmacro*{byeditor+others}{%
    \ifnameundef{editor}

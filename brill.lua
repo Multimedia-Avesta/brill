@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 -- brill.lua
--- Copyright 2021 Martin Sievers
+-- Copyright 2021-2022 Martin Sievers
 --
 -- This work may be distributed and/or modified under the
 -- conditions of the LaTeX Project Public License, either version 1.3
@@ -26,7 +26,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2021/06/20 v0.90.0
+-- 2022/04/30 v1.0.0
   
    function my_upper ( str )
          local z = ''

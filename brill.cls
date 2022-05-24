@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2022/01/11 v0.99.0 A template for Brill publications]
+\ProvidesClass{brill}[2022/05/04 v1.0.1 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -54,6 +54,8 @@
 \DeclareBoolOption[true]{titlecase}
 \DeclareComplementaryOption{notitlecase}{titlecase}
 %%%
+\DeclareBoolOption[false]{legacyfonts}
+%%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
 \DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
@@ -64,7 +66,6 @@
 \DeclareVoidOption{alphenumparen}{\setkeys{brill}{alphenumsep=paren}}
 \DeclareVoidOption{alphenumspace}{\setkeys{brill}{alphenumsep=space}}
 \DeclareVoidOption{colourlinks}{\setkeys{brill}{colorlinks=true}}
-
 \DeclareDefaultOption{%
    \expandafter\PassOptionsToClass\expandafter\CurrentOption{scrbook}%
 }
@@ -197,34 +198,56 @@
    {%
       \endhyphenrules%
    }%
-%\directlua{
-%   fonts.handlers.otf.addfeature {
-%      name = "thetasubst",
-%      type = "substitution",
-%      data = {
-%         theta = "uni03d1",
-%      },
-%   }
-%}
-%\patchcmd{\realsuperscript}{\addfontfeature{VerticalPosition=Superior}}%
-%   {\addfontfeature{VerticalPosition=Superior,RawFeature={+moresups}}}%
-%   {}%
-%   {\ClassWarning{brill}{Patch of realsuperscript failed}}
+
 \defaultfontfeatures{Ligatures={TeX}}
 % Uses proportional oldstyle numbers by default
-%\setmainfont{Brill}[RawFeature={+ktest+thetasubst},SmallCapsFeatures = {RawFeature=+c2sc}]
-\setmainfont{Brill}[%
-   Ligatures         = {Common,NoRare},%
-   SmallCapsFeatures = {RawFeature=+c2sc},%
-   Renderer          = Node,%
-]
-\newfontfamily{\trackingfont}{Brill}
-[%
-   Ligatures      = {NoCommon,NoRare},%
-   WordSpace      = {1.35,1.45,1.55},%
-   LetterSpace    = 12.5,%
-   Renderer       = Node,%
-]%
+\ifbrill@legacyfonts
+   \setmainfont{Brill}[%
+      Extension         = .ttf,%
+      UprightFont       = *-legacy-Roman,%
+      BoldFont          = *-legacy-Bold,%
+      ItalicFont        = *-legacy-Italic,%
+      BoldItalicFont    = *-legacy-BoldItalic,%
+      Ligatures         = {Common,NoRare},%
+      SmallCapsFeatures = {RawFeature=+c2sc},%
+      Renderer          = Node,%
+   ]%
+   \newfontfamily{\trackingfont}{Brill}
+   [%
+      Extension         = .ttf,%
+      UprightFont       = *-legacy-Roman,%
+      BoldFont          = *-legacy-Bold,%
+      ItalicFont        = *-legacy-Italic,%
+      BoldItalicFont    = *-legacy-BoldItalic,%
+      Ligatures         = {NoCommon,NoRare},%
+      WordSpace         = {1.35,1.45,1.55},%
+      LetterSpace       = 12.5,%
+      Renderer          = Node,%
+   ]%
+\else
+   \setmainfont{Brill}[%
+      Extension         = .ttf,%
+      UprightFont       = *-Roman,%
+      BoldFont          = *-Bold,%
+      ItalicFont        = *-Italic,%
+      BoldItalicFont    = *-BoldItalic,%
+      Ligatures         = {Common,NoRare},%
+      SmallCapsFeatures = {RawFeature=+c2sc},%
+      Renderer          = Node,%
+   ]%
+   \newfontfamily{\trackingfont}{Brill}
+   [%
+      Extension         = .ttf,%
+      UprightFont       = *-Roman,%
+      BoldFont          = *-Bold,%
+      ItalicFont        = *-Italic,%
+      BoldItalicFont    = *-BoldItalic,%
+      Ligatures      = {NoCommon,NoRare},%
+      WordSpace      = {1.35,1.45,1.55},%
+      LetterSpace    = 12.5,%
+      Renderer       = Node,%
+   ]%
+\fi%
 
 \newrobustcmd*{\nosmallcaps}{%
    \addfontfeatures{SmallCapsFeatures={RawFeature={-smcp;-c2sc}}}}
@@ -284,6 +307,7 @@
 \PreventPackageFromLoading{soul}
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
+\RequirePackage{xpatch}
 %\directlua{require("brill")}
 %\ifbrill@titlecase
 %   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
@@ -2266,20 +2290,34 @@
 
 \newlength{\@btvspace}
 \setlength{\@btvspace}{\baselineskip}
+\newtoggle{@blocktranslationNobreak}
 \newcommand*{\Setbtvspace}[1]{\setlength{\@btvspace}{#1}}
 \newcommand{\blocktranslation}{\@ifstar\@blocktranslation\@@blocktranslation}%
+
 % Starred version
 \newcommand{\@blocktranslation}[4][]{%
    \par\noindent%
    \if@splitsplittranslation%
       \ifstrempty{#2}%
-         {\begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak}%
+         {%
+            \if@splittransnumbered
+               \begin{enuminlinesplitA}[label={(\arabic*)}]#3\end{enuminlinesplitA}\par\nopagebreak%
+            \else%
+               \begin{enuminlinesplitA}#3\end{enuminlinesplitA}\par\nopagebreak%
+            \fi%
+         }%
          {%
             \hyphenpenalty=\@M%
             \exhyphenpenalty=\@M%
-            \begin{enuminlinesplitA}%
-               \ItalicsOrNot{#2}#3%
-            \end{enuminlinesplitA}\par\nopagebreak%
+            \if@splittransnumbered
+               \begin{enuminlinesplitA}[label={(\arabic*)}]%
+                  \ItalicsOrNot{#2}#3%
+               \end{enuminlinesplitA}\par\nopagebreak%
+            \else%
+               \begin{enuminlinesplitA}%
+                  \ItalicsOrNot{#2}#3%
+               \end{enuminlinesplitA}\par\nopagebreak%
+            \fi%
          }%
       \if@splittranslation%
          \addvspace{\@btvspace}\noindent%
@@ -2287,9 +2325,15 @@
          \noindent%
       \fi%
       \ifstrempty{#4}{}{%
-         \begin{enuminlinesplitB}%
-         #4%
-         \end{enuminlinesplitB}%
+         \if@splittransnumbered
+            \begin{enuminlinesplitB}[label={(\arabic*)}]%
+               #4%
+            \end{enuminlinesplitB}%
+         \else%   
+            \begin{enuminlinesplitB}%
+               #4%
+            \end{enuminlinesplitB}%
+         \fi%
       }%
       \ifstrempty{#1}%
          {}%
@@ -2337,6 +2381,13 @@
          \@btquotetitletrue%
          \par\addvspace{\@btvspace}\noindent #1\par\nopagebreak%
       }%
+   \iftoggle{@blocktranslationNobreak}%
+      {%
+         \noindent% 
+         \minipage[b]{\linewidth}%
+         \parindent=\normalparindent%
+      }%
+      {}%
 % We start the output using a custom variant of the quote environment   
    \begin{@btquote}%
 % Define \newline and \\ to use a hanging indent _and_ to set a macro to 
@@ -2378,6 +2429,7 @@
                }%
          }%
    \end{@btquote}%
+   \iftoggle{@blocktranslationNobreak}{\endminipage}{}%
    \NoIndentAfterThis%
 }%
 
@@ -2430,22 +2482,54 @@
 
 \newif\if@splittranslation
 \newif\if@splitsplittranslation
+\newif\if@splittransnumbered
 \newenvironment{splittranslation}%
-   {\global\@splitsplittranslationtrue%
-    \restartlist{enuminlinesplitA}%
-    \restartlist{enuminlinesplitB}}%
+   {%
+      \global\@splittransnumberedfalse%
+      \global\@splitsplittranslationtrue%
+      \restartlist{enuminlinesplitA}%
+      \restartlist{enuminlinesplitB}%
+   }%
    {\global\@splitsplittranslationfalse}%
+   
+\newenvironment{splittranslationNumbered}%
+{%
+   \global\@splittransnumberedtrue%
+   \global\@splitsplittranslationtrue%
+   \restartlist{enuminlinesplitA}%
+   \restartlist{enuminlinesplitB}%
+}%
+{\global\@splitsplittranslationfalse}%   
 
 \newenvironment{splittranslation*}%
-   {\global\@splittranslationtrue%
-    \global\@splitsplittranslationtrue%
-    \restartlist{enuminlinesplitA}%
-    \restartlist{enuminlinesplitB}}%
-   {\global\@splittranslationfalse%
-    \global\@splitsplittranslationfalse}%   
+   {%
+      \global\@splittransnumberedfalse%
+      \global\@splittranslationtrue%
+      \global\@splitsplittranslationtrue%
+      \restartlist{enuminlinesplitA}%
+      \restartlist{enuminlinesplitB}%
+   }%
+   {%
+      \global\@splittranslationfalse%
+      \global\@splitsplittranslationfalse%
+   }%   
+
+\newenvironment{splittranslationNumbered*}%
+{%
+   \global\@splittransnumberedtrue%
+   \global\@splittranslationtrue%
+   \global\@splitsplittranslationtrue%
+   \restartlist{enuminlinesplitA}%
+   \restartlist{enuminlinesplitB}}%
+{%
+   \global\@splittranslationfalse%
+   \global\@splitsplittranslationfalse%
+}%   
 
 \NoIndentAfterEnv{splittranslation}
 \NoIndentAfterEnv{splittranslation*}
+\NoIndentAfterEnv{splittranslationNumbered}
+\NoIndentAfterEnv{splittranslationNumbered*}
 
 \let\@RIGminisec\minisec
 \renewcommand{\minisec}[1]{%
