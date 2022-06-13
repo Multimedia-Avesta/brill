@@ -300,7 +300,10 @@
    tracking=smallcaps,%
    expansion=alltext,%
    protrusion=true,%
-   verbose=true%
+   verbose=true,%
+   %%% There is a bug within recent versions of microtype.
+   %%% Therefore the following options has to be loaded.
+   nopatch=item%
    ]{microtype}%
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[soul]{lua-ul}
