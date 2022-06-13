@@ -2209,7 +2209,7 @@
       \unskip\nobreak\hspace{\fontdimen2\font}|\nobreak\hspace{\fontdimen2\font}\ignorespaces%
    \fi%
    \ifstrempty{#1}{}{\Ifstr{#1}{0}{\theattestation.}{#1.}}%
-   \unskip\nobreak\hspace{\fontdimen2\font}%
+   \unskip\nobreak\hspace{\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font}%
    \begin{nohyphens}%
    \IfStrEqCase{\@dictlanguage}{%
       {Av}{\textit{#2}}%
