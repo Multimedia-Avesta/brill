@@ -189,11 +189,13 @@
 \declare@shorthand{british}{""}{\hskip\z@skip}
 \declare@shorthand{british}{"~}{\textormath{\leavevmode\hbox{-}}{-}}
 \declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
+
 \newenvironment{nohyphens}
    {%
       \hyphenrules{nohyphenation}%
       \hyphenpenalty=\@M%
       \exhyphenpenalty=\@M%
+      \languageshorthands{british}%
    }%
    {%
       \endhyphenrules%
