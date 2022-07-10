@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2022/05/04 v1.0.1 A template for Brill publications]
+\ProvidesClass{brill}[2022/07/10 v1.1.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -55,6 +55,13 @@
 \DeclareComplementaryOption{notitlecase}{titlecase}
 %%%
 \DeclareBoolOption[false]{legacyfonts}
+%%%
+\DeclareBoolOption[true]{printindexnames}
+\DeclareComplementaryOption{noprintindexnames}{printindexnames}
+\DeclareBoolOption[true]{printindexpassages}
+\DeclareComplementaryOption{noprintindexpassages}{printindexpassages}
+\DeclareBoolOption[true]{printindexwords}
+\DeclareComplementaryOption{noprintindexwords}{printindexwords}
 %%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
@@ -177,7 +184,7 @@
    ngerman,%
    russian,%
    spanish,%
-   main=british]{babel}
+   british]{babel}
 %%% We define some babel shortcuts, which are available for ngerman for British as well.
 \initiate@active@char{"}
 \addto\extrasbritish{\languageshorthands{british}\bbl@activate{"}}
@@ -189,11 +196,13 @@
 \declare@shorthand{british}{""}{\hskip\z@skip}
 \declare@shorthand{british}{"~}{\textormath{\leavevmode\hbox{-}}{-}}
 \declare@shorthand{british}{"=}{\penalty\@M-\hskip\z@skip}
+
 \newenvironment{nohyphens}
    {%
       \hyphenrules{nohyphenation}%
       \hyphenpenalty=\@M%
       \exhyphenpenalty=\@M%
+      \languageshorthands{british}%
    }%
    {%
       \endhyphenrules%
@@ -300,8 +309,17 @@
    tracking=smallcaps,%
    expansion=alltext,%
    protrusion=true,%
-   verbose=true%
+   verbose=true,%
    ]{microtype}%
+%%% There is a bug within recent versions of microtype.
+%%% Therefore the following options has to be loaded.
+\@ifpackagelater{microtype}{2022/06/23}%
+   {\ClassInfo{brill}{You use a recent version of microtype}}%
+   {%
+      \ClassWarning{brill}{Microtype has to be patched.\MessageBreak
+         Please consider updating.}%
+      \microtypesetup{nopatch=item}%
+   }%   
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[soul]{lua-ul}
 \PreventPackageFromLoading{soul}

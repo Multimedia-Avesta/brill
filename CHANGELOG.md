@@ -7,9 +7,21 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-07-10
+### Added
+- Add babel shorthands to `nohypenation` language (\#9578)
+- Add options to switch on/off `\printindex` calls (\#11531)
+
+### Changed
+- Add glue to horizontal spacing at attestation (\#11504)
+
+### Fixed
+- Add option for older version of `microtype` to work around an issue (#11214)
+- Fix handling of name prefixes with latest (1.10) version of `unified.bbx` (\#11504)
+
 ## [1.0.1] - 2022-05-04
 ### Fixed
-- Add missing patch for bbx:editor bibmacro (\#11294)
+- Add missing patch for bibmacro `bbx:editor` (\#11294)
 
 ## [1.0.0] - 2022-04-30
 ### Added
@@ -1114,6 +1126,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[1.1.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.1.0
 [1.0.1]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.0.1
 [1.0.0]:
