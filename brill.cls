@@ -184,7 +184,7 @@
    ngerman,%
    russian,%
    spanish,%
-   main=british]{babel}
+   british]{babel}
 %%% We define some babel shortcuts, which are available for ngerman for British as well.
 \initiate@active@char{"}
 \addto\extrasbritish{\languageshorthands{british}\bbl@activate{"}}
@@ -310,10 +310,16 @@
    expansion=alltext,%
    protrusion=true,%
    verbose=true,%
-   %%% There is a bug within recent versions of microtype.
-   %%% Therefore the following options has to be loaded.
-   nopatch=item%
    ]{microtype}%
+%%% There is a bug within recent versions of microtype.
+%%% Therefore the following options has to be loaded.
+\@ifpackagelater{microtype}{2022/06/23}%
+   {\ClassInfo{brill}{You use a recent version of microtype}}%
+   {%
+      \ClassWarning{brill}{Microtype has to be patched.\MessageBreak
+         Please consider updating.}%
+      \microtypesetup{nopatch=item}%
+   }%   
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[soul]{lua-ul}
 \PreventPackageFromLoading{soul}
