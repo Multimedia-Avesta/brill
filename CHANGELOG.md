@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add babel shorthands to `nohypenation` language (\#9578)
 - Add options to switch on/off `\printindex` calls (\#11531)
+- Add macro for AitB (\#11508)
 
 ### Changed
 - Add glue to horizontal spacing at attestation (\#11504)
+- Add new Khurso font
 
 ### Fixed
 - Add option for older version of `microtype` to work around an issue (#11214)
