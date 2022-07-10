@@ -563,25 +563,13 @@
          {\imki@exec{\imki@program\imki@options#1.idx}}%
    }%
    {\ClassInfo{brill}{\string\imki@putindex\space successfully patched!}}%
-   {\ClassInfo{brill}{\string\imki@putindex\space could not be patched!}}%
+   {\ClassWarning{brill}{\string\imki@putindex\space could not be patched!}}%
 \patchcmd{\theindex}%
    {\begin{multicols}}%
    {\vspace*{-\normalbaselineskip}\begin{multicols}}%
    {\ClassInfo{brill}{\string\theindex\space successfully patched!}}%
-   {\ClassInfo{brill}{\string\theindex\space could not be patched!}}%
-%\def\brill@imki@putindexsplit#1{%
-%   \ifimki@nonewpage\else
-%      \imki@clearpage
-%   \fi
-%   \let\imki@indexname\indexname % keep \indexname
-%   \def\imki@maybeaddtotoc{\@nameuse{phantomsection}%
-%      \addcontentsline{toc}{\imki@toclevel}{\imki@title}}%
-%   \ifx\imki@title\imki@check@indexname\else
-%      \def\indexname{\imki@title}%
-%   \fi
-%   \@input@{#1.ind}
-%   \let\indexname\imki@indexname % restore \indexname
-%}
+   {\ClassWarning{brill}{\string\theindex\space could not be patched!}}%
+
 \newcommand{\printindexes}{%
    \let\indexspace\relax%
    \begingroup%
@@ -596,10 +584,16 @@
          \hangindent 2\normalparindent\relax}%
       \renewcommand*{\@idxitem}{%
          \par\addvspace{\baselineskip}\first@subitemtrue\relax}%
-      \printindex[words]%
-      \printindex[passages]%
+      \ifbrill@printindexwords
+         \printindex[words]%
+      \fi%
+      \ifbrill@printindexpassages
+         \printindex[passages]%
+      \fi%
    \endgroup%
-   \printindex[namesandsubjects]%
+   \ifbrill@printindexnames
+      \printindex[namesandsubjects]%
+   \fi%
 }
 \ifbrill@PhD
    \makeindex[%
@@ -1154,7 +1148,7 @@
    \endgroup%
 }
 %
-% We define macros to be used (only) within the stnazas/apparatus criticus
+% We define macros to be used (only) within the stanzas/apparatus criticus
 % We need a special macro for hanging text based on \cs{newline} calls in the export
 \newcounter{appcrnewline}
 \newcounter{muyalinenumber}

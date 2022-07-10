@@ -56,6 +56,13 @@
 %%%
 \DeclareBoolOption[false]{legacyfonts}
 %%%
+\DeclareBoolOption[true]{printindexnames}
+\DeclareComplementaryOption{noprintindexnames}{printindexnames}
+\DeclareBoolOption[true]{printindexpassages}
+\DeclareComplementaryOption{noprintindexpassages}{printindexpassages}
+\DeclareBoolOption[true]{printindexwords}
+\DeclareComplementaryOption{noprintindexwords}{printindexwords}
+%%%
 \DeclareVoidOption{CorpusAvesticum}{\setkeys{brill}{series=CorpusAvesticum}}
 \DeclareVoidOption{enumdot}{\setkeys{brill}{enumsep=dot}}
 \DeclareVoidOption{enumenclparen}{\setkeys{brill}{enumsep=enclparen}}
