@@ -26,7 +26,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2022/04/30 v1.0.0
+-- 2022/07/10 v1.1.0
   
    function my_upper ( str )
          local z = ''
