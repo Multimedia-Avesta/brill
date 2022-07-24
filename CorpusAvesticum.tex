@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \ProvidesFile{CorpusAvesticum.tex}%
-   [2022/07/10 v1.1.0 Configuration file for brill]
+   [2022/07/24 v1.2.0 Configuration file for brill]
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
@@ -1443,18 +1443,100 @@
    \directlua{strtocs("\luaescapestring{\detokenize{#1}}")}}
 
 \newif\if@inblocktranslation
+\newtoggle{@getstanzaWithRD}
+\newtoggle{@getstanzaWithRDdefault}
+\newcommand*{\SetDefaultGetstanzaWithtranslationWithRD}[1]{%
+   \settoggle{@getstanzaWithRD}{#1}%
+   \settoggle{@getstanzaWithRDdefault}{#1}%
+}
 % Define a macro to output the stanza text and its translation as 
 % blocktranslation
 % #1 is the reference of a stanza, e.g. Y28.1
 % The starred version uses the -transcript variant of the stanza imported with
 % \Importstanzas*{file} and the common translation
 \newcommand{\GetstanzaWithtranslation}{\@ifstar%
-   {\@GetstanzaWithtranslation[-transcript]}{\@GetstanzaWithtranslation}}
+   {%
+      \iftoggle{@getstanzaWithRDdefault}%
+         {\toggletrue{@getstanzaWithRD}}%
+         {\togglefalse{@getstanzaWithRD}}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \iftoggle{@getstanzaWithRDdefault}%
+         {\toggletrue{@getstanzaWithRD}}%
+         {\togglefalse{@getstanzaWithRD}}%
+      \@GetstanzaWithtranslation%
+   }%
+}
+
+% We also define a version, which does not break across pages.
 \newcommand{\GetstanzaWithtranslationNB}{\@ifstar%
-   {\settoggle{@blocktranslationNobreak}{true}%
-    \@GetstanzaWithtranslation[-transcript]}%
-   {\settoggle{@blocktranslationNobreak}{true}\@GetstanzaWithtranslation}%
-}%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+         \iftoggle{@getstanzaWithRDdefault}%
+            {\toggletrue{@getstanzaWithRD}}%
+            {\togglefalse{@getstanzaWithRD}}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+      \iftoggle{@getstanzaWithRDdefault}%
+         {\toggletrue{@getstanzaWithRD}}%
+         {\togglefalse{@getstanzaWithRD}}%
+      \@GetstanzaWithtranslation%
+   }%
+}
+
+\newcommand{\GetstanzaWithtranslationNBWithRD}{\@ifstar%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+      \settoggle{@getstanzaWithRD}{true}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+      \settoggle{@getstanzaWithRD}{true}%
+      \@GetstanzaWithtranslation%
+   }%
+}
+
+\newcommand{\GetstanzaWithtranslationNBWithoutRD}{\@ifstar%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+      \settoggle{@getstanzaWithRD}{false}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \settoggle{@blocktranslationNobreak}{true}%
+      \settoggle{@getstanzaWithRD}{false}%
+      \@GetstanzaWithtranslation%
+   }%
+}
+
+% The existing macro does not take the ritual direction into account.
+% Thus a separate macro is defined. The default behaviour can be set with a 
+% special macro.
+\newcommand{\GetstanzaWithtranslationWithRD}{\@ifstar%
+   {%
+      \settoggle{@getstanzaWithRD}{true}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \settoggle{@getstanzaWithRD}{true}%
+      \@GetstanzaWithtranslation%
+   }%
+}
+
+\newcommand{\GetstanzaWithtranslationWithoutRD}{\@ifstar%
+   {%
+      \settoggle{@getstanzaWithRD}{false}%
+      \@GetstanzaWithtranslation[-transcript]%
+   }%
+   {%
+      \settoggle{@getstanzaWithRD}{false}%
+      \@GetstanzaWithtranslation%
+   }%
+}
 
 \newcommand{\@GetstanzaWithtranslation}[2][]{%
    \if@intextandtranslation
@@ -1465,9 +1547,21 @@
       % Call the blocktranslation macro with appropriate arguments   
       \blocktranslation[\bookstringtocs{#2}]%
          {}%
-         {\GetstanzaTextonly*[heading=none]{#2#1}}{\Gettranslation*{#2}}%
+         {%
+            \iftoggle{@getstanzaWithRD}%
+               {\GetstanzaTextonly[heading=none]{#2#1}}%
+               {\GetstanzaTextonly*[heading=none]{#2#1}}
+         }%
+         {%
+            \iftoggle{@getstanzaWithRD}%
+               {\Gettranslation{#2}}%
+               {\Gettranslation*{#2}}%                
+         }%
    \fi%
    \settoggle{@blocktranslationNobreak}{false}%
+         \iftoggle{@getstanzaWithRDdefault}%
+   {\toggletrue{@getstanzaWithRD}}%
+   {\togglefalse{@getstanzaWithRD}}%
 }
 
 \newcommand{\GetstanzasWithtranslations}{\@ifstar%
