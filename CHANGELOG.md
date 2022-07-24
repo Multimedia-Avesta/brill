@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
 ## [Unreleased]
+
+## [1.2.0] - 2022-07-24
 ### Added
 - New macros `\GetstanzaWithtranslationWithRD`, `\GetstanzaWithtranslationWithoutRD`, `\GetstanzaWithtranslationNBWithRD`, `\GetstanzaWithtranslationNBWithoutRD` and `\SetDefaultGetstanzaWithtranslationWithRD{true|false}` 
 
