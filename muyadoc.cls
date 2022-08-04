@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{muyadoc}[2022/08/02 v0.2.0 A template for muya publications based on brill]
+\ProvidesClass{muyadoc}[2022/08/03 v0.2.1 A template for muya publications based on brill]
 
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
@@ -42,8 +42,9 @@
          \vskip 3\baselineskip
          \fi%
          {\usekomafont{author}\@author\par}
+         \vskip 2\baselineskip
+         \ifdefempty{\@collaborator}{}{in collaboration with\\\@collaborator\par}%
          \vskip 3\baselineskip
-         \ifdefempty{\@collaborator}{}{\@collaborator\\}%
          \@date\par
          \vfill
          \includegraphics[width=.5\textwidth]{muya_logo}\par
@@ -90,7 +91,16 @@
 \makeindex[%
    name=manuscripts,%
    title={Index of Manuscripts},%
-   columns=3,%
+   columns=2,%
    columnsep=4mm,%
    options={-n -c brill}%
 ]%
+
+\protected\def\Manuscript{\@ifstar%
+   {\@indexmanuscripts}{\@dblarg\@@indexmanuscripts}}
+\newcommand{\@indexmanuscripts}[1]{\index[manuscripts]{#1}}
+\newcommand{\@@indexmanuscripts}[2][]{\index[manuscripts]{#1}#2}
+
+\let\manuscript\Manuscript
+
+\appto\printindexes{\printindex[manuscripts]}
