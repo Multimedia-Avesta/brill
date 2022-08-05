@@ -25,7 +25,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.bbx}[2022/05/04 v1.0.1 biblatex bibliography style]
+\ProvidesFile{muya.bbx}[2022/07/10 v1.1.0 biblatex bibliography style]
 \RequireBibliographyStyle{unified}
 \newtoggle{@autoquotationmarks}
 \DeclareBibliographyOption[boolean]{autoquotationmarks}[true]{%
@@ -46,6 +46,7 @@
 \biburlbigskip=0mu\relax
 
 % Make sure, that the ampersand sticks to the last but one name/entry
+% This is the default with recent versions of unified, so it could be removed
 \renewcommand*{\finalnamedelim}{\addnbspace\&\addspace}
 \renewcommand*{\finallistdelim}{\addnbspace\&\addspace}
 
@@ -53,8 +54,10 @@
 \patchcmd{\biburlsetup}%
    {\def\UrlBigBreaks{\do\:\do\-}}%
    {\def\UrlBigBreaks{\do\:\do\-\do\/}}%
-   {\ClassInfoNoLine{brill}{Macro \string\UrlBigBreaks\space successfully patched}}%
-   {\ClassWarningNoLine{brill}{Macro \string\UrlBigBreaks\space could not be patched}}%
+   {\ClassInfoNoLine{brill}{%
+         Macro \string\UrlBigBreaks\space successfully patched}}%
+   {\ClassWarningNoLine{brill}{%
+         Macro \string\UrlBigBreaks\space could not be patched}}%
 
 \DeclareFieldFormat[thesis]{type}{%
    \ifbibstring{#1}{\bibstring[parens]{#1}}{\mkbibparens{#1}}}
@@ -156,7 +159,7 @@
       }%
       % The same for old ISBN numbers      
       \map{%
-         \step[fieldsource=annotation,match=\regexp{(\d[-\d]{13})},final]
+         \step[fieldsource=annotation,match=\regexp{(\d[-\d]{13})},final]%
          \step[fieldset=isbn,fieldvalue=\regexp{$1}]%$
          \step[fieldset=annotation,null]%
       }%
@@ -261,6 +264,17 @@
                match=\regexp{f\.},%
                replace=\regexp{\\psq}]                  
       }%
+\ltx@iffilelater{unified.bbx}{2022/02/05}%
+   {%
+      \ClassInfo{brill}{Found at least v1.10 of biblatex-unified}%
+      \map[overwrite=true,foreach={author,editor}]{%
+         \step[fieldsource=$MAPLOOP,%$
+               match=\regexp{(.*)useprefix=false(.*)},%
+               replace={$1useprefix=true$2}]%
+      }%
+   }%
+   {%
+      \ClassInfo{brill}{Found an older version of biblatex-unified}%
 % We search for names with prefixes and apapt the sorting order
 % Copy the information of translator, editor and author into tempsortfield
 % In the end the name we need for sorting is in there. We store it for 
@@ -287,7 +301,7 @@
       }%
    }%
 }%
-
+}%
 \iftoggle{@autoquotationmarks}{%
    \DeclareSourcemap{%
       \maps[datatype=bibtex]{%
