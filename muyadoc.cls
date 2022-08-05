@@ -1,5 +1,5 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{muyadoc}[2022/08/03 v0.2.1 A template for muya publications based on brill]
+\ProvidesClass{muyadoc}[2022/08/05 v0.2.2 A template for muya publications based on brill]
 
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
