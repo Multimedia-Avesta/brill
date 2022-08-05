@@ -7,7 +7,7 @@
 -----------------------------------------------------------------------
 
 if not modules then modules = { } end modules ['xindex-brill'] = {
-      version = 0.33,
+      version = 0.41,
       comment = "main configuration to xindex.lua",
        author = "Martin Sievers",
     copyright = "Martin Sievers",
@@ -16,8 +16,9 @@ if not modules then modules = { } end modules ['xindex-brill'] = {
 
 itemPageDelimiter = "\\quad "
 compressPages = true
-fCompress = true
-minCompress = 3 
+fCompress = false
+minCompress = 1 
+rangeSymbol = "--"
 numericPage = true
 sublabels = {"", "", "", ""}
 pageNoPrefixDel   = ""
