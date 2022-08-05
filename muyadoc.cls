@@ -16,7 +16,6 @@
 
 \RequireLuaTeX
 \LoadClass{brill}
-\setmainfont{Brill}
 \newcommand*{\@collaborator}{}
 \newcommand*{\collaborator}[1]{\renewcommand*{\@collaborator}{#1}}
 \renewcommand*{\maketitle}[1][1]{%
