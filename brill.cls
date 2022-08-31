@@ -566,8 +566,18 @@
 }%
 \newlength{\@tocstartindent}
 \providecommand{\totalchapters}{0}
-\AfterEndPreamble{\setlength{\@tocstartindent}{%
-   \ifnumless{\numexpr\totalchapters\relax}{10}{4mm}{8mm}}}
+\newlength{\@tocnumwidthloft}
+\providecommand{\@morethantenfiguresortables}{0}
+\AfterEndPreamble{%
+   \setlength{\@tocstartindent}{%
+      \ifnumless{\numexpr\totalchapters\relax}{10}{4mm}{8mm}%
+   }%
+   \setlength{\@tocnumwidthloft}{%
+      \ifnumless{\numexpr\totalchapters\relax}{10}%
+         {\ifnumequal{\@morethantenfiguresortables}{1}{8mm}{8mm}}%
+         {\ifnumequal{\@morethantenfiguresortables}{1}{12mm}{8mm}}%
+   }%
+}
 
 \RedeclareSectionCommand[%
    innerskip=0bp,%
@@ -601,7 +611,7 @@
    innerskip     = 0.5\baselineskip,%
    font          = \LARGE\bfseries,%
    prefixfont    = \normalfont\normalsize\mdseries%
-                     \addfontfeatures{Numbers=Lining}\scshape,%
+                   \addfontfeatures{Numbers=Lining}\scshape,%
    tocnumwidth   = \dimexpr\@tocstartindent\relax,%
    tocindent     = 0bp,%
    tocbeforeskip = \dimexpr\@addchaptertocskip\relax,%
@@ -1140,7 +1150,7 @@
    {\@floattocentryfont\addfontfeature{Numbers=Tabular}#1}}
 \DeclareTOCStyleEntry[%
    indent=0bp,%
-   numwidth=8mm,%
+   numwidth=\dimexpr\@tocnumwidthloft\relax,%
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
@@ -1151,7 +1161,7 @@
 
 \DeclareTOCStyleEntry[%
    indent=0bp,%
-   numwidth=8mm,%
+   numwidth=\dimexpr\@tocnumwidthloft\relax,%
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
@@ -1518,6 +1528,14 @@
       rules=true,%
       tablenotesauto=true,%
       #1}% Set default and updated keys
+   \ifnumgreater{\numexpr\value{table}}{8}%
+      {%
+         \if@loftinfowritten\else
+            \immediate\write\@mainaux%
+               {\string\numgdef{\string\@morethantenfiguresortables}{1}}%
+            \@loftinfowrittentrue%
+         \fi%      
+      }{}%
    \setlength{\lineskip}{0pt}%
    \setlength{\@firstlastcolindent}{0pt}%
    \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
@@ -1821,6 +1839,14 @@
       width=dynamic,%
       height=0,% number of lines
       #1}% Set default and updated keys
+   \ifnumgreater{\numexpr\value{figure}}{8}%
+      {%
+         \if@loftinfowritten\else
+            \immediate\write\@mainaux%
+            {\string\numgdef{\string\@morethantenfiguresortables}{1}}%
+            \@loftinfowrittentrue%
+         \fi%      
+      }{}%
    \ifdefvoid{\@figurecaption}%
       {\par\vspace{\baselineskip}\noindent\ignorespaces}%
       {%
@@ -2625,6 +2651,7 @@
 }
 
 \newif\if@totalchapterwritten
+\newif\if@loftinfowritten
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
    \KOMAoptions{open=any}%
