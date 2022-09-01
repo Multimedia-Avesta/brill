@@ -2113,7 +2113,7 @@
    numberline,%
    nonumberlist,%
    nosuper,%
-   %automake=immediate,
+   automake=immediate,
    xindy={glsnumbers=false,language=english,codepage=utf8}]{glossaries-extra}
 %
 \newrobustcmd*{\glsaddNoNumber}[2][]{%
