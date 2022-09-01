@@ -25,7 +25,7 @@
 % xindex-muya.lua
 % xindex-muyaPassages.lua
 %%
-\ProvidesFile{muya.dbx}[2022/07/10 v1.1.0 biblatex datamodel style]
+\ProvidesFile{muya.dbx}[2022/09/01 v1.3.0 biblatex datamodel style]
 \DeclareDatamodelFields[type=field,datatype=literal]%
    {preorigdatetext,postorigdatetext}
 \DeclareDatamodelEntryfields{preorigdatetext,postorigdatetext}
