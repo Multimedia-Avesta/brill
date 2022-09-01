@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{brill}[2022/07/24 v1.2.0 A template for Brill publications]
+\ProvidesClass{brill}[2022/09/01 v1.3.0 A template for Brill publications]
 \RequirePackage{iftex}
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions {
@@ -409,7 +409,8 @@
 \clearpairofpagestyles
 \rehead{%
    \ifboolexpr { bool {@mainmatter} 
-      and test {\ifnumcomp{\value{chapter}}{>}{0}}}%
+      and test {\ifnumcomp{\value{chapter}}{>}{0}}%
+      and not bool {@chapterwithoutheader} }%
       {\MakeMarkcase{\chapapp}\ \thechapter\autodot}%
       {\headmark}%
 }%
@@ -571,8 +572,18 @@
 }%
 \newlength{\@tocstartindent}
 \providecommand{\totalchapters}{0}
-\AfterEndPreamble{\setlength{\@tocstartindent}{%
-   \ifnumless{\numexpr\totalchapters\relax}{10}{4mm}{8mm}}}
+\newlength{\@tocnumwidthloft}
+\providecommand{\@morethantenfiguresortables}{0}
+\AfterEndPreamble{%
+   \setlength{\@tocstartindent}{%
+      \ifnumless{\numexpr\totalchapters\relax}{10}{4mm}{8mm}%
+   }%
+   \setlength{\@tocnumwidthloft}{%
+      \ifnumless{\numexpr\totalchapters\relax}{10}%
+         {\ifnumequal{\@morethantenfiguresortables}{1}{8mm}{8mm}}%
+         {\ifnumequal{\@morethantenfiguresortables}{1}{12mm}{8mm}}%
+   }%
+}
 
 \RedeclareSectionCommand[%
    innerskip=0bp,%
@@ -606,7 +617,7 @@
    innerskip     = 0.5\baselineskip,%
    font          = \LARGE\bfseries,%
    prefixfont    = \normalfont\normalsize\mdseries%
-                     \addfontfeatures{Numbers=Lining}\scshape,%
+                   \addfontfeatures{Numbers=Lining}\scshape,%
    tocnumwidth   = \dimexpr\@tocstartindent\relax,%
    tocindent     = 0bp,%
    tocbeforeskip = \dimexpr\@addchaptertocskip\relax,%
@@ -653,6 +664,7 @@
    }%
 }%   
 
+\newif\if@chapterwithoutheader
 \protected\def\conclusion{%
    \@ifstar{\@dblarg\@conclusion}{\@dblarg\@@conclusion}}
 \newcommand{\@conclusion}[2][]{%
@@ -670,12 +682,13 @@
 }%   
 
 \newcommand{\@@conclusion}[2][]{%
-   {%
-      \ifnum\value{chapter}=0
-      \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
-      \fi%
-      \addchap[{#1}]{#2}%
-   }%
+   %{%
+   %   \ifnum\value{chapter}=0
+   %      \renewcommand*{\scr@chapter@innerskip}{6.4bp}%
+   %   \fi%
+   \@chapterwithoutheadertrue%
+   \addchap[{#1}]{#2}%
+   \markleft{\conclusionname}%
 }%  
 
 % We use different set-ups for headings depending on PhD or not
@@ -1143,7 +1156,7 @@
    {\@floattocentryfont\addfontfeature{Numbers=Tabular}#1}}
 \DeclareTOCStyleEntry[%
    indent=0bp,%
-   numwidth=8mm,%
+   numwidth=\dimexpr\@tocnumwidthloft\relax,%
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
@@ -1154,7 +1167,7 @@
 
 \DeclareTOCStyleEntry[%
    indent=0bp,%
-   numwidth=8mm,%
+   numwidth=\dimexpr\@tocnumwidthloft\relax,%
    raggedpagenumber,%
    linefill=\tocpageseparator,%
    pagenumberbox=\tocpagenumberbox,%
@@ -1521,6 +1534,14 @@
       rules=true,%
       tablenotesauto=true,%
       #1}% Set default and updated keys
+   \ifnumgreater{\numexpr\value{table}}{8}%
+      {%
+         \if@loftinfowritten\else
+            \immediate\write\@mainaux%
+               {\string\numgdef{\string\@morethantenfiguresortables}{1}}%
+            \@loftinfowrittentrue%
+         \fi%      
+      }{}%
    \setlength{\lineskip}{0pt}%
    \setlength{\@firstlastcolindent}{0pt}%
    \ifundef{\@tableheaderfontsize}{\let\@tableheaderfontsize\@tablefontsize}{}%
@@ -1824,6 +1845,14 @@
       width=dynamic,%
       height=0,% number of lines
       #1}% Set default and updated keys
+   \ifnumgreater{\numexpr\value{figure}}{8}%
+      {%
+         \if@loftinfowritten\else
+            \immediate\write\@mainaux%
+            {\string\numgdef{\string\@morethantenfiguresortables}{1}}%
+            \@loftinfowrittentrue%
+         \fi%      
+      }{}%
    \ifdefvoid{\@figurecaption}%
       {\par\vspace{\baselineskip}\noindent\ignorespaces}%
       {%
@@ -1977,9 +2006,12 @@
 \providecaptionname{british}{\introductionname}{Introduction}
 \providecaptionname{british}{\conclusionname}{Conclusion}
 \newcommand{\listoffigurestables}{%
+   \begingroup%
    \addchap[tocentry={\listfiguretablename}]{Figures and Tables}
+   \setcounter{tocdepth}{1}
    \listoffigures
    \listoftables
+   \endgroup%
 }
 %TODO: This should probably go into the config file. Take care of loading order.
 \ifbrill@printversion
@@ -2183,14 +2215,47 @@
 \newlength{\@pdepth}
 \settodepth{\@pdepth}{\usekomafont{chapter}p}
 \newglossarystyle{brill}{%
+%   \def\LT@output{%
+%      \ifnum\outputpenalty <-\@Mi
+%         \ifnum\outputpenalty > -\LT@end@pen
+%            \LT@err{floats and marginpars not allowed in a longtable}\@ehc
+%         \else
+%            \setbox\z@\vbox{\unvbox\@cclv}%
+%            \ifdim \ht\LT@lastfoot>\ht\LT@foot
+%               \dimen@\pagegoal
+%               \advance\dimen@-\ht\LT@lastfoot
+%               \ifdim\dimen@<\ht\z@
+%                  \setbox\@cclv\vbox{\unvbox\z@\copy\LT@foot\vss}%
+%                  \@makecol
+%                  \@outputpage
+%                  \setbox\z@\vbox{\box\LT@head
+%                  \ifnum\outputpenalty=-50\vskip-\baselineskip\relax\fi
+%                  }%
+%               \fi
+%            \fi
+%         \global\@colroom\@colht
+%         \global\vsize\@colht
+%         %      \vbox
+%         {\unvbox\z@\box\ifvoid\LT@lastfoot\LT@foot\else\LT@lastfoot\fi}%
+%         \fi
+%      \else
+%         \setbox\@cclv\vbox{\unvbox\@cclv\copy\LT@foot\vss}%
+%         \@makecol
+%         \@outputpage
+%         \global\vsize\@colroom
+%         \copy\LT@head
+%         \ifnum\outputpenalty=-50\vskip-\baselineskip\relax\fi
+%         \nobreak
+%      \fi%
+%   }%
    \renewenvironment{theglossary}%
-      {%
-         \setlength{\LTpre}{0pt}%
-         \setlength{\LTpost}{0pt}%
-         \setlength{\widestabbreviation}{0pt}%
-         \begin{longtabu} to%
-            \textwidth{@{}p{\widestabbreviation}%
-               @{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
+   {%
+      \setlength{\LTpre}{0pt}%
+      \setlength{\LTpost}{0pt}%
+      \setlength{\widestabbreviation}{0pt}%
+      \begin{longtabu} to%
+         \textwidth{@{}p{\widestabbreviation}%
+            @{\hspace*{\normalparindent}}>{\raggedright}X@{}}%
       }%
       {\end{longtabu}}%
    \renewcommand*{\glossaryheader}{}%
@@ -2211,9 +2276,10 @@
    \ifglsnogroupskip
       \renewcommand*{\glsgroupskip}{}%
    \else
-      \renewcommand*{\glsgroupskip}{ & \tabularnewline}%
+      \renewcommand*{\glsgroupskip}{ & \tabularnewline}%{\noalign{\penalty-50\vskip\baselineskip\relax}}
    \fi%
 }
+
 \setglossarystyle{brill}
 \renewcommand{\glossarypreamble}{\kern-\prevdepth\vskip\@pdepth\small}%
 
@@ -2591,6 +2657,7 @@
 }
 
 \newif\if@totalchapterwritten
+\newif\if@loftinfowritten
 \appto{\backmatter}{%
    \cleardoubleoddemptypage
    \KOMAoptions{open=any}%

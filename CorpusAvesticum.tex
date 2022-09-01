@@ -26,7 +26,7 @@
 % xindex-muyaPassages.lua
 %%
 \ProvidesFile{CorpusAvesticum.tex}%
-   [2022/07/24 v1.2.0 Configuration file for brill]
+   [2022/09/01 v1.3.0 Configuration file for brill]
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
@@ -642,7 +642,7 @@
 \fi%   
 
 \newcommand*{\indexheaderfont}[1]{\textbf{#1}}
-   
+
 \protected\def\Word{\@ifstar{\@indexwords}{\@dblarg\@@indexwords}}
 \newcommand{\@indexwords}[1]{%
    \StrCut*{#1}{!}{\@leftword}{\@rightword}%
@@ -753,9 +753,9 @@
    \exhyphenpenalty=\@M%
 }
 %%% Define macros for languages
-\def\newlanguage{\@ifstar\@newlanguage\@@newlanguage}% 
+\protected\def\newlanguage{\@ifstar\@newlanguage\@@newlanguage}% 
 \newcommand{\@newlanguage}[2]{%
-   \expandafter\newcommand\csname #1\endcsname[2][]{%
+   \expandafter\newrobustcmd\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{####1}%
       \begin{nohyphens}\nosmallcaps ##2\end{nohyphens}%
@@ -773,7 +773,7 @@
    }%           
 }
 \newcommand{\@@newlanguage}[2]{%
-   \expandafter\newcommand\csname #1\endcsname[2][]{%
+   \expandafter\newrobustcmd\csname #1\endcsname[2][]{%
       \def\indexlanguage{#2}%
       \renewcommand*{\idxentryfont}[1]{\textit{####1}}%
       \begin{nohyphens}\nosmallcaps\emph{##2}\end{nohyphens}%
@@ -1212,6 +1212,8 @@
 \newif\if@startwithnewline
 \@startwithnewlinetrue
 \newif\if@inrd
+\newif\if@rdlast
+\newcommand{\rdlast}{\@rdlasttrue\rd}
 \newcommand{\rd}{\@ifstar%
    {\@startwithnewlinefalse\@rd}{\@startwithnewlinetrue\@rd}}
 
@@ -1232,10 +1234,11 @@
          \noindent% 
          \hangindent\parindent\hangafter=1\relax%
          \@getlinenumberstatus%
-         #1\par\nobreak\addvspace{1\baselineskip}\noindent%
+         #1\par\nobreak\if@rdlast\else\addvspace{1\baselineskip}\fi\noindent%
       \endgroup%
    \fi%
    \@inrdfalse%
+   \@rdlastfalse%
    \hangindent\parindent\hangafter=1\relax%
    \ignorespaces%
 %   \global\settoggle{@setlinenumberforthisline}{true}%
@@ -1361,6 +1364,35 @@
          \begin{appcrenum}\scriptsize\@appcr\end{appcrenum}
       \end{multicols}%   
    }%
+}
+
+\newcounter{minoreditionsection}
+\newcounter{mesfootnote}
+\newrobustcmd{\mesfootnote}[1]{%
+   \refstepcounter{mesfootnote}%
+   \unskip\kern0.05em\realsuperscript{\themesfootnote}%
+   \edef\@currentmesfootnote{\noexpand\gappto\noexpand\@mes{\noexpand\item[\themesfootnote] #1}}%
+   \@currentmesfootnote%
+}
+\newenvironment{minoreditionsection}[1]{%
+   \stepcounter{minoreditionsection}%
+   \setcounter{mesfootnote}{0}%
+   %\setcounter{mesfootnote}{\value{footnote}}%
+   \addsecnum*{#1}%
+   % The apparatus is stored in a variable
+   \gdef\@mes{}%
+   \hyphenpenalty=\@M%
+   \exhyphenpenalty=\@M%
+   \let\footnote\mesfootnote%
+}{%
+   \par%
+   % If the apparatus is not empty, output it in two columns
+   \ifdefempty{\@mes}{}{%
+      \begin{multicols}{2}%
+         \begin{appcrenum}\scriptsize\@mes\end{appcrenum}%
+      \end{multicols}%   
+   }%
+   %\setcounter{footnote}{\value{mesfootnote}}%
 }
 
 \newif\if@firstimportstanzas

@@ -26,7 +26,7 @@
 -- xindex-muya.lua
 -- xindex-muyaPassages.lua
 --
--- 2022/07/10 v1.1.0
+-- 2022/09/01 v1.3.0
 local ustring = require( 'ustring' )
 
 function modifySorting()
@@ -60,18 +60,24 @@ function get_sortentry( a, b )
    if b:match( "^%d+$" ) then
       res = res .. string.format( "%03d", b ) .. ".000"
    else
-      for v, w in string.gmatch( b, "(%d+)([%-%.]*)" ) do
-         res = res .. string.format( "%03d%s", v, w )
-      end
-      for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
-         if last:match( "^%d+$" ) then
-            res = res .. string.format( "%03d", last )
-         else
-            res = res .. last
+--      if b:match( "^%d+\.%d+$" ) then
+--         for v, w in string.gmatch( b, "(%d+)\.(%d+)" ) do
+--            res = res .. string.format( "%03d", v ) .. "." .. string.format( "%03d", w ) .. ".000"
+--         end
+--      else   
+         for v, w in string.gmatch( b, "(%d+)([%-%.]*)" ) do
+            res = res .. string.format( "%03d%s", v, w )
          end
-      end
+         for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
+            if last:match( "^%d+$" ) then
+               --res = res .. string.format( "%03d", last ) .. ".000"
+            else
+               res = res .. last
+            end
+         end
+--      end
    end
-   return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b )
+   return string.format( "%s%s@\\gls{%s}\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b )
 end
 
 function get_sortentry_star( a, b ) 
@@ -80,18 +86,18 @@ function get_sortentry_star( a, b )
    if b:match( "^%d+$" ) then
       res = res .. string.format( "%03d", b ) .. ".000"
    else
-      for v, w in string.gmatch( b, "(%d+)([%-%.])" ) do
+      for v, w in string.gmatch( b, "(%d+)([%-%.]*)" ) do
          res = res .. string.format( "%03d%s", v, w )
       end
       for last in string.gmatch( b, ".+[%-%.]([^%-%.]+)$" ) do
          if last:match( "^%d+$" ) then
-            res = res .. string.format( "%03d", last )
+            --res = res .. string.format( "%03d", last ) .. ".000"
          else
             res = res .. last
          end
       end
    end
-      return string.format( "%s%s@%s\\nobreak\\hspace{\\fontdimen 2\\font}\\textup{%s}|", a, res, a, b )
+      return string.format( "%s%s@\\gls{%s}\\nobreak\\hspace{\\fontdimen 2\\font}%s|", a, res, a, b )
 end
 
 function modifySorting_words()
