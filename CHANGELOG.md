@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.3.1] - 2022-09-01
+### Fixed
+- Add check for `microtype` package not general apply patch 
+
 ## [1.3.0] - 2022-09-01
 ### Added
 - New environment `minoreditionsection` to mimic two column end note layout
@@ -1146,6 +1150,10 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[1.3.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.3.1
+[1.3.0]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.3.0
 [1.2.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.2.0
 [1.1.0]:
