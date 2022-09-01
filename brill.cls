@@ -316,9 +316,15 @@
 \@ifpackagelater{microtype}{2022/06/23}%
    {\ClassInfo{brill}{You use a recent version of microtype}}%
    {%
-      \ClassWarning{brill}{Microtype has to be patched.\MessageBreak
-         Please consider updating.}%
-      \microtypesetup{nopatch=item}%
+      \@ifpackagelater{microtype}{2021/05/22}%
+         {%
+            \ClassWarning{brill}{microtype has to be patched.\MessageBreak
+            Please consider updating.}%
+         \microtypesetup{nopatch=item}%
+         }%
+         {%
+            \ClassInfo{brill}{microtype <v3.0 found. No patch needed.}
+         }%
    }%   
 \SetTracking{encoding=*,shape=sc}{50}%
 \RequirePackage[soul]{lua-ul}
