@@ -10,11 +10,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## [1.3.0] - 2022-09-01
 ### Added
 - New environment `minoreditionsection` to mimic two column end note layout
-- New macro `rdlast` for ritual directions, which end a stanza
+- New macro `\rdlast` for ritual directions, which end a stanza
 - Workaround for correct running headers for conclusion
 
 ### Changed
-- Numwidth for table of figures and tables is now set dynamically
+- `numwidth` for table of figures and tables is now set dynamically
  
 ### Fixed
 - `\newlanguage` is now robust
