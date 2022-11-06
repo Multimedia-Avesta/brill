@@ -30,67 +30,6 @@
 \RequirePackage{xspace}
 \RequirePackage{collcell}
 \RequirePackage{newunicodechar}
-%\RequirePackage[pages=absolute]{flowfram}
-%\if@printversion
-%   \RequirePackage[status=final,layout={margin},author={!!!}]{fixme}
-%\else
-%   \RequirePackage[status=draft,layout={margin},author={!!!}]{fixme}
-%\fi%
-%\directlua {
-%   fonts.handlers.otf.addfeature {
-%      name = "supsnumonly",
-%      type = "substitution",
-%      data = {
-%         ["0"] = "⁰",
-%         ["1"] = "¹",
-%         ["2"] = "²",
-%         ["3"] = "³",
-%         ["4"] = "⁴",
-%         ["5"] = "⁵",
-%         ["6"] = "⁶",
-%         ["7"] = "⁷",
-%         ["8"] = "⁸",
-%         ["9"] = "⁹",
-%      },
-%   }
-%   fonts.handlers.otf.addfeature {
-%      name = "supsaddkern",
-%      type = "kern",
-%      data = {
-%         ["ī"] = {
-%            ["¹"] = 500,%
-%            ["1"] = 500,%
-%            ["2"] = 500,%
-%            ["three.sups"] = 500,%
-%            ["four.sups"] = 500,%
-%            ["five.sups"] = 500,%
-%            ["six.sups"] = 500,%
-%            ["seven.sups"] = 500,%
-%            ["eight.sups"] = 500,%
-%            ["nine.sups"] = 500,%
-%         },
-%         ["š"] = {%
-%            ["¹"] = 500,%
-%            ["two.sups"] = 500,%
-%            ["three.sups"] = 500,%
-%            ["four.sups"] = 500,%
-%            ["five.sups"] = 500,%
-%            ["six.sups"] = 500,%
-%            ["seven.sups"] = 500,%
-%            ["eight.sups"] = 500,%
-%            ["nine.sups"] = 500,%
-%         },
-%      },
-%   }
-%}
-%\newfontfamily{\editedtextfont}{Brill}
-%[%
-%   Ligatures         = {Common,NoRare},%
-%   SmallCapsFeatures = {RawFeature=+c2sc},%
-%   Renderer          = Node,%
-%   RawFeature        = {+supsnumonly,+supsaddkern},%
-%]%
-
 \newfontfamily{\freeserif}{FreeSerif}%
 [%
    Extension      = .otf,%
@@ -262,7 +201,12 @@
 \newunicodechar{〉}{\textrangle}% map U+232A to U+27E9
 \newunicodechar{●}{{\freeserif\symbol{"25CF}}}
 \newunicodechar{✓}{{\freeserif\symbol{"2713}}}
-\newunicodechar{θ}{ϑ}
+\newunicodechar{β}{ꞵ}
+\newunicodechar{γ}{ɣ}
+\newunicodechar{λ}{{\addfontfeature{StylisticSet=20}λ}}%
+\newunicodechar{θ}{{\addfontfeature{StylisticSet=20}θ}}%ϑ
+\newunicodechar{ϑ}{{\addfontfeature{StylisticSet=20}θ}}
+\newunicodechar{χ}{ꭓ}
 \newunicodechar{।}{\textsanskrit{।}}
 
 %\newcommand{\DeclareUnicodeCharacter}[2]{%
