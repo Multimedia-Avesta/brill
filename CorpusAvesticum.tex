@@ -222,8 +222,11 @@
 \newcommand*{\rightwardsarrow}{→}
 \newcommand*{\sectionsign}{§}
 %%% remap from U+2329 to U+27E8 and from U+232A to U+27E9
-\renewcommand*{\textlangle}{⟨}% U+27E8
-\renewcommand*{\textrangle}{⟩}% U+27E9
+%%% For Brill fonts v4.0 we need the SS 5 to get the same style
+\newunicodechar{⟨}{{\addfontfeature{StylisticSet=5}⟨}}
+\newunicodechar{⟩}{{\addfontfeature{StylisticSet=5}⟩}}% U+27E9
+\renewcommand*{\textlangle}{{\addfontfeature{StylisticSet=5}⟨}}% U+27E8
+\renewcommand*{\textrangle}{{\addfontfeature{StylisticSet=5}⟩}}% U+27E9
 
 \directlua{require("muya")}
 \ifbrill@countwords
