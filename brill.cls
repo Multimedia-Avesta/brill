@@ -319,11 +319,12 @@
       \@ifpackagelater{microtype}{2021/05/22}%
          {%
             \ClassWarning{brill}{microtype has to be patched.\MessageBreak
-            Please consider updating.}%
-         \microtypesetup{nopatch=item}%
+               Please consider updating.}%
+            \microtypesetup{nopatch=item}%
          }%
          {%
-            \ClassInfo{brill}{microtype <v3.0 found. No patch needed.}
+            \ClassInfo{brill}{microtype <v3.0 found. No patch needed,\MessageBreak
+               but please consider updating.}%
          }%
    }%   
 \SetTracking{encoding=*,shape=sc}{50}%
