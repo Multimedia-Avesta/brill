@@ -332,11 +332,17 @@
 \RequirePackage[english]{selnolig}
 \RequirePackage{etoolbox}
 \RequirePackage{xpatch}
-%\directlua{require("brill")}
-%\ifbrill@titlecase
-%   \AtBeginDocument{\directlua{luatexbase.add_to_callback(
-%      "process_input_buffer", do_titlecasing, "do_titlecasing" )}}
-%\fi%
+\ifbrill@titlecase
+   \RequirePackage{mfirstuc-english}
+%   \gMFUnocap{}
+   \MFUexcl{\Av}
+%   \MFUexcl{}
+   \pdfstringdefDisableCommands{%
+      \let\capitalisewords\MFUsentencecase
+      \let\makefirstuc\MFUsentencecase
+   }%
+}
+\fi%
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
 % We make sure, that this macro exists for older versions as well.
 \ifundef{\Ifstr}{\let\Ifstr\ifstr}{}
