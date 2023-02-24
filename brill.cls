@@ -51,7 +51,7 @@
 \DeclareBoolOption[false]{checkhyphens}
 \DeclareBoolOption[false]{debug}
 %%%
-\DeclareBoolOption[true]{titlecase}
+\DeclareBoolOption[false]{titlecase}
 \DeclareComplementaryOption{notitlecase}{titlecase}
 %%%
 \DeclareBoolOption[false]{legacyfonts}
