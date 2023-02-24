@@ -7,8 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 
+## [1.4.1] - 2023-02-24
+### Fixed
+- Wrong call of `\pdfstringdefDisableCommands`
+- Diasable `titlecase` by default
+
 ## [1.4.0] - 2023-02-20
+### Added
 - Add glyph substitution
+
+## Changed
 - Adapt glyph for new font version v4
 
 ## [1.3.1] - 2022-09-01
@@ -1154,6 +1162,8 @@ environment in order to use inline enumerated list
 
 [Unreleased]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=
+[1.4.1]:
+https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.4.1
 [1.4.0]:
 https://redmine.kompetenzzentrum.uni-trier.de/projects/muya/repository/latex?utf8=%E2%9C%93&rev=v1.4.0
 [1.3.1]:
