@@ -338,11 +338,12 @@
 %   \gMFUnocap{}
    \MFUexcl{\Av}
 %   \MFUexcl{}
-   \pdfstringdefDisableCommands{%
-      \let\capitalisewords\MFUsentencecase
-      \let\makefirstuc\MFUsentencecase
+   \AfterPackage{hyperref}{%
+      \pdfstringdefDisableCommands{%
+         \let\capitalisewords\MFUsentencecase
+         \let\makefirstuc\MFUsentencecase
+      }%
    }%
-}
 \fi%
 % In recent versions of KOMA-Script, macro \ifstr was renamed to \Ifstr
 % We make sure, that this macro exists for older versions as well.
